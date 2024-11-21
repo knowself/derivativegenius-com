@@ -44,6 +44,20 @@
             filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.2));
         }
 
+        @media (max-width: 768px) {
+            .navbar-brand img {
+                height: 75px;
+            }
+        }
+
+        .navbar-brand {
+            text-decoration: none !important;
+        }
+
+        .navbar-brand:after {
+            display: none;
+        }
+
         .nav-link {
             color: var(--text-color) !important;
             font-weight: 600;
