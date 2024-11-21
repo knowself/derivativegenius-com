@@ -4,7 +4,20 @@ from django.shortcuts import render
 from django.http import JsonResponse
 from django.views.decorators.http import require_http_methods
 from django.views.decorators.csrf import ensure_csrf_cookie
-from .models import UserPreference
+import os
+
+def get_user_theme(request):
+    if 'VERCEL' in os.environ:
+        return request.COOKIES.get('theme', 'light')
+    else:
+        from .models import UserPreference
+        if request.user.is_authenticated:
+            pref, _ = UserPreference.objects.get_or_create(user=request.user)
+        else:
+            if not request.session.session_key:
+                request.session.create()
+            pref, _ = UserPreference.objects.get_or_create(session_key=request.session.session_key)
+        return pref.theme
 
 @ensure_csrf_cookie
 def index(request):
@@ -33,25 +46,24 @@ def api_test(request):
         'query_params': dict(request.GET)
     })
 
-def get_user_theme(request):
-    if request.user.is_authenticated:
-        pref, _ = UserPreference.objects.get_or_create(user=request.user)
-    else:
-        if not request.session.session_key:
-            request.session.create()
-        pref, _ = UserPreference.objects.get_or_create(session_key=request.session.session_key)
-    return pref.theme
-
 @require_http_methods(['POST'])
 def toggle_theme(request):
-    if request.user.is_authenticated:
-        pref, _ = UserPreference.objects.get_or_create(user=request.user)
+    current_theme = get_user_theme(request)
+    new_theme = 'dark' if current_theme == 'light' else 'light'
+    
+    response = JsonResponse({'theme': new_theme})
+    
+    if 'VERCEL' in os.environ:
+        response.set_cookie('theme', new_theme, max_age=31536000)  # 1 year
     else:
-        if not request.session.session_key:
-            request.session.create()
-        pref, _ = UserPreference.objects.get_or_create(session_key=request.session.session_key)
+        from .models import UserPreference
+        if request.user.is_authenticated:
+            pref, _ = UserPreference.objects.get_or_create(user=request.user)
+        else:
+            if not request.session.session_key:
+                request.session.create()
+            pref, _ = UserPreference.objects.get_or_create(session_key=request.session.session_key)
+        pref.theme = new_theme
+        pref.save()
     
-    pref.theme = 'dark' if pref.theme == 'light' else 'light'
-    pref.save()
-    
-    return JsonResponse({'theme': pref.theme})
+    return response
