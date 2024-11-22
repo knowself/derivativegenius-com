@@ -1,5 +1,5 @@
 # example/urls.py
-from django.urls import path
+from django.urls import path, include
 
 from core.views import index, articles, contact, about, api_test, toggle_theme
 
@@ -11,4 +11,5 @@ urlpatterns = [
     path('about/', about, name='about'),
     path('api/test', api_test, name='api_test'),
     path('api/toggle-theme/', toggle_theme, name='toggle_theme'),
+    path('firebase/', include('firebase_app.urls', namespace='firebase')),
 ]
