@@ -1,0 +1,14 @@
+{
+  "name": "derivativegenius-com",
+  "version": "1.0.0",
+  "description": "Derivative Genius website",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "firebase": "^10.14.1",
+    "firebase-admin": "^13.0.1"
+  }
+}

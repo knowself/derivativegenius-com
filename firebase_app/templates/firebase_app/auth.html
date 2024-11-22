@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Authentication - DerivativeGenius</title>
+    <!-- Import the functions you need from the SDKs you need -->
+    <script type="module">
+        // Import the functions you need from the SDKs you need
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-app.js";
+        import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged, browserLocalPersistence, setPersistence } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-auth.js";
+
+        // Your web app's Firebase configuration
+        const firebaseConfig = {
+            apiKey: "{{ firebase_config.api_key }}",
+            authDomain: "{{ firebase_config.auth_domain }}",
+            projectId: "{{ firebase_config.project_id }}",
+            storageBucket: "{{ firebase_config.storage_bucket }}",
+            messagingSenderId: "{{ firebase_config.messaging_sender_id }}",
+            appId: "{{ firebase_config.app_id }}"
+        };
+
+        console.log('Initializing Firebase with config:', {
+            ...firebaseConfig,
+            apiKey: '***' // Hide API key in logs
+        });
+
+        try {
+            // Initialize Firebase
+            const app = initializeApp(firebaseConfig);
+            console.log('Firebase initialized successfully');
+            const auth = getAuth(app);
+            console.log('Auth initialized successfully');
+
+            // Set persistence to LOCAL (instead of SESSION) to avoid redirect issues
+            setPersistence(auth, browserLocalPersistence)
+                .then(() => {
+                    console.log('Persistence set to LOCAL');
+                })
+                .catch((error) => {
+                    console.error('Error setting persistence:', error);
+                });
+
+            // Handle Authentication State Changes
+            onAuthStateChanged(auth, (user) => {
+                const userInfo = document.getElementById('userInfo');
+                const authForms = document.getElementById('authForms');
+                const authMessage = document.getElementById('authMessage');
+                authMessage.textContent = '';
+
+                if (user) {
+                    // User is signed in
+                    document.getElementById('userName').textContent = user.email.split('@')[0];
+                    document.getElementById('userEmail').textContent = user.email;
+                    userInfo.style.display = 'block';
+                    authForms.style.display = 'none';
+                    
+                    // Send the ID token to your server
+                    user.getIdToken().then(token => {
+                        fetch('/firebase/auth/verify/', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'X-CSRFToken': getCookie('csrftoken')
+                            },
+                            body: JSON.stringify({ token: token })
+                        });
+                    });
+                } else {
+                    // No user is signed in
+                    userInfo.style.display = 'none';
+                    authForms.style.display = 'block';
+                }
+            });
+
+            // Make auth functions available globally
+            window.handleSignUp = async () => {
+                const email = document.getElementById('signUpEmail').value;
+                const password = document.getElementById('signUpPassword').value;
+                const authMessage = document.getElementById('authMessage');
+
+                // Basic validation
+                if (!email || !password) {
+                    authMessage.className = 'error';
+                    authMessage.textContent = 'Please fill in all fields';
+                    return;
+                }
+
+                if (password.length < 6) {
+                    authMessage.className = 'error';
+                    authMessage.textContent = 'Password must be at least 6 characters long';
+                    return;
+                }
+
+                authMessage.className = '';
+                authMessage.textContent = 'Creating account...';
+
+                try {
+                    const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+                    console.log('User created successfully:', userCredential);
+                    authMessage.className = 'success';
+                    authMessage.textContent = 'Successfully signed up!';
+                } catch (error) {
+                    console.error('Sign up error:', error);
+                    authMessage.className = 'error';
+                    let errorMessage = error.message;
+                    
+                    // Provide more user-friendly error messages
+                    switch (error.code) {
+                        case 'auth/email-already-in-use':
+                            errorMessage = 'This email is already registered. Please sign in instead.';
+                            break;
+                        case 'auth/invalid-email':
+                            errorMessage = 'Please enter a valid email address.';
+                            break;
+                        case 'auth/operation-not-allowed':
+                            errorMessage = 'Email/password sign up is not enabled. Please contact support.';
+                            break;
+                        case 'auth/weak-password':
+                            errorMessage = 'Please choose a stronger password (at least 6 characters).';
+                            break;
+                    }
+                    
+                    authMessage.textContent = errorMessage;
+                }
+            };
+
+            window.handleSignIn = async () => {
+                const email = document.getElementById('signInEmail').value;
+                const password = document.getElementById('signInPassword').value;
+                const authMessage = document.getElementById('authMessage');
+
+                authMessage.className = '';
+                authMessage.textContent = 'Signing in...';
+
+                try {
+                    const userCredential = await signInWithEmailAndPassword(auth, email, password);
+                    authMessage.className = 'success';
+                    authMessage.textContent = 'Successfully signed in!';
+                } catch (error) {
+                    console.error('Sign in error:', error);
+                    authMessage.className = 'error';
+                    let errorMessage = error.message;
+                    
+                    // Provide more user-friendly error messages
+                    switch (error.code) {
+                        case 'auth/user-not-found':
+                        case 'auth/wrong-password':
+                            errorMessage = 'Invalid email or password.';
+                            break;
+                        case 'auth/too-many-requests':
+                            errorMessage = 'Too many failed attempts. Please try again later.';
+                            break;
+                        case 'auth/user-disabled':
+                            errorMessage = 'This account has been disabled. Please contact support.';
+                            break;
+                    }
+                    
+                    authMessage.textContent = errorMessage;
+                }
+            };
+
+            window.handleSignOut = async () => {
+                const authMessage = document.getElementById('authMessage');
+                
+                try {
+                    await signOut(auth);
+                    authMessage.className = 'success';
+                    authMessage.textContent = 'Successfully signed out!';
+                } catch (error) {
+                    console.error('Sign out error:', error);
+                    authMessage.className = 'error';
+                    authMessage.textContent = 'Error signing out. Please try again.';
+                }
+            };
+
+            window.toggleForms = () => {
+                const signUpForm = document.getElementById('signUpForm');
+                const signInForm = document.getElementById('signInForm');
+                const authMessage = document.getElementById('authMessage');
+                authMessage.textContent = '';
+
+                if (signUpForm.style.display === 'none') {
+                    signUpForm.style.display = 'block';
+                    signInForm.style.display = 'none';
+                } else {
+                    signUpForm.style.display = 'none';
+                    signInForm.style.display = 'block';
+                }
+            };
+
+        } catch (error) {
+            console.error('Error initializing Firebase:', error);
+            const authMessage = document.getElementById('authMessage');
+            authMessage.className = 'error';
+            authMessage.textContent = 'Error initializing Firebase. Please check the console for details.';
+        }
+
+        // Helper function to get CSRF token
+        function getCookie(name) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                const cookies = document.cookie.split(';');
+                for (let i = 0; i < cookies.length; i++) {
+                    const cookie = cookies[i].trim();
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+    </script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .auth-container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin-top: 20px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        .form-group input {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .error {
+            color: #f44336;
+            margin: 10px 0;
+        }
+        .success {
+            color: #4CAF50;
+            margin: 10px 0;
+        }
+        .auth-toggle {
+            text-align: center;
+            margin-top: 15px;
+        }
+        .auth-toggle a {
+            color: #4CAF50;
+            text-decoration: none;
+        }
+        .auth-toggle a:hover {
+            text-decoration: underline;
+        }
+        #userInfo {
+            display: none;
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #e8f5e9;
+            border-radius: 4px;
+        }
+        #authMessage {
+            margin: 10px 0;
+            padding: 10px;
+            border-radius: 4px;
+        }
+        #authMessage.error {
+            background-color: #ffebee;
+            border: 1px solid #ffcdd2;
+        }
+        #authMessage.success {
+            background-color: #e8f5e9;
+            border: 1px solid #c8e6c9;
+        }
+    </style>
+</head>
+<body>
+    <h1>DerivativeGenius Authentication</h1>
+    
+    <div id="userInfo">
+        <h3>Welcome, <span id="userName">User</span>!</h3>
+        <p>Email: <span id="userEmail"></span></p>
+        <button onclick="handleSignOut()">Sign Out</button>
+    </div>
+
+    <div id="authForms" class="auth-container">
+        <div id="authMessage"></div>
+        
+        <!-- Sign Up Form -->
+        <div id="signUpForm">
+            <h2>Sign Up</h2>
+            <div class="form-group">
+                <label for="signUpEmail">Email:</label>
+                <input type="email" id="signUpEmail" required>
+            </div>
+            <div class="form-group">
+                <label for="signUpPassword">Password:</label>
+                <input type="password" id="signUpPassword" required>
+            </div>
+            <button onclick="handleSignUp()">Sign Up</button>
+            <div class="auth-toggle">
+                Already have an account? <a href="#" onclick="toggleForms()">Sign In</a>
+            </div>
+        </div>
+
+        <!-- Sign In Form -->
+        <div id="signInForm" style="display: none;">
+            <h2>Sign In</h2>
+            <div class="form-group">
+                <label for="signInEmail">Email:</label>
+                <input type="email" id="signInEmail" required>
+            </div>
+            <div class="form-group">
+                <label for="signInPassword">Password:</label>
+                <input type="password" id="signInPassword" required>
+            </div>
+            <button onclick="handleSignIn()">Sign In</button>
+            <div class="auth-toggle">
+                Need an account? <a href="#" onclick="toggleForms()">Sign Up</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

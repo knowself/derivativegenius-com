@@ -49,10 +49,34 @@ This is the official website for Derivative Genius, built with Django and modern
 
 - **Backend**: Django 4.x
 - **Frontend**: Bootstrap 5.3.0
-- **Database**: SQLite (development) / PostgreSQL (production)
-- **Deployment**: Vercel
+- **Database**: Google Firebase (both development and production)
+  - Firestore for data storage
+  - Firebase Authentication for user management
+  - Firebase Hosting for deployment
+- **Deployment**: Vercel with Firebase integration
 - **Static Files**: Django static files with Vercel integration
 - **Version Control**: Git
+
+### Why Firebase?
+
+Our application leverages Google Firebase's powerful suite of cloud services for several key advantages:
+
+- **Global Scale**: Built on Google Cloud infrastructure, Firebase automatically scales with your application needs and provides low-latency data access through a global network of servers
+- **Real-time Capabilities**: Firebase's real-time database and Firestore enable instant data synchronization across all connected clients
+- **Enterprise-grade Security**: Benefit from Google's world-class security infrastructure, including:
+  - Automatic data encryption at rest and in transit
+  - Identity and access management (IAM)
+  - Built-in protection against common web vulnerabilities
+- **Reliability**: 99.99% uptime SLA backed by Google's infrastructure
+- **Cost-effective**: Pay-as-you-go pricing model with generous free tier for development and small applications
+- **Development Speed**: Comprehensive SDKs and ready-to-use features allow rapid development and deployment
+
+### Firebase Configuration
+
+To run this project, you'll need to:
+1. Create a Firebase project at [Firebase Console](https://console.firebase.google.com)
+2. Set up Firebase configuration in the project
+3. Enable necessary Firebase services (Firestore, Authentication)
 
 ### Project Structure
 
@@ -65,6 +89,8 @@ derivativegenius-com/
 │   ├── urls.py        # URL routing
 │   └── templates/     # HTML templates
 ├── public/            # Public assets
+├── src/
+│   └── firebase/     # Firebase configuration and services
 ├── staticfiles/       # Collected static files
 └── manage.py          # Django management script
 ```

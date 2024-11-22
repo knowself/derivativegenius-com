@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Firebase Test</title>
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-auth.js"></script>
+    
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .result {
+            background-color: #f5f5f5;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 10px 0;
+        }
+        .test-result {
+            border-left: 4px solid #ccc;
+            padding: 10px;
+            margin: 10px 0;
+        }
+        .test-result.success {
+            border-left-color: #4CAF50;
+        }
+        .test-result.error {
+            border-left-color: #f44336;
+        }
+        .test-result.partial {
+            border-left-color: #ff9800;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        pre {
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            background-color: #f8f8f8;
+            padding: 10px;
+            border-radius: 4px;
+        }
+        .note {
+            background-color: #fff3cd;
+            border: 1px solid #ffeeba;
+            color: #856404;
+            padding: 10px;
+            border-radius: 4px;
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>Firebase Integration Test</h1>
+    
+    <h2>Admin SDK Test</h2>
+    <button onclick="testAdminSDK()">Test Admin SDK</button>
+    <div id="adminResult" class="result">
+        <pre>Click the button to run tests...</pre>
+    </div>
+    
+    <h2>Client SDK Test</h2>
+    <button onclick="testClientSDK()">Test Client SDK</button>
+    <div id="clientResult" class="result">
+        <pre>Click the button to run tests...</pre>
+    </div>
+
+    <script>
+        // Initialize Firebase with your config
+        const firebaseConfig = {
+            apiKey: "{{ firebase_config.api_key }}",
+            authDomain: "{{ firebase_config.auth_domain }}",
+            projectId: "{{ firebase_config.project_id }}",
+            storageBucket: "{{ firebase_config.storage_bucket }}",
+            messagingSenderId: "{{ firebase_config.messaging_sender_id }}",
+            appId: "{{ firebase_config.app_id }}"
+        };
+        
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+
+        function formatTestResults(data) {
+            let html = `<div class="test-result ${data.status}">
+                <h3>Overall Status: ${data.status.toUpperCase()}</h3>
+                <p>${data.message}</p>
+            </div>`;
+
+            if (data.tests) {
+                Object.entries(data.tests).forEach(([testName, result]) => {
+                    html += `
+                        <div class="test-result ${result.status}">
+                            <h4>${testName.charAt(0).toUpperCase() + testName.slice(1)}</h4>
+                            <p>${result.message}</p>
+                            ${result.note ? `<div class="note">${result.note}</div>` : ''}
+                            ${result.data ? `<pre>${JSON.stringify(result.data, null, 2)}</pre>` : ''}
+                            ${result.users ? `<pre>Users: ${JSON.stringify(result.users, null, 2)}</pre>` : ''}
+                        </div>
+                    `;
+                });
+            }
+
+            return html;
+        }
+
+        async function testAdminSDK() {
+            const resultDiv = document.getElementById('adminResult');
+            try {
+                const response = await fetch('/firebase/test/');
+                const data = await response.json();
+                resultDiv.innerHTML = formatTestResults(data);
+            } catch (error) {
+                resultDiv.innerHTML = formatTestResults({
+                    status: 'error',
+                    message: error.message,
+                    tests: {}
+                });
+            }
+        }
+
+        async function testClientSDK() {
+            const resultDiv = document.getElementById('clientResult');
+            try {
+                // Test Firebase Authentication
+                const auth = firebase.auth();
+                const currentUser = auth.currentUser;
+                
+                resultDiv.innerHTML = formatTestResults({
+                    status: 'success',
+                    message: 'Firebase Client SDK initialized successfully',
+                    tests: {
+                        initialization: {
+                            status: 'success',
+                            message: 'Firebase Client SDK initialized with provided configuration',
+                            data: {
+                                projectId: firebaseConfig.projectId,
+                                authDomain: firebaseConfig.authDomain
+                            }
+                        },
+                        authentication: {
+                            status: 'success',
+                            message: 'Authentication client initialized',
+                            data: {
+                                currentUser: currentUser ? {
+                                    uid: currentUser.uid,
+                                    email: currentUser.email
+                                } : 'No user signed in'
+                            }
+                        }
+                    }
+                });
+            } catch (error) {
+                resultDiv.innerHTML = formatTestResults({
+                    status: 'error',
+                    message: 'Error testing Firebase Client SDK',
+                    tests: {
+                        error: {
+                            status: 'error',
+                            message: error.message
+                        }
+                    }
+                });
+            }
+        }
+    </script>
+</body>
+</html>
