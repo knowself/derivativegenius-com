@@ -13,7 +13,16 @@ fi
 
 # 1. Install Python dependencies
 echo "📦 Installing Python dependencies..."
-python -m pip install -r requirements.txt
+if command -v python3.9 &> /dev/null; then
+    python3.9 -m pip install -r requirements.txt
+elif command -v python3 &> /dev/null; then
+    python3 -m pip install -r requirements.txt
+elif command -v python &> /dev/null; then
+    python -m pip install -r requirements.txt
+else
+    echo "❌ Error: Python is not installed"
+    exit 1
+fi
 
 # 2. Install Node.js dependencies
 echo "📦 Installing Node.js dependencies..."
