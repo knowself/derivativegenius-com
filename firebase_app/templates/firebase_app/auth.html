@@ -189,8 +189,7 @@
                 
                 try {
                     await signOut(auth);
-                    authMessage.className = 'success';
-                    authMessage.textContent = 'Successfully signed out!';
+                    window.location.href = '/';  // Redirect to home page
                 } catch (error) {
                     console.error('Sign out error:', error);
                     authMessage.className = 'error';
