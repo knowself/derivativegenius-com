@@ -8,25 +8,33 @@ echo "🚀 Starting build process..."
 # 0. Ensure correct Node.js version
 echo "🔍 Checking Node.js version..."
 if command -v nvm &> /dev/null; then
-    nvm use 18 || nvm install 18
+    nvm use 20 || nvm install 20
 fi
 
 # 1. Install Python dependencies
 echo "📦 Installing Python dependencies..."
 if command -v python3.9 &> /dev/null; then
+    # Check if pip is installed
+    if ! python3.9 -m pip --version &> /dev/null; then
+        echo "Installing pip for Python 3.9..."
+        curl -sSL https://bootstrap.pypa.io/get-pip.py | python3.9
+    fi
     python3.9 -m pip install -r requirements.txt
 elif command -v python3 &> /dev/null; then
+    # Check if pip is installed
+    if ! python3 -m pip --version &> /dev/null; then
+        echo "Installing pip for Python 3..."
+        curl -sSL https://bootstrap.pypa.io/get-pip.py | python3
+    fi
     python3 -m pip install -r requirements.txt
-elif command -v python &> /dev/null; then
-    python -m pip install -r requirements.txt
 else
-    echo "❌ Error: Python is not installed"
+    echo "❌ Python 3.9 or Python 3 not found"
     exit 1
 fi
 
 # 2. Install Node.js dependencies
 echo "📦 Installing Node.js dependencies..."
-npm ci || npm install
+npm install
 
 # 3. Build Vue.js application with Tailwind
 echo "🏗️ Building Vue.js application..."

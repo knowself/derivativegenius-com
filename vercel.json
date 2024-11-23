@@ -6,7 +6,8 @@
       "use": "@vercel/python",
       "config": {
         "maxLambdaSize": "15mb",
-        "runtime": "python3.9"
+        "runtime": "python3.9",
+        "installCommand": "curl -sSL https://bootstrap.pypa.io/get-pip.py | python3.9 && python3.9 -m pip install -r requirements.txt"
       }
     },
     {
