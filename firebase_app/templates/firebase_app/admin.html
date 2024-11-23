@@ -1,0 +1,218 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block extra_css %}
+<style>
+    .card {
+        margin-bottom: 1.5rem;
+        border: none;
+        box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+    }
+    
+    .card-header {
+        background-color: var(--background-light);
+        border-bottom: 2px solid var(--secondary-color);
+        padding: 1rem;
+    }
+    
+    .card-header h3 {
+        margin: 0;
+        color: var(--text-color);
+        font-size: 1.25rem;
+    }
+    
+    .card-body {
+        padding: 1.5rem;
+    }
+    
+    .btn-info {
+        background-color: var(--secondary-color);
+        border-color: var(--secondary-color);
+        color: white;
+    }
+    
+    .btn-info:hover {
+        background-color: var(--primary-color);
+        border-color: var(--primary-color);
+        color: white;
+    }
+    
+    pre {
+        background-color: var(--background-light);
+        padding: 1rem;
+        border-radius: 0.25rem;
+        max-height: 400px;
+        overflow-y: auto;
+    }
+    
+    code {
+        color: var(--text-color);
+    }
+    
+    .alert {
+        margin-top: 1rem;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1>Firebase Admin Dashboard</h1>
+    
+    <div class="row mt-4">
+        <!-- Authentication Section -->
+        <div class="col-md-6 mb-4">
+            <div class="card">
+                <div class="card-header">
+                    <h3>Authentication</h3>
+                </div>
+                <div class="card-body">
+                    <h4>Test User Creation</h4>
+                    <form id="createUserForm" class="mb-3">
+                        <div class="mb-3">
+                            <input type="email" class="form-control" id="testEmail" placeholder="Test Email">
+                        </div>
+                        <div class="mb-3">
+                            <input type="password" class="form-control" id="testPassword" placeholder="Test Password">
+                        </div>
+                        <button type="submit" class="btn btn-primary">Create Test User</button>
+                    </form>
+                    <div id="authStatus" class="alert" style="display: none;"></div>
+                    
+                    <h4 class="mt-4">Authentication Status</h4>
+                    <button id="checkAuthStatus" class="btn btn-info">Check Auth Status</button>
+                    <div id="authStatusResult" class="mt-2"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Firestore Section -->
+        <div class="col-md-6 mb-4">
+            <div class="card">
+                <div class="card-header">
+                    <h3>Firestore</h3>
+                </div>
+                <div class="card-body">
+                    <h4>Test Collection</h4>
+                    <form id="testFirestoreForm" class="mb-3">
+                        <div class="mb-3">
+                            <input type="text" class="form-control" id="collectionName" placeholder="Collection Name">
+                        </div>
+                        <div class="mb-3">
+                            <textarea class="form-control" id="testData" placeholder="Test JSON Data"></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Write Test Data</button>
+                    </form>
+                    <div id="firestoreStatus" class="alert" style="display: none;"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Configuration Section -->
+    <div class="row mt-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h3>Firebase Configuration</h3>
+                </div>
+                <div class="card-body">
+                    <button id="testConfig" class="btn btn-info">Test Configuration</button>
+                    <div id="configStatus" class="mt-3">
+                        <pre><code id="configResult"></code></pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="module">
+    // Import Firebase
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-app.js";
+    import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-auth.js";
+    import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-firestore.js";
+
+    // Initialize Firebase
+    const firebaseConfig = {
+        apiKey: "{{ firebase_config.api_key }}",
+        authDomain: "{{ firebase_config.auth_domain }}",
+        projectId: "{{ firebase_config.project_id }}",
+        storageBucket: "{{ firebase_config.storage_bucket }}",
+        messagingSenderId: "{{ firebase_config.messaging_sender_id }}",
+        appId: "{{ firebase_config.app_id }}"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+
+    // Helper function to show status
+    function showStatus(elementId, message, isError = false) {
+        const element = document.getElementById(elementId);
+        element.style.display = 'block';
+        element.className = `alert ${isError ? 'alert-danger' : 'alert-success'}`;
+        element.textContent = message;
+    }
+
+    // Create Test User
+    document.getElementById('createUserForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const email = document.getElementById('testEmail').value;
+        const password = document.getElementById('testPassword').value;
+
+        try {
+            const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+            showStatus('authStatus', `Test user created successfully: ${email}`);
+        } catch (error) {
+            showStatus('authStatus', `Error creating user: ${error.message}`, true);
+        }
+    });
+
+    // Check Auth Status
+    document.getElementById('checkAuthStatus').addEventListener('click', async () => {
+        try {
+            const response = await fetch('/firebase/test-config/');
+            const data = await response.json();
+            document.getElementById('authStatusResult').innerHTML = `
+                <div class="alert ${data.status === 'success' ? 'alert-success' : 'alert-danger'}">
+                    ${data.auth_status || data.message}
+                </div>
+            `;
+        } catch (error) {
+            document.getElementById('authStatusResult').innerHTML = `
+                <div class="alert alert-danger">Error checking auth status: ${error.message}</div>
+            `;
+        }
+    });
+
+    // Test Firestore
+    document.getElementById('testFirestoreForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const collectionName = document.getElementById('collectionName').value;
+        const testData = document.getElementById('testData').value;
+
+        try {
+            const data = JSON.parse(testData);
+            const docRef = await addDoc(collection(db, collectionName), {
+                ...data,
+                timestamp: new Date()
+            });
+            showStatus('firestoreStatus', `Document written successfully: ${docRef.id}`);
+        } catch (error) {
+            showStatus('firestoreStatus', `Error writing document: ${error.message}`, true);
+        }
+    });
+
+    // Test Configuration
+    document.getElementById('testConfig').addEventListener('click', async () => {
+        try {
+            const response = await fetch('/firebase/test-config/');
+            const data = await response.json();
+            document.getElementById('configResult').textContent = JSON.stringify(data, null, 2);
+        } catch (error) {
+            document.getElementById('configResult').textContent = `Error: ${error.message}`;
+        }
+    });
+</script>
+{% endblock %}

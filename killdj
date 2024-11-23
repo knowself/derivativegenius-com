@@ -1,0 +1,19 @@
+#!/bin/bash
+echo "Killing Derivative Genius Django development server..."
+
+# Kill Django server processes
+pkill -f "python3 manage.py runserver"
+
+# Kill any process using port 8000
+if command -v lsof >/dev/null 2>&1; then
+    # If lsof is available
+    lsof -ti:8000 | xargs kill -9 2>/dev/null || true
+else
+    # Fallback to netstat
+    pid=$(netstat -tlnp 2>/dev/null | grep ":8000" | awk '{print $7}' | cut -d'/' -f1)
+    if [ ! -z "$pid" ]; then
+        kill -9 "$pid" 2>/dev/null || true
+    fi
+fi
+
+echo "Server killed."

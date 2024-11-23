@@ -1,0 +1,20 @@
+{
+  "watch": ["**/*"],
+  "ext": "py,html,css,js",
+  "ignore": [
+    "**/node_modules/**",
+    "**/*firebase-adminsdk*.json",
+    "**/*.pem",
+    "**/*.key",
+    "**/credentials/**",
+    "**/secrets/**",
+    "**/.git/**",
+    "**/__pycache__/**",
+    "**/*.pyc",
+    "**/media/**",
+    "**/staticfiles/**",
+    "**/.env"
+  ],
+  "exec": "./run-django.sh",
+  "signal": "SIGTERM"
+}

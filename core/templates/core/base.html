@@ -88,6 +88,28 @@
             width: 100%;
         }
 
+        /* Auth icons styling */
+        .nav-link .fas.fa-user-circle,
+        .nav-link .fas.fa-sign-out-alt,
+        .nav-link .fas.fa-cog {
+            font-size: 20px;
+            opacity: 0.7;
+            transition: all 0.3s ease;
+        }
+
+        .nav-link:hover .fas.fa-user-circle,
+        .nav-link:hover .fas.fa-sign-out-alt,
+        .nav-link:hover .fas.fa-cog {
+            opacity: 1;
+            transform: scale(1.1);
+        }
+
+        #userEmail {
+            font-size: 14px !important;
+            opacity: 0.7;
+            padding: 0.7rem 0;
+        }
+
         .navbar-toggler {
             border-color: var(--text-color);
             padding: 0.5rem;
@@ -193,57 +215,6 @@
     <!-- Font Awesome for icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     {% block extra_css %}{% endblock %}
-    
-    <!-- Firebase SDK -->
-    <script type="module">
-        // Import the functions you need from the SDKs you need
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-app.js";
-        import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-auth.js";
-
-        // Your web app's Firebase configuration
-        const firebaseConfig = {
-            apiKey: "{{ firebase_config.api_key }}",
-            authDomain: "{{ firebase_config.auth_domain }}",
-            projectId: "{{ firebase_config.project_id }}",
-            storageBucket: "{{ firebase_config.storage_bucket }}",
-            messagingSenderId: "{{ firebase_config.messaging_sender_id }}",
-            appId: "{{ firebase_config.app_id }}"
-        };
-
-        // Initialize Firebase
-        const app = initializeApp(firebaseConfig);
-        const auth = getAuth(app);
-
-        // Handle Authentication State Changes
-        onAuthStateChanged(auth, (user) => {
-            const loginButton = document.getElementById('loginButton');
-            const logoutButton = document.getElementById('logoutButton');
-            const userEmail = document.getElementById('userEmail');
-
-            if (user) {
-                // User is signed in
-                loginButton.style.display = 'none';
-                logoutButton.style.display = 'block';
-                userEmail.textContent = user.email;
-                userEmail.style.display = 'block';
-            } else {
-                // No user is signed in
-                loginButton.style.display = 'block';
-                logoutButton.style.display = 'none';
-                userEmail.style.display = 'none';
-            }
-        });
-
-        // Make auth functions available globally
-        window.handleSignOut = async () => {
-            try {
-                await signOut(auth);
-                window.location.href = '/';
-            } catch (error) {
-                console.error('Sign out error:', error);
-            }
-        };
-    </script>
 </head>
 <body>
     <nav class="navbar navbar-expand-lg shadow">
@@ -268,15 +239,20 @@
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'about' %}">About</a>
                     </li>
+                    <li class="nav-item admin-link" style="display: none;">
+                        <a class="nav-link" href="{% url 'firebase:admin_dashboard' %}" title="Admin Dashboard">
+                            <i class="fas fa-cog"></i>
+                        </a>
+                    </li>
                     <li class="nav-item d-flex align-items-center">
                         <span id="userEmail" class="nav-link" style="display: none; font-size: 16px;"></span>
                     </li>
                     <li class="nav-item">
-                        <a id="loginButton" class="nav-link" href="{% url 'firebase:auth' %}" style="display: none;">
-                            <i class="fas fa-sign-in-alt"></i> Login
+                        <a id="loginButton" class="nav-link" href="{% url 'firebase:auth' %}" style="display: none;" title="Staff Login">
+                            <i class="fas fa-user-circle"></i>
                         </a>
-                        <a id="logoutButton" class="nav-link" href="#" onclick="handleSignOut()" style="display: none;">
-                            <i class="fas fa-sign-out-alt"></i> Logout
+                        <a id="logoutButton" class="nav-link" href="#" onclick="handleSignOut()" style="display: none;" title="Sign Out">
+                            <i class="fas fa-sign-out-alt"></i>
                         </a>
                     </li>
                     <li class="nav-item d-flex align-items-center">
@@ -295,8 +271,85 @@
         {% endblock %}
     </main>
 
-    <!-- Bootstrap JS and dependencies -->
+    <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Firebase App -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-app.js";
+        import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-auth.js";
+
+        // Initialize Firebase with your config
+        const firebaseConfig = {
+            apiKey: "{{ firebase_config.api_key }}",
+            authDomain: "{{ firebase_config.auth_domain }}",
+            projectId: "{{ firebase_config.project_id }}",
+            storageBucket: "{{ firebase_config.storage_bucket }}",
+            messagingSenderId: "{{ firebase_config.messaging_sender_id }}",
+            appId: "{{ firebase_config.app_id }}"
+        };
+
+        console.log('Firebase Config:', firebaseConfig); // Debug log
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+
+        // Handle Authentication State Changes
+        onAuthStateChanged(auth, async (user) => {
+            console.log('Auth State Changed:', user ? user.email : 'No user'); // Debug log
+            
+            const loginButton = document.getElementById('loginButton');
+            const logoutButton = document.getElementById('logoutButton');
+            const userEmail = document.getElementById('userEmail');
+            const adminLink = document.querySelector('.admin-link');
+            
+            if (user) {
+                console.log('User signed in:', user.email); // Debug log
+                
+                // Force token refresh to get latest claims
+                await user.getIdToken(true);
+                
+                // User is signed in
+                loginButton.style.display = 'none';
+                logoutButton.style.display = 'block';
+                userEmail.textContent = user.email;
+                userEmail.style.display = 'block';
+                
+                try {
+                    // Get ID token to check custom claims
+                    const idTokenResult = await user.getIdTokenResult();
+                    console.log('Token claims:', idTokenResult.claims); // Debug log
+                    
+                    if (idTokenResult.claims.admin) {
+                        console.log('User is admin, showing gear icon'); // Debug log
+                        adminLink.style.display = 'block';
+                    } else {
+                        console.log('User is not admin, hiding gear icon'); // Debug log
+                        adminLink.style.display = 'none';
+                    }
+                } catch (error) {
+                    console.error('Error checking admin status:', error); // Debug log
+                }
+            } else {
+                console.log('User signed out'); // Debug log
+                loginButton.style.display = 'block';
+                logoutButton.style.display = 'none';
+                userEmail.style.display = 'none';
+                adminLink.style.display = 'none';
+            }
+        });
+
+        // Make auth functions available globally
+        window.handleSignOut = async () => {
+            try {
+                await signOut(auth);
+                window.location.href = '/';
+            } catch (error) {
+                console.error('Sign out error:', error);
+            }
+        };
+    </script>
     <script>
         function getCookie(name) {
             let cookieValue = null;

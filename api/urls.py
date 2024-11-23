@@ -21,6 +21,6 @@ from django.conf.urls.static import static
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('firebase-admin/', include('admin_panel.urls')),  # Custom Firebase admin panel
-    path('firebase/', include('firebase_app.urls')),  # Firebase test endpoints
+    # Removed duplicate firebase URL pattern - now handled in core/urls.py
     path('', include('core.urls')),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

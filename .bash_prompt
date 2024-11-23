@@ -1,0 +1,20 @@
+# Minimal global prompt that shows virtualenv status
+set_minimal_prompt() {
+    # Get the current directory name
+    local dir=${PWD##*/}
+    # If we're in home directory, use ~
+    if [ "$dir" = "$USER" ]; then
+        dir="~"
+    fi
+    # Show (v) when in virtualenv
+    if [ -n "$VIRTUAL_ENV" ]; then
+        PS1="(v) ${dir}$ "
+    else
+        PS1="${dir}$ "
+    fi
+}
+
+PROMPT_COMMAND=set_minimal_prompt
+
+# Source this in your .bashrc:
+# source /path/to/project/.bash_prompt

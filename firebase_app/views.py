@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_http_methods
@@ -6,6 +6,7 @@ from .firebase_admin import get_firestore, get_auth
 from firebase_admin import firestore, auth
 import json
 import os
+from functools import wraps
 
 # Create your views here.
 
@@ -155,3 +156,100 @@ def test_firebase(request):
             'message': str(e),
             'tests': {}
         }, status=500)
+
+@require_http_methods(["GET"])
+def test_firebase_config(request):
+    """Test Firebase configuration"""
+    config = {
+        'api_key': os.getenv('FIREBASE_API_KEY'),
+        'auth_domain': os.getenv('FIREBASE_AUTH_DOMAIN'),
+        'project_id': os.getenv('FIREBASE_PROJECT_ID'),
+        'storage_bucket': os.getenv('FIREBASE_STORAGE_BUCKET'),
+        'messaging_sender_id': os.getenv('FIREBASE_MESSAGING_SENDER_ID'),
+        'app_id': os.getenv('FIREBASE_APP_ID'),
+    }
+    
+    # Check for missing or empty configurations
+    missing_configs = [key for key, value in config.items() if not value]
+    
+    if missing_configs:
+        return JsonResponse({
+            'status': 'error',
+            'message': 'Missing Firebase configurations',
+            'missing_fields': missing_configs
+        }, status=400)
+    
+    # Test Firebase Admin SDK initialization
+    try:
+        firebase_auth = get_auth()
+        
+        # Test creating a test user to verify Email/Password auth is enabled
+        try:
+            test_email = 'test@example.com'
+            test_password = 'testpassword123'
+            
+            try:
+                # Try to get the user first
+                user = firebase_auth.get_user_by_email(test_email)
+                auth_status = "Email/Password authentication is enabled and working"
+            except auth.UserNotFoundError:
+                # User doesn't exist, try to create one
+                user = firebase_auth.create_user(
+                    email=test_email,
+                    password=test_password,
+                    email_verified=False
+                )
+                auth_status = "Successfully created test user. Email/Password authentication is working"
+        except Exception as auth_error:
+            auth_status = f"Warning: Email/Password authentication might not be enabled: {str(auth_error)}"
+        
+        return JsonResponse({
+            'status': 'success',
+            'message': 'Firebase configuration is valid',
+            'auth_status': auth_status,
+            'config': {
+                **config,
+                'api_key': '***' if config['api_key'] else None  # Hide API key
+            }
+        })
+    except Exception as e:
+        return JsonResponse({
+            'status': 'error',
+            'message': str(e)
+        }, status=500)
+
+def admin_required(view_func):
+    """Decorator to require admin authentication"""
+    @wraps(view_func)
+    def _wrapped_view(request, *args, **kwargs):
+        try:
+            # Check if user is logged in
+            if 'user_id' not in request.session:
+                return redirect('firebase:auth')
+
+            # Get Firebase user
+            firebase_auth = get_auth()
+            user = firebase_auth.get_user(request.session['user_id'])
+
+            # Check custom claims
+            if not user.custom_claims or not user.custom_claims.get('admin'):
+                return redirect('firebase:auth')
+
+            return view_func(request, *args, **kwargs)
+        except Exception as e:
+            print(f"Admin access error: {str(e)}")
+            return redirect('firebase:auth')
+    return _wrapped_view
+
+@admin_required
+def admin_dashboard(request):
+    """Render Firebase admin dashboard"""
+    firebase_config = {
+        'api_key': os.getenv('FIREBASE_API_KEY'),
+        'auth_domain': os.getenv('FIREBASE_AUTH_DOMAIN'),
+        'project_id': os.getenv('FIREBASE_PROJECT_ID'),
+        'storage_bucket': os.getenv('FIREBASE_STORAGE_BUCKET'),
+        'messaging_sender_id': os.getenv('FIREBASE_MESSAGING_SENDER_ID'),
+        'app_id': os.getenv('FIREBASE_APP_ID'),
+    }
+    return render(request, 'firebase_app/admin.html', {'firebase_config': firebase_config})

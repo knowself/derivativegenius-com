@@ -19,9 +19,23 @@
         };
 
         console.log('Initializing Firebase with config:', {
-            ...firebaseConfig,
-            apiKey: '***' // Hide API key in logs
+            apiKey: firebaseConfig.apiKey ? '***' : 'MISSING',
+            authDomain: firebaseConfig.authDomain || 'MISSING',
+            projectId: firebaseConfig.projectId || 'MISSING',
+            storageBucket: firebaseConfig.storageBucket || 'MISSING',
+            messagingSenderId: firebaseConfig.messagingSenderId || 'MISSING',
+            appId: firebaseConfig.appId || 'MISSING'
         });
+
+        // Validate Firebase config before initialization
+        const missingConfigs = Object.entries(firebaseConfig)
+            .filter(([key, value]) => !value)
+            .map(([key]) => key);
+
+        if (missingConfigs.length > 0) {
+            console.error('Missing Firebase configurations:', missingConfigs);
+            throw new Error('Invalid Firebase configuration: Missing required fields');
+        }
 
         try {
             // Initialize Firebase
@@ -72,7 +86,8 @@
             });
 
             // Make auth functions available globally
-            window.handleSignUp = async () => {
+            window.handleSignUp = async (event) => {
+                event.preventDefault();
                 const email = document.getElementById('signUpEmail').value;
                 const password = document.getElementById('signUpPassword').value;
                 const authMessage = document.getElementById('authMessage');
@@ -100,6 +115,9 @@
                     authMessage.textContent = 'Successfully signed up!';
                 } catch (error) {
                     console.error('Sign up error:', error);
+                    console.error('Error code:', error.code);
+                    console.error('Error message:', error.message);
+                    console.error('Full error object:', JSON.stringify(error, null, 2));
                     authMessage.className = 'error';
                     let errorMessage = error.message;
                     
@@ -117,13 +135,16 @@
                         case 'auth/weak-password':
                             errorMessage = 'Please choose a stronger password (at least 6 characters).';
                             break;
+                        default:
+                            errorMessage = `Sign up error: ${error.code}`;
                     }
                     
                     authMessage.textContent = errorMessage;
                 }
             };
 
-            window.handleSignIn = async () => {
+            window.handleSignIn = async (event) => {
+                event.preventDefault();
                 const email = document.getElementById('signInEmail').value;
                 const password = document.getElementById('signInPassword').value;
                 const authMessage = document.getElementById('authMessage');
@@ -137,6 +158,9 @@
                     authMessage.textContent = 'Successfully signed in!';
                 } catch (error) {
                     console.error('Sign in error:', error);
+                    console.error('Error code:', error.code);
+                    console.error('Error message:', error.message);
+                    console.error('Full error object:', JSON.stringify(error, null, 2));
                     authMessage.className = 'error';
                     let errorMessage = error.message;
                     
@@ -146,12 +170,14 @@
                         case 'auth/wrong-password':
                             errorMessage = 'Invalid email or password.';
                             break;
+                        case 'auth/invalid-credential':
+                            errorMessage = 'Invalid credentials. Please check if Email/Password authentication is enabled in Firebase Console.';
+                            break;
                         case 'auth/too-many-requests':
                             errorMessage = 'Too many failed attempts. Please try again later.';
                             break;
-                        case 'auth/user-disabled':
-                            errorMessage = 'This account has been disabled. Please contact support.';
-                            break;
+                        default:
+                            errorMessage = `Authentication error: ${error.code}`;
                     }
                     
                     authMessage.textContent = errorMessage;
@@ -173,17 +199,17 @@
             };
 
             window.toggleForms = () => {
-                const signUpForm = document.getElementById('signUpForm');
                 const signInForm = document.getElementById('signInForm');
+                const signUpForm = document.getElementById('signUpForm');
                 const authMessage = document.getElementById('authMessage');
                 authMessage.textContent = '';
 
-                if (signUpForm.style.display === 'none') {
-                    signUpForm.style.display = 'block';
-                    signInForm.style.display = 'none';
-                } else {
-                    signUpForm.style.display = 'none';
+                if (signInForm.style.display === 'none') {
                     signInForm.style.display = 'block';
+                    signUpForm.style.display = 'none';
+                } else {
+                    signInForm.style.display = 'none';
+                    signUpForm.style.display = 'block';
                 }
             };
 
@@ -214,55 +240,53 @@
         body {
             font-family: Arial, sans-serif;
             max-width: 800px;
-            margin: 0 auto;
+            margin: 40px auto;
             padding: 20px;
             background-color: #f5f5f5;
         }
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 30px;
+        }
         .auth-container {
-            background-color: white;
-            padding: 20px;
+            background: white;
+            padding: 30px;
             border-radius: 8px;
             box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-            margin-top: 20px;
         }
         .form-group {
-            margin-bottom: 15px;
+            margin-bottom: 20px;
         }
         .form-group label {
             display: block;
             margin-bottom: 5px;
-            font-weight: bold;
+            color: #555;
         }
         .form-group input {
             width: 100%;
-            padding: 8px;
+            padding: 10px;
             border: 1px solid #ddd;
             border-radius: 4px;
-            box-sizing: border-box;
+            font-size: 16px;
         }
         button {
             background-color: #4CAF50;
             color: white;
-            padding: 10px 20px;
+            padding: 12px 20px;
             border: none;
             border-radius: 4px;
             cursor: pointer;
-            margin: 5px;
+            font-size: 16px;
+            width: 100%;
+            margin-bottom: 15px;
         }
         button:hover {
             background-color: #45a049;
         }
-        .error {
-            color: #f44336;
-            margin: 10px 0;
-        }
-        .success {
-            color: #4CAF50;
-            margin: 10px 0;
-        }
         .auth-toggle {
             text-align: center;
-            margin-top: 15px;
+            color: #666;
         }
         .auth-toggle a {
             color: #4CAF50;
@@ -273,23 +297,33 @@
         }
         #userInfo {
             display: none;
-            margin-top: 20px;
-            padding: 15px;
-            background-color: #e8f5e9;
-            border-radius: 4px;
+            text-align: center;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }
         #authMessage {
             margin: 10px 0;
             padding: 10px;
             border-radius: 4px;
+            text-align: center;
         }
         #authMessage.error {
             background-color: #ffebee;
             border: 1px solid #ffcdd2;
+            color: #c62828;
         }
         #authMessage.success {
             background-color: #e8f5e9;
             border: 1px solid #c8e6c9;
+            color: #2e7d32;
+        }
+        .secondary-button {
+            background-color: #757575;
+        }
+        .secondary-button:hover {
+            background-color: #616161;
         }
     </style>
 </head>
@@ -305,39 +339,67 @@
     <div id="authForms" class="auth-container">
         <div id="authMessage"></div>
         
-        <!-- Sign Up Form -->
-        <div id="signUpForm">
-            <h2>Sign Up</h2>
-            <div class="form-group">
-                <label for="signUpEmail">Email:</label>
-                <input type="email" id="signUpEmail" required>
-            </div>
-            <div class="form-group">
-                <label for="signUpPassword">Password:</label>
-                <input type="password" id="signUpPassword" required>
-            </div>
-            <button onclick="handleSignUp()">Sign Up</button>
-            <div class="auth-toggle">
-                Already have an account? <a href="#" onclick="toggleForms()">Sign In</a>
-            </div>
+        <!-- Sign In Form (shown first) -->
+        <div id="signInForm">
+            <h2>Sign In</h2>
+            <form id="loginForm" onsubmit="handleSignIn(event)">
+                <div class="form-group">
+                    <label for="signInEmail">Email:</label>
+                    <input type="email" id="signInEmail" required>
+                </div>
+                <div class="form-group">
+                    <label for="signInPassword">Password:</label>
+                    <input type="password" id="signInPassword" required>
+                </div>
+                <button type="submit">Sign In</button>
+                <div class="auth-toggle">
+                    Need an account? <a href="#" onclick="toggleForms()">Create Account</a>
+                </div>
+            </form>
         </div>
 
-        <!-- Sign In Form -->
-        <div id="signInForm" style="display: none;">
-            <h2>Sign In</h2>
-            <div class="form-group">
-                <label for="signInEmail">Email:</label>
-                <input type="email" id="signInEmail" required>
-            </div>
-            <div class="form-group">
-                <label for="signInPassword">Password:</label>
-                <input type="password" id="signInPassword" required>
-            </div>
-            <button onclick="handleSignIn()">Sign In</button>
-            <div class="auth-toggle">
-                Need an account? <a href="#" onclick="toggleForms()">Sign Up</a>
-            </div>
+        <!-- Sign Up Form (hidden initially) -->
+        <div id="signUpForm" style="display: none;">
+            <h2>Create Account</h2>
+            <form id="signupForm" onsubmit="handleSignUp(event)">
+                <div class="form-group">
+                    <label for="signUpEmail">Email:</label>
+                    <input type="email" id="signUpEmail" required>
+                </div>
+                <div class="form-group">
+                    <label for="signUpPassword">Password:</label>
+                    <input type="password" id="signUpPassword" required>
+                </div>
+                <button type="submit">Create Account</button>
+                <div class="auth-toggle">
+                    Already have an account? <a href="#" onclick="toggleForms()">Sign In</a>
+                </div>
+            </form>
         </div>
     </div>
+
+    <script>
+        // Add form submit handlers
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            handleSignIn();
+        });
+
+        document.getElementById('signupForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            handleSignUp();
+        });
+
+        // Toggle between forms
+        function toggleForms() {
+            const signInForm = document.getElementById('signInForm');
+            const signUpForm = document.getElementById('signUpForm');
+            const authMessage = document.getElementById('authMessage');
+            
+            signInForm.style.display = signInForm.style.display === 'none' ? 'block' : 'none';
+            signUpForm.style.display = signUpForm.style.display === 'none' ? 'block' : 'none';
+            authMessage.textContent = ''; // Clear any error messages
+        }
+    </script>
 </body>
 </html>
