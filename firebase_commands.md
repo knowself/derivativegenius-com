@@ -2,17 +2,17 @@
 
 ## Vercel Deployment Logs
 ```bash
-# View recent logs
-vercel logs [deployment-url]
+# View logs for production URL - This works
+vercel logs https://derivativegenius-com.vercel.app
 
-# View build logs
-vercel inspect --logs [deployment-url]
+# View logs for specific deployment
+vercel logs derivativegenius-dhy7sedpa-derivativegenius.vercel.app
 
-# Monitor logs in real-time (legacy)
-vercel logs [deployment-url] --follow
+# View build logs (more detailed)
+vercel inspect --logs derivativegenius-dhy7sedpa-derivativegenius.vercel.app
 
-# follow logs in separate terminal
-vercel logs derivativegenius-b8h3aqnbn-derivativegenius.vercel.app
+# Alternative: View logs by project name
+vercel logs derivativegenius-com
 ```
 
 ## Environment Variables
