@@ -23,14 +23,30 @@ def initialize_firebase_admin():
         # First try using individual environment variables (production)
         if os.environ.get('FIREBASE_PRIVATE_KEY'):
             private_key = os.environ.get('FIREBASE_PRIVATE_KEY')
-            # Remove any surrounding quotes and escape characters
-            private_key = private_key.strip().strip('"\'')
-            # Ensure proper newline formatting
+            
+            # Handle different possible formats of the private key
+            if private_key.startswith('"') and private_key.endswith('"'):
+                private_key = private_key[1:-1]
+            
+            # Replace literal \n with actual newlines, but preserve existing newlines
             private_key = private_key.replace('\\n', '\n')
             
-            # Log key format (safely)
-            logger.debug(f"Private key starts with: {private_key[:15]}...")
-            logger.debug(f"Private key ends with: ...{private_key[-15:]}")
+            # Ensure the key has the correct PEM format
+            if not private_key.startswith('-----BEGIN PRIVATE KEY-----'):
+                logger.error("Private key does not have correct PEM header")
+                raise ValueError("Invalid private key format")
+            
+            if not private_key.endswith('-----END PRIVATE KEY-----\n') and not private_key.endswith('-----END PRIVATE KEY-----'):
+                logger.error("Private key does not have correct PEM footer")
+                raise ValueError("Invalid private key format")
+            
+            # Ensure the key ends with a newline
+            if not private_key.endswith('\n'):
+                private_key += '\n'
+            
+            logger.info("Private key format validation passed")
+            logger.debug(f"Key starts with: {private_key.split('\n')[0]}")
+            logger.debug(f"Key ends with: {private_key.split('\n')[-2]}")  # -2 to get the last non-empty line
             
             project_id = os.environ.get('FIREBASE_PROJECT_ID')
             client_email = os.environ.get('FIREBASE_CLIENT_EMAIL')

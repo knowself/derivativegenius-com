@@ -28,3 +28,4 @@ secrets/
 
 # Keep prompt configuration
 !.bash_prompt
+.env*.local
