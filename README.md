@@ -71,29 +71,38 @@ Our application leverages Google Firebase's powerful suite of cloud services for
 - **Cost-effective**: Pay-as-you-go pricing model with generous free tier for development and small applications
 - **Development Speed**: Comprehensive SDKs and ready-to-use features allow rapid development and deployment
 
-### Firebase Configuration
+## Firebase Configuration
 
-To run this project, you'll need to:
-1. Create a Firebase project at [Firebase Console](https://console.firebase.google.com)
-2. Set up Firebase configuration in the project
-3. Enable necessary Firebase services (Firestore, Authentication)
+The project uses Firebase for both client-side and server-side (Admin SDK) functionality. The configuration is environment-based:
 
-### Project Structure
+### Development Setup
+1. Create `.env` file in the project root with:
+```bash
+# Firebase Client Config
+FIREBASE_API_KEY=your_api_key
+FIREBASE_AUTH_DOMAIN=your_project.firebaseapp.com
+FIREBASE_PROJECT_ID=your_project_id
+FIREBASE_STORAGE_BUCKET=your_project.appspot.com
+FIREBASE_MESSAGING_SENDER_ID=your_sender_id
+FIREBASE_APP_ID=your_app_id
 
+# Firebase Admin SDK Config
+FIREBASE_CLIENT_EMAIL=your-service-account@your-project.iam.gserviceaccount.com
+FIREBASE_PRIVATE_KEY="-----BEGIN PRIVATE KEY-----\nYour-Key-Here\n-----END PRIVATE KEY-----\n"
 ```
-derivativegenius-com/
-├── api/                # Django project settings
-├── core/              # Main Django app
-│   ├── models.py      # Database models
-│   ├── views.py       # View controllers
-│   ├── urls.py        # URL routing
-│   └── templates/     # HTML templates
-├── public/            # Public assets
-├── src/
-│   └── firebase/     # Firebase configuration and services
-├── staticfiles/       # Collected static files
-└── manage.py          # Django management script
-```
+
+### Production Setup (Vercel)
+Add these environment variables in your Vercel project settings:
+1. `FIREBASE_PROJECT_ID`
+2. `FIREBASE_CLIENT_EMAIL`
+3. `FIREBASE_PRIVATE_KEY` (include the full key with `\n` for newlines)
+
+### Security Notes
+- Never commit `.env` file or service account keys
+- Keep different service accounts for development and production
+- Regularly rotate service account keys
+- Use environment-specific Firebase projects
+- Monitor Firebase usage and set appropriate security rules
 
 ## Getting Started
 
@@ -460,31 +469,6 @@ Our development setup includes several security measures:
    - Use environment variables for sensitive configuration
    - Keep credentials in a secure location outside the project
    - Follow the principle of least privilege
-
-## Firebase Configuration
-
-To set up Firebase credentials:
-
-1. Download your Firebase service account key
-2. Place it in a secure location (e.g., `credentials/` directory)
-3. Add the path to your `.env` file:
-   ```
-   FIREBASE_ADMIN_CREDENTIALS_PATH=credentials/your-service-account.json
-   ```
-
-The `.gitignore` file ensures sensitive files are not tracked:
-```
-# Firebase credentials
-*firebase-adminsdk*.json
-firebase-credentials.json
-serviceAccount.json
-
-# Security
-*.pem
-*.key
-credentials/
-secrets/
-```
 
 ## Deployment
 
