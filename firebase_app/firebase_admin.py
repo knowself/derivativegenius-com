@@ -3,31 +3,47 @@ import json
 from pathlib import Path
 import firebase_admin
 from firebase_admin import credentials, firestore, auth
+import logging
+
+# Initialize logger
+logger = logging.getLogger(__name__)
 
 def initialize_firebase_admin():
     """Initialize Firebase Admin SDK using either local file or environment variables."""
+    
+    # Check for required environment variables
+    required_vars = ['FIREBASE_PROJECT_ID', 'FIREBASE_PRIVATE_KEY', 'FIREBASE_CLIENT_EMAIL']
+    missing_vars = [var for var in required_vars if not os.environ.get(var)]
+    
+    if missing_vars:
+        logger.error(f"Missing required environment variables: {', '.join(missing_vars)}")
+        raise ValueError(f"Missing required environment variables: {', '.join(missing_vars)}")
+    
     try:
         # First try using individual environment variables (production)
-        if all(key in os.environ for key in ['FIREBASE_PROJECT_ID', 'FIREBASE_PRIVATE_KEY', 'FIREBASE_CLIENT_EMAIL']):
-            # Handle private key with proper newline conversion
+        if os.environ.get('FIREBASE_PRIVATE_KEY'):
             private_key = os.environ.get('FIREBASE_PRIVATE_KEY')
-            if private_key.startswith('"') and private_key.endswith('"'):
-                private_key = private_key[1:-1]  # Remove surrounding quotes if present
-            private_key = private_key.replace('\\n', '\n')  # Convert \n strings to actual newlines
+            # Remove any surrounding quotes and escape characters
+            private_key = private_key.strip().strip('"\'')
+            # Ensure proper newline formatting
+            private_key = private_key.replace('\\n', '\n')
+            
+            # Log key format (safely)
+            logger.debug(f"Private key starts with: {private_key[:15]}...")
+            logger.debug(f"Private key ends with: ...{private_key[-15:]}")
+            
+            project_id = os.environ.get('FIREBASE_PROJECT_ID')
+            client_email = os.environ.get('FIREBASE_CLIENT_EMAIL')
+            
+            logger.info(f"Initializing Firebase Admin SDK for project: {project_id}")
             
             cred_dict = {
                 "type": "service_account",
-                "project_id": os.environ.get('FIREBASE_PROJECT_ID'),
+                "project_id": project_id,
                 "private_key": private_key,
-                "client_email": os.environ.get('FIREBASE_CLIENT_EMAIL'),
-                "auth_uri": "https://accounts.google.com/o/oauth2/auth",
-                "token_uri": "https://oauth2.googleapis.com/token",
-                "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
-                "client_x509_cert_url": f"https://www.googleapis.com/robot/v1/metadata/x509/{os.environ.get('FIREBASE_CLIENT_EMAIL').replace('@', '%40')}"
+                "client_email": client_email,
+                "token_uri": "https://oauth2.googleapis.com/token"
             }
-            
-            # Log initialization attempt (without sensitive data)
-            print(f"Initializing Firebase Admin SDK with project: {cred_dict['project_id']}")
             
             try:
                 cred = credentials.Certificate(cred_dict)
