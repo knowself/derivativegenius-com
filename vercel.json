@@ -9,7 +9,8 @@
       "src": "package.json",
       "use": "@vercel/static-build",
       "config": {
-        "distDir": "dist"
+        "distDir": "dist",
+        "buildCommand": "npm run build"
       }
     }
   ],
@@ -24,11 +25,19 @@
     },
     {
       "src": "/static/(.*)",
-      "dest": "/dist/static/$1"
+      "dest": "/static/$1"
+    },
+    {
+      "src": "/(.*)\\.(.+)",
+      "dest": "/dist/$1.$2"
     },
     {
       "src": "/(.*)",
-      "dest": "/dist/$1"
+      "dest": "/dist/index.html"
     }
-  ]
+  ],
+  "env": {
+    "PYTHON_VERSION": "3.9",
+    "NODE_VERSION": "18.x"
+  }
 }
