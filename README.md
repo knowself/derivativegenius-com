@@ -104,6 +104,41 @@ Add these environment variables in your Vercel project settings:
 - Use environment-specific Firebase projects
 - Monitor Firebase usage and set appropriate security rules
 
+## Deployment and Monitoring
+
+The website is deployed on Vercel. Automatic deployments are triggered by pushes to the main branch.
+
+### Real-time Log Monitoring
+
+For real-time log monitoring:
+
+1. Open a new terminal window
+2. Navigate to the project directory:
+   ```bash
+   cd "/home/knowself/Web Dev/derivativegenius-com/dev"
+   ```
+3. Start monitoring logs:
+   ```bash
+   vercel logs derivativegenius-b8h3aqnbn-derivativegenius.vercel.app --follow
+   ```
+
+Keep this terminal open to monitor logs while working in your main terminal. The logs will update automatically as new events occur.
+
+### Deployment Management
+
+To manage deployments and view historical logs:
+
+```bash
+# List all deployments
+vercel ls
+
+# View logs for a specific deployment
+vercel logs <deployment-url>
+
+# View project information
+vercel project ls
+```
+
 ## Getting Started
 
 ### Prerequisites
@@ -469,12 +504,6 @@ Our development setup includes several security measures:
    - Use environment variables for sensitive configuration
    - Keep credentials in a secure location outside the project
    - Follow the principle of least privilege
-
-## Deployment
-
-The website is deployed on Vercel. Automatic deployments are triggered by pushes to the main branch.
-
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fvercel%2Fexamples%2Ftree%2Fmain%2Fpython%2Fdjango)
 
 ## Contributing
 
