@@ -13,6 +13,9 @@
         background-color: var(--background-light);
         border-bottom: 2px solid var(--secondary-color);
         padding: 1rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
     }
     
     .card-header h3 {
@@ -37,29 +40,113 @@
         color: white;
     }
     
-    pre {
-        background-color: var(--background-light);
-        padding: 1rem;
-        border-radius: 0.25rem;
-        max-height: 400px;
-        overflow-y: auto;
+    .admin-link {
+        color: #092E20;  /* Django green */
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.75rem;
+        padding: 0.5rem 1rem;
+        border-radius: 0.375rem;
+        background-color: #F8F9FA;
+        border: 1px solid #E9ECEF;
+        transition: all 0.2s ease-in-out;
     }
     
-    code {
-        color: var(--text-color);
+    .admin-link:hover {
+        color: #051B11;
+        background-color: #E9ECEF;
+        border-color: #DEE2E6;
+        transform: translateY(-1px);
     }
     
-    .alert {
+    .django-logo {
+        width: 24px;
+        height: 24px;
+    }
+    
+    .admin-link span {
+        font-weight: 500;
+    }
+    
+    .user-table {
+        width: 100%;
         margin-top: 1rem;
+    }
+    
+    .user-table th,
+    .user-table td {
+        padding: 0.75rem;
+        border-bottom: 1px solid var(--border-color);
+    }
+    
+    .user-table th {
+        background-color: var(--background-light);
+        font-weight: 600;
+    }
+    
+    .badge {
+        padding: 0.35em 0.65em;
+        border-radius: 0.25rem;
+    }
+    
+    .badge-admin {
+        background-color: var(--primary-color);
+        color: white;
+    }
+    
+    .badge-user {
+        background-color: var(--secondary-color);
+        color: white;
     }
 </style>
 {% endblock %}
 
 {% block content %}
 <div class="container mt-4">
-    <h1>Firebase Admin Dashboard</h1>
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1>Admin Dashboard</h1>
+        <a href="/admin/" class="admin-link">
+            <svg class="django-logo" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <g fill="currentColor">
+                    <path d="M11.146 0h3.924v18.166c-2.013.382-3.491.535-5.096.535-4.791 0-7.288-2.166-7.288-6.32 0-4.002 2.65-6.6 6.753-6.6.637 0 1.121.05 1.707.203V0zm0 9.143a3.894 3.894 0 00-1.325-.204c-1.988 0-3.134 1.223-3.134 3.365 0 2.09 1.096 3.236 3.109 3.236.433 0 .79-.025 1.35-.102V9.142zM21.314 6.06v9.098c0 3.134-.229 4.638-.917 5.937-.637 1.249-1.478 2.039-3.211 2.905l-3.644-1.733c1.733-.815 2.574-1.529 3.109-2.625.561-1.121.739-2.421.739-5.835V6.059h3.924z"/>
+                    <path d="M17.39 0h3.924v5.092H17.39V0z"/>
+                </g>
+            </svg>
+            <span>Django Admin Panel</span>
+        </a>
+    </div>
     
-    <div class="row mt-4">
+    <div class="row">
+        <!-- User Management Section -->
+        <div class="col-12 mb-4">
+            <div class="card">
+                <div class="card-header">
+                    <h3>User Management</h3>
+                    <button class="btn btn-primary" id="refreshUsers">
+                        <i class="fas fa-sync"></i> Refresh
+                    </button>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="user-table">
+                            <thead>
+                                <tr>
+                                    <th>Email</th>
+                                    <th>UID</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="userTableBody">
+                                <!-- Users will be loaded here -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <!-- Authentication Section -->
         <div class="col-md-6 mb-4">
             <div class="card">
@@ -67,21 +154,21 @@
                     <h3>Authentication</h3>
                 </div>
                 <div class="card-body">
-                    <h4>Test User Creation</h4>
+                    <h4>Create New User</h4>
                     <form id="createUserForm" class="mb-3">
                         <div class="mb-3">
-                            <input type="email" class="form-control" id="testEmail" placeholder="Test Email">
+                            <input type="email" class="form-control" id="userEmail" placeholder="Email">
                         </div>
                         <div class="mb-3">
-                            <input type="password" class="form-control" id="testPassword" placeholder="Test Password">
+                            <input type="password" class="form-control" id="userPassword" placeholder="Password">
                         </div>
-                        <button type="submit" class="btn btn-primary">Create Test User</button>
+                        <div class="mb-3 form-check">
+                            <input type="checkbox" class="form-check-input" id="isAdmin">
+                            <label class="form-check-label" for="isAdmin">Make Admin</label>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Create User</button>
                     </form>
                     <div id="authStatus" class="alert" style="display: none;"></div>
-                    
-                    <h4 class="mt-4">Authentication Status</h4>
-                    <button id="checkAuthStatus" class="btn btn-info">Check Auth Status</button>
-                    <div id="authStatusResult" class="mt-2"></div>
                 </div>
             </div>
         </div>
@@ -90,36 +177,12 @@
         <div class="col-md-6 mb-4">
             <div class="card">
                 <div class="card-header">
-                    <h3>Firestore</h3>
+                    <h3>Database Management</h3>
                 </div>
                 <div class="card-body">
-                    <h4>Test Collection</h4>
-                    <form id="testFirestoreForm" class="mb-3">
-                        <div class="mb-3">
-                            <input type="text" class="form-control" id="collectionName" placeholder="Collection Name">
-                        </div>
-                        <div class="mb-3">
-                            <textarea class="form-control" id="testData" placeholder="Test JSON Data"></textarea>
-                        </div>
-                        <button type="submit" class="btn btn-primary">Write Test Data</button>
-                    </form>
-                    <div id="firestoreStatus" class="alert" style="display: none;"></div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Configuration Section -->
-    <div class="row mt-4">
-        <div class="col-12">
-            <div class="card">
-                <div class="card-header">
-                    <h3>Firebase Configuration</h3>
-                </div>
-                <div class="card-body">
-                    <button id="testConfig" class="btn btn-info">Test Configuration</button>
-                    <div id="configStatus" class="mt-3">
-                        <pre><code id="configResult"></code></pre>
+                    <h4>Collections</h4>
+                    <div id="collections" class="list-group">
+                        <!-- Collections will be loaded here -->
                     </div>
                 </div>
             </div>
@@ -127,91 +190,139 @@
     </div>
 </div>
 
+{% endblock %}
+
+{% block extra_js %}
 <script type="module">
     // Import Firebase
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-app.js";
     import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-auth.js";
-    import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-firestore.js";
+    import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-firestore.js";
 
     // Initialize Firebase
-    const firebaseConfig = {
-        apiKey: "{{ firebase_config.api_key }}",
-        authDomain: "{{ firebase_config.auth_domain }}",
-        projectId: "{{ firebase_config.project_id }}",
-        storageBucket: "{{ firebase_config.storage_bucket }}",
-        messagingSenderId: "{{ firebase_config.messaging_sender_id }}",
-        appId: "{{ firebase_config.app_id }}"
-    };
-
+    const firebaseConfig = {{ firebase_config|safe }};
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
     const db = getFirestore(app);
 
-    // Helper function to show status
-    function showStatus(elementId, message, isError = false) {
-        const element = document.getElementById(elementId);
-        element.style.display = 'block';
-        element.className = `alert ${isError ? 'alert-danger' : 'alert-success'}`;
-        element.textContent = message;
-    }
-
-    // Create Test User
-    document.getElementById('createUserForm').addEventListener('submit', async (e) => {
-        e.preventDefault();
-        const email = document.getElementById('testEmail').value;
-        const password = document.getElementById('testPassword').value;
-
+    // Create user function
+    async function createUser(email, password, isAdmin) {
         try {
             const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-            showStatus('authStatus', `Test user created successfully: ${email}`);
+            const user = userCredential.user;
+            
+            // Set admin claim if requested
+            if (isAdmin) {
+                await fetch('/firebase/admin/set-admin-status/', {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${await auth.currentUser.getIdToken()}`,
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        uid: user.uid,
+                        admin: true
+                    })
+                });
+            }
+            
+            showAlert('success', 'User created successfully!');
+            loadUsers();
         } catch (error) {
-            showStatus('authStatus', `Error creating user: ${error.message}`, true);
+            showAlert('danger', `Error: ${error.message}`);
         }
-    });
+    }
 
-    // Check Auth Status
-    document.getElementById('checkAuthStatus').addEventListener('click', async () => {
+    // Load users function
+    async function loadUsers() {
         try {
-            const response = await fetch('/firebase/test-config/');
-            const data = await response.json();
-            document.getElementById('authStatusResult').innerHTML = `
-                <div class="alert ${data.status === 'success' ? 'alert-success' : 'alert-danger'}">
-                    ${data.auth_status || data.message}
-                </div>
-            `;
-        } catch (error) {
-            document.getElementById('authStatusResult').innerHTML = `
-                <div class="alert alert-danger">Error checking auth status: ${error.message}</div>
-            `;
-        }
-    });
-
-    // Test Firestore
-    document.getElementById('testFirestoreForm').addEventListener('submit', async (e) => {
-        e.preventDefault();
-        const collectionName = document.getElementById('collectionName').value;
-        const testData = document.getElementById('testData').value;
-
-        try {
-            const data = JSON.parse(testData);
-            const docRef = await addDoc(collection(db, collectionName), {
-                ...data,
-                timestamp: new Date()
+            const response = await fetch('/firebase/admin/list-users/', {
+                headers: {
+                    'Authorization': `Bearer ${await auth.currentUser.getIdToken()}`
+                }
             });
-            showStatus('firestoreStatus', `Document written successfully: ${docRef.id}`);
+            const data = await response.json();
+            
+            const tbody = document.getElementById('userTableBody');
+            tbody.innerHTML = '';
+            
+            data.users.forEach(user => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td>${user.email || 'No email'}</td>
+                    <td>${user.uid}</td>
+                    <td>
+                        <span class="badge ${user.customClaims?.admin ? 'badge-admin' : 'badge-user'}">
+                            ${user.customClaims?.admin ? 'Admin' : 'User'}
+                        </span>
+                    </td>
+                    <td>
+                        <button class="btn btn-sm btn-${user.customClaims?.admin ? 'danger' : 'success'} toggle-admin" 
+                                data-uid="${user.uid}" 
+                                data-admin="${!user.customClaims?.admin}">
+                            ${user.customClaims?.admin ? 'Remove Admin' : 'Make Admin'}
+                        </button>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+            
+            // Add event listeners to admin toggle buttons
+            document.querySelectorAll('.toggle-admin').forEach(button => {
+                button.addEventListener('click', async () => {
+                    const uid = button.dataset.uid;
+                    const admin = button.dataset.admin === 'true';
+                    await toggleAdmin(uid, admin);
+                });
+            });
         } catch (error) {
-            showStatus('firestoreStatus', `Error writing document: ${error.message}`, true);
+            showAlert('danger', `Error loading users: ${error.message}`);
         }
+    }
+
+    // Toggle admin status
+    async function toggleAdmin(uid, admin) {
+        try {
+            await fetch('/firebase/admin/set-admin-status/', {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${await auth.currentUser.getIdToken()}`,
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ uid, admin })
+            });
+            
+            showAlert('success', `Admin status ${admin ? 'granted' : 'removed'} successfully`);
+            loadUsers();
+        } catch (error) {
+            showAlert('danger', `Error toggling admin status: ${error.message}`);
+        }
+    }
+
+    // Show alert function
+    function showAlert(type, message) {
+        const alert = document.getElementById('authStatus');
+        alert.className = `alert alert-${type}`;
+        alert.textContent = message;
+        alert.style.display = 'block';
+        setTimeout(() => alert.style.display = 'none', 5000);
+    }
+
+    // Event listeners
+    document.getElementById('createUserForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const email = document.getElementById('userEmail').value;
+        const password = document.getElementById('userPassword').value;
+        const isAdmin = document.getElementById('isAdmin').checked;
+        await createUser(email, password, isAdmin);
     });
 
-    // Test Configuration
-    document.getElementById('testConfig').addEventListener('click', async () => {
-        try {
-            const response = await fetch('/firebase/test-config/');
-            const data = await response.json();
-            document.getElementById('configResult').textContent = JSON.stringify(data, null, 2);
-        } catch (error) {
-            document.getElementById('configResult').textContent = `Error: ${error.message}`;
+    document.getElementById('refreshUsers').addEventListener('click', loadUsers);
+
+    // Initial load
+    auth.onAuthStateChanged(user => {
+        if (user) {
+            loadUsers();
         }
     });
 </script>

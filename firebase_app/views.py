@@ -7,6 +7,7 @@ from firebase_admin import firestore, auth
 import json
 import os
 from functools import wraps
+from django.contrib.auth import authenticate, login
 
 # Create your views here.
 
@@ -37,35 +38,63 @@ def auth_page(request):
 @csrf_exempt
 @require_http_methods(["POST"])
 def verify_token(request):
-    """Verify Firebase ID token"""
+    """Verify Firebase ID token and handle admin access"""
     try:
-        data = json.loads(request.body)
-        token = data.get('token')
-        if not token:
+        # Get token from Authorization header
+        auth_header = request.headers.get('Authorization')
+        if not auth_header or not auth_header.startswith('Bearer '):
             return JsonResponse({'error': 'No token provided'}, status=400)
+            
+        id_token = auth_header.split('Bearer ')[1]
+        
+        # Get next URL from request body
+        data = json.loads(request.body)
+        next_url = data.get('next', '/')
 
         # Verify the token
-        decoded_token = auth.verify_id_token(token)
+        decoded_token = auth.verify_id_token(id_token)
         uid = decoded_token['uid']
         
         # Get user info
         user = auth.get_user(uid)
         
-        # Store or update user info in session
-        request.session['user_id'] = uid
-        request.session['user_email'] = user.email
+        # Check if user is admin
+        custom_claims = user.custom_claims or {}
+        is_admin = custom_claims.get('admin', False)
+        
+        # Authenticate user in Django
+        django_user = authenticate(request, id_token=id_token)
+        if django_user and django_user.is_authenticated:
+            login(request, django_user)
+        
+        # If trying to access admin and not an admin, redirect to home
+        if next_url.startswith('/admin/') and not is_admin:
+            return JsonResponse({
+                'success': False,
+                'error': 'Unauthorized access to admin area',
+                'redirect_url': '/'
+            }, status=403)
         
         return JsonResponse({
-            'status': 'success',
+            'success': True,
+            'redirect_url': next_url,
             'user': {
                 'uid': uid,
-                'email': user.email
+                'email': user.email,
+                'is_admin': is_admin
             }
         })
+        
     except auth.InvalidIdTokenError:
-        return JsonResponse({'error': 'Invalid token'}, status=401)
+        return JsonResponse({
+            'success': False,
+            'error': 'Invalid token'
+        }, status=401)
     except Exception as e:
-        return JsonResponse({'error': str(e)}, status=500)
+        return JsonResponse({
+            'success': False,
+            'error': str(e)
+        }, status=500)
 
 def test_firebase(request):
     """Test Firebase Admin SDK functionality"""
@@ -253,3 +282,85 @@ def admin_dashboard(request):
         'app_id': os.getenv('FIREBASE_APP_ID'),
     }
     return render(request, 'firebase_app/admin.html', {'firebase_config': firebase_config})
+
+@csrf_exempt
+@require_http_methods(["POST"])
+def set_admin_status(request):
+    """
+    Set or remove admin status for a Firebase user.
+    Requires the current user to be an admin.
+    """
+    try:
+        # Get the authorization token
+        auth_header = request.headers.get('Authorization')
+        if not auth_header or not auth_header.startswith('Bearer '):
+            return JsonResponse({'error': 'No authorization token provided'}, status=401)
+        
+        id_token = auth_header.split('Bearer ')[1]
+        
+        # Verify the current user is an admin
+        current_user = auth.verify_id_token(id_token)
+        if not current_user.get('admin', False):
+            return JsonResponse({'error': 'Unauthorized'}, status=403)
+        
+        # Get request data
+        data = json.loads(request.body)
+        target_uid = data.get('uid')
+        admin_status = data.get('admin', True)
+        
+        if not target_uid:
+            return JsonResponse({'error': 'User ID not provided'}, status=400)
+        
+        # Set admin status
+        success = set_user_admin(target_uid, admin_status)
+        
+        if success:
+            return JsonResponse({
+                'message': f"Admin status {'set' if admin_status else 'removed'} successfully",
+                'uid': target_uid,
+                'admin': admin_status
+            })
+        else:
+            return JsonResponse({'error': 'Failed to update admin status'}, status=500)
+            
+    except Exception as e:
+        return JsonResponse({'error': str(e)}, status=500)
+
+@csrf_exempt
+@require_http_methods(["GET"])
+def list_users(request):
+    """List all Firebase users for admin dashboard"""
+    try:
+        # Get the authorization token
+        auth_header = request.headers.get('Authorization')
+        if not auth_header or not auth_header.startswith('Bearer '):
+            return JsonResponse({'error': 'No authorization token provided'}, status=401)
+            
+        id_token = auth_header.split('Bearer ')[1]
+        
+        # Verify the current user is an admin
+        current_user = auth.verify_id_token(id_token)
+        if not current_user.get('admin', False):
+            return JsonResponse({'error': 'Unauthorized'}, status=403)
+        
+        # List all users
+        users = []
+        page = auth.list_users()
+        for user in page.users:
+            users.append({
+                'uid': user.uid,
+                'email': user.email,
+                'displayName': user.display_name,
+                'customClaims': user.custom_claims,
+                'disabled': user.disabled,
+                'emailVerified': user.email_verified,
+                'creationTime': user.user_metadata.creation_timestamp,
+                'lastSignInTime': user.user_metadata.last_sign_in_timestamp
+            })
+            
+        return JsonResponse({
+            'users': users
+        })
+        
+    except Exception as e:
+        return JsonResponse({'error': str(e)}, status=500)

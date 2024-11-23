@@ -1,0 +1,113 @@
+<!-- Firebase Testing Section -->
+<div class="row">
+    <div class="col-12">
+        <div class="card shadow mb-4">
+            <div class="card-header py-3 d-flex justify-content-between align-items-center">
+                <h6 class="m-0 font-weight-bold text-primary">Firebase Health & Testing</h6>
+                <button class="btn btn-primary btn-sm" onclick="runFirebaseTests()">Run Tests</button>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <!-- Authentication Status -->
+                    <div class="col-md-4">
+                        <div class="card border-left-info">
+                            <div class="card-body">
+                                <h6 class="text-info">Authentication</h6>
+                                <div id="authStatus">
+                                    <span class="badge bg-secondary">Not Tested</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Firestore Status -->
+                    <div class="col-md-4">
+                        <div class="card border-left-warning">
+                            <div class="card-body">
+                                <h6 class="text-warning">Firestore</h6>
+                                <div id="firestoreStatus">
+                                    <span class="badge bg-secondary">Not Tested</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- API Status -->
+                    <div class="col-md-4">
+                        <div class="card border-left-success">
+                            <div class="card-body">
+                                <h6 class="text-success">API Status</h6>
+                                <div id="apiStatus">
+                                    <span class="badge bg-secondary">Not Tested</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Test Results -->
+                <div class="mt-4">
+                    <h6 class="font-weight-bold">Test Results</h6>
+                    <div id="testResults" class="bg-light p-3 rounded">
+                        <pre class="mb-0"><code>No tests run yet.</code></pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    async function runFirebaseTests() {
+        // Update UI to show testing in progress
+        ['authStatus', 'firestoreStatus', 'apiStatus'].forEach(id => {
+            document.getElementById(id).innerHTML = '<span class="badge bg-warning">Testing...</span>';
+        });
+        
+        try {
+            // Call the test endpoint
+            const response = await fetch('/firebase/test/', {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': getCookie('csrftoken')
+                }
+            });
+            
+            const results = await response.json();
+            
+            // Update status badges
+            if (results.tests.authentication) {
+                document.getElementById('authStatus').innerHTML = 
+                    `<span class="badge bg-${results.tests.authentication.status === 'success' ? 'success' : 'danger'}">
+                        ${results.tests.authentication.status === 'success' ? 'Healthy' : 'Error'}
+                    </span>`;
+            }
+            
+            if (results.tests.firestore) {
+                document.getElementById('firestoreStatus').innerHTML = 
+                    `<span class="badge bg-${results.tests.firestore.status === 'success' ? 'success' : 'danger'}">
+                        ${results.tests.firestore.status === 'success' ? 'Healthy' : 'Error'}
+                    </span>`;
+            }
+            
+            // Update API status based on overall test results
+            document.getElementById('apiStatus').innerHTML = 
+                `<span class="badge bg-${results.status === 'success' ? 'success' : 'danger'}">
+                    ${results.status === 'success' ? 'Healthy' : 'Error'}
+                </span>`;
+            
+            // Display detailed results
+            document.getElementById('testResults').innerHTML = 
+                `<pre class="mb-0"><code>${JSON.stringify(results, null, 2)}</code></pre>`;
+            
+        } catch (error) {
+            console.error('Error running tests:', error);
+            ['authStatus', 'firestoreStatus', 'apiStatus'].forEach(id => {
+                document.getElementById(id).innerHTML = '<span class="badge bg-danger">Error</span>';
+            });
+            document.getElementById('testResults').innerHTML = 
+                `<pre class="mb-0 text-danger"><code>Error running tests: ${error.message}</code></pre>`;
+        }
+    }
+</script>

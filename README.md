@@ -1,627 +1,405 @@
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fvercel%2Fexamples%2Ftree%2Fmain%2Fpython%2Fdjango&demo-title=Django%20%2B%20Vercel&demo-description=Use%20Django%204%20on%20Vercel%20with%20Serverless%20Functions%20using%20the%20Python%20Runtime.&demo-url=https%3A%2F%2Fdjango-template.vercel.app%2F&demo-image=https://assets.vercel.com/image/upload/v1669994241/random/django.png)
+# Derivative Genius
 
-# Derivative Genius - AI Automation Agency (AAA)
+A sophisticated business intelligence platform for SMBs, leveraging AI for decision-making and content production.
 
-## About Us
+## Core Architecture
 
-We are Derivative Genius, an AI Automation Agency (AAA). We believe that we are all standing on the shoulders of giants, living in a time when each of us can utilize all the intellectual tools ever conceived by humankind. As businesses and industries revolutionize themselves with cutting-edge AI tools and techniques, Derivative Genius is here to guide and support this transformation.
-
-## Our Services
-
-### AI Solutions & Implementation
-- Innovative solutions harnessing the power of AI for your business
-- Custom AI integration strategies tailored to your specific needs
-- State-of-the-art AI tools and frameworks implementation
-
-### Process Automation
-- Automation of repetitive and time-consuming tasks
-- Workflow optimization through AI-driven solutions
-- Efficiency improvements in business operations
-
-### Data Analytics & Decision Support
-- Enhanced decision-making processes through data analysis
-- Predictive analytics and forecasting
-- Data-driven insights for business strategy
-
-### Personalization & Machine Learning
-- Creating personalized customer experiences
-- Custom recommendation systems
-- Building and training specialized machine learning models
-
-### AI Education & Training
-- Comprehensive AI education programs
-- Professional training for businesses and individuals
-- Up-skilling support to maintain competitive advantage
-
-## Project Overview
-
-This is the official website for Derivative Genius, built with Django and modern web technologies. The website features a responsive design, dynamic content management, and user preference handling.
-
-### Features
-
-- **Modern Design**: Clean, professional interface with responsive layout
-- **Theme Support**: Light/dark mode with persistent user preferences
-- **Dynamic Content**: Server-rendered pages with dynamic content loading
-- **Contact Form**: Interactive contact form for client inquiries
-- **Articles Section**: Knowledge sharing and thought leadership platform
-
-### Technical Stack
-
-- **Backend**: Django 4.x
-- **Frontend**: Bootstrap 5.3.0
-- **Database**: Google Firebase (both development and production)
-  - Firestore for data storage
-  - Firebase Authentication for user management
-  - Firebase Hosting for deployment
-- **Deployment**: Vercel with Firebase integration
-- **Static Files**: Django static files with Vercel integration
-- **Version Control**: Git
-
-### Why Firebase?
-
-Our application leverages Google Firebase's powerful suite of cloud services for several key advantages:
-
-- **Global Scale**: Built on Google Cloud infrastructure, Firebase automatically scales with your application needs and provides low-latency data access through a global network of servers
-- **Real-time Capabilities**: Firebase's real-time database and Firestore enable instant data synchronization across all connected clients
-- **Enterprise-grade Security**: Benefit from Google's world-class security infrastructure, including:
-  - Automatic data encryption at rest and in transit
-  - Identity and access management (IAM)
-  - Built-in protection against common web vulnerabilities
-- **Reliability**: 99.99% uptime SLA backed by Google's infrastructure
-- **Cost-effective**: Pay-as-you-go pricing model with generous free tier for development and small applications
-- **Development Speed**: Comprehensive SDKs and ready-to-use features allow rapid development and deployment
-
-## Firebase Configuration
-
-The project uses Firebase for both client-side and server-side (Admin SDK) functionality. The configuration is environment-based:
-
-### Development Setup
-1. Create `.env` file in the project root with:
-```bash
-# Firebase Client Config
-FIREBASE_API_KEY=your_api_key
-FIREBASE_AUTH_DOMAIN=your_project.firebaseapp.com
-FIREBASE_PROJECT_ID=your_project_id
-FIREBASE_STORAGE_BUCKET=your_project.appspot.com
-FIREBASE_MESSAGING_SENDER_ID=your_sender_id
-FIREBASE_APP_ID=your_app_id
-
-# Firebase Admin SDK Config
-FIREBASE_CLIENT_EMAIL=your-service-account@your-project.iam.gserviceaccount.com
-FIREBASE_PRIVATE_KEY="-----BEGIN PRIVATE KEY-----\nYour-Key-Here\n-----END PRIVATE KEY-----\n"
+```
+┌─────────────────────┐         ┌──────────────────────┐         ┌─────────────────────┐
+│      Vue.js         │         │       Django         │         │      Firebase       │
+│     Frontend        │    →    │   Business Layer     │    →    │    Data Layer      │
+├─────────────────────┤    ←    ├──────────────────────┤    ←    ├─────────────────────┤
+│ • User Interface    │         │ • Business Logic     │         │ • Data Storage     │
+│ • State Management  │         │ • AI Orchestration   │         │ • Authentication   │
+│ • API Integration   │         │ • Data Processing    │         │ • Access Control   │
+│ • Form Handling     │         │ • Cache Management   │         │ • File Storage     │
+│ • UI Components     │         │ • Error Handling     │         │ • Data Backup      │
+└─────────────────────┘         └──────────────────────┘         └─────────────────────┘
+         ↑                               ↑                                ↑
+         │                               │                                │
+         ▼                               ▼                                ▼
+    Presentation                   Core Business                     Persistence
+      Layer                           Layer                            Layer
 ```
 
-### Production Setup (Vercel)
-Add these environment variables in your Vercel project settings:
-1. `FIREBASE_PROJECT_ID`
-2. `FIREBASE_CLIENT_EMAIL`
-3. `FIREBASE_PRIVATE_KEY` (include the full key with `\n` for newlines)
+### Key Responsibilities
 
-### Security Notes
-- Never commit `.env` file or service account keys
-- Keep different service accounts for development and production
-- Regularly rotate service account keys
-- Use environment-specific Firebase projects
-- Monitor Firebase usage and set appropriate security rules
+1. **Vue.js Frontend (Presentation)**
+   - User interface rendering
+   - Client-side validation
+   - State management
+   - API consumption
+   - User interaction
 
-## Deployment and Monitoring
+2. **Django Backend (Business)**
+   - Business logic processing
+   - AI service orchestration
+   - Data transformation
+   - Security middleware
+   - Cache management
+   - API endpoints
 
-The website is deployed on Vercel. Automatic deployments are triggered by pushes to the main branch.
+3. **Firebase (Data)**
+   - Data persistence
+   - User authentication
+   - File storage
+   - Access control
+   - Backup management
 
-### Real-time Log Monitoring
+### Data Flow
 
-For real-time log monitoring:
-
-1. Open a new terminal window
-2. Navigate to the project directory:
-   ```bash
-   cd "/home/knowself/Web Dev/derivativegenius-com/dev"
+1. Client Request:
    ```
-3. Start monitoring logs:
-   ```bash
-   vercel logs derivativegenius-b8h3aqnbn-derivativegenius.vercel.app --follow
+   Vue.js → Django → Firebase
    ```
+   - User initiates action
+   - Django processes request
+   - Firebase handles data operation
 
-Keep this terminal open to monitor logs while working in your main terminal. The logs will update automatically as new events occur.
+2. Server Response:
+   ```
+   Firebase → Django → Vue.js
+   ```
+   - Firebase returns data
+   - Django applies business logic
+   - Vue.js updates UI
 
-### Deployment Management
+## Architecture Overview
 
-To manage deployments and view historical logs:
+This project implements a three-tier architecture optimized for business logic and AI integration:
 
-```bash
-# List all deployments
-vercel ls
+### 1. Frontend (Vue.js)
+- Single Page Application (SPA)
+- Component-based UI architecture
+- Business-focused dashboards and interfaces
+- Asynchronous data handling
+- Form validation and user input processing
+- AI interaction interfaces
 
-# View logs for a specific deployment
-vercel logs <deployment-url>
+### 2. Business Logic Layer (Django)
+- Central business logic processing
+- AI service orchestration
+- Data validation and transformation
+- Firebase data aggregation
+- Caching and optimization
+- Security and access control
+- API versioning and documentation
 
-# View project information
-vercel project ls
+### 3. Data Layer (Firebase)
+- Secure data storage
+- User authentication
+- Document management
+- File storage
+- Backup and recovery
+- Access control rules
+
+## Key Features
+
+### Business Intelligence
+- Data analysis dashboards
+- Report generation
+- Business metrics tracking
+- Custom KPI monitoring
+- Historical data analysis
+
+### AI Integration
+- Content generation
+- Decision support systems
+- Customer service automation
+- Survey and sentiment analysis
+- Predictive analytics
+
+### Data Management
+- Secure document storage
+- User role management
+- Audit logging
+- Data export/import
+- Version control
+
+## Deployment Architecture
+
+```
+┌─────────────────┐         ┌─────────────────┐         ┌─────────────────┐
+│     Vercel      │         │     Vercel      │         │    Firebase     │
+│   (Frontend)    │    →    │    (Backend)    │    →    │   Services      │
+├─────────────────┤         ├─────────────────┤         ├─────────────────┤
+│ • Vue.js SPA    │         │ • Django API    │         │ • Firestore     │
+│ • Static Assets │         │ • Python Runtime │         │ • Auth          │
+│ • CDN           │         │ • Serverless    │         │ • Storage       │
+└─────────────────┘         └─────────────────┘         └─────────────────┘
+         ↑                          ↑                           ↑
+         │                          │                          │
+         ▼                          ▼                          ▼
+    Edge Network              Serverless API              Cloud Services
 ```
 
-## Getting Started
+### Vercel Deployment Benefits
 
-### Prerequisites
+1. **Frontend (Vue.js)**
+   - Global Edge Network
+   - Automatic HTTPS
+   - Asset optimization
+   - Instant cache invalidation
+   - Preview deployments
+   - Zero-config deployments
 
-- Python 3.8+
-- pip (Python package manager)
-- Git
+2. **Backend (Django)**
+   - Serverless functions
+   - Automatic scaling
+   - Zero-config Python runtime
+   - Environment variable management
+   - API route handling
+   - Integrated monitoring
 
-### Local Development
+### Deployment Configuration
 
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/yourusername/derivativegenius-com.git
-   cd derivativegenius-com
-   ```
-
-2. Install dependencies:
-   ```bash
-   pip install -r requirements.txt
-   ```
-
-3. Set up the database:
-   ```bash
-   python manage.py migrate
-   ```
-
-4. Run the development server:
-   ```bash
-   python manage.py runserver
-   ```
-
-5. Visit `http://localhost:8000` in your browser
-
-### Development Environment
-
-#### Terminal Prompt
-
-We include a minimal, clean terminal prompt configuration that enhances the development experience. The prompt is designed to be minimal yet informative, showing you exactly what you need to know:
-
-```bash
-dev$                  # Normal directory
-(v) dev$             # In virtualenv
-~$                   # Home directory
-(v) myproject$       # In virtualenv, in project
-```
-
-#### Features
-- Shows current directory name only (keeps prompt short)
-- Indicates virtualenv status with `(v)` prefix
-- Works in any terminal or VSCode
-- No colors or special characters (maximum compatibility)
-- Shows `~` when in home directory
-
-#### Usage Options
-
-1. **Project-Specific Usage**
-   ```bash
-   # From the project directory
-   source .bash_prompt
-   ```
-   This is useful when you want the minimal prompt only while working in this project.
-
-2. **Global Installation**
-   ```bash
-   # Add to your ~/.bashrc (recommended)
-   echo 'source /full/path/to/project/.bash_prompt' >> ~/.bashrc
-   source ~/.bashrc
-   ```
-   Or manually add to your `~/.bashrc`:
-   ```bash
-   # Add this line to ~/.bashrc
-   source /full/path/to/project/.bash_prompt
-   ```
-   This gives you the minimal prompt everywhere.
-
-3. **Temporary Global Usage**
-   ```bash
-   # From any directory
-   source /full/path/to/project/.bash_prompt
-   ```
-   This sets the prompt for your current terminal session only.
-
-#### Tips for Usage
-
-- **Project Development**:
-  ```bash
-  cd /path/to/project
-  source .bash_prompt
-  source venv/bin/activate    # Prompt shows (v)
-  ```
-
-- **Global Development**:
-  ```bash
-  # After adding to ~/.bashrc
-  cd ~/any/directory         # Shows directory name
-  source venv/bin/activate   # Shows (v) prefix
-  deactivate                # Returns to normal prompt
-  ```
-
-- **Multiple Projects**:
-  The prompt works seamlessly across different projects:
-  ```bash
-  cd ~/project1    # Shows: project1$
-  source venv/bin/activate   # Shows: (v) project1$
-  cd ~/project2    # Shows: (v) project2$
-  ```
-
-#### Why This Prompt?
-
-1. **Simplicity**
-   - No dependencies or external tools required
-   - Pure bash implementation
-   - Works in any terminal or IDE
-
-2. **Performance**
-   - No subprocess calls or expensive operations
-   - Instant prompt updates
-   - No lag when changing directories
-
-3. **Clarity**
-   - Virtual environment status is immediately visible
-   - Current directory is always clear
-   - No visual clutter
-
-4. **Compatibility**
-   - Works across different terminals
-   - Compatible with VSCode integrated terminal
-   - No special fonts or characters needed
-
-#### Customization
-
-The prompt configuration is in `.bash_prompt`. You can customize it by:
-1. Copying it to your home directory
-2. Modifying the format in `set_minimal_prompt()`
-3. Sourcing your modified version
-
-Example customization:
-```bash
-# Copy to home directory
-cp .bash_prompt ~/.my_custom_prompt
-
-# Edit to your liking
-nano ~/.my_custom_prompt
-
-# Source your custom version
-source ~/.my_custom_prompt
-```
-
-#### Nodemon Integration
-
-We use `nodemon` to enhance the development experience by automatically restarting the Django development server when files change. This setup follows Node.js ecosystem best practices and provides several advantages:
-
-##### Why Nodemon?
-
-- **Automatic Reloading**: Instantly reflects code changes without manual server restarts
-- **Configurable Watching**: Monitors specific file types and directories
-- **Cross-Platform**: Works consistently across different operating systems
-- **Reliable Process Management**: Properly handles server termination and restart
-
-##### Configuration
-
-Our nodemon setup is integrated through `package.json`:
-
+1. **vercel.json**
 ```json
 {
-  "scripts": {
-    "dev": "nodemon --watch '**/*' --ext 'py,html,css,js' --exec 'python3 manage.py runserver' --signal SIGTERM"
-  },
-  "devDependencies": {
-    "nodemon": "^3.1.7"
-  }
+  "version": 2,
+  "builds": [
+    {
+      "src": "api/wsgi.py",
+      "use": "@vercel/python"
+    },
+    {
+      "src": "package.json",
+      "use": "@vercel/static-build"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/api/(.*)",
+      "dest": "api/wsgi.py"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/$1"
+    }
+  ]
 }
 ```
 
-Configuration breakdown:
-- `--watch '**/*'`: Watches all directories and subdirectories
-- `--ext 'py,html,css,js'`: Monitors changes in Python, HTML, CSS, and JavaScript files
-- `--exec 'python3 manage.py runserver'`: Command to run the Django server
-- `--signal SIGTERM`: Ensures clean server shutdown
+### Deployment Process
 
-##### Benefits of Our Setup
-
-1. **Development Tool Integration**
-   - Uses npm's script system for standardized tooling
-   - Integrates smoothly with other development tools
-   - Follows modern web development practices
-
-2. **Dependency Management**
-   - Nodemon is a local project dependency
-   - Version is locked in package.json
-   - No global installations required
-   - Consistent environment across team members
-
-3. **Cross-Platform Compatibility**
-   - Works identically on Windows, macOS, and Linux
-   - No platform-specific scripts needed
-   - Reliable file watching across operating systems
-
-4. **Developer Experience**
-   - Simple `npm run dev` command to start development
-   - Automatic reloading for rapid development
-   - Clear feedback on file changes and server status
-   - Manual restart available with `rs` command
-
-#### Using the Development Server
-
-1. **First-Time Setup**
-   ```bash
-   # Install dependencies (including nodemon)
-   npm install
-   ```
-
-2. **Starting Development**
-   ```bash
-   # Start the development server
-   npm run dev
-   ```
-
-3. **Development Controls**
-   - `Ctrl+C`: Stop the development server
-   - Type `rs` + Enter: Manually restart the server
-   - File changes: Automatic server restart
-
-4. **Watch Behavior**
-   The server automatically restarts when these files change:
-   - `*.py`: Python source files
-   - `*.html`: Template files
-   - `*.css`: Stylesheets
-   - `*.js`: JavaScript files
-
-#### Troubleshooting
-
-1. **Dependencies**
-   ```bash
-   # Reinstall dependencies if nodemon isn't found
-   npm install
-   ```
-
-2. **Port Conflicts**
-   ```bash
-   # Kill existing Django server processes
-   pkill -f "runserver"
-   ```
-
-3. **Watch Issues**
-   - Verify file extensions match the `--ext` configuration
-   - Check file paths are within the watched directories
-   - Try manual restart with `rs` command
-
-4. **Performance**
-   - Large number of files? Adjust watch patterns
-   - Slow restarts? Check for unnecessary file watching
-   - High CPU usage? Consider excluding heavy directories
-
-#### Best Practices
-
-1. **File Organization**
-   - Keep watched files organized in appropriate directories
-   - Avoid unnecessary file changes in watched paths
-   - Use `.gitignore` patterns to exclude unnecessary files
-
-2. **Development Workflow**
-   - Let automatic reloading handle most changes
-   - Use manual restart (`rs`) for configuration changes
-   - Keep the console visible to monitor server status
-
-3. **Team Collaboration**
-   - Commit package.json changes to version control
-   - Document any watch pattern changes
-   - Share troubleshooting solutions with the team
-
-### Development Commands
-
-- Create database migrations:
-  ```bash
-  python manage.py makemigrations
-  ```
-
-- Apply migrations:
-  ```bash
-  python manage.py migrate
-  ```
-
-- Collect static files:
-  ```bash
-  python manage.py collectstatic
-  ```
-
-### Development Server
-
-We use `nodemon` to automatically restart the Django development server when files change. This is configured in `package.json` for a smooth development experience.
-
-#### Prerequisites
-
-1. Install Node.js dependencies:
-   ```bash
-   npm install
-   ```
-
-#### Starting the Development Server
-
-Run the development server with:
+1. **Development to Production**
 ```bash
-npm run dev
+# Deploy both frontend and backend
+vercel deploy
+
+# Production deployment
+vercel deploy --prod
 ```
 
-#### Features
-
-- **Auto-reload**: The server automatically restarts when you make changes to:
-  - Python files (*.py)
-  - HTML templates (*.html)
-  - CSS files (*.css)
-  - JavaScript files (*.js)
-
-- **Controls**:
-  - `Ctrl+C`: Stop the server
-  - Type `rs` and press Enter: Manually restart the server
-
-#### How It Works
-
-The development script uses `nodemon` to:
-1. Watch for file changes in your project
-2. Automatically restart the Django server when files change
-3. Provide manual restart capability
-
-#### Troubleshooting
-
-If you encounter any issues:
-
-1. **Dependencies not found**:
-   ```bash
-   npm install
-   ```
-
-2. **Port already in use**:
-   ```bash
-   pkill -f "runserver"
-   ```
-   Then try starting the server again.
-
-3. **Changes not detected**:
-   - Check that your file extension is included in the watch list
-   - Try manually restarting with `rs`
-
-## Security Considerations
-
-Our development setup includes several security measures:
-
-1. **Credential Protection**
-   - Firebase service account files are excluded from version control
-   - Sensitive files are ignored by nodemon watching
-   - Environment variables are used for sensitive data
-
-2. **Nodemon Security**
-   Configuration in `nodemon.json` explicitly ignores:
-   - Firebase credential files (`*firebase-adminsdk*.json`)
-   - Private keys and certificates (`*.pem`, `*.key`)
-   - Environment files (`.env`)
-   - Credential directories (`credentials/`, `secrets/`)
-
-3. **Best Practices**
-   - Never commit Firebase service account keys
-   - Use environment variables for sensitive configuration
-   - Keep credentials in a secure location outside the project
-   - Follow the principle of least privilege
-
-## Contributing
-
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
-
-## Contact
-
-Visit our website or reach out through our contact form to discuss how we can help your business leverage AI technology.
-
-## License
-
- 2024 Derivative Genius. All rights reserved.
-
-## Django + Vercel
-
-This example shows how to use Django 4 on Vercel with Serverless Functions using the [Python Runtime](https://vercel.com/docs/concepts/functions/serverless-functions/runtimes/python).
-
-## Demo
-
-https://django-template.vercel.app/
-
-## How it Works
-
-Our Django application, `example` is configured as an installed application in `api/settings.py`:
-
-```python
-# api/settings.py
-INSTALLED_APPS = [
-    # ...
-    'example',
-]
-```
-
-We allow "\*.vercel.app" subdomains in `ALLOWED_HOSTS`, in addition to 127.0.0.1:
-
-```python
-# api/settings.py
-ALLOWED_HOSTS = ['127.0.0.1', '.vercel.app']
-```
-
-The `wsgi` module must use a public variable named `app` to expose the WSGI application:
-
-```python
-# api/wsgi.py
-app = get_wsgi_application()
-```
-
-The corresponding `WSGI_APPLICATION` setting is configured to use the `app` variable from the `api.wsgi` module:
-
-```python
-# api/settings.py
-WSGI_APPLICATION = 'api.wsgi.app'
-```
-
-There is a single view which renders the current time in `example/views.py`:
-
-```python
-# example/views.py
-from datetime import datetime
-
-from django.http import HttpResponse
-
-
-def index(request):
-    now = datetime.now()
-    html = f'''
-    <html>
-        <body>
-            <h1>Hello from Vercel!</h1>
-            <p>The current time is { now }.</p>
-        </body>
-    </html>
-    '''
-    return HttpResponse(html)
-```
-
-This view is exposed a URL through `example/urls.py`:
-
-```python
-# example/urls.py
-from django.urls import path
-
-from example.views import index
-
-
-urlpatterns = [
-    path('', index),
-]
-```
-
-Finally, it's made accessible to the Django server inside `api/urls.py`:
-
-```python
-# api/urls.py
-from django.urls import path, include
-
-urlpatterns = [
-    ...
-    path('', include('example.urls')),
-]
-```
-
-This example uses the Web Server Gateway Interface (WSGI) with Django to enable handling requests on Vercel with Serverless Functions.
-
-## Running Locally
-
+2. **Environment Setup**
 ```bash
-python manage.py runserver
+# Configure environment variables
+vercel env add FIREBASE_CONFIG
+vercel env add DJANGO_SECRET_KEY
 ```
 
-Your Django application is now available at `http://localhost:8000`.
+3. **Domain Configuration**
+- Custom domain: derivativegenius.com
+- Automatic SSL/TLS certificates
+- Edge network distribution
 
-## One-Click Deploy
+### Deployment Workflow
 
-Deploy the example using [Vercel](https://vercel.com?utm_source=github&utm_medium=readme&utm_campaign=vercel-examples):
+1. **Code Push**
+   ```
+   Local → GitHub → Vercel → Edge Network
+   ```
+   - Automatic builds on push
+   - Preview deployments
+   - Production promotions
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fvercel%2Fexamples%2Ftree%2Fmain%2Fpython%2Fdjango&demo-title=Django%20%2B%20Vercel&demo-description=Use%20Django%204%20on%20Vercel%20with%20Serverless%20Functions%20using%20the%20Python%20Runtime.&demo-url=https%3A%2F%2Fdjango-template.vercel.app%2F&demo-image=https://assets.vercel.com/image/upload/v1669994241/random/django.png)
+2. **Environment Separation**
+   - Development (http://localhost:8080)
+   - Preview (preview.derivativegenius.com)
+   - Production (derivativegenius.com)
+
+### Performance Optimizations
+
+1. **Edge Network**
+   - Global CDN distribution
+   - Automatic caching
+   - Asset compression
+   - Image optimization
+
+2. **Serverless Functions**
+   - Auto-scaling
+   - Cold start optimization
+   - Regional deployment
+   - Memory management
+
+3. **Static Optimization**
+   - Automatic minification
+   - Code splitting
+   - Tree shaking
+   - Cache strategies
+
+### Monitoring & Logs
+
+1. **Vercel Dashboard**
+   - Deployment status
+   - Function invocations
+   - Error tracking
+   - Performance metrics
+
+2. **Integration Points**
+   - GitHub integration
+   - Firebase console
+   - Custom monitoring
+   - Error reporting
+
+## Development Setup
+
+### Prerequisites
+- Node.js and npm for Vue.js
+- Python 3.x for Django
+- Firebase project credentials
+- AI service API keys (as needed)
+
+### Setup Instructions
+
+### 1. Clone the repository
+```bash
+git clone [repository-url]
+cd derivativegenius-com
+```
+
+### 2. Frontend Setup (Vue.js)
+```bash
+npm install
+```
+
+### 3. Backend Setup (Django)
+```bash
+python -m venv venv
+source venv/bin/activate  # On Windows: venv\Scripts\activate
+pip install -r requirements.txt
+```
+
+### 4. Environment Configuration
+```bash
+cp .env.local .env
+# Edit .env with your Firebase configuration
+```
+
+## Production Architecture
+
+### Component Roles
+
+1. **Vue.js Frontend**
+   - Hosted on Firebase Hosting
+   - Optimized static delivery
+   - Client-side state management
+   - User interface rendering
+   - Form handling and validation
+
+2. **Django Backend**
+   - Business logic processing
+   - AI service integration
+   - Data aggregation and transformation
+   - Cache management
+   - Security middleware
+   - API versioning
+   - Error handling
+   - Performance monitoring
+
+3. **Firebase Services**
+   - User authentication
+   - Data persistence
+   - File storage
+   - Access control
+   - Backup management
+
+### Security Measures
+
+1. **Frontend Security**
+   - HTTPS enforcement
+   - Input sanitization
+   - Token management
+   - XSS prevention
+
+2. **Backend Security**
+   - Request validation
+   - Rate limiting
+   - CORS configuration
+   - Authentication middleware
+   - Data encryption
+
+3. **Data Security**
+   - Firebase security rules
+   - Data access logging
+   - Regular security audits
+   - Backup procedures
+
+## Performance Optimization
+
+1. **Frontend Performance**
+   - Code splitting
+   - Lazy loading
+   - Asset optimization
+   - Cache strategies
+
+2. **Backend Performance**
+   - Query optimization
+   - Response caching
+   - Background task processing
+   - Load balancing
+
+3. **Data Performance**
+   - Index optimization
+   - Query planning
+   - Cache management
+   - Connection pooling
+
+## Scalability Considerations
+
+- Horizontal scaling for Django
+- CDN for static assets
+- Cache layers for frequent queries
+- Background job processing
+- API rate limiting
+- Resource monitoring
+
+## AI Integration Points
+
+1. **Content Generation**
+   - Document creation
+   - Report generation
+   - Email composition
+   - Marketing material
+
+2. **Analysis Services**
+   - Customer sentiment analysis
+   - Market trend analysis
+   - Performance predictions
+   - Risk assessment
+
+3. **Automation**
+   - Customer service responses
+   - Task prioritization
+   - Decision recommendations
+   - Alert generation
+
+## Monitoring and Maintenance
+
+1. **System Health**
+   - API endpoint monitoring
+   - Error tracking
+   - Performance metrics
+   - Resource utilization
+
+2. **Business Metrics**
+   - User engagement
+   - Processing times
+   - AI service usage
+   - Data growth
+
+3. **Security Monitoring**
+   - Access logs
+   - Authentication events
+   - Error patterns
+   - Security alerts
