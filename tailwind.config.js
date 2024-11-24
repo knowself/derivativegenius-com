@@ -21,13 +21,21 @@ module.exports = {
         },
       },
       fontFamily: {
-        sans: ['Inter var', 'system-ui', '-apple-system', 'sans-serif'],
-      },
-      spacing: {
-        '128': '32rem',
-        '144': '36rem',
+        sans: [
+          'Inter',
+          'system-ui',
+          '-apple-system',
+          'BlinkMacSystemFont',
+          'Segoe UI',
+          'Roboto',
+          'Arial',
+          'sans-serif'
+        ],
       },
     },
+  },
+  future: {
+    hoverOnlyWhenSupported: true,
   },
   plugins: [
     require('@tailwindcss/forms'),

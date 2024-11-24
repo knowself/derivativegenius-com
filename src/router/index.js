@@ -71,7 +71,18 @@ const routes = [
 
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
-  routes
+  routes,
+  scrollBehavior(to, from, savedPosition) {
+    if (to.hash) {
+      return {
+        el: to.hash, // hash already includes #
+        behavior: 'smooth',
+        top: 20 // Adjusted offset for better positioning
+      }
+    }
+    // For regular route navigation
+    return savedPosition || { top: 0 }
+  }
 })
 
 // Navigation guards

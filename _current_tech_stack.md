@@ -1,5 +1,15 @@
 # Derivative Genius Web Application - Technical Stack Documentation
 
+All answers you provide on any question should be to answer my questions by providng alternative options which drive forward my main goal before you change anything.
+
+We must always establish my main goal first.
+
+The purpose of this documentation is to provide a comprehensive overview of the technical stack used in the Derivative Genius corporate application which provides visibility into all other systems.
+
+It outlines the core technologies, dependencies, and configurations used in this app and its development processes and they should not be changed without my explicit permission.
+
+I want those technologies to remain up-to-date, but unchanged until I wish to use another technology.
+
 ## 🚀 Core Technologies
 
 ### Frontend Framework

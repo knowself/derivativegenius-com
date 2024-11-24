@@ -11,8 +11,8 @@
               </router-link>
             </div>
             <div class="hidden sm:ml-6 sm:flex sm:space-x-8">
-              <router-link to="/" class="inline-flex items-center px-1 pt-1 text-sm font-medium text-gray-900">
-                Features
+              <router-link :to="{ path: '/', hash: '#services' }" class="inline-flex items-center px-1 pt-1 text-sm font-medium text-gray-900">
+                Services
               </router-link>
               <router-link to="/articles" class="inline-flex items-center px-1 pt-1 text-sm font-medium text-gray-500 hover:text-gray-900">
                 Articles
@@ -118,6 +118,10 @@ async function handleSignOut() {
 </script>
 
 <style>
+html {
+  scroll-behavior: smooth;
+}
+
 .fade-enter-active,
 .fade-leave-active {
   transition: opacity 0.3s ease;

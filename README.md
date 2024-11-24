@@ -1,46 +1,53 @@
 # Derivative Genius
 
-A sophisticated business intelligence platform for SMBs, leveraging AI for decision-making and content production.
+Derivative Genius is an AI Automation Agency (AAA) that transforms businesses through intelligent automation. We harness cutting-edge AI tools to automate workflows, streamline operations, and create scalable solutions that drive efficiency and growth.
+
+## Our Services
+
+- **Custom AI Automation Solutions**: Tailored automation systems designed for your specific business needs
+- **Workflow Optimization & Integration**: Streamline operations with intelligent process automation
+- **AI Tool Implementation & Training**: Expert implementation of cutting-edge AI tools and comprehensive training
+- **Process Automation Consulting**: Strategic guidance for your automation journey
 
 ## Core Architecture
 
 ```
 ┌─────────────────────┐         ┌──────────────────────┐         ┌─────────────────────┐
 │      Vue.js         │         │       Django         │         │      Firebase       │
-│     Frontend        │    →    │   Business Layer     │    →    │    Data Layer      │
+│     Frontend        │    →    │  Automation Layer    │    →    │    Data Layer      │
 ├─────────────────────┤    ←    ├──────────────────────┤    ←    ├─────────────────────┤
-│ • User Interface    │         │ • Business Logic     │         │ • Data Storage     │
-│ • State Management  │         │ • AI Orchestration   │         │ • Authentication   │
-│ • API Integration   │         │ • Data Processing    │         │ • Access Control   │
-│ • Form Handling     │         │ • Cache Management   │         │ • File Storage     │
-│ • UI Components     │         │ • Error Handling     │         │ • Data Backup      │
+│ • User Interface    │         │ • AI Integration     │         │ • Data Storage     │
+│ • State Management  │         │ • Process Automation │         │ • Authentication   │
+│ • API Integration   │         │ • Workflow Engine    │         │ • Access Control   │
+│ • Automation UI     │         │ • Task Orchestration │         │ • File Storage     │
+│ • Process Designer  │         │ • Error Handling     │         │ • Data Backup      │
 └─────────────────────┘         └──────────────────────┘         └─────────────────────┘
          ↑                               ↑                                ↑
          │                               │                                │
          ▼                               ▼                                ▼
-    Presentation                   Core Business                     Persistence
+    Presentation                   Automation                        Persistence
       Layer                           Layer                            Layer
 ```
 
 ### Key Responsibilities
 
 1. **Vue.js Frontend (Presentation)**
-   - User interface rendering
-   - Client-side validation
-   - State management
-   - API consumption
+   - Automation workflow designer
+   - Process monitoring dashboard
+   - Task management interface
+   - Real-time automation status
    - User interaction
 
-2. **Django Backend (Business)**
-   - Business logic processing
-   - AI service orchestration
-   - Data transformation
-   - Security middleware
-   - Cache management
+2. **Django Backend (Automation)**
+   - AI service integration
+   - Workflow orchestration
+   - Task scheduling and execution
+   - Process automation engine
+   - Automation monitoring
    - API endpoints
 
 3. **Firebase (Data)**
-   - Data persistence
+   - Workflow state persistence
    - User authentication
    - File storage
    - Access control
@@ -489,3 +496,5 @@ pip install -r requirements.txt
 ```bash
 cp .env.local .env
 # Edit .env with your Firebase configuration
+
+```
