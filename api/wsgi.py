@@ -17,13 +17,15 @@ os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'api.settings')
 # Get the Django WSGI application
 application = get_wsgi_application()
 
-# Wrap the application with WhiteNoise
-application = WhiteNoise(application)
-
-# Add MIME type for modern web fonts
-application.add_mime_type('font/woff2', '.woff2')
-application.add_mime_type('font/woff', '.woff')
-application.add_mime_type('font/ttf', '.ttf')
+# Wrap the application with WhiteNoise and configure MIME types
+application = WhiteNoise(
+    application,
+    mimetypes={
+        '.woff2': 'font/woff2',
+        '.woff': 'font/woff',
+        '.ttf': 'font/ttf',
+    }
+)
 
 # Vercel requires the variable to be named 'app'
 app = application
