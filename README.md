@@ -252,39 +252,44 @@ vercel env add DJANGO_SECRET_KEY
    - Custom monitoring
    - Error reporting
 
-## Development Setup
+## Development
 
-### Prerequisites
-- Node.js and npm for Vue.js
-- Python 3.x for Django
-- Firebase project credentials
-- AI service API keys (as needed)
+### Quick Start
 
-### Setup Instructions
+To start the development environment, simply run:
 
-### 1. Clone the repository
 ```bash
-git clone [repository-url]
-cd derivativegenius-com
+bash devs.sh
 ```
 
-### 2. Frontend Setup (Vue.js)
-```bash
-npm install
-```
+This script will:
+1. Set up a Python virtual environment if it doesn't exist
+2. Install all required Python dependencies
+3. Install Node.js dependencies
+4. Start both the Django development server and Vue.js development server in parallel
+5. Set up proper cleanup on exit
 
-### 3. Backend Setup (Django)
-```bash
-python -m venv venv
-source venv/bin/activate  # On Windows: venv\Scripts\activate
-pip install -r requirements.txt
-```
+### Development Servers
 
-### 4. Environment Configuration
-```bash
-cp .env.local .env
-# Edit .env with your Firebase configuration
-```
+When you run `devs.sh`, it starts:
+- Django backend server (default: http://localhost:8000)
+- Vue.js development server with hot-reload (default: http://localhost:8080)
+
+### Features of devs.sh
+
+- **Automatic Environment Setup**: Creates and manages Python virtual environment
+- **Dependency Management**: Installs both Python and Node.js dependencies
+- **Parallel Server Execution**: Runs both frontend and backend servers simultaneously
+- **Hot Reload**: Supports hot reload for both Django and Vue.js
+- **Clean Shutdown**: Properly closes all servers when you exit (Ctrl+C)
+- **Development Tools**: Includes helpful logging and error messages
+- **Cross-Platform**: Works on both Unix-based systems and Windows (WSL)
+
+### Requirements
+
+- Python 3.9 or higher
+- Node.js 16 or higher
+- npm or yarn
 
 ## Production Architecture
 
@@ -403,3 +408,36 @@ cp .env.local .env
    - Authentication events
    - Error patterns
    - Security alerts
+
+## Development Setup
+
+### Prerequisites
+- Node.js and npm for Vue.js
+- Python 3.x for Django
+- Firebase project credentials
+- AI service API keys (as needed)
+
+### Setup Instructions
+
+### 1. Clone the repository
+```bash
+git clone [repository-url]
+cd derivativegenius-com
+```
+
+### 2. Frontend Setup (Vue.js)
+```bash
+npm install
+```
+
+### 3. Backend Setup (Django)
+```bash
+python -m venv venv
+source venv/bin/activate  # On Windows: venv\Scripts\activate
+pip install -r requirements.txt
+```
+
+### 4. Environment Configuration
+```bash
+cp .env.local .env
+# Edit .env with your Firebase configuration
