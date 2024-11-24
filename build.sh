@@ -43,7 +43,7 @@ npm run vue-build
 
 # 4. Collect Django static files
 echo "📚 Collecting Django static files..."
-python3 manage.py collectstatic --noinput
+python3.9 -m django.core.management collectstatic --noinput
 
 # 5. Create Vercel output directory structure
 echo "📁 Preparing deployment directory..."
