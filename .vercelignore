@@ -20,21 +20,43 @@ test/
 .git
 .gitignore
 
-# IDE specific files
-.vscode/
-.idea/
-*.swp
-*.swo
-
-# Node modules (already handled by Vercel)
+# Node.js
 node_modules/
+
+# Python virtual environment
+venv/
+env/
+.env/
 
 # Documentation
 docs/
 *.md
+
+# Development tools
+*.log
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Build artifacts
+*.egg-info/
+dist/
+build/
+*.egg
 
 # Cache directories
 .cache/
 .pytest_cache/
 .coverage
 htmlcov/
+
+# Temporary files
+*.bak
+*.tmp
+*~
+
+# Large dependencies to be installed during build
+google-cloud-*
+grpcio*
+cryptography/
