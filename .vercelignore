@@ -1,0 +1,40 @@
+# Development and test files
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+*.py[cod]
+*$py.class
+
+# Test directories
+tests/
+test/
+
+# Local development settings
+.env
+.env.local
+*.sqlite3
+
+# Version control
+.git
+.gitignore
+
+# IDE specific files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Node modules (already handled by Vercel)
+node_modules/
+
+# Documentation
+docs/
+*.md
+
+# Cache directories
+.cache/
+.pytest_cache/
+.coverage
+htmlcov/
