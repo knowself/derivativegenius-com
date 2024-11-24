@@ -340,6 +340,54 @@ When you run `devs.sh`, it starts:
    - Regular security audits
    - Backup procedures
 
+## Authentication & Authorization
+
+### Firebase Authentication
+The application uses Firebase Authentication for secure user management and access control:
+
+1. **Authentication Flow**
+   ```
+   User → Firebase Auth → Django Backend
+   ```
+   - User credentials verified by Firebase
+   - Firebase issues JWT token
+   - Token validated by Django for API access
+
+2. **Admin Access Control**
+   - Admin privileges managed via Firebase Custom Claims
+   - Admin claim (`admin: true`) required for admin dashboard access
+   - Claims automatically synced with Django backend
+
+3. **Token Management**
+   - Firebase JWT tokens used for API authentication
+   - Tokens automatically refreshed
+   - Custom claims included in token payload
+   - Token validation handled by Django middleware
+
+4. **Security Features**
+   - Secure token-based authentication
+   - Role-based access control
+   - Automatic token refresh
+   - Cross-site request forgery protection
+   - Session management
+
+5. **Integration Points**
+   - Frontend: Firebase Auth SDK
+   - Backend: Firebase Admin SDK
+   - API: JWT token validation
+   - Admin Dashboard: Custom claims verification
+
+### Setting Up Admin Access
+1. Use Firebase Admin SDK to set admin claim:
+   ```javascript
+   admin.auth().setCustomUserClaims(uid, {admin: true});
+   ```
+
+2. Admin privileges are automatically reflected in:
+   - Admin dashboard access
+   - API permissions
+   - UI feature availability
+
 ## Performance Optimization
 
 1. **Frontend Performance**
