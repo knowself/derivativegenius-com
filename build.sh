@@ -43,7 +43,8 @@ npm run vue-build
 
 # 4. Collect Django static files
 echo "📚 Collecting Django static files..."
-PYTHONPATH=/vercel/path0 python3.9 -m django collectstatic --noinput
+export DJANGO_SETTINGS_MODULE=api.settings
+python3.9 -m django collectstatic --noinput
 
 # 5. Create Vercel output directory structure
 echo "📁 Preparing deployment directory..."
