@@ -30,63 +30,45 @@ log() {
 log " Starting build process..."
 
 # Clean previous build
-log " Cleaning previous build..."
+echo " Cleaning previous build..."
 rm -rf dist .vercel/output
 
 # Check Node.js version
-log " Checking Node.js version..."
-command -v nvm >/dev/null 2>&1 || { echo "nvm not found"; }
+echo " Checking Node.js version..."
 node -v
 
 # Install Python dependencies
-log " Installing Python dependencies..."
+echo " Installing Python dependencies..."
 command -v python3.8 >/dev/null 2>&1 || { echo "python3.8 not found"; exit 1; }
 python3.8 -m pip --version >/dev/null 2>&1 || { echo "pip not found"; exit 1; }
 python3.8 -m pip install -r requirements.txt
 
 # Install Node.js dependencies
-log " Installing Node.js dependencies..."
+echo " Installing Node.js dependencies..."
 npm ci --prefer-offline --no-audit
 
 # Build Vue.js application
-log " Building Vue.js application..."
+echo " Building Vue.js application..."
 export NODE_ENV=production
 export NODE_OPTIONS=--max-old-space-size=4096
 npm run vue-build
 
-# Ensure static directory exists
-log " Ensuring static directory exists..."
-mkdir -p dist/static
-
-# Copy static assets
-log " Copying static assets..."
-cp -r public/images dist/static/
-cp public/favicon.ico dist/
-
-# Collect Django static files
-log " Collecting Django static files..."
-export DJANGO_SETTINGS_MODULE=api.settings
-python3.8 -m django collectstatic --noinput
-
-# Copy Django static files if they exist
-if [ -d staticfiles ]; then
-  log " Copying Django static files..."
-  cp -r staticfiles/admin staticfiles/favicon.ico staticfiles/images staticfiles/index.html dist/static/
-fi
-
-# Prepare deployment directory
-log " Preparing deployment directory..."
+# Create Vercel output structure
+echo " Creating Vercel output structure..."
 mkdir -p .vercel/output/static
 mkdir -p .vercel/output/api
 
-# Copy build artifacts
-log " Copying build artifacts..."
-cp -r dist/favicon.ico dist/images dist/index.html dist/static .vercel/output/
+# Copy Vue.js build output
+echo " Copying Vue.js build output..."
+cp -r dist/* .vercel/output/
+
+# Copy API files
+echo " Copying API files..."
 cp -r api .vercel/output/
 cp requirements.txt .vercel/output/api/
 
-# Generate build output config
-log " Generating build output config..."
+# Generate Vercel config
+echo " Generating Vercel config..."
 cat > .vercel/output/config.json << EOF
 {
   "version": 3,
@@ -94,6 +76,9 @@ cat > .vercel/output/config.json << EOF
     {
       "src": "/api/(.*)",
       "dest": "/api/wsgi.py"
+    },
+    {
+      "handle": "filesystem"
     },
     {
       "src": "/static/(.*)",
@@ -109,6 +94,11 @@ cat > .vercel/output/config.json << EOF
   }
 }
 EOF
+
+# Verify output structure
+echo " Verifying output structure..."
+ls -la .vercel/output/
+ls -la .vercel/output/api/
 
 # Log memory usage and build info
 node -e '

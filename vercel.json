@@ -1,12 +1,15 @@
 {
   "version": 2,
-  "framework": "vue",
   "buildCommand": "bash build.sh",
   "outputDirectory": ".vercel/output",
+  "framework": null,
   "routes": [
     {
       "src": "/api/(.*)",
       "dest": "/api/wsgi.py"
+    },
+    {
+      "handle": "filesystem"
     },
     {
       "src": "/static/(.*)",
