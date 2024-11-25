@@ -259,6 +259,212 @@ vercel env add DJANGO_SECRET_KEY
    - Custom monitoring
    - Error reporting
 
+### Vercel Logging
+
+To capture runtime logs from Vercel deployment:
+
+```bash
+# Capture API logs with timestamp
+vercel logs derivativegenius-com.vercel.app/api/wsgi --scope derivativegenius -d 2>&1 | tee runtime_api_logs_$(date +%Y%m%d_%H%M%S).txt
+```
+
+This command:
+- Targets the `/api/wsgi` endpoint
+- Includes debug output (`-d`)
+- Captures both stdout and stderr (`2>&1`)
+- Saves to timestamped file while showing in console (`tee`)
+- Uses project scope (`--scope derivativegenius`)
+
+View logs in real-time:
+```bash
+# Without saving to file
+vercel logs derivativegenius-com.vercel.app/api/wsgi --scope derivativegenius -d
+```
+
+## Debugging Instrumentation
+
+The application includes a comprehensive debugging system that can be enabled/disabled without redeployment:
+
+### Frontend Debugging
+
+The frontend uses a centralized debug utility (`src/utils/debug.js`) that can be toggled at runtime:
+
+```javascript
+// Enable/disable via localStorage
+localStorage.setItem('DEBUG_ENABLED', 'true')  // enable
+localStorage.setItem('DEBUG_ENABLED', 'false') // disable
+
+// Or use the utility function
+import { toggleDebug } from '@/utils/debug'
+toggleDebug(true)  // enable
+toggleDebug(false) // disable
+```
+
+Debug instrumentation includes:
+- Router navigation events
+- Component error boundaries
+- Performance metrics
+- State changes
+- API interactions
+
+### Backend Debugging
+
+Backend debugging is controlled via environment variable:
+
+```bash
+# Enable debugging
+export DEBUG_ENABLED=true
+
+# Disable debugging
+export DEBUG_ENABLED=false
+```
+
+API instrumentation includes:
+- Request/response logging
+- Error tracking with stack traces
+- Performance timing
+- Payload inspection
+- Headers and query parameters
+
+### Implementation Details
+
+1. **Frontend Debug Utility**
+   - Centralized control via localStorage
+   - Zero performance impact when disabled
+   - Supports multiple log levels (info, error, warn)
+   - Automatic timestamp and context addition
+
+2. **Router Instrumentation**
+   - Navigation timing
+   - Route changes
+   - Scroll behavior
+   - Error handling
+
+3. **Error Boundary Logging**
+   - Component error capture
+   - Error stack traces
+   - Component tree tracking
+   - Automatic error context
+
+4. **API Logging**
+   - Request/response cycle
+   - Performance metrics
+   - Error tracking
+   - Payload validation
+
+### Best Practices
+
+1. **Production Use**
+   - Keep debugging disabled by default
+   - Enable only when investigating issues
+   - Use environment-specific settings
+
+2. **Security**
+   - Never log sensitive data
+   - Sanitize error messages
+   - Respect user privacy
+
+3. **Performance**
+   - Debug mode has no impact when disabled
+   - Use async logging when possible
+   - Implement log rotation for API logs
+
+### Toggling Debug Mode
+
+1. **Development**
+```bash
+# Frontend
+localStorage.setItem('DEBUG_ENABLED', 'true')
+
+# Backend
+export DEBUG_ENABLED=true
+```
+
+2. **Production (Vercel)**
+- Set environment variable `DEBUG_ENABLED` in Vercel dashboard
+- Toggle without redeployment
+- Logs viewable in Vercel logs dashboard
+
+## Debug Controls
+
+The application provides simple browser console commands to control debugging:
+
+```javascript
+// Enable debugging and refresh page
+enableDebug()
+
+// Disable debugging and refresh page
+disableDebug()
+
+// Check if debugging is currently enabled
+isDebugEnabled()
+```
+
+#### Using Debug Controls
+
+1. **Enable Debugging**
+   ```javascript
+   enableDebug()
+   ```
+   - Turns on all debug instrumentation
+   - Automatically refreshes the page
+   - You'll see router navigation events
+   - Component errors will be logged
+   - API interactions will be tracked
+
+2. **Disable Debugging**
+   ```javascript
+   disableDebug()
+   ```
+   - Turns off all debug instrumentation
+   - Automatically refreshes the page
+   - Removes performance overhead
+   - Stops all debug logging
+
+3. **Check Debug Status**
+   ```javascript
+   isDebugEnabled()
+   ```
+   - Returns `true` if debugging is on
+   - Returns `false` if debugging is off
+   - Useful for verifying debug state
+
+#### Debug Output Examples
+
+When debugging is enabled, you'll see messages like:
+
+```javascript
+[Router] Navigation started: {
+  from: "/",
+  to: "/services",
+  timestamp: "2024-01-20T15:30:45.123Z"
+}
+
+[Info] Component loaded: {
+  name: "ServicesView",
+  loadTime: "150ms"
+}
+
+[Error] API request failed: {
+  endpoint: "/api/data",
+  status: 404,
+  message: "Resource not found"
+}
+```
+
+#### Best Practices
+
+1. **Development**
+   - Use `enableDebug()` when investigating issues
+   - Use `isDebugEnabled()` to verify state
+   - Check console for debug output
+
+2. **Production**
+   - Keep debugging disabled by default
+   - Enable temporarily for troubleshooting
+   - Disable after investigation
+   - Clear console after debugging
+
 ## Development
 
 ### Quick Start

@@ -8,6 +8,7 @@ import AdminSettings from '../views/admin/Settings.vue'
 import Dashboard from '../views/admin/Dashboard.vue'
 import Clients from '../views/admin/Clients.vue'
 import Applications from '../views/admin/Applications.vue'
+import { debug } from '@/utils/debug'
 
 const routes = [
   {
@@ -73,20 +74,31 @@ const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes,
   scrollBehavior(to, from, savedPosition) {
+    debug.info('Navigation from:', from.path, 'to:', to.path)
+    if (savedPosition) {
+      debug.info('Restoring scroll position:', savedPosition)
+      return savedPosition
+    }
     if (to.hash) {
+      debug.info('Scrolling to hash:', to.hash)
       return {
-        el: to.hash, // hash already includes #
-        behavior: 'smooth',
-        top: 20 // Adjusted offset for better positioning
+        el: to.hash,
+        top: 20,
+        behavior: 'smooth'
       }
     }
-    // For regular route navigation
-    return savedPosition || { top: 0 }
+    debug.info('Scrolling to top')
+    return { top: 0 }
   }
 })
 
 // Navigation guards
 router.beforeEach(async (to, from, next) => {
+  debug.info('Navigation started:', {
+    from: from.fullPath,
+    to: to.fullPath,
+    timestamp: new Date().toISOString()
+  })
   try {
     const authStore = useAuthStore()
     
@@ -131,9 +143,22 @@ router.beforeEach(async (to, from, next) => {
   }
 })
 
+router.afterEach((to, from) => {
+  debug.info('Navigation completed:', {
+    from: from.fullPath,
+    to: to.fullPath,
+    duration: performance.now(),
+    timestamp: new Date().toISOString()
+  })
+})
+
 // Global error handler
 router.onError((error) => {
-  console.error('Router error:', error)
+  debug.error('Navigation error:', {
+    error: error.message,
+    stack: error.stack,
+    timestamp: new Date().toISOString()
+  })
 })
 
 export default router

@@ -117,6 +117,40 @@ async function handleSignOut() {
 }
 </script>
 
+<script>
+import { debug } from '@/utils/debug'
+
+export default {
+  name: 'App',
+  errorCaptured(err, vm, info) {
+    debug.error('ErrorBoundary:', {
+      error: err.message,
+      component: vm.$options.name || 'Anonymous',
+      info,
+      stack: err.stack,
+      timestamp: new Date().toISOString()
+    })
+    // Log to our monitoring service
+    debug.error('Full error details:', {
+      error: err,
+      componentTree: this._getComponentTree(vm),
+      timestamp: new Date().toISOString()
+    })
+    return false // Prevent error from propagating
+  },
+  methods: {
+    _getComponentTree(vm) {
+      const tree = []
+      while (vm) {
+        tree.push(vm.$options.name || 'Anonymous')
+        vm = vm.$parent
+      }
+      return tree.reverse()
+    }
+  }
+}
+</script>
+
 <style>
 html {
   scroll-behavior: smooth;
