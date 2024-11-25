@@ -5,10 +5,9 @@ set -e
 trap 'handle_error $LINENO' ERR
 
 handle_error() {
-  local exit_code=$1
-  local error_msg=" Error occurred in build script at line $1, exit code: $exit_code"
-  echo "$error_msg"
-  node -e "require('./scripts/build-logger.js').error('$error_msg')"
+  local exit_code=$?
+  echo " Error occurred in build script at line $1, exit code: $exit_code"
+  node -e "require('./scripts/build-logger.js').error(' Error occurred in build script at line $1, exit code: $exit_code')"
   exit $exit_code
 }
 
@@ -33,16 +32,6 @@ log " Starting build process..."
 echo " Cleaning previous build..."
 rm -rf dist .vercel/output
 
-# Check Node.js version
-echo " Checking Node.js version..."
-node -v
-
-# Install Python dependencies
-echo " Installing Python dependencies..."
-command -v python3.8 >/dev/null 2>&1 || { echo "python3.8 not found"; exit 1; }
-python3.8 -m pip --version >/dev/null 2>&1 || { echo "pip not found"; exit 1; }
-python3.8 -m pip install -r requirements.txt
-
 # Install Node.js dependencies
 echo " Installing Node.js dependencies..."
 npm ci --prefer-offline --no-audit
@@ -51,7 +40,7 @@ npm ci --prefer-offline --no-audit
 echo " Building Vue.js application..."
 export NODE_ENV=production
 export NODE_OPTIONS=--max-old-space-size=4096
-npm run vue-build
+npm run build
 
 # Create Vercel output structure
 echo " Creating Vercel output structure..."
