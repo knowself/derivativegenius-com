@@ -1,69 +1,62 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import { watch } from 'vue'
 import { useAuthStore } from '../stores/auth'
-import HomePage from '../views/Home.vue'
-import LoginPage from '../views/Login.vue'
-import AdminAnalytics from '../views/admin/Analytics.vue'
-import AdminSettings from '../views/admin/Settings.vue'
-import Dashboard from '../views/admin/Dashboard.vue'
-import Clients from '../views/admin/Clients.vue'
-import Applications from '../views/admin/Applications.vue'
 import { debug } from '@/utils/debug'
 
 const routes = [
   {
     path: '/',
     name: 'home',
-    component: HomePage
+    component: () => import(/* webpackChunkName: "home" */ '../views/Home.vue')
   },
   {
     path: '/articles',
     name: 'articles',
-    component: () => import('../views/Articles.vue')
+    component: () => import(/* webpackChunkName: "articles" */ '../views/Articles.vue')
   },
   {
     path: '/about',
     name: 'about',
-    component: () => import('../views/About.vue')
+    component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
   },
   {
     path: '/contact',
     name: 'contact',
-    component: () => import('../views/Contact.vue')
+    component: () => import(/* webpackChunkName: "contact" */ '../views/Contact.vue')
   },
   {
     path: '/login',
     name: 'login',
-    component: LoginPage
+    component: () => import(/* webpackChunkName: "login" */ '../views/Login.vue')
   },
   {
     path: '/admin',
     name: 'admin',
-    component: Dashboard,
+    component: () => import(/* webpackChunkName: "dashboard" */ '../views/admin/Dashboard.vue'),
     meta: { requiresAdmin: true },
     children: [
       {
         path: 'analytics',
         name: 'admin-analytics',
-        component: AdminAnalytics,
+        component: () => import(/* webpackChunkName: "analytics" */ '../views/admin/Analytics.vue'),
         meta: { requiresAdmin: true }
       },
       {
         path: 'settings',
         name: 'admin-settings',
-        component: AdminSettings,
+        component: () => import(/* webpackChunkName: "settings" */ '../views/admin/Settings.vue'),
         meta: { requiresAdmin: true }
       },
       {
         path: 'clients',
         name: 'admin-clients',
-        component: Clients,
+        component: () => import(/* webpackChunkName: "clients" */ '../views/admin/Clients.vue'),
         meta: { requiresAdmin: true }
       },
       {
         path: 'applications',
         name: 'admin-applications',
-        component: Applications,
+        component: () => import(/* webpackChunkName: "applications" */ '../views/admin/Applications.vue'),
         meta: { requiresAdmin: true }
       }
     ]

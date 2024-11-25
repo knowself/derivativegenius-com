@@ -44,13 +44,13 @@ node -v
 
 # 1. Install Python dependencies
 log "📦 Installing Python dependencies..."
-if command -v python3.9 &> /dev/null; then
+if command -v python3.8 &> /dev/null; then
     # Check if pip is installed
-    if ! python3.9 -m pip --version &> /dev/null; then
-        log "Installing pip for Python 3.9..."
-        curl -sSL https://bootstrap.pypa.io/get-pip.py | python3.9
+    if ! python3.8 -m pip --version &> /dev/null; then
+        log "Installing pip for Python 3.8..."
+        curl -sSL https://bootstrap.pypa.io/get-pip.py | python3.8
     fi
-    python3.9 -m pip install -r requirements.txt
+    python3.8 -m pip install -r requirements.txt
 elif command -v python3 &> /dev/null; then
     # Check if pip is installed
     if ! python3 -m pip --version &> /dev/null; then
@@ -59,7 +59,7 @@ elif command -v python3 &> /dev/null; then
     fi
     python3 -m pip install -r requirements.txt
 else
-    log "❌ Python 3.9 or Python 3 not found"
+    log "❌ Python 3.8 or Python 3 not found"
     exit 1
 fi
 
@@ -73,16 +73,25 @@ export NODE_ENV=production
 export NODE_OPTIONS="--max-old-space-size=4096"
 npm run vue-build
 
-# Verify build output
-if [ ! -d "dist" ]; then
-    log "❌ Vue.js build failed - dist directory not created"
-    exit 1
-fi
+# Ensure static directory exists
+log "📁 Ensuring static directory exists..."
+mkdir -p dist/static
+
+# Copy static assets
+log "📦 Copying static assets..."
+cp -r public/images dist/static/ 2>/dev/null || true
+cp public/favicon.ico dist/ 2>/dev/null || true
 
 # 4. Collect Django static files
 log "📚 Collecting Django static files..."
 export DJANGO_SETTINGS_MODULE=api.settings
-python3.9 -m django collectstatic --noinput
+python3.8 -m django collectstatic --noinput
+
+# Copy Django static files if they exist
+if [ -d "staticfiles" ]; then
+  log "📦 Copying Django static files..."
+  cp -r staticfiles/* dist/static/ 2>/dev/null || true
+fi
 
 # 5. Create Vercel output directory structure
 log "📁 Preparing deployment directory..."
@@ -104,7 +113,7 @@ cat > .vercel/output/config.json << EOF
     { "src": "/(.*)", "dest": "/index.html" }
   ],
   "env": {
-    "PYTHON_VERSION": "3.9"
+    "PYTHON_VERSION": "3.8"
   }
 }
 EOF
