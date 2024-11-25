@@ -65,13 +65,13 @@
     "rules": {}
   },
   "browserslist": [
-    "> 1%",
     "last 2 versions",
+    "> 1%",
     "not dead",
     "not ie 11"
   ],
   "engines": {
-    "node": "20.x",
-    "npm": "10.x"
+    "node": ">=20.0.0",
+    "npm": ">=10.0.0"
   }
 }

@@ -91,7 +91,7 @@ mkdir -p .vercel/output/static
 # 6. Copy build artifacts
 log "📦 Copying build artifacts..."
 cp -r dist/* .vercel/output/
-cp -r static/* .vercel/output/static/
+cp -r staticfiles/* .vercel/output/static/ || log "⚠️ Warning: No staticfiles to copy"
 
 # 7. Generate build output configuration
 log "⚙️ Generating build output config..."

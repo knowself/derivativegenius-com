@@ -24,3 +24,4 @@ logging.basicConfig(
 )
 
 application = get_wsgi_application()
+app = application  # Add alias for Vercel
