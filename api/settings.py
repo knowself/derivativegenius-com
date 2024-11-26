@@ -12,6 +12,10 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 
 from pathlib import Path
 import os
+from dotenv import load_dotenv
+
+# Load environment variables from .env file
+load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -145,15 +149,23 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'public'
 
 # CORS settings
+CORS_ALLOW_ALL_ORIGINS = True if DEBUG else False
 CORS_ALLOW_CREDENTIALS = True
 CORS_ALLOWED_ORIGINS = [
-    'http://localhost:3000',
-    'http://localhost:8000',
-    'http://127.0.0.1:3000',
-    'http://127.0.0.1:8000',
-    'https://derivativegenius.com',
-    'https://www.derivativegenius.com',
-    'https://derivativegenius-com.vercel.app',
+    "http://localhost:8080",
+    "http://127.0.0.1:8080",
+    "https://derivative-genius.com",
+    "https://www.derivative-genius.com",
+    "https://derivative-genius-website.vercel.app"
+]
+
+# CSRF settings
+CSRF_TRUSTED_ORIGINS = [
+    "http://localhost:8080",
+    "http://127.0.0.1:8080",
+    "https://derivative-genius.com",
+    "https://www.derivative-genius.com",
+    "https://derivative-genius-website.vercel.app"
 ]
 
 # Cookie settings
@@ -161,11 +173,57 @@ SESSION_COOKIE_SECURE = True
 CSRF_COOKIE_SECURE = True
 SESSION_COOKIE_SAMESITE = 'None'
 CSRF_COOKIE_SAMESITE = 'None'
-CSRF_TRUSTED_ORIGINS = [
-    'https://derivativegenius.com',
-    'https://www.derivativegenius.com',
-    'https://derivativegenius-com.vercel.app',
-]
+
+# Firebase Configuration
+FIREBASE_ADMIN_PROJECT_ID = os.getenv('FIREBASE_ADMIN_PROJECT_ID')
+FIREBASE_ADMIN_PRIVATE_KEY = os.getenv('FIREBASE_ADMIN_PRIVATE_KEY')
+FIREBASE_ADMIN_CLIENT_EMAIL = os.getenv('FIREBASE_ADMIN_CLIENT_EMAIL')
+FIREBASE_WEB_API_KEY = os.getenv('FIREBASE_WEB_API_KEY')
+
+# Ensure required Firebase configuration is present
+if not all([FIREBASE_ADMIN_PROJECT_ID, FIREBASE_ADMIN_PRIVATE_KEY, FIREBASE_ADMIN_CLIENT_EMAIL, FIREBASE_WEB_API_KEY]):
+    if DEBUG:
+        print("Warning: Missing Firebase configuration variables")
+        print(f"Project ID: {bool(FIREBASE_ADMIN_PROJECT_ID)}")
+        print(f"Private Key: {bool(FIREBASE_ADMIN_PRIVATE_KEY)}")
+        print(f"Client Email: {bool(FIREBASE_ADMIN_CLIENT_EMAIL)}")
+        print(f"Web API Key: {bool(FIREBASE_WEB_API_KEY)}")
+    else:
+        raise ValueError("Missing required Firebase configuration variables")
+
+# Logging configuration
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'verbose': {
+            'format': '{levelname} {asctime} {module} {message}',
+            'style': '{',
+        },
+    },
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+            'formatter': 'verbose',
+        },
+        'file': {
+            'class': 'logging.FileHandler',
+            'filename': os.path.join(BASE_DIR, 'django.log'),
+            'formatter': 'verbose',
+        },
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['console', 'file'],
+            'level': 'INFO',
+        },
+        'firebase_app': {
+            'handlers': ['console', 'file'],
+            'level': 'DEBUG',
+            'propagate': True,
+        },
+    },
+}
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field

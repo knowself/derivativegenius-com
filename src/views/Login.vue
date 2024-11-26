@@ -83,14 +83,18 @@ async function handleSubmit() {
   try {
     loading.value = true
     error.value = ''
-    await authStore.signIn(email.value, password.value)
+    await authStore.signIn({ email: email.value, password: password.value })
     
-    // Get redirect path from query params or default based on role
-    const redirect = router.currentRoute.value.query.redirect
-    if (redirect && typeof redirect === 'string') {
-      router.push(redirect)
-    } else if (authStore.isAdmin) {
+    // For admin users, always redirect to admin dashboard
+    if (authStore.isAdmin) {
       router.push('/admin')
+      return
+    }
+    
+    // For non-admin users, handle redirect or go home
+    const redirect = router.currentRoute.value.query.redirect
+    if (redirect && typeof redirect === 'string' && !redirect.startsWith('/admin')) {
+      router.push(redirect)
     } else {
       router.push('/')
     }

@@ -4,6 +4,7 @@ from pathlib import Path
 import firebase_admin
 from firebase_admin import credentials, firestore, auth
 import logging
+from django.conf import settings
 
 # Initialize logger
 logger = logging.getLogger(__name__)
@@ -12,6 +13,12 @@ def initialize_firebase_admin():
     """Initialize Firebase Admin SDK using either local file or environment variables."""
     
     try:
+        # Check if Firebase Admin is already initialized
+        try:
+            return firebase_admin.get_app()
+        except ValueError:
+            pass  # Not initialized yet, continue with initialization
+        
         # Try using the JSON file first
         json_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'dg-website-firebase-adminsdk-ykjsf-f0de62e320.json')
         if os.path.exists(json_path):
@@ -19,52 +26,50 @@ def initialize_firebase_admin():
             cred = credentials.Certificate(json_path)
             firebase_admin.initialize_app(cred)
             logger.info("Firebase Admin SDK initialized successfully")
-            return
+            return firebase_admin.get_app()
         
-        # Fallback to environment variables if JSON file not found
-        logger.info("JSON file not found, trying environment variables")
-        required_vars = ['FIREBASE_PROJECT_ID', 'FIREBASE_PRIVATE_KEY', 'FIREBASE_CLIENT_EMAIL']
-        missing_vars = [var for var in required_vars if not os.environ.get(var)]
+        # Fallback to environment variables from Django settings
+        logger.info("JSON file not found, trying Django settings")
+        required_vars = [
+            'FIREBASE_ADMIN_PROJECT_ID',
+            'FIREBASE_ADMIN_PRIVATE_KEY',
+            'FIREBASE_ADMIN_CLIENT_EMAIL',
+            'FIREBASE_WEB_API_KEY'
+        ]
+        
+        # Get variables from Django settings
+        config_vars = {
+            'FIREBASE_ADMIN_PROJECT_ID': settings.FIREBASE_ADMIN_PROJECT_ID,
+            'FIREBASE_ADMIN_PRIVATE_KEY': settings.FIREBASE_ADMIN_PRIVATE_KEY,
+            'FIREBASE_ADMIN_CLIENT_EMAIL': settings.FIREBASE_ADMIN_CLIENT_EMAIL,
+            'FIREBASE_WEB_API_KEY': settings.FIREBASE_WEB_API_KEY
+        }
+        
+        missing_vars = [var for var in required_vars if not config_vars.get(var)]
         
         if missing_vars:
-            logger.error("Missing required environment variables: " + ', '.join(missing_vars))
-            raise ValueError("Missing required environment variables: " + ', '.join(missing_vars))
+            logger.error("Missing required configuration variables: " + ', '.join(missing_vars))
+            raise ValueError("Missing required configuration variables: " + ', '.join(missing_vars))
         
-        project_id = os.environ.get('FIREBASE_PROJECT_ID')
-        client_email = os.environ.get('FIREBASE_CLIENT_EMAIL')
-        private_key = os.environ.get('FIREBASE_PRIVATE_KEY')
+        private_key = config_vars['FIREBASE_ADMIN_PRIVATE_KEY']
         
         # Handle different possible formats of the private key
         if private_key.startswith('"') and private_key.endswith('"'):
             private_key = private_key[1:-1]
             logger.debug("Removed surrounding quotes from private key")
         
-        # Log the key format before any modifications
-        logger.debug("Private key before processing:")
-        logger.debug("Length: " + str(len(private_key)))
-        logger.debug("First 40 chars: " + private_key[:40])
-        logger.debug("Last 40 chars: " + private_key[-40:])
-        logger.debug("Contains \\n: " + str('\\n' in private_key))
-        logger.debug("Contains actual newlines: " + str('\n' in private_key))
-        
         # Replace literal \n with actual newlines, but preserve existing newlines
         private_key = private_key.replace('\\n', '\n')
-        
-        # Log the key format after modifications
-        logger.debug("Private key after processing:")
-        logger.debug("Length: " + str(len(private_key)))
-        logger.debug("First 40 chars: " + private_key[:40])
-        logger.debug("Last 40 chars: " + private_key[-40:])
-        logger.debug("Contains \\n: " + str('\\n' in private_key))
-        logger.debug("Contains actual newlines: " + str('\n' in private_key))
         
         # Ensure the key has the correct PEM format
         if not private_key.startswith('-----BEGIN PRIVATE KEY-----'):
             logger.error("Private key does not have correct PEM header")
+            logger.error(f"Key starts with: {private_key[:50]}")
             raise ValueError("Invalid private key format")
         
         if not private_key.endswith('-----END PRIVATE KEY-----\n') and not private_key.endswith('-----END PRIVATE KEY-----'):
             logger.error("Private key does not have correct PEM footer")
+            logger.error(f"Key ends with: {private_key[-50:]}")
             raise ValueError("Invalid private key format")
         
         # Ensure the key ends with a newline
@@ -75,35 +80,30 @@ def initialize_firebase_admin():
         
         cred_dict = {
             "type": "service_account",
-            "project_id": project_id,
+            "project_id": config_vars['FIREBASE_ADMIN_PROJECT_ID'],
             "private_key": private_key,
-            "client_email": client_email,
+            "client_email": config_vars['FIREBASE_ADMIN_CLIENT_EMAIL'],
             "token_uri": "https://oauth2.googleapis.com/token"
         }
         
-        # Log the final credential dictionary (without sensitive data)
-        logger.debug("Credential dictionary keys: " + str(list(cred_dict.keys())))
-        logger.debug("Project ID in cred_dict: " + cred_dict['project_id'])
-        logger.debug("Client email in cred_dict: " + cred_dict['client_email'])
-        
         logger.info("Creating credentials from dictionary")
         cred = credentials.Certificate(cred_dict)
-        firebase_admin.initialize_app(cred)
-        logger.info("Firebase Admin SDK initialized successfully using environment variables")
+        
+        app = firebase_admin.initialize_app(cred)
+        logger.info("Firebase Admin SDK initialized successfully using Django settings")
+        return app
         
     except Exception as e:
         logger.error(f"Error initializing Firebase Admin SDK: {str(e)}")
-        logger.error("Environment variables present: " + ', '.join([var for var in required_vars if os.environ.get(var)]))
+        logger.error("Configuration variables present: " + ', '.join([var for var in required_vars if config_vars.get(var)]))
         raise
-    
-    return firebase_admin.get_app()
 
 def get_firestore():
     """Get Firestore client"""
-    initialize_firebase_admin()
-    return firestore.client()
+    app = initialize_firebase_admin()
+    return firestore.client(app=app)
 
 def get_auth():
     """Get Firebase Auth client"""
-    initialize_firebase_admin()  # Ensure initialization
-    return auth.Client(app=firebase_admin.get_app())
+    app = initialize_firebase_admin()
+    return auth.Client(app=app)

@@ -1,55 +1,30 @@
 import { defineStore } from 'pinia'
 import { ref, computed } from 'vue'
-import { initializeApp } from '@firebase/app'
-import { 
-  getAuth, 
-  signInWithEmailAndPassword,
-  signOut as firebaseSignOut,
-  onAuthStateChanged
-} from '@firebase/auth'
-
-// Initialize Firebase with your config
-const firebaseConfig = {
-  apiKey: process.env.VUE_APP_FIREBASE_API_KEY,
-  authDomain: process.env.VUE_APP_FIREBASE_AUTH_DOMAIN,
-  projectId: process.env.VUE_APP_FIREBASE_PROJECT_ID,
-  storageBucket: process.env.VUE_APP_FIREBASE_STORAGE_BUCKET,
-  messagingSenderId: process.env.VUE_APP_FIREBASE_MESSAGING_SENDER_ID,
-  appId: process.env.VUE_APP_FIREBASE_APP_ID
-}
-
-// Initialize Firebase
-const app = initializeApp(firebaseConfig)
-const auth = getAuth(app)
 
 export const useAuthStore = defineStore('auth', () => {
   const user = ref(null)
   const loading = ref(true)
   const error = ref(null)
-  let unsubscribe = null
+  const token = ref(localStorage.getItem('idToken'))
 
   // Computed
   const isAuthenticated = computed(() => !!user.value)
-  const isAdmin = computed(() => {
-    if (!user.value) return false
-    // Check for admin role in custom claims
-    return user.value.isAdmin || user.value.email?.endsWith('@derivativegenius.com')
-  })
+  const userEmail = computed(() => user.value?.email)
+  const isAdmin = computed(() => user.value?.isAdmin || false)
 
   // Actions
   function setUser(newUser) {
-    if (newUser) {
-      user.value = {
-        uid: newUser.uid,
-        email: newUser.email,
-        displayName: newUser.displayName,
-        // Get custom claims if available
-        isAdmin: newUser.email?.endsWith('@derivativegenius.com') || false
-      }
-    } else {
-      user.value = null
-    }
+    user.value = newUser
     loading.value = false
+  }
+
+  function setToken(newToken) {
+    token.value = newToken
+    if (newToken) {
+      localStorage.setItem('idToken', newToken)
+    } else {
+      localStorage.removeItem('idToken')
+    }
   }
 
   function setError(err) {
@@ -57,77 +32,94 @@ export const useAuthStore = defineStore('auth', () => {
     loading.value = false
   }
 
-  async function signIn(email, password) {
+  async function initializeAuth() {
+    try {
+      loading.value = true
+      const storedToken = localStorage.getItem('idToken')
+      
+      const response = await fetch('/firebase/auth/session/', {
+        headers: storedToken ? {
+          'Authorization': `Bearer ${storedToken}`
+        } : {}
+      })
+      const data = await response.json()
+      
+      if (data.user) {
+        setUser(data.user)
+        setToken(storedToken) // Keep existing token if valid
+      } else {
+        setUser(null)
+        setToken(null)
+      }
+    } catch (err) {
+      setError('Failed to initialize authentication')
+      setUser(null)
+      setToken(null)
+    }
+  }
+
+  async function signIn({ email, password }) {
     try {
       loading.value = true
       error.value = null
-      const userCredential = await signInWithEmailAndPassword(auth, email, password)
       
-      // Get the ID token result to check custom claims
-      const idTokenResult = await userCredential.user.getIdTokenResult()
-      const isAdmin = idTokenResult.claims.admin || email.endsWith('@derivativegenius.com')
-      
-      setUser({
-        ...userCredential.user,
-        isAdmin
+      // Get CSRF token from cookie if using Django's CSRF protection
+      const csrfToken = document.cookie
+        .split('; ')
+        .find(row => row.startsWith('csrftoken='))
+        ?.split('=')[1]
+
+      const response = await fetch('/firebase/auth/signin/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRFToken': csrfToken,
+        },
+        body: JSON.stringify({ email, password }),
+        credentials: 'include'
       })
-      return true
+
+      const data = await response.json()
+
+      if (!response.ok) {
+        const errorMessage = data.error || 'Authentication failed'
+        console.error('Sign in error:', errorMessage)
+        throw new Error(errorMessage)
+      }
+
+      if (!data.user || !data.token) {
+        console.error('Invalid response format:', data)
+        throw new Error('Invalid server response')
+      }
+
+      setUser(data.user)
+      setToken(data.token)
+      return data.user
     } catch (err) {
-      setError(err.message)
-      return false
+      console.error('Sign in error:', err)
+      setError(err.message || 'Authentication failed')
+      throw err
+    } finally {
+      loading.value = false
     }
   }
 
   async function signOut() {
     try {
-      await firebaseSignOut(auth)
-      setUser(null)
-      return true
-    } catch (err) {
-      setError(err.message)
-      return false
-    }
-  }
-
-  function initializeAuth() {
-    // Clean up any existing listener
-    if (unsubscribe) {
-      unsubscribe()
-    }
-
-    // Set up new listener
-    unsubscribe = onAuthStateChanged(
-      auth,
-      async (firebaseUser) => {
-        if (firebaseUser) {
-          try {
-            // Get the ID token result to check custom claims
-            const idTokenResult = await firebaseUser.getIdTokenResult()
-            const isAdmin = idTokenResult.claims.admin || firebaseUser.email?.endsWith('@derivativegenius.com')
-            
-            setUser({
-              ...firebaseUser,
-              isAdmin
-            })
-          } catch (err) {
-            console.error('Error getting token claims:', err)
-            setUser(null)
-          }
-        } else {
-          setUser(null)
-        }
-      },
-      (err) => {
-        console.error('Auth state change error:', err)
-        setError(err.message)
+      const response = await fetch('/firebase/auth/signout/', {
+        method: 'POST',
+        credentials: 'include'
+      })
+      
+      if (!response.ok) {
+        throw new Error('Signout failed')
       }
-    )
-  }
-
-  function cleanup() {
-    if (unsubscribe) {
-      unsubscribe()
-      unsubscribe = null
+      
+      setUser(null)
+      setToken(null)
+    } catch (err) {
+      setError('An error occurred during sign out')
+      throw err
     }
   }
 
@@ -136,10 +128,13 @@ export const useAuthStore = defineStore('auth', () => {
     loading,
     error,
     isAuthenticated,
+    userEmail,
     isAdmin,
+    token,
     signIn,
     signOut,
     initializeAuth,
-    cleanup
+    setUser,  // Expose setUser for testing
+    setToken  // Expose setToken for testing
   }
 })

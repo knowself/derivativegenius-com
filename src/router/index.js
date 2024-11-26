@@ -112,7 +112,15 @@ router.beforeEach(async (to, from, next) => {
 
     // Handle admin route protection
     if (to.matched.some(record => record.meta.requiresAdmin)) {
+      debug.info('Admin route detected:', {
+        route: to.fullPath,
+        isAuthenticated: authStore.isAuthenticated,
+        isAdmin: authStore.isAdmin,
+        user: authStore.user
+      })
+      
       if (!authStore.isAuthenticated) {
+        debug.warn('Admin route access denied: Not authenticated')
         // Not logged in, redirect to login page with return url
         next({
           name: 'login',
@@ -120,10 +128,14 @@ router.beforeEach(async (to, from, next) => {
         })
       } else if (!authStore.isAdmin) {
         // Logged in but not admin, redirect to home
-        console.warn('Unauthorized access attempt to admin route:', to.fullPath)
+        debug.warn('Admin route access denied: Not admin', {
+          user: authStore.user,
+          isAdmin: authStore.isAdmin
+        })
         next({ name: 'home' })
       } else {
         // Is admin, proceed
+        debug.info('Admin route access granted')
         next()
       }
     } else {

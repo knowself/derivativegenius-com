@@ -1,3 +1,19 @@
+```json
+{
+  "architecture": {
+    "firebase": {
+      "mode": "cloud_only",
+      "implementation": "admin_sdk",
+      "client_sdk_forbidden": true,
+      "dependencies": {
+        "required": ["firebase-admin"],
+        "forbidden": ["@firebase/app", "@firebase/auth", "firebase", "firebase-functions"]
+      }
+    }
+  }
+}
+```
+
 # Derivative Genius Web Application - Technical Stack Documentation
 
 All answers you provide on any question should be to answer my questions by providng alternative options which drive forward my main goal before you change anything.
@@ -114,21 +130,50 @@ I want those technologies to remain up-to-date, but unchanged until I wish to us
 ## 🔒 Authentication & Security
 
 ### Firebase Configuration
-Environment Variables (Vue CLI format):
+```json
+{
+  "architecture": {
+    "firebase": {
+      "mode": "cloud_only",
+      "implementation": "admin_sdk",
+      "client_sdk_forbidden": true,
+      "dependencies": {
+        "required": ["firebase-admin"],
+        "forbidden": ["@firebase/app", "@firebase/auth", "firebase", "firebase-functions"]
+      }
+    }
+  }
+}
+```
+
+### Server Environment Variables
 ```env
-VUE_APP_FIREBASE_API_KEY=
-VUE_APP_FIREBASE_AUTH_DOMAIN=
-VUE_APP_FIREBASE_PROJECT_ID=
-VUE_APP_FIREBASE_STORAGE_BUCKET=
-VUE_APP_FIREBASE_MESSAGING_SENDER_ID=
-VUE_APP_FIREBASE_APP_ID=
+FIREBASE_ADMIN_PROJECT_ID=
+FIREBASE_ADMIN_PRIVATE_KEY=
+FIREBASE_ADMIN_CLIENT_EMAIL=
 ```
 
 ### Authentication Flow
-1. Firebase client-side auth
-2. Custom claims for roles
-3. Token validation
-4. Role-based access control
+1. Server-side Firebase Admin SDK authentication
+   - Django backend handles all Firebase operations
+   - Token-based authentication with secure session management
+   - Custom claims for role-based access control
+
+2. Frontend Authentication
+   - Communicates with Django REST endpoints
+   - No direct Firebase SDK usage
+   - Secure token storage and transmission
+
+3. Security Measures
+   - Server-side token validation
+   - CSRF protection
+   - Secure session handling
+   - Role-based access control through custom claims
+
+### API Endpoints
+- `/api/auth/session` - Get current user session
+- `/api/auth/signout` - Sign out user
+- `/firebase/auth/verify` - Verify Firebase ID token
 
 ## 🔧 Development Environment
 
@@ -163,8 +208,6 @@ VUE_APP_FIREBASE_APP_ID=
 ## 📦 Dependencies
 
 ### Production Dependencies
-- @firebase/app: ^0.10.16
-- @firebase/auth: ^1.8.1
 - @heroicons/vue: ^2.2.0
 - chart.js: ^4.4.6
 - core-js: ^3.35.1
@@ -199,6 +242,94 @@ VUE_APP_FIREBASE_APP_ID=
 - API routes configuration
 - Static file serving
 - SPA fallback routes
+
+## 🚀 Deployment Configuration
+
+### Single Source of Truth
+All deployment configuration is maintained in the `/deployment` directory:
+
+```
+deployment/
+├── README.md           # Deployment overview and structure
+├── vercel.json         # Vercel deployment configuration
+├── CHANGELOG.md        # Track all deployment changes
+├── TROUBLESHOOTING.md  # Common issues and solutions
+└── scripts/
+    ├── build.sh        # Production build script
+    ├── verify.sh       # Pre-deployment verification
+    └── test_endpoints.py # API endpoint testing
+```
+
+### Deployment Rules
+1. **Configuration Changes**
+   - All changes must be made in `/deployment`
+   - Changes require verification via `verify.sh`
+   - Document all changes in `CHANGELOG.md`
+
+2. **Version Control**
+   - No direct production config edits
+   - Changes require review
+   - Maintain change history
+
+3. **Testing Requirements**
+   - Run `verify.sh` before deployment
+   - Test in preview deployment
+   - Verify all endpoints via `test_endpoints.py`
+
+4. **Documentation**
+   - Keep README.md updated
+   - Document all environment variables
+   - Maintain troubleshooting guide
+
+### Vercel Configuration
+```json
+{
+  "version": 2,
+  "builds": [
+    {
+      "src": "api/wsgi.py",
+      "use": "@vercel/python",
+      "config": { "maxLambdaSize": "15mb" }
+    },
+    {
+      "src": "package.json",
+      "use": "@vercel/static-build",
+      "config": {
+        "distDir": "dist"
+      }
+    }
+  ],
+  "routes": [
+    {
+      "src": "/api/(.*)",
+      "dest": "api/wsgi.py"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/$1"
+    }
+  ]
+}
+```
+
+### Environment Variables
+Required for deployment:
+```env
+# Vercel
+VERCEL_PROJECT_ID=
+VERCEL_ORG_ID=
+NODE_ENV=production
+NODE_OPTIONS=--max-old-space-size=4096
+
+# Firebase Admin
+FIREBASE_ADMIN_PROJECT_ID=
+FIREBASE_ADMIN_PRIVATE_KEY=
+FIREBASE_ADMIN_CLIENT_EMAIL=
+
+# Django
+DJANGO_SECRET_KEY=
+DJANGO_SETTINGS_MODULE=
+```
 
 ## 🔍 Important Notes
 

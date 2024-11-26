@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.http import JsonResponse
-from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.csrf import csrf_exempt, ensure_csrf_cookie
 from django.views.decorators.http import require_http_methods
 from .firebase_admin import get_firestore, get_auth
 from firebase_admin import firestore, auth
@@ -247,6 +247,35 @@ def test_firebase_config(request):
             'message': str(e)
         }, status=500)
 
+@require_http_methods(["GET"])
+def test_environment_variables(request):
+    """Test endpoint to verify environment variables"""
+    from django.conf import settings
+    import os
+    
+    # Get variables from settings
+    settings_vars = {
+        'FIREBASE_ADMIN_PROJECT_ID': settings.FIREBASE_ADMIN_PROJECT_ID,
+        'FIREBASE_ADMIN_CLIENT_EMAIL': settings.FIREBASE_ADMIN_CLIENT_EMAIL,
+        'FIREBASE_WEB_API_KEY': settings.FIREBASE_WEB_API_KEY,
+        'FIREBASE_ADMIN_PRIVATE_KEY': bool(settings.FIREBASE_ADMIN_PRIVATE_KEY),  # Only send existence
+    }
+    
+    # Get variables directly from environment
+    env_vars = {
+        'FIREBASE_ADMIN_PROJECT_ID': os.getenv('FIREBASE_ADMIN_PROJECT_ID'),
+        'FIREBASE_ADMIN_CLIENT_EMAIL': os.getenv('FIREBASE_ADMIN_CLIENT_EMAIL'),
+        'FIREBASE_WEB_API_KEY': os.getenv('FIREBASE_WEB_API_KEY'),
+        'FIREBASE_ADMIN_PRIVATE_KEY': bool(os.getenv('FIREBASE_ADMIN_PRIVATE_KEY')),  # Only send existence
+    }
+    
+    return JsonResponse({
+        'debug_mode': settings.DEBUG,
+        'settings_vars': settings_vars,
+        'env_vars': env_vars,
+        'env_file_loaded': os.path.exists(os.path.join(settings.BASE_DIR, '.env'))
+    })
+
 def admin_required(view_func):
     """Decorator to require admin authentication"""
     @wraps(view_func)
@@ -364,3 +393,171 @@ def list_users(request):
         
     except Exception as e:
         return JsonResponse({'error': str(e)}, status=500)
+
+@require_http_methods(["GET"])
+def get_session(request):
+    """Get current user session information"""
+    try:
+        # Get token from Authorization header
+        auth_header = request.headers.get('Authorization')
+        if not auth_header or not auth_header.startswith('Bearer '):
+            return JsonResponse({'user': None}, status=200)
+            
+        id_token = auth_header.split('Bearer ')[1]
+        
+        # Verify the token
+        decoded_token = auth.verify_id_token(id_token)
+        uid = decoded_token['uid']
+        
+        # Get user info
+        user = auth.get_user(uid)
+        custom_claims = user.custom_claims or {}
+        
+        return JsonResponse({
+            'user': {
+                'uid': uid,
+                'email': user.email,
+                'emailVerified': user.email_verified,
+                'displayName': user.display_name,
+                'isAdmin': custom_claims.get('admin', False)
+            }
+        })
+    except auth.InvalidIdTokenError:
+        return JsonResponse({'user': None}, status=200)
+    except Exception as e:
+        return JsonResponse({
+            'error': str(e)
+        }, status=500)
+
+@ensure_csrf_cookie
+@require_http_methods(["POST"])
+def signin(request):
+    """Handle user sign in with email and password using Firebase Admin SDK"""
+    try:
+        data = json.loads(request.body)
+        email = data.get('email')
+        password = data.get('password')
+
+        if not email or not password:
+            return JsonResponse({
+                'error': 'Email and password are required'
+            }, status=400)
+
+        try:
+            # Import the necessary Firebase Admin components
+            from firebase_admin import auth
+            import requests
+
+            # Get Firebase project ID from environment
+            project_id = os.getenv('FIREBASE_ADMIN_PROJECT_ID')
+            api_key = os.getenv('FIREBASE_WEB_API_KEY')
+            
+            if not project_id or not api_key:
+                print("Missing configuration - Project ID:", bool(project_id), "API Key:", bool(api_key))
+                return JsonResponse({
+                    'error': 'Firebase configuration missing'
+                }, status=500)
+
+            # Use the REST API endpoint for password verification
+            auth_url = f'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key={api_key}'
+            response = requests.post(
+                auth_url,
+                json={
+                    'email': email,
+                    'password': password,
+                    'returnSecureToken': True
+                }
+            )
+
+            if not response.ok:
+                error_data = response.json()
+                error_message = error_data.get('error', {}).get('message', 'Authentication failed')
+                print(f"Firebase Auth Error: {error_message}")
+                
+                # Map Firebase error messages to user-friendly messages
+                error_mapping = {
+                    'EMAIL_NOT_FOUND': 'Invalid email address',
+                    'INVALID_PASSWORD': 'Invalid password',
+                    'USER_DISABLED': 'Account has been disabled',
+                    'TOO_MANY_ATTEMPTS_TRY_LATER': 'Too many attempts, please try again later'
+                }
+                
+                user_message = error_mapping.get(error_message, 'Invalid credentials')
+                return JsonResponse({
+                    'error': user_message
+                }, status=401)
+
+            # Get the ID token from the response
+            auth_data = response.json()
+            id_token = auth_data.get('idToken')
+
+            if not id_token:
+                print("No ID token in response")
+                return JsonResponse({
+                    'error': 'Authentication failed - no token received'
+                }, status=401)
+
+            try:
+                # Verify the ID token using Admin SDK
+                decoded_token = auth.verify_id_token(id_token)
+                uid = decoded_token['uid']
+
+                # Get user info using Admin SDK
+                user = auth.get_user(uid)
+                user_claims = user.custom_claims or {}
+
+                # Return user data and token
+                return JsonResponse({
+                    'user': {
+                        'uid': user.uid,
+                        'email': user.email,
+                        'displayName': user.display_name,
+                        'isAdmin': user_claims.get('admin', False)
+                    },
+                    'token': id_token
+                })
+
+            except auth.InvalidIdTokenError as e:
+                print(f"Token verification error: {str(e)}")
+                return JsonResponse({
+                    'error': 'Invalid authentication token'
+                }, status=401)
+
+        except auth.UserNotFoundError as e:
+            print(f"User not found error: {str(e)}")
+            return JsonResponse({
+                'error': 'Invalid credentials'
+            }, status=401)
+        except requests.RequestException as e:
+            print(f"Request error: {str(e)}")
+            return JsonResponse({
+                'error': 'Authentication service unavailable'
+            }, status=503)
+
+    except json.JSONDecodeError:
+        return JsonResponse({
+            'error': 'Invalid request format'
+        }, status=400)
+    except Exception as e:
+        print(f"Authentication error: {str(e)}")
+        return JsonResponse({
+            'error': 'An unexpected error occurred'
+        }, status=500)
+
+@csrf_exempt
+@require_http_methods(["POST"])
+def signout(request):
+    """Sign out the current user"""
+    try:
+        # Clear any server-side session data
+        request.session.flush()
+        
+        return JsonResponse({
+            'success': True,
+            'message': 'Successfully signed out'
+        })
+    except Exception as e:
+        return JsonResponse({
+            'success': False,
+            'error': str(e)
+        }, status=500)

@@ -13,19 +13,19 @@ Derivative Genius is an AI Automation Agency (AAA) that transforms businesses th
 
 ```
 ┌─────────────────────┐         ┌──────────────────────┐         ┌─────────────────────┐
-│      Vue.js         │         │       Django         │         │      Firebase       │
-│     Frontend        │    →    │  Automation Layer    │    →    │    Data Layer      │
+│      Vue.js         │         │       Django         │         │    Firebase Admin   │
+│     Frontend        │    →    │      Backend         │    →    │      (Cloud)       │
 ├─────────────────────┤    ←    ├──────────────────────┤    ←    ├─────────────────────┤
-│ • User Interface    │         │ • AI Integration     │         │ • Data Storage     │
-│ • State Management  │         │ • Process Automation │         │ • Authentication   │
-│ • API Integration   │         │ • Workflow Engine    │         │ • Access Control   │
-│ • Automation UI     │         │ • Task Orchestration │         │ • File Storage     │
+│ • User Interface    │         │ • API Gateway        │         │ • Data Storage     │
+│ • State Management  │         │ • Authentication     │         │ • Admin SDK        │
+│ • API Integration   │         │ • Process Automation │         │ • Access Control   │
+│ • Automation UI     │         │ • Firebase Admin     │         │ • File Storage     │
 │ • Process Designer  │         │ • Error Handling     │         │ • Data Backup      │
 └─────────────────────┘         └──────────────────────┘         └─────────────────────┘
          ↑                               ↑                                ↑
          │                               │                                │
          ▼                               ▼                                ▼
-    Presentation                   Automation                        Persistence
+    Presentation                   Application                       Cloud Services
       Layer                           Layer                            Layer
 ```
 
@@ -36,40 +36,41 @@ Derivative Genius is an AI Automation Agency (AAA) that transforms businesses th
    - Process monitoring dashboard
    - Task management interface
    - Real-time automation status
-   - User interaction
+   - User interaction via REST API
 
-2. **Django Backend (Automation)**
-   - AI service integration
+2. **Django Backend (Application)**
+   - API Gateway for all Firebase operations
+   - Authentication via Firebase Admin SDK
    - Workflow orchestration
    - Task scheduling and execution
    - Process automation engine
    - Automation monitoring
-   - API endpoints
+   - Security enforcement
 
-3. **Firebase (Data)**
-   - Workflow state persistence
-   - User authentication
-   - File storage
+3. **Firebase Admin (Cloud)**
+   - Secure cloud services access
+   - Admin SDK integration
+   - Data persistence
    - Access control
    - Backup management
 
 ### Data Flow
 
-1. Client Request:
+1. Client Request Flow:
    ```
-   Vue.js → Django → Firebase
+   Vue.js → Django (Firebase Admin SDK) → Firebase Cloud
    ```
-   - User initiates action
-   - Django processes request
-   - Firebase handles data operation
+   - User initiates action via REST API
+   - Django authenticates and processes request
+   - Firebase Admin SDK handles cloud operations
 
-2. Server Response:
+2. Server Response Flow:
    ```
-   Firebase → Django → Vue.js
+   Firebase Cloud → Django (Firebase Admin SDK) → Vue.js
    ```
-   - Firebase returns data
-   - Django applies business logic
-   - Vue.js updates UI
+   - Firebase returns data to Admin SDK
+   - Django applies business logic and security
+   - Vue.js updates UI based on REST response
 
 ## Architecture Overview
 
@@ -92,7 +93,7 @@ This project implements a three-tier architecture optimized for business logic a
 - Security and access control
 - API versioning and documentation
 
-### 3. Data Layer (Firebase)
+### 3. Data Layer (Firebase Admin)
 - Secure data storage
 - User authentication
 - Document management
@@ -123,21 +124,41 @@ This project implements a three-tier architecture optimized for business logic a
 - Data export/import
 - Version control
 
+## Security Architecture
+
+### Authentication Flow
+1. Server-side Firebase Admin SDK authentication
+   - All Firebase operations handled by Django backend
+   - Token-based authentication with secure session management
+   - Custom claims for role-based access control
+
+2. Frontend Security
+   - No direct Firebase SDK usage
+   - REST API communication only
+   - Secure token storage and transmission
+   - CSRF protection
+
+3. API Security
+   - Server-side token validation
+   - Role-based access control
+   - Secure session handling
+   - Request/response encryption
+
 ## Deployment Architecture
 
 ```
 ┌─────────────────┐         ┌─────────────────┐         ┌─────────────────┐
 │     Vercel      │         │     Vercel      │         │    Firebase     │
-│   (Frontend)    │    →    │    (Backend)    │    →    │   Services      │
+│   (Frontend)    │    →    │    (Backend)    │    →    │    Admin SDK    │
 ├─────────────────┤         ├─────────────────┤         ├─────────────────┤
-│ • Vue.js SPA    │         │ • Django API    │         │ • Firestore     │
-│ • Static Assets │         │ • Python Runtime │         │ • Auth          │
-│ • CDN           │         │ • Serverless    │         │ • Storage       │
+│ • Vue.js SPA    │         │ • Django API    │         │ • Cloud Storage │
+│ • Static Assets │         │ • Admin SDK     │         │ • Auth Service  │
+│ • CDN           │         │ • Serverless    │         │ • Data Service  │
 └─────────────────┘         └─────────────────┘         └─────────────────┘
          ↑                          ↑                           ↑
          │                          │                          │
          ▼                          ▼                          ▼
-    Edge Network              Serverless API              Cloud Services
+    Edge Network            Secure Gateway              Cloud Services
 ```
 
 ### Vercel Deployment Benefits
@@ -280,6 +301,62 @@ View logs in real-time:
 # Without saving to file
 vercel logs derivativegenius-com.vercel.app/api/wsgi --scope derivativegenius -d
 ```
+
+## Deployment
+
+### Configuration Management
+
+All deployment configuration is centralized in the `/deployment` directory. This is the single source of truth for all deployment-related settings and procedures.
+
+### Directory Structure
+```
+deployment/
+├── README.md           # Deployment documentation
+├── vercel.json         # Vercel configuration
+├── CHANGELOG.md        # Configuration changes
+├── TROUBLESHOOTING.md  # Issue resolution
+└── scripts/           
+    ├── build.sh        # Build process
+    ├── verify.sh       # Verification
+    └── test_endpoints.py # API testing
+```
+
+### Deployment Process
+
+1. **Pre-deployment Checks**
+   ```bash
+   ./deployment/scripts/verify.sh
+   ```
+   Verifies:
+   - Required files
+   - Environment variables
+   - Runtime versions
+   - Build output
+   - API endpoints
+
+2. **Configuration Updates**
+   - Make changes in `/deployment`
+   - Document in `CHANGELOG.md`
+   - Test in preview deployment
+   - Get review approval
+
+3. **Deployment**
+   ```bash
+   vercel deploy --prod
+   ```
+
+4. **Verification**
+   - Check deployment logs
+   - Verify API endpoints
+   - Monitor error rates
+
+5. **Rollback (if needed)**
+   ```bash
+   vercel rollback
+   ```
+
+### Required Environment Variables
+See `_p_tech_config.md` for the complete list.
 
 ## Debugging Instrumentation
 
@@ -553,6 +630,27 @@ When you run `devs.sh`, it starts:
    - Regular security audits
    - Backup procedures
 
+## Firebase Integration
+
+### Cloud-Based Architecture
+This project uses Firebase exclusively through cloud services. We utilize the Firebase Admin SDK for server-side operations, and all Firebase interactions are handled through our backend services.
+
+### Firebase Setup
+- **Admin SDK**: We use the Firebase Admin SDK (`firebase-admin`) for server-side operations
+- **Environment Variables**: Required server-side environment variables:
+  ```
+  FIREBASE_PROJECT_ID=your-project-id
+  FIREBASE_CLIENT_EMAIL=your-client-email
+  FIREBASE_PRIVATE_KEY=your-private-key
+  ```
+- **No Client SDK**: We do not use the client-side Firebase SDK as all Firebase operations are handled through our backend
+
+### Security Notes
+- Firebase credentials are only used server-side
+- All Firebase operations are authenticated through the Admin SDK
+- Client requests are proxied through our backend API
+- Private keys and credentials are never exposed to the client
+
 ## Authentication & Authorization
 
 ### Firebase Authentication
@@ -702,5 +800,3 @@ pip install -r requirements.txt
 ```bash
 cp .env.local .env
 # Edit .env with your Firebase configuration
-
-```
