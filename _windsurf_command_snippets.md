@@ -2,7 +2,7 @@ I need you to create a comprehensive commit message which addresses all the chan
 
 my guardian files of truth _ai_dev_principles_standards.md, readme.md and requirements.txt
 
-requirements-base.txt, requirements.txt, requirements-dev.txt
+python requirements-base.txt, requirements.txt, requirements-dev.txt
 
 == Start every session with windsurf ==
 
