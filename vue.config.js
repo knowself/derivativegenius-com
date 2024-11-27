@@ -9,6 +9,65 @@ module.exports = defineConfig({
   indexPath: 'index.html',
   filenameHashing: true,
 
+  chainWebpack: config => {
+    // Split vendor chunks
+    config.optimization.splitChunks({
+      cacheGroups: {
+        // Split Firebase into its own chunk
+        firebase: {
+          test: /[\\/]node_modules[\\/](@firebase|firebase)[\\/]/,
+          name: 'firebase',
+          chunks: 'all',
+          priority: 30
+        },
+        // Split Chart.js into its own chunk
+        charts: {
+          test: /[\\/]node_modules[\\/](chart\.js|vue-chartjs)[\\/]/,
+          name: 'charts',
+          chunks: 'all',
+          priority: 20
+        },
+        // Common vendor chunk
+        vendors: {
+          name: 'chunk-vendors',
+          test: /[\\/]node_modules[\\/]/,
+          chunks: 'initial',
+          priority: 10,
+          reuseExistingChunk: true
+        },
+        // Common chunk for frequently used components
+        common: {
+          name: 'chunk-common',
+          minChunks: 2,
+          priority: 5,
+          chunks: 'initial',
+          reuseExistingChunk: true
+        }
+      }
+    })
+
+    // Optimize images
+    config.module
+      .rule('images')
+      .use('image-webpack-loader')
+      .loader('image-webpack-loader')
+      .options({
+        bypassOnDebug: true
+      })
+      .end()
+
+    // Generate gzip files for larger chunks
+    if (process.env.NODE_ENV === 'production') {
+      config.plugin('compression').use(require('compression-webpack-plugin'), [{
+        filename: '[path][base].gz',
+        algorithm: 'gzip',
+        test: /\.(js|css|html|svg)$/,
+        threshold: 10240,
+        minRatio: 0.8
+      }])
+    }
+  },
+
   // Configure development server proxy
   devServer: {
     port: 8080,

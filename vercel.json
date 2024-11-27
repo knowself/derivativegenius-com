@@ -2,53 +2,67 @@
   "version": 2,
   "builds": [
     {
-      "src": "api/wsgi.py",
-      "use": "@vercel/python",
-      "config": {
-        "maxLambdaSize": "15mb",
-        "runtime": "python3.8"
-      }
-    },
-    {
       "src": "package.json",
       "use": "@vercel/static-build",
       "config": {
-        "distDir": "dist",
-        "buildCommand": "npm run build"
+        "zeroConfig": true,
+        "maxLambdaSize": "50mb"
+      }
+    },
+    {
+      "src": "api/**/*.py",
+      "use": "@vercel/python",
+      "config": {
+        "maxLambdaSize": "50mb"
       }
     }
   ],
   "routes": [
     {
-      "src": "/health",
-      "dest": "api/wsgi.py"
-    },
-    {
-      "src": "/firebase/(.*)",
-      "dest": "api/wsgi.py"
-    },
-    {
-      "src": "/api/(.*)",
-      "dest": "api/wsgi.py"
-    },
-    {
-      "src": "/admin/(.*)",
-      "dest": "api/wsgi.py"
-    },
-    {
-      "src": "/static/(.*)",
-      "dest": "/dist/static/$1"
+      "src": "^/static/(.*)",
+      "headers": {
+        "cache-control": "public,max-age=31536000,immutable"
+      },
+      "continue": true
     },
     {
       "handle": "filesystem"
     },
     {
+      "src": "^/health/.*$",
+      "dest": "api/health/check.py"
+    },
+    {
+      "src": "^/firebase/.*$",
+      "dest": "api/firebase/handler.py"
+    },
+    {
+      "src": "^/api/.*$",
+      "dest": "api/index.py"
+    },
+    {
       "src": "/(.*)",
-      "dest": "/dist/$1"
+      "dest": "/"
     }
   ],
-  "env": {
-    "PYTHON_VERSION": "3.8",
-    "NODE_ENV": "production"
-  }
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=0, must-revalidate"
+        }
+      ]
+    },
+    {
+      "source": "/static/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public,max-age=31536000,immutable"
+        }
+      ]
+    }
+  ]
 }
