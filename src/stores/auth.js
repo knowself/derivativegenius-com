@@ -14,16 +14,18 @@ export const useAuthStore = defineStore('auth', () => {
 
   // Get CSRF token from cookie with fallback
   function getCsrfToken() {
-    const token = document.cookie
-      .split('; ')
-      .find(row => row.startsWith('csrftoken='))
-      ?.split('=')[1]
+    const name = 'csrftoken='
+    const decodedCookie = decodeURIComponent(document.cookie)
+    const cookieArray = decodedCookie.split(';')
     
-    if (!token) {
-      console.warn('CSRF token not found in cookies')
-      return null
+    for (let cookie of cookieArray) {
+      cookie = cookie.trim()
+      if (cookie.indexOf(name) === 0) {
+        return cookie.substring(name.length)
+      }
     }
-    return token
+    console.warn('CSRF token not found in cookies')
+    return null
   }
 
   // Ensure CSRF token is present
@@ -32,60 +34,92 @@ export const useAuthStore = defineStore('auth', () => {
       const currentToken = getCsrfToken()
       if (!currentToken) {
         console.log('Fetching new CSRF token')
-        const response = await fetch('/firebase/auth/session/', {
+        
+        // Make request to health check endpoint to set CSRF cookie
+        const response = await fetch('/health/', {
+          method: 'GET',
           credentials: 'include',
-          headers: token.value ? {
-            'Authorization': `Bearer ${token.value}`
-          } : {}
+          headers: {
+            'Accept': 'application/json'
+          }
         })
         
         if (!response.ok) {
           console.error('Failed to fetch CSRF token:', response.status)
-          throw new Error('Failed to fetch CSRF token')
+          throw new Error(`Failed to fetch CSRF token: ${response.status}`)
         }
 
+        const data = await response.json()
+        console.log('Health check response:', data)
+
+        // Get token from cookie after health check
         const newToken = getCsrfToken()
         if (!newToken) {
           console.error('No CSRF token received after fetch')
           throw new Error('No CSRF token received')
         }
+        
+        console.log('Successfully retrieved CSRF token:', newToken)
         return newToken
       }
       return currentToken
-    } catch (err) {
-      console.error('Error ensuring CSRF token:', err)
-      throw err
+    } catch (error) {
+      console.error('Error ensuring CSRF token:', error)
+      throw error
     }
   }
 
   // Create authenticated fetch wrapper
   async function authenticatedFetch(url, options = {}) {
     try {
+      // Ensure we have a CSRF token
       const csrfToken = await ensureCsrfToken()
       
+      // Merge headers with defaults
       const headers = {
+        'Accept': 'application/json',
         'Content-Type': 'application/json',
         'X-CSRFToken': csrfToken,
-        ...(token.value ? { 'Authorization': `Bearer ${token.value}` } : {}),
-        ...options.headers
+        'X-Requested-With': 'XMLHttpRequest',
+        ...(options.headers || {})
       }
 
-      const response = await fetch(url, {
+      // If we have an auth token, add it
+      if (token.value) {
+        headers['Authorization'] = `Bearer ${token.value}`
+      }
+
+      // Merge options with defaults
+      const fetchOptions = {
         ...options,
-        headers,
-        credentials: 'include'
+        credentials: 'include',
+        headers
+      }
+
+      console.log('Fetch request:', {
+        url,
+        method: fetchOptions.method || 'GET',
+        headers: {
+          ...fetchOptions.headers,
+          Authorization: fetchOptions.headers.Authorization ? '[REDACTED]' : undefined
+        }
       })
 
-      // Log response details in development
-      if (process.env.NODE_ENV === 'development') {
-        console.log(`[${options.method || 'GET'}] ${url}:`, response.status)
-        console.log('Response headers:', Object.fromEntries(response.headers))
+      const response = await fetch(url, fetchOptions)
+      
+      if (!response.ok) {
+        console.error('Request failed:', {
+          status: response.status,
+          statusText: response.statusText,
+          url: response.url
+        })
+        throw new Error(`HTTP error! status: ${response.status}`)
       }
-
+      
       return response
-    } catch (err) {
-      console.error('Authenticated fetch error:', err)
-      throw err
+    } catch (error) {
+      console.error('Fetch error:', error)
+      throw error
     }
   }
 
@@ -153,6 +187,21 @@ export const useAuthStore = defineStore('auth', () => {
       error.value = null
 
       console.log('Starting sign in process...')
+      
+      // First ensure we have a valid CSRF token
+      try {
+        console.log('Fetching fresh CSRF token...')
+        const healthResponse = await fetch('/health/', {
+          credentials: 'include'
+        })
+        if (!healthResponse.ok) {
+          console.error('Health check failed:', healthResponse.status)
+          throw new Error('Failed to initialize session')
+        }
+      } catch (err) {
+        console.error('Health check error:', err)
+        throw new Error('Failed to initialize session')
+      }
 
       const response = await authenticatedFetch('/firebase/auth/signin/', {
         method: 'POST',

@@ -456,7 +456,29 @@ def signin(request):
         print("Content-Type:", request.headers.get('content-type'))
         print("Body:", request.body.decode('utf-8'))
         print("CSRF Token:", request.headers.get('X-CSRFToken'))
+        print("Cookie CSRF Token:", request.COOKIES.get('csrftoken'))
+        print("Method:", request.method)
+        print("Is AJAX:", request.headers.get('X-Requested-With') == 'XMLHttpRequest')
 
+        # Check if this is an AJAX request
+        if request.headers.get('X-Requested-With') != 'XMLHttpRequest':
+            return JsonResponse({
+                'error': 'CSRF verification failed. Request must include X-Requested-With header.'
+            }, status=403)
+
+        # Check CSRF token
+        csrf_token = request.headers.get('X-CSRFToken')
+        cookie_token = request.COOKIES.get('csrftoken')
+        
+        if not csrf_token or not cookie_token or csrf_token != cookie_token:
+            return JsonResponse({
+                'error': 'CSRF token missing or invalid',
+                'debug': {
+                    'header_token': csrf_token,
+                    'cookie_token': cookie_token
+                }
+            }, status=403)
+        
         # Parse request body
         try:
             data = json.loads(request.body)

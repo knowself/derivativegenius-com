@@ -48,173 +48,173 @@ By following these principles, we set a high standard for our work. Every line o
 
 admin privaledges as well as all authentication is controled by firebase.
 
-# DerivativeGenius Development Principles & Standards
-
-## Core Dependencies and Technologies
-
-1. **Backend Framework**
-   - Django (Python web framework)
-   - Django REST framework (API development)
-   - Firebase Admin SDK (Authentication and data management)
-
-2. **Frontend Framework**
-   - Vue.js (JavaScript framework)
-   - Vue CLI (Build tool and development server)
-   - Firebase Client SDK (Client-side authentication)
-
-3. **Development Tools**
-   - devs.sh (Development server management)
-   - Environment variables (.env file)
-   - Git (Version control)
+# AI Development Principles and Standards
 
 ## Core Development Principles
 
-### 1. Security First
-- Implement robust authentication with Firebase and Django
-- Follow security best practices for token management
-- Use secure communication protocols (HTTPS)
-- Implement proper CSRF protection
-- Regular security audits and updates
+### 1. Architecture Integrity
+- Maintain clear separation of concerns between Vue.js frontend and Django backend
+- Use dedicated API gateways for service communication
+- Implement proper health check mechanisms
+- Follow the principle of least privilege
 
-### 2. Performance Optimization
-- Implement efficient caching strategies
-- Optimize database queries
-- Use lazy loading for components
-- Regular performance monitoring and optimization
-- Minimize bundle sizes
+### 2. Security First
+- Implement comprehensive CSRF protection
+- Use proper authentication flows
+- Secure all API endpoints
+- Handle sensitive data appropriately
+- Maintain secure session management
 
-### 3. Code Quality
-- Follow consistent coding standards
-- Write clear, self-documenting code
-- Implement comprehensive error handling
-- Use TypeScript for better type safety
-- Regular code reviews and refactoring
+### 3. Reliability & Resilience
+- Implement robust error handling
+- Use multiple fallback mechanisms
+- Provide clear error messages
+- Implement automatic recovery where possible
+- Monitor system health proactively
 
-### 4. User Experience
-- Responsive design for all devices
-- Intuitive navigation and interfaces
-- Clear error messages and feedback
-- Fast page load times
-- Accessibility compliance
+### 4. Developer Experience
+- Maintain clear documentation
+- Provide helpful error messages
+- Implement efficient development workflows
+- Use consistent coding standards
+- Support easy debugging
+
+### 5. Code Quality
+- Follow SOLID principles
+- Write clean, maintainable code
+- Use proper typing and validation
+- Implement comprehensive testing
+- Maintain consistent code style
 
 ## Technical Standards
 
 ### Frontend (Vue.js)
-- Use Composition API for components
-- Implement Pinia for state management
-- Follow Vue.js style guide
-- Use TypeScript for type safety
-- Implement proper error boundaries
+```javascript
+// API Service Pattern
+const api = {
+  // Use proper interceptors
+  interceptors: {
+    request: [
+      // Handle authentication
+      // Manage CSRF tokens
+      // Set proper headers
+    ],
+    response: [
+      // Handle errors gracefully
+      // Implement retry logic
+      // Manage authentication state
+    ]
+  }
+}
+
+// Health Check Pattern
+async function checkHealth() {
+  try {
+    const response = await fetch('/health/', {
+      credentials: 'include'
+    })
+    return response.ok
+  } catch (error) {
+    handleError(error)
+    return false
+  }
+}
+```
 
 ### Backend (Django)
-- RESTful API design principles
-- Comprehensive error handling
-- Proper middleware configuration
-- Efficient database queries
-- Regular security updates
+```python
+# Health Check Pattern
+@require_http_methods(["GET"])
+@ensure_csrf_cookie
+def health_check(request):
+    return JsonResponse({
+        'status': 'healthy',
+        'csrf_token': get_token(request)
+    })
 
-### Authentication (Firebase)
-- Secure token management
-- Proper error handling
-- Regular security audits
-- User session management
-- Role-based access control
+# Middleware Pattern
+class SecurityMiddleware:
+    def __init__(self, get_response):
+        self.get_response = get_response
 
-### System Health Monitoring
-- Real-time performance metrics
-- Error tracking and logging
-- Resource usage monitoring
-- Regular health checks
-- Automated alerts
+    def __call__(self, request):
+        # Implement security checks
+        # Handle CSRF protection
+        # Manage authentication
+        response = self.get_response(request)
+        return response
+```
 
-## Development Workflow
+### Development Environment
+```bash
+# Server Detection Pattern
+is_server_running() {
+    # Check process existence
+    # Verify port availability
+    # Test actual service health
+    # Implement fallback mechanisms
+}
 
-### 1. Version Control
-- Git-based workflow
-- Feature branch development
-- Pull request reviews
-- Semantic versioning
-- Clean commit messages
+# Health Check Pattern
+check_health() {
+    # Verify all services
+    # Test integrations
+    # Check dependencies
+    # Monitor resource usage
+}
+```
 
-### 2. Testing
-- Unit tests for components
-- Integration tests
-- End-to-end testing
-- Performance testing
-- Security testing
+## Security Standards
 
-### 3. Deployment
-- Automated deployment pipeline
-- Environment-specific configurations
-- Rollback procedures
-- Zero-downtime deployments
-- Regular backups
+### Authentication Flow
+1. Client requests access
+2. Server provides CSRF token
+3. Client includes token in subsequent requests
+4. Server validates token and authentication
+5. Maintain secure session
 
-### 4. Documentation
-- Code documentation
-- API documentation
-- Deployment guides
-- Troubleshooting guides
-- Regular updates
+### API Security
+1. Use proper CORS configuration
+2. Implement CSRF protection
+3. Validate all inputs
+4. Use proper HTTP methods
+5. Implement rate limiting
+
+### Error Handling
+1. Provide clear error messages
+2. Implement proper logging
+3. Use appropriate error codes
+4. Handle edge cases
+5. Maintain security in error responses
 
 ## Best Practices
 
-### Error Handling
-- Comprehensive error logging
-- User-friendly error messages
-- Proper error propagation
-- Error recovery procedures
-- Regular error monitoring
+### Development Workflow
+1. Use version control effectively
+2. Implement proper testing
+3. Follow code review process
+4. Maintain documentation
+5. Use consistent formatting
 
-### State Management
-- Centralized state with Pinia
-- Clear state mutations
-- State persistence
-- State rehydration
-- Error state handling
+### Code Organization
+1. Follow proper directory structure
+2. Use meaningful file names
+3. Implement modular design
+4. Maintain clear dependencies
+5. Use proper configuration management
 
 ### Performance
-- Code splitting
-- Asset optimization
-- Caching strategies
-- Database optimization
-- Regular performance audits
+1. Optimize API calls
+2. Implement proper caching
+3. Use efficient algorithms
+4. Monitor resource usage
+5. Implement lazy loading
 
-### Security
-- Regular security updates
-- Input validation
-- Output sanitization
-- Access control
-- Security monitoring
+### Maintenance
+1. Keep dependencies updated
+2. Monitor system health
+3. Implement proper logging
+4. Maintain backups
+5. Document changes properly
 
-## Maintenance
-
-### Regular Tasks
-- Dependency updates
-- Security patches
-- Performance optimization
-- Code refactoring
-- Documentation updates
-
-### Monitoring
-- Error tracking
-- Performance metrics
-- User analytics
-- Resource usage
-- Security alerts
-
-## Future Improvements
-
-### Planned Enhancements
-- Enhanced analytics
-- Advanced monitoring
-- Improved error handling
-- Better performance metrics
-- Extended security features
-
-### Technical Debt
-- Regular code reviews
-- Refactoring sessions
-- Documentation updates
-- Test coverage improvement
-- Security enhancement
+Remember: These principles and standards are living documents. They should be regularly reviewed and updated as our technology stack evolves and new best practices emerge.

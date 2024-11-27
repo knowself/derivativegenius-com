@@ -14,10 +14,14 @@ class DebugCsrfMiddleware:
         logger.debug(f"Request method: {request.method}")
         logger.debug(f"CSRF Cookie: {request.COOKIES.get('csrftoken')}")
         logger.debug(f"CSRF Header: {request.headers.get('X-CSRFToken')}")
+        logger.debug(f"Origin: {request.headers.get('Origin')}")
+        logger.debug(f"Referer: {request.headers.get('Referer')}")
+        logger.debug(f"Host: {request.headers.get('Host')}")
         
-        # Ensure CSRF token is set in cookie for all requests
+        # Always ensure CSRF token is set in development
         if settings.DEBUG:
-            get_token(request)
+            token = get_token(request)
+            logger.debug(f"Generated CSRF token: {token}")
         
         response = self.get_response(request)
         
@@ -26,9 +30,32 @@ class DebugCsrfMiddleware:
         logger.debug(f"Response cookies: {[k for k in response.cookies.keys()]}")
         
         # In development, ensure CSRF cookie is accessible
-        if settings.DEBUG:
-            if 'csrftoken' in response.cookies:
-                response.cookies['csrftoken']['samesite'] = 'Lax'
-                response.cookies['csrftoken']['secure'] = False
+        if settings.DEBUG and 'csrftoken' in response.cookies:
+            logger.debug("Configuring CSRF cookie for development")
+            
+            # Get the origin domain
+            origin = request.headers.get('Origin', '')
+            if origin:
+                try:
+                    from urllib.parse import urlparse
+                    domain = urlparse(origin).netloc.split(':')[0]
+                    logger.debug(f"Setting cookie domain to: {domain}")
+                except Exception as e:
+                    logger.error(f"Error parsing origin: {e}")
+                    domain = None
+            else:
+                domain = None
+            
+            response.cookies['csrftoken'].update({
+                'samesite': 'Lax',
+                'secure': False,
+                'httponly': False,
+                'domain': domain,
+                'path': '/'
+            })
+            
+            # Log final cookie configuration
+            cookie = response.cookies['csrftoken']
+            logger.debug(f"Final cookie config: samesite={cookie['samesite']}, secure={cookie['secure']}, httponly={cookie['httponly']}, domain={cookie['domain']}, path={cookie['path']}")
         
         return response

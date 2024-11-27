@@ -54,10 +54,10 @@ MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
+    'firebase_app.csrf_middleware.DebugCsrfMiddleware',  # Move Debug CSRF middleware before CsrfViewMiddleware
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'firebase_app.middleware.FirebaseAuthenticationMiddleware',  # Add Firebase middleware
-    'firebase_app.csrf_middleware.DebugCsrfMiddleware',  # Add Debug CSRF middleware
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
@@ -151,7 +151,7 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'public'
 
 # CORS settings
-CORS_ALLOW_ALL_ORIGINS = True if DEBUG else False
+CORS_ALLOW_ALL_ORIGINS = False  # Be explicit about allowed origins
 CORS_ALLOW_CREDENTIALS = True
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:8080",
@@ -161,6 +161,27 @@ CORS_ALLOWED_ORIGINS = [
     "https://derivative-genius.com",
     "https://www.derivative-genius.com",
     "https://derivative-genius-website.vercel.app"
+]
+
+CORS_ALLOW_METHODS = [
+    'GET',
+    'POST',
+    'PUT',
+    'PATCH',
+    'DELETE',
+    'OPTIONS'
+]
+
+CORS_ALLOW_HEADERS = [
+    'accept',
+    'accept-encoding',
+    'authorization',
+    'content-type',
+    'dnt',
+    'origin',
+    'user-agent',
+    'x-csrftoken',
+    'x-requested-with',
 ]
 
 # CSRF settings
@@ -179,8 +200,15 @@ SESSION_COOKIE_SECURE = not DEBUG  # Allow non-HTTPS in development
 CSRF_COOKIE_SECURE = not DEBUG  # Allow non-HTTPS in development
 SESSION_COOKIE_SAMESITE = 'Lax' if DEBUG else 'None'  # More permissive in development
 CSRF_COOKIE_SAMESITE = 'Lax' if DEBUG else 'None'  # More permissive in development
-CSRF_USE_SESSIONS = True  # Store CSRF token in session for better security
+CSRF_USE_SESSIONS = False  # Store CSRF token in cookie for development
 CSRF_COOKIE_HTTPONLY = False  # Allow JavaScript access to CSRF cookie
+CSRF_COOKIE_DOMAIN = None  # Allow subdomains in development
+SESSION_COOKIE_DOMAIN = None  # Allow subdomains in development
+
+# Development-specific cookie settings
+if DEBUG:
+    CSRF_COOKIE_NAME = 'csrftoken'
+    SESSION_COOKIE_NAME = 'sessionid'
 
 # Firebase Configuration
 FIREBASE_ADMIN_PROJECT_ID = os.getenv('FIREBASE_ADMIN_PROJECT_ID')
@@ -199,33 +227,65 @@ if not all([FIREBASE_ADMIN_PROJECT_ID, FIREBASE_ADMIN_PRIVATE_KEY, FIREBASE_ADMI
     else:
         raise ValueError("Missing required Firebase configuration variables")
 
-# Logging configuration
+# Logging Configuration
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
+    'formatters': {
+        'verbose': {
+            'format': '[{asctime}] {levelname} [{name}] {message}',
+            'style': '{',
+            'datefmt': '%Y-%m-%d %H:%M:%S'
+        },
+        'simple': {
+            'format': '[{asctime}] {levelname} [{name}] {message}',
+            'style': '{',
+            'datefmt': '%H:%M:%S'
+        },
+    },
     'handlers': {
         'console': {
             'class': 'logging.StreamHandler',
-            'level': 'WARNING',
+            'formatter': 'simple',
+            'level': 'DEBUG',
         },
     },
     'loggers': {
-        'django': {
+        'django.request': {
             'handlers': ['console'],
-            'level': 'WARNING',
-            'propagate': False,
+            'level': 'DEBUG',
+            'propagate': True,
+        },
+        'django.security': {
+            'handlers': ['console'],
+            'level': 'DEBUG',
+            'propagate': True,
         },
         'django.server': {
             'handlers': ['console'],
-            'level': 'WARNING',
-            'propagate': False,
+            'level': 'DEBUG',
+            'propagate': True,
         },
-        'firebase_admin': {
+        'firebase_app.csrf_middleware': {
             'handlers': ['console'],
-            'level': 'WARNING',
-            'propagate': False,
+            'level': 'DEBUG',
+            'propagate': True,
+        },
+        'firebase_app.views': {
+            'handlers': ['console'],
+            'level': 'DEBUG',
+            'propagate': True,
+        },
+        'api.gateway': {
+            'handlers': ['console'],
+            'level': 'DEBUG',
+            'propagate': True,
         },
     },
+    'root': {
+        'handlers': ['console'],
+        'level': 'INFO',
+    }
 }
 
 # Default primary key field type

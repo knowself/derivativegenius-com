@@ -8,7 +8,7 @@
     "vercel-build": "bash ./build.sh",
     "vue-build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
-    "dev": "vue-cli-service serve --port 8081",
+    "dev": "vue-cli-service serve",
     "start": "node index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },

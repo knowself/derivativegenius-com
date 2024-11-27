@@ -17,8 +17,14 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
+from . import gateway
 
 urlpatterns = [
+    # Health check endpoints (no auth required)
+    path('health/', gateway.health_check, name='health_check'),
+    path('vue-status/', gateway.vue_status, name='vue_status'),
+    
+    # Admin and application endpoints
     path('admin/', admin.site.urls),
     path('firebase-admin/', include('admin_panel.urls')),  # Custom Firebase admin panel
     # Removed duplicate firebase URL pattern - now handled in core/urls.py

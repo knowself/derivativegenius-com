@@ -1,35 +1,109 @@
 import axios from 'axios'
 import { useAuthStore } from '../stores/auth'
 
+// Create axios instance with default config
 const api = axios.create({
   baseURL: process.env.VUE_APP_API_URL || '/api',
   headers: {
     'Content-Type': 'application/json'
-  }
+  },
+  withCredentials: true // Enable CSRF cookie handling
 })
 
-// Add auth token to requests
-api.interceptors.request.use(config => {
-  const authStore = useAuthStore()
-  const token = authStore.getAuthToken()
-  
-  if (token) {
-    config.headers.Authorization = `Bearer ${token}`
+// Request interceptor for API calls
+api.interceptors.request.use(
+  async config => {
+    const authStore = useAuthStore()
+    const token = authStore.getAuthToken()
+    
+    // Ensure we have CSRF token
+    if (!document.cookie.includes('csrftoken')) {
+      await fetch('/health/', { credentials: 'include' })
+    }
+    
+    // Get CSRF token from cookie
+    const csrfToken = document.cookie
+      .split('; ')
+      .find(row => row.startsWith('csrftoken='))
+      ?.split('=')[1]
+    
+    if (csrfToken) {
+      config.headers['X-CSRFToken'] = csrfToken
+    }
+    
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`
+    }
+    return config
+  },
+  error => {
+    console.error('Request interceptor error:', error)
+    return Promise.reject(error)
   }
-  return config
-})
+)
 
-// Handle 401 responses
+// Response interceptor for API calls
 api.interceptors.response.use(
   response => response,
-  error => {
-    if (error.response?.status === 401) {
-      const authStore = useAuthStore()
-      authStore.signOut()
+  async error => {
+    const authStore = useAuthStore()
+    
+    // Handle different error cases
+    if (error.response) {
+      switch (error.response.status) {
+        case 401:
+          // Unauthorized - sign out user
+          await authStore.signOut()
+          break
+        case 403:
+          // Forbidden - could be CSRF token issue
+          if (error.response.data.detail?.includes('CSRF')) {
+            // Retry request once with fresh CSRF token
+            const originalRequest = error.config
+            if (!originalRequest._retry) {
+              originalRequest._retry = true
+              await fetch('/health/', { credentials: 'include' })
+              return api(originalRequest)
+            }
+          }
+          break
+        case 500:
+          console.error('Server error:', error.response.data)
+          break
+      }
     }
     return Promise.reject(error)
   }
 )
+
+// Health check functions
+export const healthApi = {
+  async checkDjango() {
+    try {
+      const response = await fetch('/health/', { 
+        credentials: 'include',
+        headers: { 'Accept': 'application/json' }
+      })
+      return response.ok
+    } catch (error) {
+      console.error('Health check failed:', error)
+      return false
+    }
+  },
+  
+  async checkVueStatus() {
+    try {
+      const response = await fetch('/vue-status/', {
+        credentials: 'include',
+        headers: { 'Accept': 'application/json' }
+      })
+      return response.ok
+    } catch (error) {
+      console.error('Vue status check failed:', error)
+      return false
+    }
+  }
+}
 
 export const adminApi = {
   // Clients

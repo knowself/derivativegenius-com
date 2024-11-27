@@ -2,7 +2,7 @@ create a comprehensive commit message which addresses all the changes. I will do
 
 guardians of truth
 
-@_ai_dev_principles_standards.md
+_ai_dev_principles_standards.md
 readme.md
 requirements.txt
 

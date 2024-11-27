@@ -8,6 +8,51 @@ module.exports = defineConfig({
   assetsDir: 'static',
   indexPath: 'index.html',
   filenameHashing: true,
+
+  // Configure development server proxy
+  devServer: {
+    port: 8080,
+    host: 'localhost',
+    proxy: {
+      '/health/': {
+        target: 'http://localhost:8000',
+        changeOrigin: false,
+        secure: false,
+        withCredentials: true,
+        cookieDomainRewrite: 'localhost',
+        headers: {
+          'Origin': 'http://localhost:8080'
+        }
+      },
+      '/firebase/': {
+        target: 'http://localhost:8000',
+        changeOrigin: false,
+        secure: false,
+        withCredentials: true,
+        cookieDomainRewrite: 'localhost',
+        headers: {
+          'Origin': 'http://localhost:8080'
+        }
+      },
+      '/api/': {
+        target: 'http://localhost:8000',
+        changeOrigin: false,
+        secure: false,
+        withCredentials: true,
+        cookieDomainRewrite: 'localhost',
+        headers: {
+          'Origin': 'http://localhost:8080'
+        }
+      }
+    },
+    client: {
+      overlay: {
+        errors: true,
+        warnings: false
+      }
+    }
+  },
+
   pages: {
     index: {
       entry: 'src/main.js',
@@ -29,123 +74,26 @@ module.exports = defineConfig({
         minSize: 20000,
         maxSize: 250000,
         cacheGroups: {
-          defaultVendors: {
-            name: 'chunk-vendors',
-            test: /[\\/]node_modules[\\/]/,
-            priority: -10,
-            chunks: 'initial',
-            reuseExistingChunk: true
+          defaultVendors: false,
+          default: false,
+          styles: {
+            name: 'styles',
+            test: /\.(s?css|vue)$/,
+            chunks: 'all',
+            enforce: true,
+            priority: 10
           },
           common: {
-            name: 'chunk-common',
-            minChunks: 2,
-            priority: -20,
+            name: 'common',
+            test(module) {
+              if (!module.context) return false
+              return module.context.includes('node_modules')
+            },
             chunks: 'initial',
-            reuseExistingChunk: true
-          },
-          firebase: {
-            name: 'firebase',
-            test: /[\\/]node_modules[\\/](@firebase|firebase)/,
-            priority: 20,
-            chunks: 'async'
-          },
-          charts: {
-            name: 'charts',
-            test: /[\\/]node_modules[\\/](chart\.js|vue-chartjs)/,
-            priority: 15,
-            chunks: 'async'
-          },
-          heroicons: {
-            name: 'heroicons',
-            test: /[\\/]node_modules[\\/]@heroicons/,
-            priority: 10,
-            chunks: 'async'
+            priority: 2,
+            minChunks: 2
           }
         }
-      }
-    },
-    cache: {
-      type: 'filesystem',
-      buildDependencies: {
-        config: [__filename]
-      }
-    }
-  },
-  chainWebpack: config => {
-    // Add Vue feature flags and build info
-    config.plugin('define')
-      .tap(args => {
-        Object.assign(args[0], {
-          __VUE_OPTIONS_API__: true,
-          __VUE_PROD_DEVTOOLS__: false,
-          __VUE_PROD_HYDRATION_MISMATCH_DETAILS__: false,
-          'process.env': {
-            BASE_URL: JSON.stringify('/'),
-            NODE_ENV: JSON.stringify(process.env.NODE_ENV),
-            BUILD_TIME: JSON.stringify(new Date().toISOString()),
-            BUILD_VERSION: JSON.stringify(require('./package.json').version)
-          }
-        })
-        return args
-      })
-
-    // Handle static assets
-    config.module
-      .rule('images')
-      .test(/\.(png|jpe?g|gif|webp|avif|ico)(\?.*)?$/)
-      .type('asset')
-      .parser({
-        dataUrlCondition: {
-          maxSize: 4 * 1024 // 4kb
-        }
-      })
-
-    // Improve build logging
-    config.stats({
-      colors: true,
-      modules: false,
-      children: false,
-      chunks: false,
-      chunkModules: false,
-      assets: true
-    })
-
-    // Tree shaking for lodash
-    config.resolve.alias
-      .set('lodash-es', 'lodash')
-
-    // Production optimizations
-    if (process.env.NODE_ENV === 'production') {
-      config.optimization
-        .minimize(true)
-        .splitChunks({
-          chunks: 'all',
-          minSize: 20000,
-          maxSize: 250000
-        })
-    }
-  },
-  devServer: {
-    proxy: {
-      '/api': {
-        target: 'http://localhost:8000',
-        changeOrigin: true,
-        pathRewrite: {
-          '^/api': '/api'
-        }
-      },
-      '/firebase': {
-        target: 'http://localhost:8000',
-        changeOrigin: true,
-        pathRewrite: {
-          '^/firebase': '/firebase'
-        }
-      }
-    },
-    client: {
-      overlay: {
-        errors: true,
-        warnings: false
       }
     }
   }
