@@ -4,8 +4,8 @@
   "private": true,
   "description": "Derivative Genius website",
   "scripts": {
-    "build": "bash ./build.sh",
-    "vercel-build": "bash ./build.sh",
+    "build": "vue-cli-service build",
+    "vercel-build": "./vercel-build.sh",
     "vue-build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
     "dev": "vue-cli-service serve",
@@ -35,6 +35,7 @@
     "@vue/cli-plugin-eslint": "^5.0.8",
     "@vue/cli-service": "^5.0.8",
     "autoprefixer": "^10.4.17",
+    "compression-webpack-plugin": "^11.1.0",
     "consolidate": "^1.0.3",
     "cssnano": "^6.0.3",
     "eslint": "^8.57.0",
