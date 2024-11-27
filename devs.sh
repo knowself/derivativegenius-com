@@ -1,7 +1,7 @@
 # Development Environment Configuration
 # Python: Always use python3 (not python) for all commands
 # Node.js: v18.x LTS
-# Ports: Vue.js (8081), Django (8000)
+# Ports: Vue.js (8080), Django (8000)
 
 #!/bin/bash
 
@@ -11,6 +11,10 @@ BLUE='\033[0;34m'
 RED='\033[0;31m'
 YELLOW='\033[1;33m'
 NC='\033[0m' # No Color
+
+# Server port configuration
+DJANGO_PORT=8000
+VUE_PORT=8080
 
 # Source our minimal prompt
 source .bash_prompt
@@ -53,7 +57,7 @@ is_django_running() {
     # First check if process exists
     if pgrep -f "python.*manage.py.*runserver" > /dev/null; then
         # Then verify it's responding, with more lenient timeout
-        if curl -s -m 3 -o /dev/null -w "%{http_code}" http://localhost:8000/ > /dev/null 2>&1; then
+        if curl -s -m 3 -o /dev/null -w "%{http_code}" http://localhost:$DJANGO_PORT/ > /dev/null 2>&1; then
             # Also verify Firebase is initialized by checking the log
             if [ -f django.log ] && tail -n 50 django.log | grep -q "Firebase Admin SDK initialized successfully"; then
                 return 0
@@ -79,7 +83,7 @@ is_vue_running() {
         
         # Try different endpoints that Vue might serve
         for endpoint in "" "index.html" "static/"; do
-            if curl -sL -k -m 3 -o /dev/null "http://localhost:8081/$endpoint" > /dev/null 2>&1; then
+            if curl -sL -k -m 3 -o /dev/null "http://localhost:$VUE_PORT/$endpoint" > /dev/null 2>&1; then
                 return 0
             fi
         done
@@ -255,20 +259,20 @@ check_health() {
     local vue_status="not running"
     
     if is_django_running; then
-        django_status="${GREEN}running${NC}"
+        django_status="${GREEN}running${NC} (http://localhost:$DJANGO_PORT)"
     else
         django_status="${RED}not running${NC}"
     fi
     
     if is_vue_running; then
-        vue_status="${GREEN}running${NC}"
+        vue_status="${GREEN}running${NC} (http://localhost:$VUE_PORT)"
     else
         vue_status="${RED}not running${NC}"
     fi
     
     echo -e "\n${BLUE}Server Status:${NC}"
-    echo -e "Django: $django_status"
-    echo -e "Vue.js: $vue_status\n"
+    echo -e "Django:  $django_status"
+    echo -e "Vue.js:  $vue_status\n"
     
     # Return success only if both servers are running
     if is_django_running && is_vue_running; then
@@ -326,7 +330,8 @@ cleanup() {
 
     # Clean up any stale port bindings
     if command -v fuser >/dev/null 2>&1; then
-        fuser -k 8081/tcp 2>/dev/null || true
+        fuser -k $VUE_PORT/tcp 2>/dev/null || true
+        fuser -k $DJANGO_PORT/tcp 2>/dev/null || true
     fi
 }
 
@@ -383,7 +388,7 @@ test_django() {
     
     for endpoint in "${endpoints[@]}"; do
         echo -n "Testing $endpoint ... "
-        response=$(curl -s -w "%{http_code}" http://localhost:8000$endpoint -o /tmp/django_response.txt)
+        response=$(curl -s -w "%{http_code}" http://localhost:$DJANGO_PORT$endpoint -o /tmp/django_response.txt)
         body=$(cat /tmp/django_response.txt)
         rm -f /tmp/django_response.txt
         
@@ -400,7 +405,7 @@ test_django() {
     
     # Test Django admin interface accessibility
     echo -n "Testing Django admin interface ... "
-    if curl -s http://localhost:8000/admin/ | grep -q "Django administration"; then
+    if curl -s http://localhost:$DJANGO_PORT/admin/ | grep -q "Django administration"; then
         echo -e "${GREEN}OK${NC}"
     else
         echo -e "${RED}FAILED${NC}"
@@ -409,7 +414,7 @@ test_django() {
     
     # Test Django static files
     echo -n "Testing static files ... "
-    if curl -s -I http://localhost:8000/static/admin/css/base.css | grep -q "200 OK"; then
+    if curl -s -I http://localhost:$DJANGO_PORT/static/admin/css/base.css | grep -q "200 OK"; then
         echo -e "${GREEN}OK${NC}"
     else
         echo -e "${RED}FAILED${NC}"
@@ -431,7 +436,7 @@ test_firebase() {
     echo -e "${BLUE}[$(date +'%H:%M:%S')]${NC} Testing Firebase connection..."
     
     # Try to connect to Django endpoint that uses Firebase
-    response_code=$(curl -s -w "%{http_code}" http://localhost:8000/firebase/firebase-test/ -o /tmp/firebase_response.txt)
+    response_code=$(curl -s -w "%{http_code}" http://localhost:$DJANGO_PORT/firebase/firebase-test/ -o /tmp/firebase_response.txt)
     response_body=$(cat /tmp/firebase_response.txt)
     rm -f /tmp/firebase_response.txt
     
@@ -480,7 +485,7 @@ handle_command() {
             echo -e "${GREEN}[✓]${NC} Servers stopped successfully"
             exit 0
             ;;
-        *)
+        ""|*)
             echo -e "${BLUE}Here are the options:${NC}"
             echo -e "  ${YELLOW}r${NC}      - restart servers"
             echo -e "  ${YELLOW}h${NC}      - check health"
@@ -507,13 +512,13 @@ start_interactive() {
             DJANGO_RUNNING=false
             
             # Check Vue server
-            if kill -0 $VUE_PID 2>/dev/null && curl -sL -k -m 3 -o /dev/null http://localhost:8081/ > /dev/null 2>&1; then
+            if kill -0 $VUE_PID 2>/dev/null && curl -sL -k -m 3 -o /dev/null http://localhost:$VUE_PORT/ > /dev/null 2>&1; then
                 VUE_RUNNING=true
             fi
             
             # Check Django server with PID and Firebase
             if [ -n "$DJANGO_PID" ] && kill -0 $DJANGO_PID 2>/dev/null; then
-                if curl -s -m 3 -o /dev/null http://localhost:8000/ > /dev/null 2>&1; then
+                if curl -s -m 3 -o /dev/null http://localhost:$DJANGO_PORT/ > /dev/null 2>&1; then
                     if tail -n 50 django.log | grep -q "Firebase Admin SDK initialized successfully"; then
                         DJANGO_RUNNING=true
                     elif tail -n 50 django.log | grep -q "Error initializing Firebase"; then
@@ -549,7 +554,7 @@ check_running() {
     # More thorough check for Vue process
     if pgrep -f "vue-cli-service serve" >/dev/null; then
         # Also verify it's responding
-        if curl -sL -k -m 3 -o /dev/null http://localhost:8081/ > /dev/null 2>&1; then
+        if curl -sL -k -m 3 -o /dev/null http://localhost:$VUE_PORT/ > /dev/null 2>&1; then
             # Vue is running and responding
             if pgrep -f "runserver" >/dev/null; then
                 # Both servers are running
