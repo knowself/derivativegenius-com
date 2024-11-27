@@ -72,6 +72,11 @@ db.sqlite3-journal
 media/
 static/
 staticfiles/
+*.pyc
+__pycache__/
+db.sqlite3
+django.log
+vue.log
 
 # Firebase
 firebase-debug.log

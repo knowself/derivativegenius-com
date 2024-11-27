@@ -1,10 +1,11 @@
+create a comprehensive commit message which addresses all the changes. I will do the commit.
+
 guardians of truth
 
 @_ai_dev_principles_standards.md
 readme.md
 requirements.txt
 
-create a comprehensive commit message which addresses all the changes. I will do the commit.
 
 == Start every session with windsurf ==
 

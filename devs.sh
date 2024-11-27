@@ -1,7 +1,9 @@
-#!/bin/bash
+# Development Environment Configuration
+# Python: Always use python3 (not python) for all commands
+# Node.js: v18.x LTS
+# Ports: Vue.js (8081), Django (8000)
 
-# Source our minimal prompt
-source .bash_prompt
+#!/bin/bash
 
 # Colors for pretty output
 GREEN='\033[0;32m'
@@ -9,6 +11,22 @@ BLUE='\033[0;34m'
 RED='\033[0;31m'
 YELLOW='\033[1;33m'
 NC='\033[0m' # No Color
+
+# Source our minimal prompt
+source .bash_prompt
+
+# AI Development Principles
+# This check serves as a reminder to developers that this project uses AI assistance
+# guided by principles defined in _ai_dev_principles_standards.md
+# NOTE: Developers must manually share this file with AI assistants during development
+# sessions to ensure the principles are followed.
+if [ -f "_ai_dev_principles_standards.md" ]; then
+    export AI_PRINCIPLES_FILE="_ai_dev_principles_standards.md"
+    echo -e "${BLUE}[$(date +'%H:%M:%S')]${NC} AI development principles file present (remember to share with AI assistants)"
+else
+    echo -e "${RED}[✗]${NC} AI principles file not found. Please ensure _ai_dev_principles_standards.md exists."
+    exit 1
+fi
 
 # Print with timestamp
 log() {
@@ -78,12 +96,12 @@ is_vue_running() {
 # Function to start Django server
 start_django() {
     if ! is_django_running; then
-        log "Starting Django server..."
+        echo -e "${BLUE}[$(date +'%H:%M:%S')]${NC} Starting Django server..."
         
         # Ensure virtual environment is activated
         if [ -z "$VIRTUAL_ENV" ]; then
             if [ ! -f "venv/bin/activate" ]; then
-                error "Virtual environment not found. Creating one..."
+                echo -e "${RED}[✗]${NC} Virtual environment not found. Creating one..."
                 python3 -m venv venv
             fi
             source venv/bin/activate
@@ -94,7 +112,7 @@ start_django() {
         
         # Check Firebase credentials
         if [ ! -f "dg-website-firebase-adminsdk-ykjsf-f0de62e320.json" ]; then
-            error "Firebase credentials file not found!"
+            echo -e "${RED}[✗]${NC} Firebase credentials file not found!"
             return 1
         fi
         
@@ -112,21 +130,21 @@ start_django() {
             
             # Check if process is still running
             if ! kill -0 $DJANGO_PID 2>/dev/null; then
-                error "Django process terminated unexpectedly. Last log entries:"
+                echo -e "${RED}[✗]${NC} Django process terminated unexpectedly. Last log entries:"
                 tail -n 10 django.log
                 return 1
             fi
             
             # Check log for different states
             if tail -n 20 django.log | grep -q "Firebase Admin SDK initialized successfully"; then
-                success "Django server started successfully with Firebase"
+                echo -e "${GREEN}[✓]${NC} Django server started successfully with Firebase"
                 return 0
             elif tail -n 20 django.log | grep -q "Error initializing Firebase"; then
-                error "Firebase initialization failed. Check django.log for details:"
+                echo -e "${RED}[✗]${NC} Firebase initialization failed. Check django.log for details:"
                 tail -n 10 django.log
                 return 1
             elif [ $elapsed -gt 15 ]; then
-                error "Django server took too long to initialize. Last log entries:"
+                echo -e "${RED}[✗]${NC} Django server took too long to initialize. Last log entries:"
                 tail -n 10 django.log
                 return 1
             fi
@@ -134,15 +152,15 @@ start_django() {
             # Show progress at intervals
             case $elapsed in
                 5)
-                    log "Waiting for Django to initialize..."
+                    echo -e "${BLUE}[$(date +'%H:%M:%S')]${NC} Waiting for Django to initialize..."
                     ;;
                 10)
-                    log "Still waiting for Firebase initialization..."
+                    echo -e "${BLUE}[$(date +'%H:%M:%S')]${NC} Still waiting for Firebase initialization..."
                     ;;
             esac
         done
     else
-        log "Django server is already running"
+        echo -e "${BLUE}[$(date +'%H:%M:%S')]${NC} Django server is already running"
         # Update PID for monitoring
         DJANGO_PID=$(pgrep -f "python.*manage.py.*runserver" | head -n1)
         export DJANGO_PID
@@ -153,26 +171,26 @@ start_django() {
 # Function to start Vue server
 start_vue() {
     if ! is_vue_running; then
-        log "Starting Vue server..."
+        echo -e "${BLUE}[$(date +'%H:%M:%S')]${NC} Starting Vue server..."
         
         # First ensure we're in a clean state
         cleanup
         
         # Check npm environment
         if ! command -v npm >/dev/null 2>&1; then
-            error "npm not found. Please install Node.js"
+            echo -e "${RED}[✗]${NC} npm not found. Please install Node.js"
             return 1
         fi
         
         # Verify node_modules exists
         if [ ! -d "node_modules" ]; then
-            error "node_modules not found. Please run 'npm install' first"
+            echo -e "${RED}[✗]${NC} node_modules not found. Please run 'npm install' first"
             return 1
         fi
         
         # Clear problematic cache files if they exist
         if [ -d "node_modules/.cache" ]; then
-            log "Clearing webpack cache..."
+            echo -e "${BLUE}[$(date +'%H:%M:%S')]${NC} Clearing webpack cache..."
             find node_modules/.cache -type f -name "*.json" -delete
             find node_modules/.cache -type f -name "*.pack" -delete
         fi
@@ -183,14 +201,14 @@ start_vue() {
         export VUE_CLI_SERVICE_CONFIG_PATH="$(pwd)/vue.config.js"
         
         # Start Vue dev server with preserved environment
-        log "Starting Vue development server..."
+        echo -e "${BLUE}[$(date +'%H:%M:%S')]${NC} Starting Vue development server..."
         npm run dev > vue.log 2>&1 &
         VUE_PID=$!
         
         # Wait up to 60 seconds for the server to start
         for i in {1..60}; do
             if is_vue_running; then
-                success "Vue server started successfully"
+                echo -e "${GREEN}[✓]${NC} Vue server started successfully"
                 return 0
             fi
             sleep 1
@@ -198,35 +216,35 @@ start_vue() {
             # Show progress at intervals
             case $i in
                 10)
-                    log "Still compiling... (this may take a few moments)"
+                    echo -e "${BLUE}[$(date +'%H:%M:%S')]${NC} Still compiling... (this may take a few moments)"
                     tail -n 3 vue.log
                     ;;
                 30)
-                    log "Webpack is still bundling... (large projects may take longer)"
+                    echo -e "${BLUE}[$(date +'%H:%M:%S')]${NC} Webpack is still bundling... (large projects may take longer)"
                     tail -n 3 vue.log
                     ;;
                 50)
-                    warn "Server startup is taking longer than usual..."
+                    echo -e "${YELLOW}[!]${NC} Server startup is taking longer than usual..."
                     tail -n 5 vue.log
                     ;;
             esac
             
             # Check for common errors in the log
             if grep -q "Error:" vue.log 2>/dev/null; then
-                error "Vue server failed to start. Found error in logs:"
+                echo -e "${RED}[✗]${NC} Vue server failed to start. Found error in logs:"
                 grep -A 5 "Error:" vue.log | head -n 6
                 cleanup
                 return 1
             fi
         done
         
-        error "Vue server failed to start within 60 seconds"
-        log "Last 10 lines of vue.log:"
+        echo -e "${RED}[✗]${NC} Vue server failed to start within 60 seconds"
+        echo -e "${BLUE}[$(date +'%H:%M:%S')]${NC} Last 10 lines of vue.log:"
         tail -n 10 vue.log
         cleanup
         return 1
     else
-        log "Vue server is already running"
+        echo -e "${BLUE}[$(date +'%H:%M:%S')]${NC} Vue server is already running"
     fi
     return 0
 }
@@ -261,28 +279,28 @@ check_health() {
 
 # Function to start servers
 start_servers() {
-    log "Starting servers..."
+    echo -e "${BLUE}[$(date +'%H:%M:%S')]${NC} Starting servers..."
     
     # Start Vue server first since it takes longer to compile
     if ! start_vue; then
-        error "Failed to start Vue server"
+        echo -e "${RED}[✗]${NC} Failed to start Vue server"
         return 1
     fi
     
     # Start Django server
     if ! start_django; then
-        error "Failed to start Django server"
+        echo -e "${RED}[✗]${NC} Failed to start Django server"
         cleanup  # Clean up Vue server if Django fails
         return 1
     fi
     
-    success "All servers started successfully"
+    echo -e "${GREEN}[✓]${NC} All servers started successfully"
     return 0
 }
 
 # Function to cleanup processes
 cleanup() {
-    log "Stopping servers..."
+    echo -e "${BLUE}[$(date +'%H:%M:%S')]${NC} Stopping servers..."
     
     # Kill Vue CLI process and any related Node processes
     pkill -f "vue-cli-service serve" 2>/dev/null
@@ -316,25 +334,25 @@ cleanup() {
 restart_servers() {
     local from_where=$1
     
-    log "Restarting development servers..."
+    echo -e "${BLUE}[$(date +'%H:%M:%S')]${NC} Restarting development servers..."
     
     # First stop all servers
     cleanup
     
     # Start Vue first
     if ! start_vue; then
-        error "Failed to restart Vue server"
+        echo -e "${RED}[✗]${NC} Failed to restart Vue server"
         return 1
     fi
     
     # Then start Django
     if ! start_django; then
-        error "Failed to restart Django server"
+        echo -e "${RED}[✗]${NC} Failed to restart Django server"
         cleanup  # Clean up Vue server if Django fails
         return 1
     fi
     
-    success "Servers restarted successfully"
+    echo -e "${GREEN}[✓]${NC} Servers restarted successfully"
     
     # Only enter interactive mode if not called from interactive mode
     if [ "$from_where" != "from_interactive" ]; then
@@ -345,11 +363,11 @@ restart_servers() {
 
 # Function to test Django
 test_django() {
-    log "Testing Django server..."
+    echo -e "${BLUE}[$(date +'%H:%M:%S')]${NC} Testing Django server..."
     
     # First check if Django process is running
     if ! pgrep -f "python.*manage.py.*runserver" > /dev/null; then
-        error "Django server process is not running"
+        echo -e "${RED}[✗]${NC} Django server process is not running"
         return 1
     fi
     
@@ -400,17 +418,17 @@ test_django() {
     
     echo ""
     if [ "$all_passed" = true ]; then
-        success "All Django tests passed successfully"
+        echo -e "${GREEN}[✓]${NC} All Django tests passed successfully"
         return 0
     else
-        error "Some Django tests failed"
+        echo -e "${RED}[✗]${NC} Some Django tests failed"
         return 1
     fi
 }
 
 # Function to test Firebase connection
 test_firebase() {
-    log "Testing Firebase connection..."
+    echo -e "${BLUE}[$(date +'%H:%M:%S')]${NC} Testing Firebase connection..."
     
     # Try to connect to Django endpoint that uses Firebase
     response_code=$(curl -s -w "%{http_code}" http://localhost:8000/firebase/firebase-test/ -o /tmp/firebase_response.txt)
@@ -418,18 +436,18 @@ test_firebase() {
     rm -f /tmp/firebase_response.txt
     
     if [ "$response_code" = "200" ]; then
-        success "Firebase test passed: Connection is working"
+        echo -e "${GREEN}[✓]${NC} Firebase test passed: Connection is working"
         echo -e "${GREEN}Response:${NC} $response_body"
         return 0
     else
-        error "Firebase test failed: Server returned status $response_code"
+        echo -e "${RED}[✗]${NC} Firebase test failed: Server returned status $response_code"
         if [ ! -z "$response_body" ]; then
-            error "Error details: $response_body"
+            echo -e "${RED}Error details: $response_body${NC}"
         fi
         if [ "$response_code" = "500" ]; then
-            error "This might be a Firebase configuration issue. Check your credentials and permissions."
+            echo -e "${RED}[✗]${NC} This might be a Firebase configuration issue. Check your credentials and permissions."
         elif [ "$response_code" = "404" ]; then
-            error "Firebase test endpoint not found. Please ensure the API endpoint exists."
+            echo -e "${RED}[✗]${NC} Firebase test endpoint not found. Please ensure the API endpoint exists."
         fi
         return 1
     fi
@@ -453,13 +471,13 @@ handle_command() {
             test_firebase
             ;;
         detach)
-            success "Detaching from servers. Servers will continue running in the background."
-            success "Use './devs.sh' to reattach to the servers"
+            echo -e "${GREEN}[✓]${NC} Detaching from servers. Servers will continue running in the background."
+            echo -e "${GREEN}[✓]${NC} Use './devs.sh' to reattach to the servers"
             exit 0
             ;;
         q|exit)
             cleanup
-            echo -e "${GREEN}Servers stopped successfully${NC}"
+            echo -e "${GREEN}[✓]${NC} Servers stopped successfully"
             exit 0
             ;;
         *)
@@ -476,7 +494,7 @@ handle_command() {
 
 # Function to start interactive mode
 start_interactive() {
-    success "Interactive mode started. Type 'detach' to leave servers running in background."
+    echo -e "${GREEN}[✓]${NC} Interactive mode started. Type 'detach' to leave servers running in background."
     # Use read with timeout to check for both input and server status
     while true; do
         read -t 5 -r cmd
@@ -499,7 +517,7 @@ start_interactive() {
                     if tail -n 50 django.log | grep -q "Firebase Admin SDK initialized successfully"; then
                         DJANGO_RUNNING=true
                     elif tail -n 50 django.log | grep -q "Error initializing Firebase"; then
-                        error "Firebase initialization failed"
+                        echo -e "${RED}[✗]${NC} Firebase initialization failed"
                         tail -n 10 django.log
                     elif tail -n 10 django.log | grep -q "Starting development server at"; then
                         # Still starting up
@@ -511,14 +529,14 @@ start_interactive() {
             # Report any failures
             if ! $VUE_RUNNING || ! $DJANGO_RUNNING; then
                 if ! $VUE_RUNNING; then
-                    error "Vue server stopped unexpectedly"
+                    echo -e "${RED}[✗]${NC} Vue server stopped unexpectedly"
                     tail -n 5 vue.log
                 fi
                 if ! $DJANGO_RUNNING; then
-                    error "Django server stopped unexpectedly"
+                    echo -e "${RED}[✗]${NC} Django server stopped unexpectedly"
                     tail -n 10 django.log
                 fi
-                log "Stopping all servers..."
+                echo -e "${BLUE}[$(date +'%H:%M:%S')]${NC} Stopping all servers..."
                 cleanup
                 exit 1
             fi
@@ -545,31 +563,31 @@ check_running() {
 
 # Function to attach to running servers
 attach_to_servers() {
-    log "Checking for running servers..."
+    echo -e "${BLUE}[$(date +'%H:%M:%S')]${NC} Checking for running servers..."
     
     # Find Vue process
     VUE_PID=$(pgrep -f "vue-cli-service.*serve" | head -n1)
     if [ -z "$VUE_PID" ]; then
-        error "Vue server is not running"
+        echo -e "${RED}[✗]${NC} Vue server is not running"
         return 1
     fi
     
     # Find Django process
     DJANGO_PID=$(pgrep -f "python.*manage.py.*runserver" | head -n1)
     if [ -z "$DJANGO_PID" ]; then
-        error "Django server is not running"
+        echo -e "${RED}[✗]${NC} Django server is not running"
         return 1
     fi
     
     # Verify servers are responding
     if ! check_running; then
-        error "Servers are not responding properly"
+        echo -e "${RED}[✗]${NC} Servers are not responding properly"
         return 1
     fi
     
-    success "Found running servers:"
-    log "Vue server (PID: $VUE_PID)"
-    log "Django server (PID: $DJANGO_PID)"
+    echo -e "${GREEN}[✓]${NC} Found running servers:"
+    echo -e "${BLUE}[$(date +'%H:%M:%S')]${NC} Vue server (PID: $VUE_PID)"
+    echo -e "${BLUE}[$(date +'%H:%M:%S')]${NC} Django server (PID: $DJANGO_PID)"
     
     # Start interactive mode
     start_interactive
@@ -586,11 +604,11 @@ case "$1" in
             SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
             cd "$SCRIPT_DIR"
             
-            log "Servers are running, restarting..."
+            echo -e "${BLUE}[$(date +'%H:%M:%S')]${NC} Servers are running, restarting for a fresh session..."
             restart_servers "from_cli"
             start_interactive
         else
-            error "No servers running. Use './devs.sh' to start servers."
+            echo -e "${RED}[✗]${NC} No servers running. Use './devs.sh' to start servers."
             exit 1
         fi
         ;;
@@ -599,7 +617,7 @@ case "$1" in
             check_health
             start_interactive
         else
-            error "No servers running. Use './devs.sh' to start servers."
+            echo -e "${RED}[✗]${NC} No servers running. Use './devs.sh' to start servers."
             exit 1
         fi
         ;;
@@ -613,14 +631,14 @@ case "$1" in
             VUE_PID=$(pgrep -f "vue-cli-service.*serve" | head -n1)
             DJANGO_PID=$(pgrep -f "python.*manage.py.*runserver" | head -n1)
             
-            success "Found running servers:"
-            log "Vue server (PID: $VUE_PID)"
-            log "Django server (PID: $DJANGO_PID)"
+            echo -e "${GREEN}[✓]${NC} Found running servers:"
+            echo -e "${BLUE}[$(date +'%H:%M:%S')]${NC} Vue server (PID: $VUE_PID)"
+            echo -e "${BLUE}[$(date +'%H:%M:%S')]${NC} Django server (PID: $DJANGO_PID)"
             
             # Start interactive mode
             start_interactive
         else
-            error "No servers running. Use './devs.sh' to start servers."
+            echo -e "${RED}[✗]${NC} No servers running. Use './devs.sh' to start servers."
             exit 1
         fi
         ;;
@@ -644,29 +662,29 @@ case "$1" in
     *)
         # Always ensure clean slate before starting
         if check_running; then
-            log "Existing servers found, restarting for a fresh session..."
+            echo -e "${BLUE}[$(date +'%H:%M:%S')]${NC} Existing servers found, restarting for a fresh session..."
             cleanup
         fi
 
         # Check if virtual environment exists, if not create it
         if [ ! -d "venv" ]; then
-            log "Creating Python virtual environment..."
+            echo -e "${BLUE}[$(date +'%H:%M:%S')]${NC} Creating Python virtual environment..."
             python3 -m venv venv
-            success "Virtual environment created"
+            echo -e "${GREEN}[✓]${NC} Virtual environment created"
         fi
 
         # Activate virtual environment
-        log "Activating virtual environment..."
+        echo -e "${BLUE}[$(date +'%H:%M:%S')]${NC} Activating virtual environment..."
         source venv/bin/activate
-        success "Virtual environment activated"
+        echo -e "${GREEN}[✓]${NC} Virtual environment activated"
 
         # Install/update dependencies
-        log "Checking dependencies..."
+        echo -e "${BLUE}[$(date +'%H:%M:%S')]${NC} Checking dependencies..."
         pip install -q -r requirements.txt >/dev/null 2>&1
-        success "Python dependencies installed"
+        echo -e "${GREEN}[✓]${NC} Python dependencies installed"
 
         npm install --silent >/dev/null 2>&1
-        success "Node.js dependencies installed"
+        echo -e "${GREEN}[✓]${NC} Node.js dependencies installed"
 
         # Start servers and enter interactive mode
         start_servers
