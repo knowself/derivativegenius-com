@@ -106,3 +106,7 @@ Thumbs.db
 
 # Git commit message temp file
 .git-commit-message
+
+# Vercel
+.vercel/
+.vercel
