@@ -34,11 +34,5 @@
       "PYTHON_VERSION": "3.9",
       "NODE_VERSION": "18.x"
     }
-  },
-  "functions": {
-    "api/**/*.py": {
-      "memory": 1024,
-      "maxDuration": 10
-    }
   }
 }
