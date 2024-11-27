@@ -1,7 +1,7 @@
 const { defineConfig } = require('@vue/cli-service')
 
 module.exports = defineConfig({
-  transpileDependencies: true,
+  transpileDependencies: [],
   productionSourceMap: false,
   publicPath: '/',
   outputDir: 'dist',
@@ -62,6 +62,12 @@ module.exports = defineConfig({
             chunks: 'async'
           }
         }
+      }
+    },
+    cache: {
+      type: 'filesystem',
+      buildDependencies: {
+        config: [__filename]
       }
     }
   },

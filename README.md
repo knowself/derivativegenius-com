@@ -302,61 +302,233 @@ View logs in real-time:
 vercel logs derivativegenius-com.vercel.app/api/wsgi --scope derivativegenius -d
 ```
 
-## Deployment
+## Development Setup
 
-### Configuration Management
+### Prerequisites
+- Node.js 18.x LTS (tested with v18.20.5)
+- Python 3.8+
+- nvm (Node Version Manager)
 
-All deployment configuration is centralized in the `/deployment` directory. This is the single source of truth for all deployment-related settings and procedures.
+### Required Versions
+- **Vue CLI**: 5.0.8
+  - @vue/cli-service: ^5.0.8
+  - @vue/cli-plugin-babel: ^5.0.8
+  - @vue/cli-plugin-eslint: ^5.0.8
+- **Webpack**: 5.96.1
 
-### Directory Structure
-```
-deployment/
-├── README.md           # Deployment documentation
-├── vercel.json         # Vercel configuration
-├── CHANGELOG.md        # Configuration changes
-├── TROUBLESHOOTING.md  # Issue resolution
-└── scripts/           
-    ├── build.sh        # Build process
-    ├── verify.sh       # Verification
-    └── test_endpoints.py # API testing
-```
-
-### Deployment Process
-
-1. **Pre-deployment Checks**
+### Installation
+1. Clone the repository
+2. Install Node.js 18.x:
    ```bash
-   ./deployment/scripts/verify.sh
+   nvm install 18
+   nvm use 18
    ```
-   Verifies:
-   - Required files
-   - Environment variables
-   - Runtime versions
-   - Build output
-   - API endpoints
-
-2. **Configuration Updates**
-   - Make changes in `/deployment`
-   - Document in `CHANGELOG.md`
-   - Test in preview deployment
-   - Get review approval
-
-3. **Deployment**
+3. Install dependencies:
    ```bash
-   vercel deploy --prod
+   npm install  # Frontend dependencies
+   pip install -r requirements.txt  # Backend dependencies
    ```
 
-4. **Verification**
-   - Check deployment logs
-   - Verify API endpoints
-   - Monitor error rates
-
-5. **Rollback (if needed)**
+### Development Server
+1. Start the development servers:
    ```bash
-   vercel rollback
+   ./devs.sh
+   ```
+   This will start:
+   - Vue.js frontend on http://localhost:8081
+   - Django backend on http://localhost:8000
+
+### Version Compatibility Notes
+- Ensure Vue CLI plugins match the service version (5.0.8)
+- The project uses webpack 5's built-in filesystem caching
+- Node.js versions above 18.x may cause compatibility issues
+
+## Production Architecture
+
+### Component Roles
+
+1. **Vue.js Frontend**
+   - Hosted on Firebase Hosting
+   - Optimized static delivery
+   - Client-side state management
+   - User interface rendering
+   - Form handling and validation
+
+2. **Django Backend**
+   - Business logic processing
+   - AI service integration
+   - Data aggregation and transformation
+   - Cache management
+   - Security middleware
+   - API versioning
+   - Error handling
+   - Performance monitoring
+
+3. **Firebase Services**
+   - User authentication
+   - Data persistence
+   - File storage
+   - Access control
+   - Backup management
+
+### Security Measures
+
+1. **Frontend Security**
+   - HTTPS enforcement
+   - Input sanitization
+   - Token management
+   - XSS prevention
+
+2. **Backend Security**
+   - Request validation
+   - Rate limiting
+   - CORS configuration
+   - Authentication middleware
+   - Data encryption
+
+3. **Data Security**
+   - Firebase security rules
+   - Data access logging
+   - Regular security audits
+   - Backup procedures
+
+## Firebase Integration
+
+### Cloud-Based Architecture
+This project uses Firebase exclusively through cloud services. We utilize the Firebase Admin SDK for server-side operations, and all Firebase interactions are handled through our backend services.
+
+### Firebase Setup
+- **Admin SDK**: We use the Firebase Admin SDK (`firebase-admin`) for server-side operations
+- **Environment Variables**: Required server-side environment variables:
+  ```
+  FIREBASE_PROJECT_ID=your-project-id
+  FIREBASE_CLIENT_EMAIL=your-client-email
+  FIREBASE_PRIVATE_KEY=your-private-key
+  ```
+- **No Client SDK**: We do not use the client-side Firebase SDK as all Firebase operations are handled through our backend
+
+### Security Notes
+- Firebase credentials are only used server-side
+- All Firebase operations are authenticated through the Admin SDK
+- Client requests are proxied through our backend API
+- Private keys and credentials are never exposed to the client
+
+## Authentication & Authorization
+
+### Firebase Authentication
+The application uses Firebase Authentication for secure user management and access control:
+
+1. **Authentication Flow**
+   ```
+   User → Firebase Auth → Django Backend
+   ```
+   - User credentials verified by Firebase
+   - Firebase issues JWT token
+   - Token validated by Django for API access
+
+2. **Admin Access Control**
+   - Admin privileges managed via Firebase Custom Claims
+   - Admin claim (`admin: true`) required for admin dashboard access
+   - Claims automatically synced with Django backend
+
+3. **Token Management**
+   - Firebase JWT tokens used for API authentication
+   - Tokens automatically refreshed
+   - Custom claims included in token payload
+   - Token validation handled by Django middleware
+
+4. **Security Features**
+   - Secure token-based authentication
+   - Role-based access control
+   - Automatic token refresh
+   - Cross-site request forgery protection
+   - Session management
+
+5. **Integration Points**
+   - Frontend: Firebase Auth SDK
+   - Backend: Firebase Admin SDK
+   - API: JWT token validation
+   - Admin Dashboard: Custom claims verification
+
+### Setting Up Admin Access
+1. Use Firebase Admin SDK to set admin claim:
+   ```javascript
+   admin.auth().setCustomUserClaims(uid, {admin: true});
    ```
 
-### Required Environment Variables
-See `_p_tech_config.md` for the complete list.
+2. Admin privileges are automatically reflected in:
+   - Admin dashboard access
+   - API permissions
+   - UI feature availability
+
+## Performance Optimization
+
+1. **Frontend Performance**
+   - Code splitting
+   - Lazy loading
+   - Asset optimization
+   - Cache strategies
+
+2. **Backend Performance**
+   - Query optimization
+   - Response caching
+   - Background task processing
+   - Load balancing
+
+3. **Data Performance**
+   - Index optimization
+   - Query planning
+   - Cache management
+   - Connection pooling
+
+## Scalability Considerations
+
+- Horizontal scaling for Django
+- CDN for static assets
+- Cache layers for frequent queries
+- Background job processing
+- API rate limiting
+- Resource monitoring
+
+## AI Integration Points
+
+1. **Content Generation**
+   - Document creation
+   - Report generation
+   - Email composition
+   - Marketing material
+
+2. **Analysis Services**
+   - Customer sentiment analysis
+   - Market trend analysis
+   - Performance predictions
+   - Risk assessment
+
+3. **Automation**
+   - Customer service responses
+   - Task prioritization
+   - Decision recommendations
+   - Alert generation
+
+## Monitoring and Maintenance
+
+1. **System Health**
+   - API endpoint monitoring
+   - Error tracking
+   - Performance metrics
+   - Resource utilization
+
+2. **Business Metrics**
+   - User engagement
+   - Processing times
+   - AI service usage
+   - Data growth
+
+3. **Security Monitoring**
+   - Access logs
+   - Authentication events
+   - Error patterns
+   - Security alerts
 
 ## Debugging Instrumentation
 
@@ -563,7 +735,7 @@ This script will:
 
 When you run `devs.sh`, it starts:
 - Django backend server (default: http://localhost:8000)
-- Vue.js development server with hot-reload (default: http://localhost:8080)
+- Vue CLI development server runs on port 8080
 
 ### Features of devs.sh
 
@@ -581,222 +753,58 @@ When you run `devs.sh`, it starts:
 - Node.js 16 or higher
 - npm or yarn
 
-## Production Architecture
+## Deployment
 
-### Component Roles
+### Configuration Management
 
-1. **Vue.js Frontend**
-   - Hosted on Firebase Hosting
-   - Optimized static delivery
-   - Client-side state management
-   - User interface rendering
-   - Form handling and validation
+All deployment configuration is centralized in the `/deployment` directory. This is the single source of truth for all deployment-related settings and procedures.
 
-2. **Django Backend**
-   - Business logic processing
-   - AI service integration
-   - Data aggregation and transformation
-   - Cache management
-   - Security middleware
-   - API versioning
-   - Error handling
-   - Performance monitoring
-
-3. **Firebase Services**
-   - User authentication
-   - Data persistence
-   - File storage
-   - Access control
-   - Backup management
-
-### Security Measures
-
-1. **Frontend Security**
-   - HTTPS enforcement
-   - Input sanitization
-   - Token management
-   - XSS prevention
-
-2. **Backend Security**
-   - Request validation
-   - Rate limiting
-   - CORS configuration
-   - Authentication middleware
-   - Data encryption
-
-3. **Data Security**
-   - Firebase security rules
-   - Data access logging
-   - Regular security audits
-   - Backup procedures
-
-## Firebase Integration
-
-### Cloud-Based Architecture
-This project uses Firebase exclusively through cloud services. We utilize the Firebase Admin SDK for server-side operations, and all Firebase interactions are handled through our backend services.
-
-### Firebase Setup
-- **Admin SDK**: We use the Firebase Admin SDK (`firebase-admin`) for server-side operations
-- **Environment Variables**: Required server-side environment variables:
-  ```
-  FIREBASE_PROJECT_ID=your-project-id
-  FIREBASE_CLIENT_EMAIL=your-client-email
-  FIREBASE_PRIVATE_KEY=your-private-key
-  ```
-- **No Client SDK**: We do not use the client-side Firebase SDK as all Firebase operations are handled through our backend
-
-### Security Notes
-- Firebase credentials are only used server-side
-- All Firebase operations are authenticated through the Admin SDK
-- Client requests are proxied through our backend API
-- Private keys and credentials are never exposed to the client
-
-## Authentication & Authorization
-
-### Firebase Authentication
-The application uses Firebase Authentication for secure user management and access control:
-
-1. **Authentication Flow**
-   ```
-   User → Firebase Auth → Django Backend
-   ```
-   - User credentials verified by Firebase
-   - Firebase issues JWT token
-   - Token validated by Django for API access
-
-2. **Admin Access Control**
-   - Admin privileges managed via Firebase Custom Claims
-   - Admin claim (`admin: true`) required for admin dashboard access
-   - Claims automatically synced with Django backend
-
-3. **Token Management**
-   - Firebase JWT tokens used for API authentication
-   - Tokens automatically refreshed
-   - Custom claims included in token payload
-   - Token validation handled by Django middleware
-
-4. **Security Features**
-   - Secure token-based authentication
-   - Role-based access control
-   - Automatic token refresh
-   - Cross-site request forgery protection
-   - Session management
-
-5. **Integration Points**
-   - Frontend: Firebase Auth SDK
-   - Backend: Firebase Admin SDK
-   - API: JWT token validation
-   - Admin Dashboard: Custom claims verification
-
-### Setting Up Admin Access
-1. Use Firebase Admin SDK to set admin claim:
-   ```javascript
-   admin.auth().setCustomUserClaims(uid, {admin: true});
-   ```
-
-2. Admin privileges are automatically reflected in:
-   - Admin dashboard access
-   - API permissions
-   - UI feature availability
-
-## Performance Optimization
-
-1. **Frontend Performance**
-   - Code splitting
-   - Lazy loading
-   - Asset optimization
-   - Cache strategies
-
-2. **Backend Performance**
-   - Query optimization
-   - Response caching
-   - Background task processing
-   - Load balancing
-
-3. **Data Performance**
-   - Index optimization
-   - Query planning
-   - Cache management
-   - Connection pooling
-
-## Scalability Considerations
-
-- Horizontal scaling for Django
-- CDN for static assets
-- Cache layers for frequent queries
-- Background job processing
-- API rate limiting
-- Resource monitoring
-
-## AI Integration Points
-
-1. **Content Generation**
-   - Document creation
-   - Report generation
-   - Email composition
-   - Marketing material
-
-2. **Analysis Services**
-   - Customer sentiment analysis
-   - Market trend analysis
-   - Performance predictions
-   - Risk assessment
-
-3. **Automation**
-   - Customer service responses
-   - Task prioritization
-   - Decision recommendations
-   - Alert generation
-
-## Monitoring and Maintenance
-
-1. **System Health**
-   - API endpoint monitoring
-   - Error tracking
-   - Performance metrics
-   - Resource utilization
-
-2. **Business Metrics**
-   - User engagement
-   - Processing times
-   - AI service usage
-   - Data growth
-
-3. **Security Monitoring**
-   - Access logs
-   - Authentication events
-   - Error patterns
-   - Security alerts
-
-## Development Setup
-
-### Prerequisites
-- Node.js and npm for Vue.js
-- Python 3.x for Django
-- Firebase project credentials
-- AI service API keys (as needed)
-
-### Setup Instructions
-
-### 1. Clone the repository
-```bash
-git clone [repository-url]
-cd derivativegenius-com
+### Directory Structure
+```
+deployment/
+├── README.md           # Deployment documentation
+├── vercel.json         # Vercel configuration
+├── CHANGELOG.md        # Configuration changes
+├── TROUBLESHOOTING.md  # Issue resolution
+└── scripts/           
+    ├── build.sh        # Build process
+    ├── verify.sh       # Verification
+    └── test_endpoints.py # API testing
 ```
 
-### 2. Frontend Setup (Vue.js)
-```bash
-npm install
-```
+### Deployment Process
 
-### 3. Backend Setup (Django)
-```bash
-python -m venv venv
-source venv/bin/activate  # On Windows: venv\Scripts\activate
-pip install -r requirements.txt
-```
+1. **Pre-deployment Checks**
+   ```bash
+   ./deployment/scripts/verify.sh
+   ```
+   Verifies:
+   - Required files
+   - Environment variables
+   - Runtime versions
+   - Build output
+   - API endpoints
 
-### 4. Environment Configuration
-```bash
-cp .env.local .env
-# Edit .env with your Firebase configuration
+2. **Configuration Updates**
+   - Make changes in `/deployment`
+   - Document in `CHANGELOG.md`
+   - Test in preview deployment
+   - Get review approval
+
+3. **Deployment**
+   ```bash
+   vercel deploy --prod
+   ```
+
+4. **Verification**
+   - Check deployment logs
+   - Verify API endpoints
+   - Monitor error rates
+
+5. **Rollback (if needed)**
+   ```bash
+   vercel rollback
+   ```
+
+### Required Environment Variables
+See `_p_tech_config.md` for the complete list.

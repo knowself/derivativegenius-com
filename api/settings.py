@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'corsheaders',  # Add CORS headers app
+    'rest_framework',  # Add Django REST framework
     'core',
     'firebase_app',  # Add Firebase app
     'admin_panel',  # Add admin panel app
@@ -56,6 +57,7 @@ MIDDLEWARE = [
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'firebase_app.middleware.FirebaseAuthenticationMiddleware',  # Add Firebase middleware
+    'firebase_app.csrf_middleware.DebugCsrfMiddleware',  # Add Debug CSRF middleware
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
@@ -154,6 +156,8 @@ CORS_ALLOW_CREDENTIALS = True
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:8080",
     "http://127.0.0.1:8080",
+    "http://localhost:5173",  # Vite dev server
+    "http://127.0.0.1:5173",  # Vite dev server
     "https://derivative-genius.com",
     "https://www.derivative-genius.com",
     "https://derivative-genius-website.vercel.app"
@@ -163,16 +167,20 @@ CORS_ALLOWED_ORIGINS = [
 CSRF_TRUSTED_ORIGINS = [
     "http://localhost:8080",
     "http://127.0.0.1:8080",
+    "http://localhost:5173",  # Vite dev server
+    "http://127.0.0.1:5173",  # Vite dev server
     "https://derivative-genius.com",
     "https://www.derivative-genius.com",
     "https://derivative-genius-website.vercel.app"
 ]
 
 # Cookie settings
-SESSION_COOKIE_SECURE = True
-CSRF_COOKIE_SECURE = True
-SESSION_COOKIE_SAMESITE = 'None'
-CSRF_COOKIE_SAMESITE = 'None'
+SESSION_COOKIE_SECURE = not DEBUG  # Allow non-HTTPS in development
+CSRF_COOKIE_SECURE = not DEBUG  # Allow non-HTTPS in development
+SESSION_COOKIE_SAMESITE = 'Lax' if DEBUG else 'None'  # More permissive in development
+CSRF_COOKIE_SAMESITE = 'Lax' if DEBUG else 'None'  # More permissive in development
+CSRF_USE_SESSIONS = True  # Store CSRF token in session for better security
+CSRF_COOKIE_HTTPONLY = False  # Allow JavaScript access to CSRF cookie
 
 # Firebase Configuration
 FIREBASE_ADMIN_PROJECT_ID = os.getenv('FIREBASE_ADMIN_PROJECT_ID')
@@ -195,32 +203,27 @@ if not all([FIREBASE_ADMIN_PROJECT_ID, FIREBASE_ADMIN_PRIVATE_KEY, FIREBASE_ADMI
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
-    'formatters': {
-        'verbose': {
-            'format': '{levelname} {asctime} {module} {message}',
-            'style': '{',
-        },
-    },
     'handlers': {
         'console': {
             'class': 'logging.StreamHandler',
-            'formatter': 'verbose',
-        },
-        'file': {
-            'class': 'logging.FileHandler',
-            'filename': os.path.join(BASE_DIR, 'django.log'),
-            'formatter': 'verbose',
+            'level': 'WARNING',
         },
     },
     'loggers': {
         'django': {
-            'handlers': ['console', 'file'],
-            'level': 'INFO',
+            'handlers': ['console'],
+            'level': 'WARNING',
+            'propagate': False,
         },
-        'firebase_app': {
-            'handlers': ['console', 'file'],
-            'level': 'DEBUG',
-            'propagate': True,
+        'django.server': {
+            'handlers': ['console'],
+            'level': 'WARNING',
+            'propagate': False,
+        },
+        'firebase_admin': {
+            'handlers': ['console'],
+            'level': 'WARNING',
+            'propagate': False,
         },
     },
 }

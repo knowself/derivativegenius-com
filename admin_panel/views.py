@@ -4,6 +4,7 @@ from django.http import JsonResponse
 from firebase_app.firebase_admin import get_firestore, get_auth
 from functools import wraps
 import json
+from .metrics import get_all_metrics, SystemMetrics, DjangoMetrics, FirebaseMetrics
 
 def admin_required(view_func):
     @wraps(view_func)
@@ -136,3 +137,26 @@ def firebase_settings(request):
             return JsonResponse({'status': 'success'})
     
     return render(request, 'admin_panel/settings.html')
+
+@admin_required
+def system_health(request):
+    """Render system health monitoring page"""
+    return render(request, 'admin_panel/system_health.html')
+
+@admin_required
+def django_metrics(request):
+    """Get Django performance metrics"""
+    metrics = DjangoMetrics.get_django_metrics()
+    return JsonResponse(metrics)
+
+@admin_required
+def firebase_metrics(request):
+    """Get Firebase performance metrics"""
+    metrics = FirebaseMetrics.get_firebase_metrics()
+    return JsonResponse(metrics)
+
+@admin_required
+def system_metrics(request):
+    """Get system resource metrics"""
+    metrics = SystemMetrics.get_system_metrics()
+    return JsonResponse(metrics)

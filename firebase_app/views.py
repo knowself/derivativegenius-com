@@ -8,6 +8,9 @@ import json
 import os
 from functools import wraps
 from django.contrib.auth import authenticate, login
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+from rest_framework import status
 
 # Create your views here.
 
@@ -185,6 +188,19 @@ def test_firebase(request):
             'message': str(e),
             'tests': {}
         }, status=500)
+
+@api_view(['GET'])
+def firebase_test(request):
+    """Test Firebase connection by attempting to list users"""
+    try:
+        # Try to list one user (limit=1) to test connection
+        auth.list_users(max_results=1)
+        return Response({'status': 'Firebase connection successful'}, status=status.HTTP_200_OK)
+    except Exception as e:
+        return Response(
+            {'error': f'Firebase connection failed: {str(e)}'},
+            status=status.HTTP_500_INTERNAL_SERVER_ERROR
+        )
 
 @require_http_methods(["GET"])
 def test_firebase_config(request):
@@ -434,14 +450,30 @@ def get_session(request):
 def signin(request):
     """Handle user sign in with email and password using Firebase Admin SDK"""
     try:
-        data = json.loads(request.body)
-        email = data.get('email')
-        password = data.get('password')
+        # Log request details
+        print("=== Signin Request ===")
+        print("Headers:", dict(request.headers))
+        print("Content-Type:", request.headers.get('content-type'))
+        print("Body:", request.body.decode('utf-8'))
+        print("CSRF Token:", request.headers.get('X-CSRFToken'))
+
+        # Parse request body
+        try:
+            data = json.loads(request.body)
+            email = data.get('email')
+            password = data.get('password')
+        except json.JSONDecodeError as e:
+            print(f"JSON decode error: {str(e)}")
+            return JsonResponse({
+                'error': 'Invalid request format',
+                'details': str(e)
+            }, status=400, content_type='application/json')
 
         if not email or not password:
+            print("Missing email or password")
             return JsonResponse({
                 'error': 'Email and password are required'
-            }, status=400)
+            }, status=400, content_type='application/json')
 
         try:
             # Import the necessary Firebase Admin components
@@ -456,10 +488,16 @@ def signin(request):
                 print("Missing configuration - Project ID:", bool(project_id), "API Key:", bool(api_key))
                 return JsonResponse({
                     'error': 'Firebase configuration missing'
-                }, status=500)
+                }, status=500, content_type='application/json')
 
             # Use the REST API endpoint for password verification
             auth_url = f'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key={api_key}'
+            
+            # Log auth request details
+            print("=== Firebase Auth Request ===")
+            print("URL:", auth_url)
+            print("Email:", email)
+
             response = requests.post(
                 auth_url,
                 json={
@@ -468,6 +506,21 @@ def signin(request):
                     'returnSecureToken': True
                 }
             )
+
+            print("=== Firebase Auth Response ===")
+            print("Status:", response.status_code)
+            print("Headers:", dict(response.headers))
+            
+            try:
+                response_data = response.json()
+                print("Response data:", {k: v for k, v in response_data.items() if k != 'idToken'})
+            except json.JSONDecodeError:
+                print("Failed to parse Firebase response as JSON")
+                print("Raw response:", response.text)
+                return JsonResponse({
+                    'error': 'Invalid response from authentication service',
+                    'details': 'Failed to parse response'
+                }, status=500, content_type='application/json')
 
             if not response.ok:
                 error_data = response.json()
@@ -484,8 +537,9 @@ def signin(request):
                 
                 user_message = error_mapping.get(error_message, 'Invalid credentials')
                 return JsonResponse({
-                    'error': user_message
-                }, status=401)
+                    'error': user_message,
+                    'details': error_message
+                }, status=401, content_type='application/json')
 
             # Get the ID token from the response
             auth_data = response.json()
@@ -495,54 +549,65 @@ def signin(request):
                 print("No ID token in response")
                 return JsonResponse({
                     'error': 'Authentication failed - no token received'
-                }, status=401)
+                }, status=401, content_type='application/json')
 
             try:
                 # Verify the ID token using Admin SDK
+                print("=== Token Verification ===")
+                print("Verifying ID token...")
                 decoded_token = auth.verify_id_token(id_token)
                 uid = decoded_token['uid']
 
-                # Get user info using Admin SDK
+                # Get user info
+                print("Getting user info for UID:", uid)
                 user = auth.get_user(uid)
-                user_claims = user.custom_claims or {}
+                custom_claims = user.custom_claims or {}
 
-                # Return user data and token
-                return JsonResponse({
+                # Prepare response
+                response_data = {
                     'user': {
                         'uid': user.uid,
                         'email': user.email,
                         'displayName': user.display_name,
-                        'isAdmin': user_claims.get('admin', False)
+                        'isAdmin': custom_claims.get('admin', False)
                     },
                     'token': id_token
-                })
+                }
+
+                print("=== Successful Response ===")
+                print("User data:", {k: v for k, v in response_data['user'].items() if k != 'token'})
+                return JsonResponse(response_data, content_type='application/json')
 
             except auth.InvalidIdTokenError as e:
                 print(f"Token verification error: {str(e)}")
                 return JsonResponse({
-                    'error': 'Invalid authentication token'
-                }, status=401)
+                    'error': 'Invalid authentication token',
+                    'details': str(e)
+                }, status=401, content_type='application/json')
 
         except auth.UserNotFoundError as e:
             print(f"User not found error: {str(e)}")
             return JsonResponse({
-                'error': 'Invalid credentials'
-            }, status=401)
+                'error': 'Invalid credentials',
+                'details': str(e)
+            }, status=401, content_type='application/json')
         except requests.RequestException as e:
             print(f"Request error: {str(e)}")
             return JsonResponse({
-                'error': 'Authentication service unavailable'
-            }, status=503)
+                'error': 'Authentication service unavailable',
+                'details': str(e)
+            }, status=503, content_type='application/json')
 
-    except json.JSONDecodeError:
-        return JsonResponse({
-            'error': 'Invalid request format'
-        }, status=400)
     except Exception as e:
-        print(f"Authentication error: {str(e)}")
+        print("=== Unexpected Error ===")
+        print(f"Error type: {type(e).__name__}")
+        print(f"Error message: {str(e)}")
+        import traceback
+        traceback.print_exc()
         return JsonResponse({
-            'error': 'An unexpected error occurred'
-        }, status=500)
+            'error': 'An unexpected error occurred',
+            'details': str(e)
+        }, status=500, content_type='application/json')
 
 @csrf_exempt
 @require_http_methods(["POST"])

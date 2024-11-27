@@ -1,3 +1,5 @@
+import SystemHealthMonitor from '../../components/SystemHealthMonitor.vue'
+
 <template>
   <div class="p-6">
     <h1 class="text-2xl font-semibold text-gray-900 mb-6">Analytics</h1>
@@ -16,6 +18,9 @@
         </p>
       </div>
     </div>
+
+    <!-- System Health Monitor -->
+    <SystemHealthMonitor />
 
     <!-- Charts Section -->
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">

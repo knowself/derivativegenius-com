@@ -12,6 +12,83 @@ export const useAuthStore = defineStore('auth', () => {
   const userEmail = computed(() => user.value?.email)
   const isAdmin = computed(() => user.value?.isAdmin || false)
 
+  // Get CSRF token from cookie with fallback
+  function getCsrfToken() {
+    const token = document.cookie
+      .split('; ')
+      .find(row => row.startsWith('csrftoken='))
+      ?.split('=')[1]
+    
+    if (!token) {
+      console.warn('CSRF token not found in cookies')
+      return null
+    }
+    return token
+  }
+
+  // Ensure CSRF token is present
+  async function ensureCsrfToken() {
+    try {
+      const currentToken = getCsrfToken()
+      if (!currentToken) {
+        console.log('Fetching new CSRF token')
+        const response = await fetch('/firebase/auth/session/', {
+          credentials: 'include',
+          headers: token.value ? {
+            'Authorization': `Bearer ${token.value}`
+          } : {}
+        })
+        
+        if (!response.ok) {
+          console.error('Failed to fetch CSRF token:', response.status)
+          throw new Error('Failed to fetch CSRF token')
+        }
+
+        const newToken = getCsrfToken()
+        if (!newToken) {
+          console.error('No CSRF token received after fetch')
+          throw new Error('No CSRF token received')
+        }
+        return newToken
+      }
+      return currentToken
+    } catch (err) {
+      console.error('Error ensuring CSRF token:', err)
+      throw err
+    }
+  }
+
+  // Create authenticated fetch wrapper
+  async function authenticatedFetch(url, options = {}) {
+    try {
+      const csrfToken = await ensureCsrfToken()
+      
+      const headers = {
+        'Content-Type': 'application/json',
+        'X-CSRFToken': csrfToken,
+        ...(token.value ? { 'Authorization': `Bearer ${token.value}` } : {}),
+        ...options.headers
+      }
+
+      const response = await fetch(url, {
+        ...options,
+        headers,
+        credentials: 'include'
+      })
+
+      // Log response details in development
+      if (process.env.NODE_ENV === 'development') {
+        console.log(`[${options.method || 'GET'}] ${url}:`, response.status)
+        console.log('Response headers:', Object.fromEntries(response.headers))
+      }
+
+      return response
+    } catch (err) {
+      console.error('Authenticated fetch error:', err)
+      throw err
+    }
+  }
+
   // Actions
   function setUser(newUser) {
     user.value = newUser
@@ -37,12 +114,23 @@ export const useAuthStore = defineStore('auth', () => {
       loading.value = true
       const storedToken = localStorage.getItem('idToken')
       
-      const response = await fetch('/firebase/auth/session/', {
+      // First, get CSRF token
+      const csrfResponse = await authenticatedFetch('/firebase/auth/session/', {
         headers: storedToken ? {
           'Authorization': `Bearer ${storedToken}`
         } : {}
       })
-      const data = await response.json()
+
+      // Check if response is JSON
+      const contentType = csrfResponse.headers.get('content-type')
+      if (!contentType || !contentType.includes('application/json')) {
+        console.error('Invalid response content type:', contentType)
+        console.error('Response status:', csrfResponse.status)
+        console.error('Response text:', await csrfResponse.text())
+        throw new Error('Server returned invalid response format')
+      }
+
+      const data = await csrfResponse.json()
       
       if (data.user) {
         setUser(data.user)
@@ -52,6 +140,7 @@ export const useAuthStore = defineStore('auth', () => {
         setToken(null)
       }
     } catch (err) {
+      console.error('Auth initialization error:', err)
       setError('Failed to initialize authentication')
       setUser(null)
       setToken(null)
@@ -62,36 +151,48 @@ export const useAuthStore = defineStore('auth', () => {
     try {
       loading.value = true
       error.value = null
-      
-      // Get CSRF token from cookie if using Django's CSRF protection
-      const csrfToken = document.cookie
-        .split('; ')
-        .find(row => row.startsWith('csrftoken='))
-        ?.split('=')[1]
 
-      const response = await fetch('/firebase/auth/signin/', {
+      console.log('Starting sign in process...')
+
+      const response = await authenticatedFetch('/firebase/auth/signin/', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'X-CSRFToken': csrfToken,
-        },
-        body: JSON.stringify({ email, password }),
-        credentials: 'include'
+        body: JSON.stringify({ email, password })
       })
 
-      const data = await response.json()
+      console.log('Sign in response status:', response.status)
+      console.log('Response headers:', Object.fromEntries(response.headers))
+
+      // Check if response is JSON
+      const contentType = response.headers.get('content-type')
+      if (!contentType || !contentType.includes('application/json')) {
+        console.error('Invalid response content type:', contentType)
+        const responseText = await response.text()
+        console.error('Response text:', responseText)
+        throw new Error(`Server returned invalid response format (${contentType}). Response: ${responseText}`)
+      }
+
+      let data
+      try {
+        data = await response.json()
+        console.log('Response data:', { ...data, token: data.token ? '[REDACTED]' : undefined })
+      } catch (err) {
+        console.error('Failed to parse response JSON:', err)
+        throw new Error('Failed to parse server response')
+      }
 
       if (!response.ok) {
         const errorMessage = data.error || 'Authentication failed'
-        console.error('Sign in error:', errorMessage)
-        throw new Error(errorMessage)
+        const errorDetails = data.details ? `: ${data.details}` : ''
+        console.error('Sign in error:', errorMessage, errorDetails)
+        throw new Error(errorMessage + errorDetails)
       }
 
       if (!data.user || !data.token) {
-        console.error('Invalid response format:', data)
-        throw new Error('Invalid server response')
+        console.error('Invalid response format:', { ...data, token: '[REDACTED]' })
+        throw new Error('Invalid server response: missing user or token')
       }
 
+      console.log('Sign in successful')
       setUser(data.user)
       setToken(data.token)
       return data.user
@@ -106,20 +207,24 @@ export const useAuthStore = defineStore('auth', () => {
 
   async function signOut() {
     try {
-      const response = await fetch('/firebase/auth/signout/', {
-        method: 'POST',
-        credentials: 'include'
+      loading.value = true
+      error.value = null
+
+      const response = await authenticatedFetch('/firebase/auth/signout/', {
+        method: 'POST'
       })
-      
+
       if (!response.ok) {
-        throw new Error('Signout failed')
+        throw new Error('Failed to sign out')
       }
-      
+
       setUser(null)
       setToken(null)
     } catch (err) {
-      setError('An error occurred during sign out')
-      throw err
+      console.error('Sign out error:', err)
+      setError(err.message || 'Failed to sign out')
+    } finally {
+      loading.value = false
     }
   }
 
@@ -127,14 +232,14 @@ export const useAuthStore = defineStore('auth', () => {
     user,
     loading,
     error,
+    token,
     isAuthenticated,
     userEmail,
     isAdmin,
-    token,
+    initializeAuth,
     signIn,
     signOut,
-    initializeAuth,
-    setUser,  // Expose setUser for testing
-    setToken  // Expose setToken for testing
+    setError,
+    authenticatedFetch
   }
 })

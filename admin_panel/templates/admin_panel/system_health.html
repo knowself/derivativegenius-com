@@ -1,0 +1,22 @@
+{% extends "admin_panel/base.html" %}
+
+{% block title %}System Health - Admin Panel{% endblock %}
+
+{% block content %}
+<div id="app">
+    <!-- Vue.js will mount the SystemHealth component here -->
+</div>
+
+{% block extra_js %}
+<script>
+    // Initialize Vue app with SystemHealth component
+    const app = Vue.createApp({
+        components: {
+            'system-health': SystemHealth
+        },
+        template: '<system-health />'
+    })
+    app.mount('#app')
+</script>
+{% endblock %}
+{% endblock %}
