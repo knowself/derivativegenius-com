@@ -1,11 +1,8 @@
-create a comprehensive commit message which addresses all the changes. I will do the commit.
+I need you to create a comprehensive commit message which addresses all the changes. I will perform the commit.
 
-guardians of truth
+my guardian files of truth _ai_dev_principles_standards.md, readme.md and requirements.txt
 
-_ai_dev_principles_standards.md
-readme.md
-requirements.txt
-
+requirements-base.txt, requirements.txt, requirements-dev.txt
 
 == Start every session with windsurf ==
 

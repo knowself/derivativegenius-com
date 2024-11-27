@@ -87,53 +87,193 @@ Our application uses a modern, secure architecture combining Vue.js, Django, and
    - Django applies business logic and security
    - Vue.js updates UI based on REST response
 
-## Development Setup
+## Local Development
 
 ### Prerequisites
+- Python 3.8
+- Node.js 16.x
+- npm or yarn
+- Git
 
-- Python 3.8 (required for Vercel deployment)
-- Node.js 18+
-- npm 8+
-- Firebase CLI
-
-### Installation
-
-1. Clone the repository:
+### Initial Setup
 ```bash
-git clone https://github.com/yourusername/derivativegenius-com.git
+# Clone repository
+git clone [repository-url]
 cd derivativegenius-com
-```
 
-2. Install Python dependencies:
-```bash
-python -m venv venv
+# Create Python virtual environment
+python3 -m venv venv
 source venv/bin/activate
-pip install -r requirements.txt
-```
 
-3. Install Node.js dependencies:
-```bash
+# Install Python dependencies (development)
+pip3 install -r requirements-dev.txt
+
+# Install Node dependencies
 npm install
+
+# Set up local environment
+cp .env.example .env.local
 ```
 
-4. Set up environment variables:
+### Firebase Local Setup
 ```bash
-cp .env.example .env
-# Edit .env with your configuration
+# Install Firebase tools
+npm install -g firebase-tools
+
+# Login to Firebase
+firebase login
+
+# Start Firebase emulators
+firebase emulators:start
 ```
 
 ### Development Server
-
-Use our custom development script:
 ```bash
-./devs.sh
+# Terminal 1: Start Django development server
+python3 manage.py runserver
+
+# Terminal 2: Start Vue development server
+npm run serve
 ```
 
-This script:
-- Starts Django development server
-- Launches Vue development server
-- Monitors server health
-- Provides automatic error recovery
+### Local Testing
+```bash
+# Run Python tests
+python3 -m pytest
+
+# Run Vue tests
+npm run test:unit
+
+# Run all tests with coverage
+npm run test:coverage
+```
+
+### Development Tools
+- Django Debug Toolbar: `http://localhost:8000/__debug__/`
+- Vue DevTools: Install browser extension
+- Firebase Emulator: `http://localhost:4000`
+
+## Production Deployment
+
+### Prerequisites
+- Vercel CLI
+- Firebase project
+- Production environment variables
+
+### Build Process
+```bash
+# Install production dependencies
+pip3 install -r requirements.txt
+npm install --production
+
+# Build frontend
+npm run build
+
+# Deploy to Vercel
+vercel --prod
+```
+
+### Size Limits
+- Lambda Functions: 50MB max
+- Total Deployment: 100MB max
+- Individual Chunks: 500KB warning
+
+### Code Splitting
+```javascript
+// Route-level splitting
+const UserDashboard = () => import('./views/UserDashboard.vue')
+
+// Component-level splitting
+const HeavyComponent = () => import('./components/HeavyComponent.vue')
+```
+
+### Deployment Monitoring
+```bash
+# Check bundle size
+npm run build -- --report
+
+# Monitor production
+vercel logs
+```
+
+### Production Caching
+- Static Assets: 1-year cache (immutable)
+- API Responses: Contextual headers
+- Dynamic Routes: Custom cache rules
+
+## Environment Variables
+
+### Local Development
+Required in `.env.local`:
+```plaintext
+FIREBASE_API_KEY=xxx
+FIREBASE_PROJECT_ID=xxx
+DJANGO_SECRET_KEY=xxx
+DEBUG=True
+```
+
+### Production (Vercel)
+Required in Vercel dashboard:
+```plaintext
+FIREBASE_ADMIN_CREDENTIALS=xxx
+DJANGO_SECRET_KEY=xxx
+FIREBASE_PROJECT_ID=xxx
+DEBUG=False
+```
+
+## Testing
+
+### Local Tests
+```bash
+# Full test suite
+npm run test:all
+
+# Individual components
+python3 -m pytest tests/api/
+npm run test:unit components/
+```
+
+### Production Tests
+```bash
+# Health checks
+curl https://[your-domain]/health/
+
+# Smoke tests
+npm run test:e2e:prod
+```
+
+## Deployment Architecture
+
+Our application uses a hybrid deployment strategy on Vercel:
+
+```
+┌─────────────────┐         ┌──────────────────┐         ┌─────────────────┐
+│    Vercel       │         │     Vercel       │         │    Firebase     │
+│  Static Build   │    →    │   Serverless     │    →    │    Services     │
+├─────────────────┤         ├──────────────────┤         ├─────────────────┤
+│ • Vue.js App    │         │ • Django API     │         │ • Authentication│
+│ • Static Assets │         │ • Admin Panel    │         │ • Firestore     │
+└─────────────────┘         └──────────────────┘         └─────────────────┘
+```
+
+### Local Development
+Local development remains unchanged and independent of deployment:
+- Use `devs.sh` for local development server
+- All Firebase services work locally through `.env` configuration
+- Django development server runs normally
+
+### Deployment Process
+1. Vercel builds both Vue.js frontend and Django backend
+2. Frontend is served as static files
+3. Backend runs as serverless functions
+4. Firebase integration works identically in both environments
+
+### Firebase Integration
+Firebase services are available in both local and deployed environments:
+- Authentication flows remain consistent
+- Firestore access is maintained
+- Admin SDK configuration is preserved
+- Environment variables are properly handled
 
 ## API Documentation
 

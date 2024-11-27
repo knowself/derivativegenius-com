@@ -36,11 +36,15 @@ rm -rf dist .vercel/output
 echo " Installing Node.js dependencies..."
 npm ci --prefer-offline --no-audit
 
+# Install Python dependencies
+echo " Installing Python dependencies..."
+pip install -r requirements.txt
+
 # Build Vue.js application
 echo " Building Vue.js application..."
 export NODE_ENV=production
 export NODE_OPTIONS=--max-old-space-size=4096
-npm run build
+npm run vue-build
 
 # Create Vercel output structure
 echo " Creating Vercel output structure..."
@@ -49,61 +53,29 @@ mkdir -p .vercel/output/api
 
 # Copy Vue.js build output
 echo " Copying Vue.js build output..."
-cp -r dist/* .vercel/output/
+cp -r dist/* .vercel/output/static/
 
-# Copy API files
-echo " Copying API files..."
-cp -r api .vercel/output/
+# Copy Django files
+echo " Copying Django files..."
+mkdir -p .vercel/output/api/django
+cp -r api/* .vercel/output/api/django/
 cp requirements.txt .vercel/output/api/
 
-# Generate Vercel config
-echo " Generating Vercel config..."
+# Create Vercel config
+echo " Creating Vercel config..."
 cat > .vercel/output/config.json << EOF
 {
-  "version": 3,
+  "version": 2,
   "routes": [
-    {
-      "src": "/api/(.*)",
-      "dest": "/api/wsgi.py"
-    },
-    {
-      "handle": "filesystem"
-    },
-    {
-      "src": "/static/(.*)",
-      "dest": "/static/\$1"
-    },
-    {
-      "src": "/(.*)",
-      "dest": "/index.html"
-    }
-  ],
-  "env": {
-    "PYTHON_VERSION": "3.8"
-  }
+    { "src": "/api/(.*)", "dest": "/api/django/wsgi.py" },
+    { "src": "/admin/(.*)", "dest": "/api/django/wsgi.py" },
+    { "src": "/static/(.*)", "dest": "/static/\$1" },
+    { "handle": "filesystem" },
+    { "src": "/(.*)", "dest": "/static/index.html" }
+  ]
 }
 EOF
 
-# Verify output structure
-echo " Verifying output structure..."
-ls -la .vercel/output/
-ls -la .vercel/output/api/
-
-# Log memory usage and build info
-node -e '
-const logger = require("./scripts/build-logger.js");
-logger.logMemoryUsage();
-logger.logDiskSpace();
-logger.endTimer("Total Build Time");
-logger.success("Build completed successfully!");
-'
-
-# Log build size information
-log " Build size information:"
-du -sh dist/
-du -sh .vercel/output/
-
-# Verify key files
-log " Verifying key files..."
-ls -la dist/
-ls -la .vercel/output/
+# Log build completion
+log " Build completed successfully!"
+node -e 'require("./scripts/build-logger.js").endTimer("Total Build Time")'

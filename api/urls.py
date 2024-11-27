@@ -18,11 +18,15 @@ from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 from . import gateway
+from health_check.views import MainView
 
 urlpatterns = [
     # Health check endpoints (no auth required)
     path('health/', gateway.health_check, name='health_check'),
     path('vue-status/', gateway.vue_status, name='vue_status'),
+    
+    # Health Check URLs
+    path('ht/', include('health_check.urls')),
     
     # Admin and application endpoints
     path('admin/', admin.site.urls),

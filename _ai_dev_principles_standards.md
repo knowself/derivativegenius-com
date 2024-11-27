@@ -50,171 +50,175 @@ admin privaledges as well as all authentication is controled by firebase.
 
 # AI Development Principles and Standards
 
-## Core Development Principles
+## Environment Separation
 
-### 1. Architecture Integrity
-- Maintain clear separation of concerns between Vue.js frontend and Django backend
-- Use dedicated API gateways for service communication
-- Implement proper health check mechanisms
-- Follow the principle of least privilege
+### Local Development Environment
+- **Python Version**: 3.8
+- **Node Version**: 16.x
+- **Package Management**:
+  - Use `requirements-dev.txt` for Python dependencies
+  - Use `package.json` with `devDependencies` for Node
+- **Environment Variables**:
+  - Use `.env.local` for local secrets
+  - Never commit `.env.local` to repository
+- **Development Server**:
+  - Django: `python3 manage.py runserver`
+  - Vue: `npm run serve`
+- **Database**:
+  - Local SQLite for development
+  - Local Firebase emulator
+- **Testing**:
+  - Run tests with pytest
+  - Use coverage reports
+  - Local linting and formatting
 
-### 2. Security First
-- Implement comprehensive CSRF protection
-- Use proper authentication flows
-- Secure all API endpoints
-- Handle sensitive data appropriately
-- Maintain secure session management
+### Production Environment (Vercel)
+- **Python Version**: 3.8 (Vercel runtime)
+- **Node Version**: 16.x (Vercel default)
+- **Package Management**:
+  - Use `requirements.txt` for Python dependencies
+  - Use `package.json` `dependencies` only
+- **Environment Variables**:
+  - Set via Vercel dashboard
+  - Use production Firebase credentials
+- **Deployment**:
+  - Automatic via Vercel Git integration
+  - Manual via `vercel --prod`
+- **Database**:
+  - Production Firebase instance
+  - No direct database access
 
-### 3. Reliability & Resilience
-- Implement robust error handling
-- Use multiple fallback mechanisms
-- Provide clear error messages
-- Implement automatic recovery where possible
-- Monitor system health proactively
+## Size and Performance Standards
 
-### 4. Developer Experience
-- Maintain clear documentation
-- Provide helpful error messages
-- Implement efficient development workflows
-- Use consistent coding standards
-- Support easy debugging
+### Local Development
+- **Bundle Size**:
+  - Enable source maps
+  - No size restrictions
+  - Development builds only
+- **Performance**:
+  - Hot module replacement
+  - Debug toolbar enabled
+  - Verbose error reporting
+- **Assets**:
+  - Uncompressed images
+  - No minification
+  - Full source maps
 
-### 5. Code Quality
-- Follow SOLID principles
-- Write clean, maintainable code
-- Use proper typing and validation
-- Implement comprehensive testing
-- Maintain consistent code style
+### Production Deployment
+- **Size Limits**:
+  - Lambda: 50MB maximum
+  - Total: 100MB maximum
+  - Individual chunks: 500KB warning
+- **Optimization**:
+  - Code splitting enabled
+  - Image compression
+  - Minification active
+  - No source maps
+- **Caching**:
+  - Static assets: 1 year
+  - API responses: contextual
+  - ETags enabled
 
-## Technical Standards
+## Code Organization
 
-### Frontend (Vue.js)
-```javascript
-// API Service Pattern
-const api = {
-  // Use proper interceptors
-  interceptors: {
-    request: [
-      // Handle authentication
-      // Manage CSRF tokens
-      // Set proper headers
-    ],
-    response: [
-      // Handle errors gracefully
-      // Implement retry logic
-      // Manage authentication state
-    ]
-  }
-}
-
-// Health Check Pattern
-async function checkHealth() {
-  try {
-    const response = await fetch('/health/', {
-      credentials: 'include'
-    })
-    return response.ok
-  } catch (error) {
-    handleError(error)
-    return false
-  }
-}
+### Local Development Structure
+```
+dev/
+├── .env.local              # Local environment variables
+├── .env.development        # Development defaults
+├── requirements-dev.txt    # Development Python packages
+├── package.json           # All dependencies
+├── vue.config.js          # Development configuration
+├── tests/                 # Test files
+└── scripts/               # Development scripts
 ```
 
-### Backend (Django)
-```python
-# Health Check Pattern
-@require_http_methods(["GET"])
-@ensure_csrf_cookie
-def health_check(request):
-    return JsonResponse({
-        'status': 'healthy',
-        'csrf_token': get_token(request)
-    })
-
-# Middleware Pattern
-class SecurityMiddleware:
-    def __init__(self, get_response):
-        self.get_response = get_response
-
-    def __call__(self, request):
-        # Implement security checks
-        # Handle CSRF protection
-        # Manage authentication
-        response = self.get_response(request)
-        return response
+### Production Structure
+```
+dev/
+├── .env.production        # Production defaults
+├── requirements.txt       # Production Python packages
+├── package.json          # Production dependencies
+├── vercel.json           # Vercel configuration
+└── dist/                 # Production build output
 ```
 
-### Development Environment
-```bash
-# Server Detection Pattern
-is_server_running() {
-    # Check process existence
-    # Verify port availability
-    # Test actual service health
-    # Implement fallback mechanisms
-}
+## Testing Standards
 
-# Health Check Pattern
-check_health() {
-    # Verify all services
-    # Test integrations
-    # Check dependencies
-    # Monitor resource usage
-}
-```
+### Local Development Testing
+- Run full test suite
+- Coverage reports
+- Integration tests
+- E2E tests
+- Performance testing
+- Load testing
+
+### Production Testing
+- Health checks
+- Smoke tests
+- Uptime monitoring
+- Performance metrics
+- Error tracking
+
+## Monitoring and Debugging
+
+### Local Development Tools
+- Django Debug Toolbar
+- Vue Devtools
+- Network inspector
+- Console logging
+- pytest debugging
+
+### Production Tools
+- Vercel Analytics
+- Error tracking
+- Performance monitoring
+- Health check endpoints
+- Production logging
 
 ## Security Standards
 
-### Authentication Flow
-1. Client requests access
-2. Server provides CSRF token
-3. Client includes token in subsequent requests
-4. Server validates token and authentication
-5. Maintain secure session
+### Local Development
+- Debug mode enabled
+- CORS unrestricted
+- Local SSL optional
+- Mock authentication
 
-### API Security
-1. Use proper CORS configuration
-2. Implement CSRF protection
-3. Validate all inputs
-4. Use proper HTTP methods
-5. Implement rate limiting
-
-### Error Handling
-1. Provide clear error messages
-2. Implement proper logging
-3. Use appropriate error codes
-4. Handle edge cases
-5. Maintain security in error responses
+### Production
+- Debug mode disabled
+- CORS restricted
+- SSL required
+- Real authentication
+- Security headers
 
 ## Best Practices
 
-### Development Workflow
-1. Use version control effectively
-2. Implement proper testing
-3. Follow code review process
-4. Maintain documentation
-5. Use consistent formatting
+### Local Development
+1. Use virtual environments
+2. Regular dependency updates
+3. Code formatting on save
+4. Local branch management
+5. Frequent commits
 
-### Code Organization
-1. Follow proper directory structure
-2. Use meaningful file names
-3. Implement modular design
-4. Maintain clear dependencies
-5. Use proper configuration management
+### Production Deployment
+1. Version tagging
+2. Deployment previews
+3. Progressive rollouts
+4. Backup strategies
+5. Rollback procedures
 
-### Performance
-1. Optimize API calls
-2. Implement proper caching
-3. Use efficient algorithms
-4. Monitor resource usage
-5. Implement lazy loading
+## Documentation Standards
 
-### Maintenance
-1. Keep dependencies updated
-2. Monitor system health
-3. Implement proper logging
-4. Maintain backups
-5. Document changes properly
+### Local Development Docs
+- API documentation
+- Test coverage reports
+- Development setup guides
+- Component documentation
+- Code style guides
 
-Remember: These principles and standards are living documents. They should be regularly reviewed and updated as our technology stack evolves and new best practices emerge.
+### Production Docs
+- Deployment procedures
+- Monitoring guides
+- Error handling
+- Recovery procedures
+- Security protocols

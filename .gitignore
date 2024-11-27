@@ -82,6 +82,7 @@ vue.log
 firebase-debug.log
 .firebase/
 firebase-admin-key.json
+*firebase-adminsdk*.json
 
 # Tailwind CSS
 .tailwind-cache/

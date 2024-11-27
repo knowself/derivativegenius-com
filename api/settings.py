@@ -25,12 +25,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-=cldztbc4jg&xl0!x673!*v2_=p$$eu)=7*f#d0#zs$44xx-h^'
+SECRET_KEY = os.getenv('DJANGO_SECRET_KEY', 'django-insecure-=cldztbc4jg&xl0!x673!*v2_=p$$eu)=7*f#d0#zs$44xx-h^')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True if os.getenv('VERCEL_ENV') != 'production' else False
+DEBUG = os.getenv('DEBUG', 'True').lower() == 'true'
 
-ALLOWED_HOSTS = ['127.0.0.1', '.vercel.app', 'localhost', 'localhost:8000']
+ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', '*').split(',')
 
 
 # Application definition
@@ -153,16 +153,7 @@ MEDIA_ROOT = BASE_DIR / 'public'
 # CORS settings
 CORS_ALLOW_ALL_ORIGINS = False  # Be explicit about allowed origins
 CORS_ALLOW_CREDENTIALS = True
-CORS_ALLOWED_ORIGINS = [
-    "http://localhost:8080",
-    "http://127.0.0.1:8080",
-    "http://localhost:5173",  # Vite dev server
-    "http://127.0.0.1:5173",  # Vite dev server
-    "https://derivative-genius.com",
-    "https://www.derivative-genius.com",
-    "https://derivative-genius-website.vercel.app"
-]
-
+CORS_ALLOWED_ORIGINS = os.getenv('CORS_ALLOWED_ORIGINS', 'http://localhost:8080').split(',')
 CORS_ALLOW_METHODS = [
     'GET',
     'POST',
@@ -185,19 +176,11 @@ CORS_ALLOW_HEADERS = [
 ]
 
 # CSRF settings
-CSRF_TRUSTED_ORIGINS = [
-    "http://localhost:8080",
-    "http://127.0.0.1:8080",
-    "http://localhost:5173",  # Vite dev server
-    "http://127.0.0.1:5173",  # Vite dev server
-    "https://derivative-genius.com",
-    "https://www.derivative-genius.com",
-    "https://derivative-genius-website.vercel.app"
-]
+CSRF_TRUSTED_ORIGINS = os.getenv('CSRF_TRUSTED_ORIGINS', 'http://localhost:8080').split(',')
+CSRF_COOKIE_SECURE = os.getenv('CSRF_COOKIE_SECURE', 'True').lower() == 'true'
 
 # Cookie settings
-SESSION_COOKIE_SECURE = not DEBUG  # Allow non-HTTPS in development
-CSRF_COOKIE_SECURE = not DEBUG  # Allow non-HTTPS in development
+SESSION_COOKIE_SECURE = os.getenv('SESSION_COOKIE_SECURE', 'True').lower() == 'true'
 SESSION_COOKIE_SAMESITE = 'Lax' if DEBUG else 'None'  # More permissive in development
 CSRF_COOKIE_SAMESITE = 'Lax' if DEBUG else 'None'  # More permissive in development
 CSRF_USE_SESSIONS = False  # Store CSRF token in cookie for development
@@ -286,6 +269,22 @@ LOGGING = {
         'handlers': ['console'],
         'level': 'INFO',
     }
+}
+
+# Security Settings
+if not DEBUG:
+    SECURE_SSL_REDIRECT = os.getenv('SECURE_SSL_REDIRECT', 'True').lower() == 'true'
+    SESSION_COOKIE_SECURE = os.getenv('SESSION_COOKIE_SECURE', 'True').lower() == 'true'
+    CSRF_COOKIE_SECURE = os.getenv('CSRF_COOKIE_SECURE', 'True').lower() == 'true'
+    SECURE_BROWSER_XSS_FILTER = True
+    SECURE_CONTENT_TYPE_NOSNIFF = True
+    X_FRAME_OPTIONS = 'DENY'
+
+# Health Check Configuration
+HEALTH_CHECK_ENABLED = os.getenv('HEALTH_CHECK_ENABLED', 'True').lower() == 'true'
+HEALTH_CHECK = {
+    'DB_INTERVAL': int(os.getenv('HEALTH_CHECK_DB_INTERVAL', '300')),
+    'STORAGE_INTERVAL': int(os.getenv('HEALTH_CHECK_STORAGE_INTERVAL', '3600')),
 }
 
 # Default primary key field type
