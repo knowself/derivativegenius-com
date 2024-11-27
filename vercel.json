@@ -1,0 +1,54 @@
+{
+  "version": 2,
+  "builds": [
+    {
+      "src": "api/wsgi.py",
+      "use": "@vercel/python",
+      "config": {
+        "maxLambdaSize": "15mb",
+        "runtime": "python3.8"
+      }
+    },
+    {
+      "src": "package.json",
+      "use": "@vercel/static-build",
+      "config": {
+        "distDir": "dist",
+        "buildCommand": "npm run build"
+      }
+    }
+  ],
+  "routes": [
+    {
+      "src": "/health",
+      "dest": "api/wsgi.py"
+    },
+    {
+      "src": "/firebase/(.*)",
+      "dest": "api/wsgi.py"
+    },
+    {
+      "src": "/api/(.*)",
+      "dest": "api/wsgi.py"
+    },
+    {
+      "src": "/admin/(.*)",
+      "dest": "api/wsgi.py"
+    },
+    {
+      "src": "/static/(.*)",
+      "dest": "/dist/static/$1"
+    },
+    {
+      "handle": "filesystem"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/dist/$1"
+    }
+  ],
+  "env": {
+    "PYTHON_VERSION": "3.8",
+    "NODE_ENV": "production"
+  }
+}

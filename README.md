@@ -91,7 +91,7 @@ Our application uses a modern, secure architecture combining Vue.js, Django, and
 
 ### Prerequisites
 
-- Python 3.9+
+- Python 3.8 (required for Vercel deployment)
 - Node.js 18+
 - npm 8+
 - Firebase CLI
