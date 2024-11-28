@@ -18,8 +18,9 @@ class DebugCsrfMiddleware:
         logger.debug(f"Referer: {request.headers.get('Referer')}")
         logger.debug(f"Host: {request.headers.get('Host')}")
         
-        # Always ensure CSRF token is set in development
-        if settings.DEBUG:
+        # Skip CSRF checks in development or for OPTIONS requests
+        if settings.DEBUG or request.method == 'OPTIONS':
+            setattr(request, '_dont_enforce_csrf_checks', True)
             token = get_token(request)
             logger.debug(f"Generated CSRF token: {token}")
         
@@ -47,12 +48,17 @@ class DebugCsrfMiddleware:
                 domain = None
             
             response.cookies['csrftoken'].update({
-                'samesite': 'Lax',
-                'secure': False,
+                'samesite': 'None',
+                'secure': True,
                 'httponly': False,
                 'domain': domain,
                 'path': '/'
             })
+            
+            # Add CORS headers for development
+            response["Access-Control-Allow-Origin"] = "*"
+            response["Access-Control-Allow-Methods"] = "GET, POST, PUT, DELETE, OPTIONS"
+            response["Access-Control-Allow-Headers"] = "X-Requested-With, Content-Type, X-CSRFToken, Authorization"
             
             # Log final cookie configuration
             cookie = response.cookies['csrftoken']
