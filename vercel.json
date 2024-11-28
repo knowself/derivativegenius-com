@@ -16,6 +16,10 @@
       "src": "/api/(.*)",
       "dest": "api/$1",
       "headers": {
+        "Access-Control-Allow-Credentials": "true",
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Methods": "GET,OPTIONS,PATCH,DELETE,POST,PUT",
+        "Access-Control-Allow-Headers": "X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version, Authorization",
         "Cache-Control": "public, max-age=0, must-revalidate"
       }
     },
@@ -27,7 +31,10 @@
   "env": {
     "FIREBASE_PROJECT_ID": "${FIREBASE_PROJECT_ID}",
     "FIREBASE_CLIENT_EMAIL": "${FIREBASE_CLIENT_EMAIL}",
-    "FIREBASE_PRIVATE_KEY": "${FIREBASE_PRIVATE_KEY}"
+    "FIREBASE_PRIVATE_KEY": "${FIREBASE_PRIVATE_KEY}",
+    "DJANGO_SECRET_KEY": "${DJANGO_SECRET_KEY}",
+    "DEBUG": "false",
+    "ALLOWED_HOSTS": ".vercel.app,localhost,127.0.0.1"
   },
   "build": {
     "env": {
