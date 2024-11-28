@@ -46,6 +46,11 @@ def api_test(request):
         'query_params': dict(request.GET)
     })
 
+@ensure_csrf_cookie
+def health_check(request):
+    """Health check endpoint that also sets CSRF cookie."""
+    return JsonResponse({'status': 'healthy'})
+
 @require_http_methods(['POST'])
 def toggle_theme(request):
     current_theme = get_user_theme(request)
