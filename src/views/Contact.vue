@@ -1,10 +1,10 @@
 <template>
-  <div class="min-h-screen bg-gray-50 py-16 px-4 sm:px-6 lg:px-8">
+  <div class="min-h-screen bg-gradient-to-br from-primary-100 via-primary-50 to-accent-50 py-16 px-4 sm:px-6 lg:px-8">
     <div class="max-w-7xl mx-auto">
       <div class="text-center">
-        <h2 class="text-base font-semibold text-indigo-600 tracking-wide uppercase">Contact Us</h2>
-        <p class="mt-1 text-4xl font-extrabold text-gray-900 sm:text-5xl sm:tracking-tight lg:text-6xl">Get in Touch</p>
-        <p class="max-w-xl mt-5 mx-auto text-xl text-gray-500">
+        <h2 class="text-base font-semibold text-transparent bg-clip-text bg-gradient-to-r from-primary-600 to-accent-500 tracking-wide uppercase">Contact Us</h2>
+        <p class="mt-1 text-4xl font-extrabold text-primary-900 sm:text-5xl sm:tracking-tight lg:text-6xl bg-gradient-to-r from-primary-700 to-accent-600 bg-clip-text text-transparent">Get in Touch</p>
+        <p class="max-w-xl mt-5 mx-auto text-xl text-primary-800">
           Have questions about our platform? Want to learn more about how we can help your business? We'd love to hear from you.
         </p>
       </div>
@@ -12,12 +12,12 @@
       <div class="mt-12">
         <div class="grid grid-cols-1 gap-8 lg:grid-cols-2">
           <!-- Contact Form -->
-          <div class="relative bg-white shadow-xl rounded-lg">
+          <div class="relative bg-white shadow-xl rounded-lg border-2 border-primary-400 hover:border-primary-500 transition-colors">
             <h2 class="sr-only">Contact us</h2>
 
             <div class="grid grid-cols-1">
               <!-- Contact information -->
-              <div class="relative overflow-hidden py-10 px-6 bg-indigo-700 sm:px-10 xl:p-12">
+              <div class="relative overflow-hidden py-10 px-6 bg-gradient-to-br from-primary-600 to-accent-500 sm:px-10 xl:p-12">
                 <div class="absolute inset-0 pointer-events-none sm:hidden" aria-hidden="true">
                   <svg class="absolute inset-0 w-full h-full" width="343" height="388" viewBox="0 0 343 388" fill="none" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
                     <path d="M-99 461.107L608.107-246l707.103 707.107-707.103 707.103L-99 461.107z" fill="url(#linear1)" fill-opacity=".1" />
@@ -42,27 +42,27 @@
                 </div>
 
                 <h3 class="text-lg font-medium text-white">Contact information</h3>
-                <p class="mt-6 text-base text-indigo-50 max-w-3xl">
+                <p class="mt-6 text-base text-accent-50 max-w-3xl">
                   Our team is here to help. Fill out the form and we'll get back to you within 24 hours.
                 </p>
                 <dl class="mt-8 space-y-6">
                   <dt><span class="sr-only">Phone number</span></dt>
-                  <dd class="flex text-base text-indigo-50">
-                    <svg class="flex-shrink-0 w-6 h-6 text-indigo-200" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                  <dd class="flex text-base text-accent-50">
+                    <svg class="flex-shrink-0 w-6 h-6 text-accent-200" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
                     </svg>
                     <span class="ml-3">(310) 379-9822</span>
                   </dd>
                   <dt><span class="sr-only">Email</span></dt>
-                  <dd class="flex text-base text-indigo-50">
-                    <svg class="flex-shrink-0 w-6 h-6 text-indigo-200" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                  <dd class="flex text-base text-accent-50">
+                    <svg class="flex-shrink-0 w-6 h-6 text-accent-200" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                     </svg>
                     <span class="ml-3">Joe@DerivativeGenius.com</span>
                   </dd>
                   <dt><span class="sr-only">Address</span></dt>
-                  <dd class="flex text-base text-indigo-50">
-                    <svg class="flex-shrink-0 w-6 h-6 text-indigo-200" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <dd class="flex text-base text-accent-50">
+                    <svg class="flex-shrink-0 w-6 h-6 text-accent-200" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
                     </svg>
@@ -79,47 +79,47 @@
               <div class="py-10 px-6 sm:px-10 lg:col-span-2 xl:p-12">
                 <form @submit.prevent="handleSubmit" class="mt-6 grid grid-cols-1 gap-y-6 sm:grid-cols-2 sm:gap-x-8">
                   <div class="sm:col-span-2">
-                    <label for="name" class="block text-sm font-medium text-gray-900">Name</label>
+                    <label for="name" class="block text-sm font-medium text-primary-900">Name</label>
                     <div class="mt-1">
                       <input 
                         type="text" 
                         name="name" 
                         id="name" 
-                        v-model="form.name"
+                        v-model="formData.name"
                         autocomplete="name" 
-                        class="py-3 px-4 block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 border-gray-300 rounded-md"
+                        class="py-3 px-4 block w-full shadow-sm focus:ring-accent-500 focus:border-accent-500 border-primary-300 rounded-md"
                       >
                     </div>
                   </div>
                   <div class="sm:col-span-2">
-                    <label for="email" class="block text-sm font-medium text-gray-900">Email</label>
+                    <label for="email" class="block text-sm font-medium text-primary-900">Email</label>
                     <div class="mt-1">
                       <input 
                         id="email" 
                         name="email" 
                         type="email" 
-                        v-model="form.email"
+                        v-model="formData.email"
                         autocomplete="email" 
-                        class="py-3 px-4 block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 border-gray-300 rounded-md"
+                        class="py-3 px-4 block w-full shadow-sm focus:ring-accent-500 focus:border-accent-500 border-primary-300 rounded-md"
                       >
                     </div>
                   </div>
                   <div class="sm:col-span-2">
-                    <label for="message" class="block text-sm font-medium text-gray-900">Message</label>
+                    <label for="message" class="block text-sm font-medium text-primary-900">Message</label>
                     <div class="mt-1">
                       <textarea 
                         id="message" 
                         name="message" 
                         rows="4" 
-                        v-model="form.message"
-                        class="py-3 px-4 block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 border-gray-300 rounded-md"
+                        v-model="formData.message"
+                        class="py-3 px-4 block w-full shadow-sm focus:ring-accent-500 focus:border-accent-500 border-primary-300 rounded-md"
                       ></textarea>
                     </div>
                   </div>
                   <div class="sm:col-span-2">
                     <button 
                       type="submit" 
-                      class="w-full inline-flex items-center justify-center px-6 py-3 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                      class="w-full inline-flex items-center justify-center px-6 py-3 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-secondary-600 hover:bg-secondary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-secondary-500 transition-colors duration-200"
                     >
                       Send Message
                     </button>
@@ -171,7 +171,7 @@ defineOptions({
   name: 'ContactPage'
 })
 
-const form = ref({
+const formData = ref({
   name: '',
   email: '',
   message: ''
@@ -179,9 +179,9 @@ const form = ref({
 
 const handleSubmit = async () => {
   // Here you would typically send the form data to your backend
-  console.log('Form submitted:', form.value)
+  console.log('Form submitted:', formData.value)
   // Reset form after submission
-  form.value = {
+  formData.value = {
     name: '',
     email: '',
     message: ''

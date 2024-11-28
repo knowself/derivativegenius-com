@@ -151,9 +151,12 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'public'
 
 # CORS settings
-CORS_ORIGIN_ALLOW_ALL = True
+CORS_ORIGIN_ALLOW_ALL = False  # More secure
 CORS_ALLOW_CREDENTIALS = True
-CORS_ALLOWED_ORIGINS = os.getenv('CORS_ALLOWED_ORIGINS', 'http://localhost:8080').split(',')
+CORS_ALLOWED_ORIGINS = [
+    'http://localhost:8080',
+    'http://localhost:8000',
+]
 CORS_ALLOW_METHODS = [
     'GET',
     'POST',
@@ -176,22 +179,20 @@ CORS_ALLOW_HEADERS = [
 ]
 
 # CSRF settings
-CSRF_TRUSTED_ORIGINS = os.getenv('CSRF_TRUSTED_ORIGINS', 'http://localhost:8080').split(',')
-CSRF_COOKIE_SECURE = os.getenv('CSRF_COOKIE_SECURE', 'True').lower() == 'true'
-
-# Cookie settings
-SESSION_COOKIE_SECURE = os.getenv('SESSION_COOKIE_SECURE', 'True').lower() == 'true'
-SESSION_COOKIE_SAMESITE = 'Lax' if DEBUG else 'None'  # More permissive in development
-CSRF_COOKIE_SAMESITE = 'Lax' if DEBUG else 'None'  # More permissive in development
-CSRF_USE_SESSIONS = False  # Store CSRF token in cookie for development
+CSRF_TRUSTED_ORIGINS = [
+    'http://localhost:8080',
+    'http://localhost:8000',
+]
+CSRF_COOKIE_SECURE = False if DEBUG else True  # Allow non-HTTPS in development
+CSRF_USE_SESSIONS = False  # Store CSRF token in cookie
 CSRF_COOKIE_HTTPONLY = False  # Allow JavaScript access to CSRF cookie
+CSRF_COOKIE_SAMESITE = 'Lax' if DEBUG else 'None'
 CSRF_COOKIE_DOMAIN = None  # Allow subdomains in development
-SESSION_COOKIE_DOMAIN = None  # Allow subdomains in development
 
-# Development-specific cookie settings
-if DEBUG:
-    CSRF_COOKIE_NAME = 'csrftoken'
-    SESSION_COOKIE_NAME = 'sessionid'
+# Session settings
+SESSION_COOKIE_SECURE = False if DEBUG else True  # Allow non-HTTPS in development
+SESSION_COOKIE_SAMESITE = 'Lax' if DEBUG else 'None'
+SESSION_COOKIE_DOMAIN = None  # Allow subdomains in development
 
 # Firebase Configuration
 FIREBASE_ADMIN_PROJECT_ID = os.getenv('FIREBASE_ADMIN_PROJECT_ID')

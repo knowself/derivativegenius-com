@@ -454,27 +454,58 @@ test_django() {
 test_firebase() {
     log "Testing Firebase connection..."
     
-    # Try to connect to Django endpoint that uses Firebase
-    response_code=$(curl -s -w "%{http_code}" http://localhost:$DJANGO_PORT/firebase/firebase-test/ -o /tmp/firebase_response.txt)
-    response_body=$(cat /tmp/firebase_response.txt)
-    rm -f /tmp/firebase_response.txt
+    # Test Firebase configuration first
+    log "Checking Firebase configuration..."
+    response_code=$(curl -s -w "%{http_code}" http://localhost:$DJANGO_PORT/firebase/config-test/ -o /tmp/firebase_config.txt)
+    config_response=$(cat /tmp/firebase_config.txt)
+    rm -f /tmp/firebase_config.txt
     
-    if [ "$response_code" = "200" ]; then
-        success "Firebase test passed: Connection is working"
-        log "Response: $response_body"
-        return 0
-    else
-        error "Firebase test failed: Server returned status $response_code"
-        if [ ! -z "$response_body" ]; then
-            error "Error details: $response_body"
+    if [ "$response_code" != "200" ]; then
+        error "Firebase configuration test failed: Server returned status $response_code"
+        if [ ! -z "$config_response" ]; then
+            error "Configuration error: $config_response"
+        fi
+        error "Please check your Firebase credentials in settings.py and environment variables"
+        return 1
+    fi
+    
+    # Test Firebase authentication
+    log "Testing Firebase authentication..."
+    response_code=$(curl -s -w "%{http_code}" http://localhost:$DJANGO_PORT/firebase/auth-test/ -o /tmp/firebase_auth.txt)
+    auth_response=$(cat /tmp/firebase_auth.txt)
+    rm -f /tmp/firebase_auth.txt
+    
+    if [ "$response_code" != "200" ]; then
+        error "Firebase authentication test failed: Server returned status $response_code"
+        if [ ! -z "$auth_response" ]; then
+            error "Authentication error: $auth_response"
         fi
         if [ "$response_code" = "500" ]; then
-            error "This might be a Firebase configuration issue. Check your credentials and permissions."
-        elif [ "$response_code" = "404" ]; then
-            error "Firebase test endpoint not found. Please ensure the API endpoint exists."
+            if echo "$auth_response" | grep -q "Invalid JWT Signature"; then
+                error "Invalid JWT signature detected. This usually means:"
+                error "1. The Firebase private key is truncated or malformed"
+                error "2. The environment variables are not properly set"
+                error "3. The Firebase project settings don't match the credentials"
+                log "Checking environment variables..."
+                if [ -z "$FIREBASE_PRIVATE_KEY" ]; then
+                    error "FIREBASE_PRIVATE_KEY is not set"
+                else
+                    success "FIREBASE_PRIVATE_KEY is set"
+                fi
+                if [ -z "$FIREBASE_PROJECT_ID" ]; then
+                    error "FIREBASE_PROJECT_ID is not set"
+                else
+                    success "FIREBASE_PROJECT_ID is set"
+                fi
+            fi
         fi
         return 1
     fi
+    
+    success "Firebase tests passed successfully"
+    log "Configuration: $config_response"
+    log "Authentication: $auth_response"
+    return 0
 }
 
 # Function to handle interactive commands

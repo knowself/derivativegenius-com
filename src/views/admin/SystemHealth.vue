@@ -1,94 +1,151 @@
 &lt;template&gt;
-  &lt;div class="p-6"&gt;
-    &lt;h1 class="text-2xl font-semibold text-gray-900 mb-6"&gt;System Health Monitor&lt;/h1&gt;
-    
-    &lt;!-- Real-time Status Overview --&gt;
-    &lt;div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8"&gt;
-      &lt;div v-for="metric in healthMetrics" :key="metric.name" 
-           :class="['bg-white p-6 rounded-lg shadow-sm', 
-                    metric.status === 'healthy' ? 'border-l-4 border-green-500' :
-                    metric.status === 'warning' ? 'border-l-4 border-yellow-500' :
-                    'border-l-4 border-red-500']"&gt;
-        &lt;h3 class="text-sm font-medium text-gray-500"&gt;{{ metric.name }}&lt;/h3&gt;
-        &lt;p class="mt-2 text-3xl font-semibold"
-           :class="metric.status === 'healthy' ? 'text-green-600' :
-                   metric.status === 'warning' ? 'text-yellow-600' :
-                   'text-red-600'"&gt;
-          {{ metric.value }}
-        &lt;/p&gt;
-        &lt;p class="mt-2 text-sm text-gray-600"&gt;{{ metric.description }}&lt;/p&gt;
+  &lt;div class="min-h-screen bg-primary-50"&gt;
+    &lt;header class="bg-white shadow"&gt;
+      &lt;div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8"&gt;
+        &lt;h1 class="text-3xl font-bold text-primary-900"&gt;System Health&lt;/h1&gt;
       &lt;/div&gt;
-    &lt;/div&gt;
+    &lt;/header&gt;
 
-    &lt;div class="grid grid-cols-1 lg:grid-cols-2 gap-6"&gt;
-      &lt;!-- Vue Performance --&gt;
-      &lt;div class="bg-white p-6 rounded-lg shadow-sm"&gt;
-        &lt;h2 class="text-lg font-medium text-gray-900 mb-4"&gt;Vue.js Performance&lt;/h2&gt;
-        &lt;div class="space-y-4"&gt;
-          &lt;div v-for="metric in vueMetrics" :key="metric.name" class="flex justify-between items-center"&gt;
-            &lt;span class="text-sm text-gray-600"&gt;{{ metric.name }}&lt;/span&gt;
-            &lt;span class="text-sm font-medium" 
-                  :class="metric.status === 'healthy' ? 'text-green-600' :
-                         metric.status === 'warning' ? 'text-yellow-600' :
-                         'text-red-600'"&gt;
-              {{ metric.value }}
-            &lt;/span&gt;
+    &lt;main class="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8"&gt;
+      &lt;!-- System Status Overview --&gt;
+      &lt;div class="bg-white shadow rounded-lg mb-6"&gt;
+        &lt;div class="px-4 py-5 sm:p-6"&gt;
+          &lt;h2 class="text-xl font-semibold text-primary-900 mb-4"&gt;System Status Overview&lt;/h2&gt;
+          &lt;div class="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3"&gt;
+            &lt;div class="bg-primary-50 rounded-lg p-4"&gt;
+              &lt;div class="flex items-center"&gt;
+                &lt;div class="flex-shrink-0"&gt;
+                  &lt;svg class="h-6 w-6 text-accent-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"&gt;
+                    &lt;path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /&gt;
+                  &lt;/svg&gt;
+                &lt;/div&gt;
+                &lt;div class="ml-3"&gt;
+                  &lt;h3 class="text-sm font-medium text-primary-900"&gt;System Status&lt;/h3&gt;
+                  &lt;p class="mt-1 text-sm text-primary-700"&gt;{{ systemStatus }}&lt;/p&gt;
+                &lt;/div&gt;
+              &lt;/div&gt;
+            &lt;/div&gt;
+
+            &lt;div class="bg-primary-50 rounded-lg p-4"&gt;
+              &lt;div class="flex items-center"&gt;
+                &lt;div class="flex-shrink-0"&gt;
+                  &lt;svg class="h-6 w-6 text-secondary-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"&gt;
+                    &lt;path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /&gt;
+                  &lt;/svg&gt;
+                &lt;/div&gt;
+                &lt;div class="ml-3"&gt;
+                  &lt;h3 class="text-sm font-medium text-primary-900"&gt;Uptime&lt;/h3&gt;
+                  &lt;p class="mt-1 text-sm text-primary-700"&gt;{{ uptime }}&lt;/p&gt;
+                &lt;/div&gt;
+              &lt;/div&gt;
+            &lt;/div&gt;
+
+            &lt;div class="bg-primary-50 rounded-lg p-4"&gt;
+              &lt;div class="flex items-center"&gt;
+                &lt;div class="flex-shrink-0"&gt;
+                  &lt;svg class="h-6 w-6 text-accent-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"&gt;
+                    &lt;path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" /&gt;
+                  &lt;/svg&gt;
+                &lt;/div&gt;
+                &lt;div class="ml-3"&gt;
+                  &lt;h3 class="text-sm font-medium text-primary-900"&gt;Response Time&lt;/h3&gt;
+                  &lt;p class="mt-1 text-sm text-primary-700"&gt;{{ responseTime }}ms&lt;/p&gt;
+                &lt;/div&gt;
+              &lt;/div&gt;
+            &lt;/div&gt;
           &lt;/div&gt;
         &lt;/div&gt;
-        &lt;LineChart :chart-data="vuePerformanceData" :options="chartOptions" class="mt-4 h-64" /&gt;
       &lt;/div&gt;
 
-      &lt;!-- Django Performance --&gt;
-      &lt;div class="bg-white p-6 rounded-lg shadow-sm"&gt;
-        &lt;h2 class="text-lg font-medium text-gray-900 mb-4"&gt;Django Performance&lt;/h2&gt;
-        &lt;div class="space-y-4"&gt;
-          &lt;div v-for="metric in djangoMetrics" :key="metric.name" class="flex justify-between items-center"&gt;
-            &lt;span class="text-sm text-gray-600"&gt;{{ metric.name }}&lt;/span&gt;
-            &lt;span class="text-sm font-medium"
-                  :class="metric.status === 'healthy' ? 'text-green-600' :
-                         metric.status === 'warning' ? 'text-yellow-600' :
-                         'text-red-600'"&gt;
-              {{ metric.value }}
-            &lt;/span&gt;
+      &lt;!-- Health Metrics --&gt;
+      &lt;div class="bg-white shadow rounded-lg mb-6"&gt;
+        &lt;div class="px-4 py-5 sm:p-6"&gt;
+          &lt;h2 class="text-xl font-semibold text-primary-900 mb-4"&gt;Health Metrics&lt;/h2&gt;
+          &lt;div class="space-y-4"&gt;
+            &lt;div v-for="metric in healthMetrics" :key="metric.name" class="bg-primary-50 rounded-lg p-4"&gt;
+              &lt;div class="flex items-center justify-between"&gt;
+                &lt;div class="flex items-center"&gt;
+                  &lt;span class="text-sm font-medium text-primary-900"&gt;{{ metric.name }}&lt;/span&gt;
+                &lt;/div&gt;
+                &lt;div class="ml-2"&gt;
+                  &lt;span class="px-2 py-1 text-xs font-medium rounded-full"
+                    :class="{
+                      'bg-accent-100 text-accent-800': metric.status === 'healthy',
+                      'bg-secondary-100 text-secondary-800': metric.status === 'warning',
+                      'bg-red-100 text-red-800': metric.status === 'critical'
+                    }"&gt;
+                    {{ metric.value }}
+                  &lt;/span&gt;
+                &lt;/div&gt;
+              &lt;/div&gt;
+              &lt;div class="mt-1"&gt;
+                &lt;div class="relative pt-1"&gt;
+                  &lt;div class="overflow-hidden h-2 text-xs flex rounded bg-primary-200"&gt;
+                    &lt;div
+                      :style="{ width: metric.percentage + '%' }"
+                      :class="{
+                        'bg-accent-600': metric.status === 'healthy',
+                        'bg-secondary-600': metric.status === 'warning',
+                        'bg-red-600': metric.status === 'critical'
+                      }"
+                      class="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center"&gt;
+                    &lt;/div&gt;
+                  &lt;/div&gt;
+                &lt;/div&gt;
+              &lt;/div&gt;
+            &lt;/div&gt;
           &lt;/div&gt;
         &lt;/div&gt;
-        &lt;LineChart :chart-data="djangoPerformanceData" :options="chartOptions" class="mt-4 h-64" /&gt;
       &lt;/div&gt;
 
-      &lt;!-- Firebase Operations --&gt;
-      &lt;div class="bg-white p-6 rounded-lg shadow-sm"&gt;
-        &lt;h2 class="text-lg font-medium text-gray-900 mb-4"&gt;Firebase Operations&lt;/h2&gt;
-        &lt;div class="space-y-4"&gt;
-          &lt;div v-for="metric in firebaseMetrics" :key="metric.name" class="flex justify-between items-center"&gt;
-            &lt;span class="text-sm text-gray-600"&gt;{{ metric.name }}&lt;/span&gt;
-            &lt;span class="text-sm font-medium"
-                  :class="metric.status === 'healthy' ? 'text-green-600' :
-                         metric.status === 'warning' ? 'text-yellow-600' :
-                         'text-red-600'"&gt;
-              {{ metric.value }}
-            &lt;/span&gt;
+      &lt;!-- Recent Alerts --&gt;
+      &lt;div class="bg-white shadow rounded-lg"&gt;
+        &lt;div class="px-4 py-5 sm:p-6"&gt;
+          &lt;h2 class="text-xl font-semibold text-primary-900 mb-4"&gt;Recent Alerts&lt;/h2&gt;
+          &lt;div class="space-y-4"&gt;
+            &lt;div v-for="alert in recentAlerts" :key="alert.id" 
+              class="p-4 rounded-lg"
+              :class="{
+                'bg-accent-50': alert.severity === 'info',
+                'bg-secondary-50': alert.severity === 'warning',
+                'bg-red-50': alert.severity === 'critical'
+              }"&gt;
+              &lt;div class="flex"&gt;
+                &lt;div class="flex-shrink-0"&gt;
+                  &lt;svg class="h-5 w-5" 
+                    :class="{
+                      'text-accent-400': alert.severity === 'info',
+                      'text-secondary-400': alert.severity === 'warning',
+                      'text-red-400': alert.severity === 'critical'
+                    }"
+                    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"&gt;
+                    &lt;path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd" /&gt;
+                  &lt;/svg&gt;
+                &lt;/div&gt;
+                &lt;div class="ml-3"&gt;
+                  &lt;h3 class="text-sm font-medium"
+                    :class="{
+                      'text-accent-800': alert.severity === 'info',
+                      'text-secondary-800': alert.severity === 'warning',
+                      'text-red-800': alert.severity === 'critical'
+                    }"&gt;
+                    {{ alert.title }}
+                  &lt;/h3&gt;
+                  &lt;div class="mt-2 text-sm"
+                    :class="{
+                      'text-accent-700': alert.severity === 'info',
+                      'text-secondary-700': alert.severity === 'warning',
+                      'text-red-700': alert.severity === 'critical'
+                    }"&gt;
+                    &lt;p&gt;{{ alert.message }}&lt;/p&gt;
+                  &lt;/div&gt;
+                &lt;/div&gt;
+              &lt;/div&gt;
+            &lt;/div&gt;
           &lt;/div&gt;
         &lt;/div&gt;
-        &lt;LineChart :chart-data="firebasePerformanceData" :options="chartOptions" class="mt-4 h-64" /&gt;
       &lt;/div&gt;
-
-      &lt;!-- System Resources --&gt;
-      &lt;div class="bg-white p-6 rounded-lg shadow-sm"&gt;
-        &lt;h2 class="text-lg font-medium text-gray-900 mb-4"&gt;System Resources&lt;/h2&gt;
-        &lt;div class="space-y-4"&gt;
-          &lt;div v-for="metric in systemMetrics" :key="metric.name" class="flex justify-between items-center"&gt;
-            &lt;span class="text-sm text-gray-600"&gt;{{ metric.name }}&lt;/span&gt;
-            &lt;span class="text-sm font-medium"
-                  :class="metric.status === 'healthy' ? 'text-green-600' :
-                         metric.status === 'warning' ? 'text-yellow-600' :
-                         'text-red-600'"&gt;
-              {{ metric.value }}
-            &lt;/span&gt;
-          &lt;/div&gt;
-        &lt;/div&gt;
-        &lt;LineChart :chart-data="systemResourceData" :options="chartOptions" class="mt-4 h-64" /&gt;
-      &lt;/div&gt;
-    &lt;/div&gt;
+    &lt;/main&gt;
   &lt;/div&gt;
 &lt;/template&gt;
 
@@ -131,11 +188,11 @@ const djangoMetrics = ref([
   { name: 'Active Sessions', value: '234', status: 'healthy' }
 ])
 
-// Firebase metrics
-const firebaseMetrics = ref([
-  { name: 'Read Operations/sec', value: '23', status: 'healthy' },
-  { name: 'Write Operations/sec', value: '12', status: 'healthy' },
-  { name: 'Authentication Time', value: '180ms', status: 'healthy' },
+// API metrics
+const apiMetrics = ref([
+  { name: 'Response Time', value: '23ms', status: 'healthy' },
+  { name: 'Error Rate', value: '0.01%', status: 'healthy' },
+  { name: 'Request Rate', value: '180/s', status: 'healthy' },
   { name: 'Active Connections', value: '89', status: 'healthy' }
 ])
 
@@ -186,10 +243,10 @@ const djangoPerformanceData = ref({
   }]
 })
 
-const firebasePerformanceData = ref({
+const apiPerformanceData = ref({
   labels: timeLabels,
   datasets: [{
-    label: 'Operations/sec',
+    label: 'Response Time (ms)',
     data: [35, 32, 37, 34, 36, 33, 35],
     borderColor: '#F59E0B',
     tension: 0.4
@@ -209,7 +266,7 @@ const systemResourceData = ref({
 let updateInterval
 
 // Update metrics every 10 seconds
-const updateMetrics = async () => {
+const updateMetrics = async () =&gt; {
   try {
     const metrics = await performanceStore.fetchMetrics()
     // Update all metrics with real data
@@ -219,12 +276,12 @@ const updateMetrics = async () => {
   }
 }
 
-onMounted(() => {
+onMounted(() =&gt; {
   updateMetrics()
   updateInterval = setInterval(updateMetrics, 10000)
 })
 
-onUnmounted(() => {
+onUnmounted(() =&gt; {
   if (updateInterval) {
     clearInterval(updateInterval)
   }

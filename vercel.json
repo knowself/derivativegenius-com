@@ -3,6 +3,10 @@
   "framework": "vue",
   "builds": [
     {
+      "src": "api/**/*.js",
+      "use": "@vercel/node"
+    },
+    {
       "src": "api/index.py",
       "use": "@vercel/python",
       "config": {
@@ -19,6 +23,10 @@
     }
   ],
   "routes": [
+    {
+      "src": "/api/auth/(.*)",
+      "dest": "/api/auth/$1.js"
+    },
     {
       "src": "/api/(.*)",
       "dest": "api/index.py",

@@ -1,5 +1,38 @@
 import { defineStore } from 'pinia'
 import { ref, computed } from 'vue'
+import axios from 'axios'
+
+// Configure axios for development
+const api = axios.create({
+  baseURL: process.env.VUE_APP_API_URL || (process.env.NODE_ENV === 'development' ? 'http://localhost:8000/api' : '/api'),
+  withCredentials: true,
+  headers: {
+    'Content-Type': 'application/json',
+    'X-Requested-With': 'XMLHttpRequest'  // Required for Django CSRF
+  }
+})
+
+// Add request interceptor to set CSRF token
+api.interceptors.request.use(config => {
+  const csrfToken = document.cookie.split('; ')
+    .find(row => row.startsWith('csrftoken='))
+    ?.split('=')[1]
+  
+  if (csrfToken) {
+    config.headers['X-CSRFToken'] = csrfToken
+  }
+  
+  // Add CORS headers for development
+  if (process.env.NODE_ENV === 'development') {
+    config.headers['Access-Control-Allow-Origin'] = 'http://localhost:8080'
+    config.headers['Access-Control-Allow-Credentials'] = 'true'
+  }
+  
+  return config
+}, error => {
+  console.error('Request interceptor error:', error)
+  return Promise.reject(error)
+})
 
 export const useAuthStore = defineStore('auth', () => {
   const user = ref(null)
@@ -12,283 +45,122 @@ export const useAuthStore = defineStore('auth', () => {
   const userEmail = computed(() => user.value?.email)
   const isAdmin = computed(() => user.value?.isAdmin || false)
 
-  // Get CSRF token from cookie with fallback
-  function getCsrfToken() {
-    const name = 'csrftoken='
-    const decodedCookie = decodeURIComponent(document.cookie)
-    const cookieArray = decodedCookie.split(';')
-    
-    for (let cookie of cookieArray) {
-      cookie = cookie.trim()
-      if (cookie.indexOf(name) === 0) {
-        return cookie.substring(name.length)
-      }
-    }
-    console.warn('CSRF token not found in cookies')
-    return null
-  }
-
-  // Ensure CSRF token is present
-  async function ensureCsrfToken() {
-    try {
-      const currentToken = getCsrfToken()
-      if (!currentToken) {
-        console.log('Fetching new CSRF token')
-        
-        // Make request to health check endpoint to set CSRF cookie
-        const response = await fetch('/health/', {
-          method: 'GET',
-          credentials: 'include',
-          headers: {
-            'Accept': 'application/json'
-          }
-        })
-        
-        if (!response.ok) {
-          console.error('Failed to fetch CSRF token:', response.status)
-          throw new Error(`Failed to fetch CSRF token: ${response.status}`)
-        }
-
-        const data = await response.json()
-        console.log('Health check response:', data)
-
-        // Get token from cookie after health check
-        const newToken = getCsrfToken()
-        if (!newToken) {
-          console.error('No CSRF token received after fetch')
-          throw new Error('No CSRF token received')
-        }
-        
-        console.log('Successfully retrieved CSRF token:', newToken)
-        return newToken
-      }
-      return currentToken
-    } catch (error) {
-      console.error('Error ensuring CSRF token:', error)
-      throw error
-    }
-  }
-
-  // Create authenticated fetch wrapper
-  async function authenticatedFetch(url, options = {}) {
-    try {
-      // Ensure we have a CSRF token
-      const csrfToken = await ensureCsrfToken()
-      
-      // Merge headers with defaults
-      const headers = {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-        'X-CSRFToken': csrfToken,
-        'X-Requested-With': 'XMLHttpRequest',
-        ...(options.headers || {})
-      }
-
-      // If we have an auth token, add it
-      if (token.value) {
-        headers['Authorization'] = `Bearer ${token.value}`
-      }
-
-      // Merge options with defaults
-      const fetchOptions = {
-        ...options,
-        credentials: 'include',
-        headers
-      }
-
-      console.log('Fetch request:', {
-        url,
-        method: fetchOptions.method || 'GET',
-        headers: {
-          ...fetchOptions.headers,
-          Authorization: fetchOptions.headers.Authorization ? '[REDACTED]' : undefined
-        }
-      })
-
-      const response = await fetch(url, fetchOptions)
-      
-      if (!response.ok) {
-        console.error('Request failed:', {
-          status: response.status,
-          statusText: response.statusText,
-          url: response.url
-        })
-        throw new Error(`HTTP error! status: ${response.status}`)
-      }
-      
-      return response
-    } catch (error) {
-      console.error('Fetch error:', error)
-      throw error
-    }
-  }
-
   // Actions
   function setUser(newUser) {
     user.value = newUser
-    loading.value = false
   }
 
   function setToken(newToken) {
     token.value = newToken
     if (newToken) {
       localStorage.setItem('idToken', newToken)
+      // Set token in authorization header for subsequent requests
+      api.defaults.headers.common['Authorization'] = `Bearer ${newToken}`
     } else {
       localStorage.removeItem('idToken')
+      delete api.defaults.headers.common['Authorization']
     }
   }
 
   function setError(err) {
-    error.value = err
-    loading.value = false
+    if (err?.response?.data) {
+      error.value = err.response.data.error || err.response.data.details || 'An error occurred'
+    } else {
+      error.value = err?.message || 'An error occurred'
+    }
   }
 
   async function initializeAuth() {
+    loading.value = true
     try {
-      loading.value = true
+      // Try to get stored token
       const storedToken = localStorage.getItem('idToken')
-      
-      // First, get CSRF token
-      const csrfResponse = await authenticatedFetch('/firebase/auth/session/', {
-        headers: storedToken ? {
-          'Authorization': `Bearer ${storedToken}`
-        } : {}
-      })
-
-      // Check if response is JSON
-      const contentType = csrfResponse.headers.get('content-type')
-      if (!contentType || !contentType.includes('application/json')) {
-        console.error('Invalid response content type:', contentType)
-        console.error('Response status:', csrfResponse.status)
-        console.error('Response text:', await csrfResponse.text())
-        throw new Error('Server returned invalid response format')
+      if (storedToken) {
+        api.defaults.headers.common['Authorization'] = `Bearer ${storedToken}`
       }
-
-      const data = await csrfResponse.json()
       
-      if (data.user) {
-        setUser(data.user)
-        setToken(storedToken) // Keep existing token if valid
+      const response = await api.get('/firebase/auth/session/')
+      if (response.data.user) {
+        setUser(response.data.user)
+        return true
       } else {
         setUser(null)
         setToken(null)
+        return false
       }
     } catch (err) {
       console.error('Auth initialization error:', err)
-      setError('Failed to initialize authentication')
+      setError(err)
       setUser(null)
       setToken(null)
+      return false
+    } finally {
+      loading.value = false
     }
   }
 
   async function signIn({ email, password }) {
+    loading.value = true
+    error.value = null
+    
     try {
-      loading.value = true
-      error.value = null
-
-      console.log('Starting sign in process...')
+      // Ensure we have a CSRF token
+      await api.get('/firebase/auth/')  // This endpoint sets the CSRF cookie
       
-      // First ensure we have a valid CSRF token
-      try {
-        console.log('Fetching fresh CSRF token...')
-        const healthResponse = await fetch('/health/', {
-          credentials: 'include'
-        })
-        if (!healthResponse.ok) {
-          console.error('Health check failed:', healthResponse.status)
-          throw new Error('Failed to initialize session')
-        }
-      } catch (err) {
-        console.error('Health check error:', err)
-        throw new Error('Failed to initialize session')
-      }
-
-      const response = await authenticatedFetch('/firebase/auth/signin/', {
-        method: 'POST',
-        body: JSON.stringify({ email, password })
+      const response = await api.post('/firebase/auth/signin/', { 
+        email, 
+        password 
       })
-
-      console.log('Sign in response status:', response.status)
-      console.log('Response headers:', Object.fromEntries(response.headers))
-
-      // Check if response is JSON
-      const contentType = response.headers.get('content-type')
-      if (!contentType || !contentType.includes('application/json')) {
-        console.error('Invalid response content type:', contentType)
-        const responseText = await response.text()
-        console.error('Response text:', responseText)
-        throw new Error(`Server returned invalid response format (${contentType}). Response: ${responseText}`)
-      }
-
-      let data
-      try {
-        data = await response.json()
-        console.log('Response data:', { ...data, token: data.token ? '[REDACTED]' : undefined })
-      } catch (err) {
-        console.error('Failed to parse response JSON:', err)
-        throw new Error('Failed to parse server response')
-      }
-
-      if (!response.ok) {
-        const errorMessage = data.error || 'Authentication failed'
-        const errorDetails = data.details ? `: ${data.details}` : ''
-        console.error('Sign in error:', errorMessage, errorDetails)
-        throw new Error(errorMessage + errorDetails)
-      }
-
-      if (!data.user || !data.token) {
-        console.error('Invalid response format:', { ...data, token: '[REDACTED]' })
-        throw new Error('Invalid server response: missing user or token')
-      }
-
-      console.log('Sign in successful')
-      setUser(data.user)
-      setToken(data.token)
-      return data.user
+      
+      const { token: newToken, user: userData } = response.data
+      
+      setToken(newToken)
+      setUser(userData)
+      return true
     } catch (err) {
       console.error('Sign in error:', err)
-      setError(err.message || 'Authentication failed')
-      throw err
+      setError(err)
+      return false
     } finally {
       loading.value = false
     }
   }
 
   async function signOut() {
+    loading.value = true
+    error.value = null
+
     try {
-      loading.value = true
-      error.value = null
-
-      const response = await authenticatedFetch('/firebase/auth/signout/', {
-        method: 'POST'
-      })
-
-      if (!response.ok) {
-        throw new Error('Failed to sign out')
-      }
-
+      await api.post('/firebase/auth/signout/')
       setUser(null)
       setToken(null)
+      return true
     } catch (err) {
       console.error('Sign out error:', err)
-      setError(err.message || 'Failed to sign out')
+      setError(err)
+      return false
     } finally {
       loading.value = false
     }
+  }
+
+  // Initialize auth when store is created
+  if (token.value) {
+    initializeAuth()
+  } else {
+    loading.value = false
   }
 
   return {
     user,
     loading,
     error,
-    token,
     isAuthenticated,
     userEmail,
     isAdmin,
     initializeAuth,
     signIn,
     signOut,
-    setError,
-    authenticatedFetch
+    setError
   }
 })

@@ -5,7 +5,7 @@ export const usePerformanceStore = defineStore('performance', {
   state: () => ({
     systemMetrics: {},
     djangoMetrics: {},
-    firebaseMetrics: {},
+    apiMetrics: {},
     loading: false,
     error: null,
     lastUpdated: null
@@ -17,15 +17,15 @@ export const usePerformanceStore = defineStore('performance', {
       this.error = null
       
       try {
-        const [systemResponse, djangoResponse, firebaseResponse] = await Promise.all([
+        const [systemResponse, djangoResponse, apiResponse] = await Promise.all([
           axios.get('/api/metrics/system'),
           axios.get('/api/metrics/django'),
-          axios.get('/api/metrics/firebase')
+          axios.get('/api/metrics/api')
         ])
 
         this.systemMetrics = systemResponse.data
         this.djangoMetrics = djangoResponse.data
-        this.firebaseMetrics = firebaseResponse.data
+        this.apiMetrics = apiResponse.data
         this.lastUpdated = new Date()
       } catch (error) {
         this.error = error.message
@@ -53,7 +53,7 @@ export const usePerformanceStore = defineStore('performance', {
 
   getters: {
     isHealthy: (state) => {
-      if (!state.systemMetrics || !state.djangoMetrics || !state.firebaseMetrics) {
+      if (!state.systemMetrics || !state.djangoMetrics || !state.apiMetrics) {
         return false
       }
 
@@ -69,9 +69,9 @@ export const usePerformanceStore = defineStore('performance', {
         return false
       }
 
-      // Check Firebase metrics
-      const { operations } = state.firebaseMetrics
-      if (operations?.read_time > 1000 || operations?.write_time > 1000) {
+      // Check API metrics
+      const { response_time, error_rate } = state.apiMetrics
+      if (response_time > 1000 || error_rate > 5) {
         return false
       }
 

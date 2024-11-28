@@ -1,36 +1,38 @@
 <template>
-  <div class="py-12 bg-white">
+  <div class="py-6 bg-white">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="lg:text-center">
-        <h2 class="text-base text-indigo-600 font-semibold tracking-wide uppercase">Articles</h2>
-        <p class="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-gray-900 sm:text-4xl">
+      <div class="lg:text-center mb-6">
+        <h2 class="text-base text-accent-600 font-semibold tracking-wide uppercase">Articles</h2>
+        <p class="mt-1 text-3xl leading-8 font-extrabold tracking-tight text-primary-900 sm:text-4xl">
           Latest Insights
         </p>
-        <p class="mt-4 max-w-2xl text-xl text-gray-500 lg:mx-auto">
+        <p class="mt-2 max-w-2xl text-lg text-gray-500 lg:mx-auto">
           Stay updated with our latest insights, trends, and expert analysis.
         </p>
       </div>
 
-      <div class="mt-10 grid gap-8 lg:grid-cols-3 lg:gap-x-5 lg:gap-y-12">
-        <article v-for="article in articles" :key="article.title" class="group">
+      <div class="grid gap-4 md:grid-cols-2 lg:grid-cols-3 lg:gap-6">
+        <article v-for="article in articles" :key="article.title" class="group bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow duration-200">
           <div class="relative">
-            <div class="relative h-48 w-full overflow-hidden rounded-lg bg-white group-hover:opacity-75 sm:aspect-w-2 sm:aspect-h-1 sm:h-64 lg:aspect-w-1 lg:aspect-h-1">
+            <div class="relative h-40 w-full overflow-hidden rounded-t-lg bg-white group-hover:opacity-75">
               <img :src="article.imageUrl" :alt="article.title" class="h-full w-full object-cover object-center">
             </div>
-            <div class="mt-4 flex items-center gap-x-4 text-xs">
-              <time :datetime="article.datetime" class="text-gray-500">{{ article.date }}</time>
-              <span class="relative z-10 rounded-full bg-gray-50 px-3 py-1.5 font-medium text-gray-600 hover:bg-gray-100">
-                {{ article.category }}
-              </span>
-            </div>
-            <div class="group relative">
-              <h3 class="mt-3 text-lg font-semibold leading-6 text-gray-900 group-hover:text-gray-600">
-                <a :href="article.href">
-                  <span class="absolute inset-0"></span>
-                  {{ article.title }}
-                </a>
-              </h3>
-              <p class="mt-2 line-clamp-3 text-sm leading-6 text-gray-600">{{ article.description }}</p>
+            <div class="p-4">
+              <div class="flex items-center gap-x-4 text-xs mb-2">
+                <time :datetime="article.datetime" class="text-gray-500">{{ article.date }}</time>
+                <span class="relative z-10 rounded-full bg-primary-50 px-3 py-1.5 font-medium text-primary-700 hover:bg-primary-100">
+                  {{ article.category }}
+                </span>
+              </div>
+              <div class="group relative">
+                <h3 class="text-lg font-semibold leading-6 text-gray-900 group-hover:text-primary-600">
+                  <a :href="article.href">
+                    <span class="absolute inset-0"></span>
+                    {{ article.title }}
+                  </a>
+                </h3>
+                <p class="mt-2 line-clamp-2 text-sm leading-6 text-gray-600">{{ article.description }}</p>
+              </div>
             </div>
           </div>
         </article>
