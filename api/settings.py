@@ -151,7 +151,7 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'public'
 
 # CORS settings
-CORS_ALLOW_ALL_ORIGINS = False  # Be explicit about allowed origins
+CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_CREDENTIALS = True
 CORS_ALLOWED_ORIGINS = os.getenv('CORS_ALLOWED_ORIGINS', 'http://localhost:8080').split(',')
 CORS_ALLOW_METHODS = [
@@ -209,6 +209,22 @@ if not all([FIREBASE_ADMIN_PROJECT_ID, FIREBASE_ADMIN_PRIVATE_KEY, FIREBASE_ADMI
         print(f"Web API Key: {bool(FIREBASE_WEB_API_KEY)}")
     else:
         raise ValueError("Missing required Firebase configuration variables")
+
+# Authentication settings
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.SessionAuthentication',
+        'firebase_app.authentication.FirebaseAuthentication',
+    ],
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticatedOrReadOnly',
+    ],
+}
+
+# Firebase settings
+FIREBASE_AUTH = {
+    'VERIFY_EMAIL': False,
+}
 
 # Logging Configuration
 LOGGING = {
