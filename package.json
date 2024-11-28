@@ -15,6 +15,8 @@
   "main": "index.js",
   "dependencies": {
     "@heroicons/vue": "^2.2.0",
+    "@vercel/analytics": "^1.4.1",
+    "@vercel/speed-insights": "^1.1.0",
     "chart.js": "^4.4.6",
     "core-js": "^3.35.1",
     "firebase-admin": "^13.0.1",
@@ -29,14 +31,19 @@
     "@babel/plugin-transform-class-properties": "^7.23.3",
     "@tailwindcss/aspect-ratio": "^0.4.2",
     "@tailwindcss/forms": "^0.5.9",
+    "@tailwindcss/typography": "^0.5.15",
     "@vue/cli-plugin-babel": "~5.0.8",
     "@vue/cli-plugin-eslint": "~5.0.8",
     "@vue/cli-plugin-router": "~5.0.8",
     "@vue/cli-service": "~5.0.8",
     "autoprefixer": "^10.4.17",
+    "cssnano": "^6.0.3",
+    "cssnano-preset-default": "^6.0.3",
+    "dotenv": "^16.4.1",
     "eslint": "^8.56.0",
     "eslint-plugin-vue": "^9.21.1",
     "postcss": "^8.4.35",
+    "postcss-nesting": "^12.0.2",
     "tailwindcss": "^3.4.1"
   },
   "eslintConfig": {
