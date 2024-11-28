@@ -3,18 +3,25 @@
   "framework": "vue",
   "builds": [
     {
-      "src": "api/**/*.py",
+      "src": "api/index.py",
       "use": "@vercel/python",
       "config": {
         "maxLambdaSize": "15mb",
         "runtime": "python3.9"
+      }
+    },
+    {
+      "src": "package.json",
+      "use": "@vercel/static-build",
+      "config": {
+        "distDir": "dist"
       }
     }
   ],
   "routes": [
     {
       "src": "/api/(.*)",
-      "dest": "api/$1",
+      "dest": "api/index.py",
       "headers": {
         "Access-Control-Allow-Credentials": "true",
         "Access-Control-Allow-Origin": "*",
@@ -25,7 +32,7 @@
     },
     {
       "src": "/(.*)",
-      "dest": "/$1"
+      "dest": "/dist/$1"
     }
   ],
   "env": {
@@ -34,7 +41,9 @@
     "FIREBASE_PRIVATE_KEY": "${FIREBASE_PRIVATE_KEY}",
     "DJANGO_SECRET_KEY": "${DJANGO_SECRET_KEY}",
     "DEBUG": "false",
-    "ALLOWED_HOSTS": ".vercel.app,localhost,127.0.0.1"
+    "ALLOWED_HOSTS": ".vercel.app,localhost,127.0.0.1",
+    "PYTHONPATH": "./api",
+    "DJANGO_SETTINGS_MODULE": "api.settings"
   },
   "build": {
     "env": {
