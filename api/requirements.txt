@@ -1,0 +1,14 @@
+Django==4.2.0
+django-cors-headers==4.3.1
+djangorestframework==3.15.2
+firebase-admin==6.2.0
+google-cloud-firestore==2.11.1
+google-cloud-storage==2.10.0
+python-dotenv==1.0.0
+whitenoise==6.5.0
+django-csp==3.7
+django-session-timeout==0.1.0
+django-axes==6.1.1
+python-json-logger==2.0.7
+gunicorn==21.2.0
+django-health-check[db,cache,migrations,storage]>=3.17.0
