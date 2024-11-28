@@ -5,7 +5,7 @@
   "description": "Derivative Genius website",
   "scripts": {
     "build": "vue-cli-service build",
-    "vercel-build": "./vercel-build.sh",
+    "vercel-build": "vue-cli-service build",
     "vue-build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
     "dev": "vue-cli-service serve",
