@@ -99,6 +99,30 @@ is_vue_running() {
         fi
         RETRY_COUNT=$((RETRY_COUNT + 1))
         sleep 1
+        
+        # Show progress at intervals
+        case $RETRY_COUNT in
+            1)
+                log "Still compiling... (this may take a few moments)"
+                tail -n 3 vue.log
+                ;;
+            2)
+                log "Webpack is still bundling... (large projects may take longer)"
+                tail -n 3 vue.log
+                ;;
+            3)
+                warn "Server startup is taking longer than usual..."
+                tail -n 5 vue.log
+                ;;
+        esac
+        
+        # Check for common errors in the log
+        if grep -q "Error:" vue.log 2>/dev/null; then
+            error "Vue server failed to start. Found error in logs:"
+            grep -A 5 "Error:" vue.log | head -n 6
+            cleanup
+            return 1
+        fi
     done
     
     # If we got here, port checks failed
@@ -110,6 +134,44 @@ is_vue_running() {
         fi
     fi
     
+    return 1
+}
+
+# Function to check if Redis is running
+is_redis_running() {
+    if command -v redis-cli >/dev/null 2>&1; then
+        if redis-cli ping >/dev/null 2>&1; then
+            return 0  # Redis is running
+        else
+            error "Redis server is not running"
+            log "Run: ${YELLOW}sudo service redis-server start${NC}"
+            log "Redis must be running before starting development servers"
+            log "If Redis is not installed, run: ${YELLOW}sudo apt-get install redis-server${NC}"
+            return 1
+        fi
+    else
+        error "Redis CLI is not installed"
+        log "Run: ${YELLOW}sudo apt-get install redis-server${NC}"
+        return 1
+    fi
+}
+
+# Function to check if Celery worker is running
+is_celery_running() {
+    if pgrep -f "celery.*-A.*api.*worker" > /dev/null; then
+        # Verify it's actually responding
+        if celery -A api inspect ping 2>/dev/null | grep -q "pong"; then
+            return 0
+        fi
+    fi
+    return 1
+}
+
+# Function to check if Celery beat is running
+is_celery_beat_running() {
+    if pgrep -f "celery.*-A.*api.*beat" > /dev/null; then
+        return 0
+    fi
     return 1
 }
 
@@ -196,8 +258,10 @@ start_vue() {
     if ! is_vue_running; then
         log "Starting Vue server..."
         
-        # First ensure we're in a clean state
+        # First ensure we're in a clean state, but skip cache cleanup
+        export SKIP_CACHE_CLEANUP=1
         cleanup
+        unset SKIP_CACHE_CLEANUP
         
         # Check npm environment
         if ! command -v npm >/dev/null 2>&1; then
@@ -214,8 +278,7 @@ start_vue() {
         # Clear problematic cache files if they exist
         if [ -d "node_modules/.cache" ]; then
             log "Clearing webpack cache..."
-            find node_modules/.cache -type f -name "*.json" -delete
-            find node_modules/.cache -type f -name "*.pack" -delete
+            rm -rf node_modules/.cache/* 2>/dev/null || true
         fi
         
         # Preserve important environment variables
@@ -256,7 +319,9 @@ start_vue() {
             if grep -q "Error:" vue.log 2>/dev/null; then
                 error "Vue server failed to start. Found error in logs:"
                 grep -A 5 "Error:" vue.log | head -n 6
+                export SKIP_CACHE_CLEANUP=1
                 cleanup
+                unset SKIP_CACHE_CLEANUP
                 return 1
             fi
         done
@@ -264,7 +329,9 @@ start_vue() {
         error "Vue server failed to start within 60 seconds"
         log "Last 10 lines of vue.log:"
         tail -n 10 vue.log
+        export SKIP_CACHE_CLEANUP=1
         cleanup
+        unset SKIP_CACHE_CLEANUP
         return 1
     else
         log "Vue server is already running"
@@ -272,39 +339,144 @@ start_vue() {
     return 0
 }
 
-# Function to check servers health
-check_health() {
-    local DJANGO_HEALTH=false
-    local VUE_HEALTH=false
-    
-    # Check Django health
-    if curl -s -o /dev/null -w "%{http_code}" "http://localhost:8000/health/" 2>/dev/null | grep -q "200"; then
-        DJANGO_HEALTH=true
-        success "Django server is healthy"
-    else
-        error "Django server is not responding"
-    fi
-    
-    # Check Vue health
-    if timeout 2 bash -c "echo > /dev/tcp/localhost/$VUE_PORT" 2>/dev/null; then
-        VUE_HEALTH=true
-        success "Vue dev server is healthy"
-    else
-        error "Vue dev server is not responding"
-    fi
-    
-    # Return overall health status
-    if [ "$DJANGO_HEALTH" = true ] && [ "$VUE_HEALTH" = true ]; then
+# Function to start Celery worker
+start_celery() {
+    if is_celery_running; then
+        warn "Celery worker is already running"
         return 0
     fi
-    return 1
+
+    # First check if Redis is running
+    if ! is_redis_running; then
+        return 1
+    fi
+
+    log "Starting Celery worker..."
+    celery -A api worker -l INFO > celery.log 2>&1 &
+    CELERY_PID=$!
+    
+    # Give it time to start
+    local start_time=$(date +%s)
+    while true; do
+        sleep 1
+        current_time=$(date +%s)
+        elapsed=$((current_time - start_time))
+        
+        if ! kill -0 $CELERY_PID 2>/dev/null; then
+            error "Celery worker process terminated unexpectedly. Last log entries:"
+            tail -n 10 celery.log
+            return 1
+        fi
+        
+        if is_celery_running; then
+            success "Celery worker started successfully"
+            return 0
+        elif [ $elapsed -gt 10 ]; then
+            error "Celery worker took too long to initialize. Last log entries:"
+            tail -n 10 celery.log
+            return 1
+        fi
+    done
+}
+
+# Function to start Celery beat
+start_celery_beat() {
+    if is_celery_beat_running; then
+        warn "Celery beat is already running"
+        return 0
+    fi
+
+    log "Starting Celery beat..."
+    celery -A api beat -l INFO > celery_beat.log 2>&1 &
+    CELERY_BEAT_PID=$!
+    
+    # Give it time to start
+    local start_time=$(date +%s)
+    while true; do
+        sleep 1
+        current_time=$(date +%s)
+        elapsed=$((current_time - start_time))
+        
+        if ! kill -0 $CELERY_BEAT_PID 2>/dev/null; then
+            error "Celery beat process terminated unexpectedly. Last log entries:"
+            tail -n 10 celery_beat.log
+            return 1
+        fi
+        
+        if is_celery_beat_running; then
+            success "Celery beat started successfully"
+            return 0
+        elif [ $elapsed -gt 10 ]; then
+            error "Celery beat took too long to initialize. Last log entries:"
+            tail -n 10 celery_beat.log
+            return 1
+        fi
+    done
+}
+
+# Function to check servers health
+check_health() {
+    local ALL_HEALTHY=true
+
+    # Check Redis
+    if is_redis_running; then
+        success "Redis server is running"
+    else
+        ALL_HEALTHY=false
+    fi
+
+    # Check Django
+    if curl -s http://localhost:$DJANGO_PORT/ >/dev/null 2>&1; then
+        success "Django server is running"
+    else
+        error "Django server is not responding"
+        ALL_HEALTHY=false
+    fi
+
+    # Check Vue
+    if curl -s http://localhost:$VUE_PORT/ >/dev/null 2>&1; then
+        success "Vue server is running"
+    else
+        error "Vue server is not responding"
+        ALL_HEALTHY=false
+    fi
+
+    # Check Celery worker
+    if is_celery_running; then
+        success "Celery worker is running"
+    else
+        error "Celery worker is not running"
+        ALL_HEALTHY=false
+    fi
+
+    # Check Celery beat
+    if is_celery_beat_running; then
+        success "Celery beat is running"
+    else
+        error "Celery beat is not running"
+        ALL_HEALTHY=false
+    fi
+
+    if $ALL_HEALTHY; then
+        success "All services are healthy"
+        return 0
+    else
+        error "Some services are not healthy"
+        return 1
+    fi
 }
 
 # Function to start servers
 start_servers() {
     log "Starting servers..."
     
-    # Start Vue server first since it takes longer to compile
+    # Check Redis first since it's required
+    if ! is_redis_running; then
+        error "Redis must be running before starting servers"
+        return 1
+    fi
+    
+    # Start Vue server since it takes longer to compile
     if ! start_vue; then
         error "Failed to start Vue server"
         return 1
@@ -317,41 +489,82 @@ start_servers() {
         return 1
     fi
     
+    # Start Celery worker and beat
+    if ! start_celery; then
+        error "Failed to start Celery worker"
+        return 1
+    fi
+    if ! start_celery_beat; then
+        error "Failed to start Celery beat"
+        return 1
+    fi
+    
     success "All servers started successfully"
     return 0
 }
 
 # Function to cleanup processes
 cleanup() {
-    log "Stopping servers..."
+    # Prevent recursive cleanup
+    if [ "${CLEANUP_IN_PROGRESS:-}" = "1" ]; then
+        return 0
+    fi
+    export CLEANUP_IN_PROGRESS=1
     
-    # Kill Vue CLI process and any related Node processes
-    pkill -f "vue-cli-service serve" 2>/dev/null
-    pkill -f "webpack" 2>/dev/null
-    pkill -f "node.*@vue/cli-service" 2>/dev/null
+    log "Cleaning up processes..."
     
-    # Kill Django/nodemon processes
-    pkill -f "runserver" 2>/dev/null
-    pkill -f "nodemon.*runserver" 2>/dev/null
-    
-    # Wait for processes to stop
-    sleep 2
-
-    # Double check and force kill if needed
-    if pgrep -f "vue-cli-service serve" >/dev/null || pgrep -f "runserver" >/dev/null || pgrep -f "node.*@vue/cli-service" >/dev/null; then
-        pkill -9 -f "vue-cli-service serve" 2>/dev/null
-        pkill -9 -f "webpack" 2>/dev/null
-        pkill -9 -f "node.*@vue/cli-service" 2>/dev/null
-        pkill -9 -f "runserver" 2>/dev/null
-        pkill -9 -f "nodemon.*runserver" 2>/dev/null
+    # Kill Django server
+    if pgrep -f "python.*manage.py.*runserver" > /dev/null; then
+        log "Stopping Django server..."
+        pkill -f "python.*manage.py.*runserver"
         sleep 1
+        pkill -9 -f "python.*manage.py.*runserver" 2>/dev/null || true
     fi
-
-    # Clean up any stale port bindings
+    
+    # Kill Vue development server and webpack processes
+    if pgrep -f "vue-cli-service.*serve" > /dev/null || pgrep -f "webpack" > /dev/null; then
+        log "Stopping Vue and webpack processes..."
+        pkill -f "vue-cli-service.*serve"
+        pkill -f "webpack"
+        sleep 1
+        pkill -9 -f "vue-cli-service.*serve" 2>/dev/null || true
+        pkill -9 -f "webpack" 2>/dev/null || true
+    fi
+    
+    # Kill Celery worker and beat
+    if pgrep -f "celery.*-A.*api.*worker" > /dev/null || pgrep -f "celery.*-A.*api.*beat" > /dev/null; then
+        log "Stopping Celery processes..."
+        pkill -f "celery.*-A.*api.*worker"
+        pkill -f "celery.*-A.*api.*beat"
+        sleep 1
+        pkill -9 -f "celery.*-A.*api.*worker" 2>/dev/null || true
+        pkill -9 -f "celery.*-A.*api.*beat" 2>/dev/null || true
+    fi
+    
+    # Clean up ports if needed
     if command -v fuser >/dev/null 2>&1; then
-        fuser -k $VUE_PORT/tcp 2>/dev/null || true
         fuser -k $DJANGO_PORT/tcp 2>/dev/null || true
+        fuser -k $VUE_PORT/tcp 2>/dev/null || true
     fi
+    
+    # Clean webpack cache
+    if [ "${SKIP_CACHE_CLEANUP:-}" != "1" ]; then
+        log "Cleaning webpack cache..."
+        rm -rf node_modules/.cache .cache dist 2>/dev/null || true
+    fi
+    
+    # Rotate log files instead of removing them
+    mkdir -p ./logs_dev_old
+    for log in django.log vue.log celery.log celery_beat.log webpack.log; do
+        if [ -f "$log" ]; then
+            mv "$log" "./logs_dev_old/${log}.old-$(date +'%H:%M:%S')" 2>/dev/null || true
+        fi
+        touch "$log" 2>/dev/null || true
+    done
+    
+    # Reset cleanup flag
+    export CLEANUP_IN_PROGRESS=0
+    success "Cleanup completed"
 }
 
 # Function to restart servers
@@ -363,7 +576,13 @@ restart_servers() {
     # First stop all servers
     cleanup
     
-    # Start Vue first
+    # Check Redis first since it's required
+    if ! is_redis_running; then
+        error "Redis must be running before starting servers"
+        return 1
+    fi
+    
+    # Start Vue server first
     if ! start_vue; then
         error "Failed to restart Vue server"
         return 1
@@ -373,6 +592,16 @@ restart_servers() {
     if ! start_django; then
         error "Failed to restart Django server"
         cleanup  # Clean up Vue server if Django fails
+        return 1
+    fi
+    
+    # Start Celery worker and beat
+    if ! start_celery; then
+        error "Failed to restart Celery worker"
+        return 1
+    fi
+    if ! start_celery_beat; then
+        error "Failed to restart Celery beat"
         return 1
     fi
     
@@ -424,10 +653,77 @@ test_django() {
     
     # Test Django admin interface accessibility
     log "Testing Django admin interface ... "
-    if curl -s http://localhost:$DJANGO_PORT/admin/ | grep -q "Django administration"; then
-        success "OK"
+    response=$(curl -s -w "%{http_code}" http://localhost:$DJANGO_PORT/admin/ -o /tmp/admin_response.txt)
+    if [[ "$response" =~ ^(200|302|301|303)$ ]]; then
+        success "OK (Status: $response)"
     else
-        error "FAILED"
+        error "FAILED (Status: $response)"
+        all_passed=false
+    fi
+    
+    # Test Firebase Configuration
+    log "Testing Firebase Configuration ... "
+    python3 manage.py shell -c "
+from django.conf import settings
+import json
+
+# Get Firebase config
+firebase_config = getattr(settings, 'FIREBASE_CONFIG', {})
+
+print('\nFirebase Configuration Structure:')
+print('Expected structure in settings.py:')
+print('''
+FIREBASE_CONFIG = {
+    'project_id': 'your-project-id',
+    'web_api_key': 'your-web-api-key',
+    'client_email': 'your-client-email@project.iam.gserviceaccount.com',
+    'private_key': 'your-private-key'
+}
+''')
+
+print('\nCurrent Configuration Status:')
+for key, settings_key in [
+    ('project_id', 'project_id'),
+    ('web_api_key', 'web_api_key'),
+    ('client_email', 'admin_client_email'),
+    ('private_key', 'admin_private_key')
+]:
+    value = firebase_config.get(settings_key, '')
+    if value:
+        if key in ['project_id', 'web_api_key']:
+            print(f'- {key}: Valid')
+            print(f'  Current value: {value}')
+        else:
+            print(f'- {key}: Valid (value hidden)')
+    else:
+        print(f'- {key}: Not configured')
+
+print('\nEnvironment Variables Check:')
+import os
+env_vars = {
+    'FIREBASE_ADMIN_PROJECT_ID': os.getenv('FIREBASE_ADMIN_PROJECT_ID'),
+    'FIREBASE_WEB_API_KEY': os.getenv('FIREBASE_WEB_API_KEY'),
+    'FIREBASE_ADMIN_CLIENT_EMAIL': os.getenv('FIREBASE_ADMIN_CLIENT_EMAIL'),
+    'FIREBASE_ADMIN_PRIVATE_KEY': os.getenv('FIREBASE_ADMIN_PRIVATE_KEY')
+}
+for key, value in env_vars.items():
+    if value:
+        if key in ['FIREBASE_ADMIN_PROJECT_ID', 'FIREBASE_WEB_API_KEY']:
+            print(f'- {key}: Valid (Value: {value})')
+        else:
+            print(f'- {key}: Valid (value hidden)')
+    else:
+        print(f'- {key}: Not configured')
+
+print('\nDebug Tips:')
+print('1. Ensure your .env file contains all required Firebase variables')
+print('2. Check that settings.py is loading environment variables correctly')
+print('3. Verify that project_id and web_api_key match your Firebase console')
+"
+    if [ $? -eq 0 ]; then
+        success "Firebase configuration check completed"
+    else
+        error "Failed to check Firebase configuration"
         all_passed=false
     fi
     
@@ -508,48 +804,163 @@ test_firebase() {
     return 0
 }
 
+# Function to test Redis
+test_redis() {
+    log "Testing Redis connection..."
+    
+    # Check if Redis is installed
+    if ! command -v redis-cli >/dev/null 2>&1; then
+        error "Redis CLI is not installed"
+        log "Run: ${YELLOW}sudo apt-get install redis-server${NC}"
+        return 1
+    fi
+    
+    # Test Redis connection
+    if redis-cli ping >/dev/null 2>&1; then
+        success "Redis server is running and responding"
+        
+        # Test basic operations
+        log "Testing basic Redis operations..."
+        local TEST_KEY="test_key_$(date +%s)"
+        local TEST_VALUE="test_value"
+        
+        # Test SET operation
+        if redis-cli set "$TEST_KEY" "$TEST_VALUE" >/dev/null; then
+            success "Redis SET operation successful"
+        else
+            error "Redis SET operation failed"
+            return 1
+        fi
+        
+        # Test GET operation
+        if [ "$(redis-cli get "$TEST_KEY")" = "$TEST_VALUE" ]; then
+            success "Redis GET operation successful"
+        else
+            error "Redis GET operation failed"
+            return 1
+        fi
+        
+        # Clean up test key
+        redis-cli del "$TEST_KEY" >/dev/null
+        
+        success "All Redis tests passed successfully"
+        return 0
+    else
+        error "Redis server is not responding"
+        log "Make sure Redis is running: ${YELLOW}sudo service redis-server start${NC}"
+        return 1
+    fi
+}
+
+# Function to test Celery
+test_celery() {
+    log "Testing Celery..."
+    
+    # Check if Celery worker is running
+    if ! is_celery_running; then
+        error "Celery worker is not running"
+        return 1
+    fi
+    
+    # Test Celery task
+    log "Testing Celery task execution..."
+    if python manage.py shell -c "
+from core.tasks import test_celery_task
+result = test_celery_task.delay()
+try:
+    output = result.get(timeout=10)
+    if output == 'test_success':
+        print('success')
+    else:
+        print('fail')
+except Exception as e:
+    print(f'error: {str(e)}')
+" | grep -q "success"; then
+        success "Celery task test passed"
+    else
+        error "Celery task test failed"
+        return 1
+    fi
+    
+    return 0
+}
+
 # Function to handle interactive commands
 handle_command() {
-    local cmd="$1"
-    case "$cmd" in
-        r)
+    case "${1,,}" in  # Convert to lowercase
+        q|quit|exit)
+            cleanup
+            exit 0
+            ;;
+        r|restart)
             restart_servers "from_interactive"
             start_interactive
             ;;
-        h)
+        h|health)
             check_health
             ;;
-        d)
+        d|django)
             test_django
             ;;
-        f)
+        f|firebase)
             test_firebase
             ;;
-        detach)
+        red|RED)
+            test_redis
+            ;;
+        c|celery)
+            case "${2,,}" in
+                s|status)
+                    celery -A api status
+                    ;;
+                i|inspect)
+                    case "${3,,}" in
+                        a|active)
+                            celery -A api inspect active
+                            ;;
+                        s|scheduled)
+                            celery -A api inspect scheduled
+                            ;;
+                        *)
+                            error "Unknown celery inspect command. Available commands: a/active, s/scheduled"
+                            ;;
+                    esac
+                    ;;
+                *)
+                    log "Celery commands:"
+                    log "  ${YELLOW}c s${NC} or ${YELLOW}celery status${NC}    - show Celery status"
+                    log "  ${YELLOW}c i a${NC} or ${YELLOW}celery inspect active${NC}    - show active tasks"
+                    log "  ${YELLOW}c i s${NC} or ${YELLOW}celery inspect scheduled${NC} - show scheduled tasks"
+                    ;;
+            esac
+            ;;
+        t|test)
+            log "Running all tests..."
+            test_django && test_firebase && test_redis && test_celery
+            ;;
+        det|DET)
             success "Detaching from servers. Servers will continue running in the background."
             log "Use './devs.sh' to reattach to the servers"
             exit 0
             ;;
-        q|exit)
-            cleanup
-            success "Servers stopped successfully"
-            exit 0
-            ;;
-        ""|*)
-            log "Here are the options:"
-            log "  ${YELLOW}r${NC}      - restart servers"
-            log "  ${YELLOW}h${NC}      - check health"
-            log "  ${YELLOW}d${NC}      - test Django"
-            log "  ${YELLOW}f${NC}      - test Firebase"
-            log "  ${YELLOW}detach${NC} - detach from servers (leave them running)"
-            log "  ${YELLOW}q${NC}      - quit and stop servers"
+        *)
+            log "Unknown command. Here are the options:"
+            log "  ${YELLOW}r/restart${NC}  - restart servers"
+            log "  ${YELLOW}h/health${NC}   - check health"
+            log "  ${YELLOW}d/django${NC}   - test Django"
+            log "  ${YELLOW}f/firebase${NC} - test Firebase"
+            log "  ${YELLOW}red/RED${NC}    - test Redis"
+            log "  ${YELLOW}c/celery${NC}   - Celery commands (status, inspect)"
+            log "  ${YELLOW}t/test${NC}     - run all tests"
+            log "  ${YELLOW}det/DET${NC}    - detach from servers (leave them running)"
+            log "  ${YELLOW}q/quit${NC}     - quit and stop servers"
             ;;
     esac
 }
 
 # Function to start interactive mode
 start_interactive() {
-    success "Interactive mode started. Type 'detach' to leave servers running in background."
+    success "Interactive mode started. Type 'det/DET' to leave servers running in background."
     # Use read with timeout to check for both input and server status
     while true; do
         read -t 5 -r cmd
@@ -657,7 +1068,7 @@ attach_to_servers() {
 trap cleanup SIGINT SIGTERM
 
 # Process command line arguments
-case "$1" in
+case "${1,,}" in  # Convert to lowercase
     r|restart)
         if check_running; then
             # Get the script's directory
@@ -681,7 +1092,7 @@ case "$1" in
             exit 1
         fi
         ;;
-    attach)
+    det|DET)
         if check_running; then
             # Get the script's directory
             SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
@@ -707,18 +1118,21 @@ case "$1" in
         log ""
         log "Usage:"
         log "  ${YELLOW}./devs.sh${NC}           - Start servers and enter interactive mode"
-        log "  ${YELLOW}./devs.sh attach${NC}    - Attach to running servers"
+        log "  ${YELLOW}./devs.sh det/DET${NC}   - Attach to running servers"
         log "  ${YELLOW}./devs.sh restart${NC}   - Restart running servers"
         log "  ${YELLOW}./devs.sh health${NC}    - Check servers health"
         log "  ${YELLOW}./devs.sh help${NC}      - Show this help message"
         log ""
         log "Interactive Commands:"
-        log "  ${YELLOW}r${NC}      - restart servers"
-        log "  ${YELLOW}h${NC}      - check health"
-        log "  ${YELLOW}d${NC}      - test Django"
-        log "  ${YELLOW}f${NC}      - test Firebase"
-        log "  ${YELLOW}detach${NC} - detach from servers (leave them running)"
-        log "  ${YELLOW}q${NC}      - quit and stop servers"
+        log "  ${YELLOW}r/restart${NC}  - restart servers"
+        log "  ${YELLOW}h/health${NC}   - check health"
+        log "  ${YELLOW}d/django${NC}   - test Django"
+        log "  ${YELLOW}f/firebase${NC} - test Firebase"
+        log "  ${YELLOW}red/RED${NC}    - test Redis"
+        log "  ${YELLOW}c/celery${NC}   - Celery commands (status, inspect)"
+        log "  ${YELLOW}t/test${NC}     - run all tests"
+        log "  ${YELLOW}det/DET${NC}    - detach from servers (leave them running)"
+        log "  ${YELLOW}q/quit${NC}     - quit and stop servers"
         exit 0
         ;;
     *)

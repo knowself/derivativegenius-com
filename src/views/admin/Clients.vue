@@ -133,7 +133,7 @@
 import { ref, computed } from 'vue'
 
 export default {
-  name: 'AdminClients',
+  name: 'AdminClientsPage',
   setup() {
     const filters = ref({
       status: 'all',

@@ -20,12 +20,22 @@ Derivative Genius is an AI Automation Agency (AAA) that transforms businesses th
 │ • State Management  │         │ • Business Logic     │         │ • Data Storage      │
 │ • API Integration   │         │ • Health Checks      │         │ • Cloud Functions   │
 └─────────────────────┘         └──────────────────────┘         └─────────────────────┘
+                                         ↑   ↓
+                               ┌──────────────────────┐
+                               │    Task Queue        │
+                               │  (Celery + Redis)    │
+                               ├──────────────────────┤
+                               │ • Async Processing   │
+                               │ • Scheduled Tasks    │
+                               │ • Background Jobs    │
+                               └──────────────────────┘
 ```
 
 ## Key Features
 
 - **Robust Authentication**: Firebase-based authentication with Django integration
-- **Health Monitoring**: Dedicated health check endpoints for system monitoring
+- **Health Monitoring**: Comprehensive health checks for all system components (Django, Redis, Celery)
+- **Task Queue System**: Celery-based asynchronous processing with Redis broker
 - **Secure Communication**: CSRF protection and proper session management
 - **Developer Experience**: Streamlined development workflow with automatic server detection
 
@@ -42,6 +52,15 @@ Our application uses a modern, secure architecture combining Vue.js, Django, and
 │ • State Management  │         │ • Business Logic     │         │ • Data Storage      │
 │ • API Integration   │         │ • Health Checks      │         │ • Cloud Functions   │
 └─────────────────────┘         └──────────────────────┘         └─────────────────────┘
+                                         ↑   ↓
+                               ┌──────────────────────┐
+                               │    Task Queue        │
+                               │  (Celery + Redis)    │
+                               ├──────────────────────┤
+                               │ • Async Processing   │
+                               │ • Scheduled Tasks    │
+                               │ • Background Jobs    │
+                               └──────────────────────┘
 ```
 
 ## Key Responsibilities
@@ -90,12 +109,82 @@ Our application uses a modern, secure architecture combining Vue.js, Django, and
 ## Local Development
 
 ### Prerequisites
-- Python 3.8
-- Node.js 16.x
-- npm or yarn
+- Python 3.8 (LTS)
+- Node.js 18.x LTS
+- Redis Server (for Celery task queue)
+- Firebase project credentials
 - Git
 
 ### Initial Setup
+```bash
+# Clone repository
+git clone [repository-url]
+cd derivativegenius-com
+
+# Create Python virtual environment
+python3 -m venv venv
+source venv/bin/activate
+
+# Install Python dependencies (development)
+pip3 install -r requirements-dev.txt
+
+# Install Node dependencies
+npm install
+
+# Set up local environment
+cp .env.example .env.local
+```
+
+### Development Workflow
+
+1. Start all services:
+```bash
+./devs.sh start
+```
+
+2. Monitor system health:
+```bash
+./devs.sh health
+```
+
+The health check will verify:
+- Django server status
+- Vue development server
+- Redis connection
+- Celery worker status
+- Celery beat scheduler
+
+3. View task queue status:
+```bash
+# Check Celery worker status
+./devs.sh celery status
+
+# View active tasks
+./devs.sh celery inspect active
+
+# View scheduled tasks
+./devs.sh celery inspect scheduled
+```
+
+4. Stop all services:
+```bash
+./devs.sh stop
+```
+
+### 1. Install Redis Server
+```bash
+# Ubuntu/Debian
+sudo apt-get update
+sudo apt-get install redis-server
+
+# Start Redis service
+sudo service redis-server start
+
+# Verify Redis is running
+redis-cli ping  # Should return PONG
+```
+
+### 2. Clone and Setup
 ```bash
 # Clone repository
 git clone [repository-url]
@@ -152,6 +241,45 @@ npm run test:coverage
 - Django Debug Toolbar: `http://localhost:8000/__debug__/`
 - Vue DevTools: Install browser extension
 - Firebase Emulator: `http://localhost:4000`
+
+## Task Queue Setup
+
+### Celery Setup
+```bash
+# Install requirements
+pip install -r requirements.txt
+
+# Start Celery worker
+celery -A api worker -l INFO
+
+# Start Celery beat (for scheduled tasks)
+celery -A api beat -l INFO
+```
+
+### Using Celery Tasks
+```python
+from core.tasks import process_ai_request, send_notification
+
+# Async AI processing
+result = process_ai_request.delay({
+    'model': 'gpt-4',
+    'inputs': {'prompt': 'Hello, AI!'},
+    'options': {'temperature': 0.7}
+})
+
+# Send notification
+send_notification.delay(
+    user_email='user@example.com',
+    subject='Task Completed',
+    message='Your AI processing is complete!'
+)
+```
+
+### Monitoring Tasks
+- Check task status: `result.status`
+- Get task result: `result.get()`
+- Monitor workers: `celery -A api status`
+- View task events: `celery -A api events`
 
 ## Production Deployment
 

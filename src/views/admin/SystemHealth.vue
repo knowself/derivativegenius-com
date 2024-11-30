@@ -149,7 +149,7 @@
   &lt;/div&gt;
 &lt;/template&gt;
 
-&lt;script setup&gt;
+&lt;script setup name="AdminSystemHealth"&gt;
 import { ref, onMounted, onUnmounted } from 'vue'
 import { Line as LineChart } from 'vue-chartjs'
 import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend } from 'chart.js'
@@ -157,12 +157,6 @@ import { usePerformanceStore } from '@/stores/performance'
 
 // Register Chart.js components
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend)
-
-defineOptions({
-  name: 'SystemHealthPage'
-})
-
-const performanceStore = usePerformanceStore()
 
 // Overall health metrics
 const healthMetrics = ref([

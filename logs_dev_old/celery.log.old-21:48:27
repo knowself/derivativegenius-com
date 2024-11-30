@@ -1,0 +1,40 @@
+ 
+ -------------- celery@knowself-prime v5.3.6 (emerald-rush)
+--- ***** ----- 
+-- ******* ---- Linux-5.15.167.4-microsoft-standard-WSL2-x86_64-with-glibc2.29 2024-11-30 02:44:10
+- *** --- * --- 
+- ** ---------- [config]
+- ** ---------- .> app:         api:0x7fc4dab2cf10
+- ** ---------- .> transport:   redis://localhost:6379/0
+- ** ---------- .> results:     
+- *** --- * --- .> concurrency: 6 (prefork)
+-- ******* ---- .> task events: ON
+--- ***** ----- 
+ -------------- [queues]
+                .> celery           exchange=celery(direct) key=celery
+                
+
+[tasks]
+  . api.celery.debug_task
+  . core.tasks.process_ai_request
+  . core.tasks.send_notification
+  . core.tasks.test_celery_task
+
+[2024-11-30 02:44:10,433: WARNING/MainProcess] /home/knowself/Web Dev/derivativegenius-com/dev/venv/lib/python3.8/site-packages/celery/worker/consumer/consumer.py:507: CPendingDeprecationWarning: The broker_connection_retry configuration setting will no longer determine
+whether broker connection retries are made during startup in Celery 6.0 and above.
+If you wish to retain the existing behavior for retrying connections on startup,
+you should set broker_connection_retry_on_startup to True.
+  warnings.warn(
+
+[2024-11-30 02:44:10,441: INFO/MainProcess] Connected to redis://localhost:6379/0
+[2024-11-30 02:44:10,442: WARNING/MainProcess] /home/knowself/Web Dev/derivativegenius-com/dev/venv/lib/python3.8/site-packages/celery/worker/consumer/consumer.py:507: CPendingDeprecationWarning: The broker_connection_retry configuration setting will no longer determine
+whether broker connection retries are made during startup in Celery 6.0 and above.
+If you wish to retain the existing behavior for retrying connections on startup,
+you should set broker_connection_retry_on_startup to True.
+  warnings.warn(
+
+[2024-11-30 02:44:10,445: INFO/MainProcess] mingle: searching for neighbors
+[2024-11-30 02:44:11,455: INFO/MainProcess] mingle: all alone
+[2024-11-30 02:44:11,464: INFO/MainProcess] celery@knowself-prime ready.
+
+worker: Warm shutdown (MainProcess)

@@ -17,7 +17,7 @@ def initialize_firebase_admin():
         try:
             return firebase_admin.get_app()
         except ValueError:
-            pass  # Not initialized yet, continue with initialization
+            logger.info("Firebase Admin SDK not initialized yet, proceeding with initialization")
         
         # First try using environment variable (production method)
         creds_json = os.getenv('FIREBASE_ADMIN_CREDENTIALS_JSON')
@@ -26,9 +26,9 @@ def initialize_firebase_admin():
                 logger.info("Initializing Firebase Admin SDK using environment variables")
                 cred_dict = json.loads(creds_json)
                 cred = credentials.Certificate(cred_dict)
-                firebase_admin.initialize_app(cred)
+                app = firebase_admin.initialize_app(cred)
                 logger.info("Firebase Admin SDK initialized successfully from environment")
-                return firebase_admin.get_app()
+                return app
             except json.JSONDecodeError as e:
                 logger.error(f"Failed to parse Firebase credentials from environment: {e}")
             except ValueError as e:
@@ -37,25 +37,41 @@ def initialize_firebase_admin():
         # Fallback to JSON file (development method)
         json_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), 
                                'dg-website-firebase-adminsdk-ykjsf-f0de62e320.json')
-        if os.path.exists(json_path):
-            logger.info(f"Falling back to JSON file for Firebase Admin SDK: {json_path}")
-            cred = credentials.Certificate(json_path)
-            firebase_admin.initialize_app(cred)
-            logger.info("Firebase Admin SDK initialized successfully from file")
-            return firebase_admin.get_app()
         
-        raise ValueError("No Firebase credentials found in environment or local file")
+        logger.info(f"Attempting to load Firebase credentials from file: {json_path}")
+        if os.path.exists(json_path):
+            try:
+                logger.info("Loading Firebase Admin SDK credentials from JSON file")
+                cred = credentials.Certificate(json_path)
+                app = firebase_admin.initialize_app(cred)
+                logger.info("Firebase Admin SDK initialized successfully from file")
+                return app
+            except Exception as e:
+                logger.error(f"Failed to initialize Firebase Admin SDK from file: {str(e)}")
+                raise
+        else:
+            logger.error(f"Firebase credentials file not found at: {json_path}")
+            raise ValueError(f"Firebase credentials file not found at: {json_path}")
         
     except Exception as e:
-        logger.error(f"Failed to initialize Firebase Admin SDK: {e}")
+        logger.error(f"Failed to initialize Firebase Admin SDK: {str(e)}")
+        logger.error("Firebase configuration:", settings.FIREBASE_CONFIG)
         raise
 
 def get_firestore():
     """Get Firestore client, initializing Firebase if needed."""
-    initialize_firebase_admin()
-    return firestore.client()
+    try:
+        initialize_firebase_admin()
+        return firestore.client()
+    except Exception as e:
+        logger.error(f"Failed to get Firestore client: {str(e)}")
+        raise
 
 def get_auth():
-    """Get Firebase Auth client, initializing Firebase if needed."""
-    initialize_firebase_admin()
-    return auth.client()
+    """Get Firebase Auth instance, initializing Firebase if needed."""
+    try:
+        initialize_firebase_admin()
+        return auth
+    except Exception as e:
+        logger.error(f"Failed to get Auth instance: {str(e)}")
+        raise

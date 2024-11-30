@@ -42,6 +42,11 @@
                  class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500">
           <label class="ml-2 block text-sm text-gray-900">Push Notifications</label>
         </div>
+        <div class="flex items-center">
+          <input type="checkbox" v-model="notifications.sms" 
+                 class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500">
+          <label class="ml-2 block text-sm text-gray-900">SMS Notifications</label>
+        </div>
       </div>
     </div>
 
@@ -49,19 +54,14 @@
     <div class="bg-white shadow-sm rounded-lg p-6">
       <h2 class="text-lg font-medium text-gray-900 mb-4">Security Settings</h2>
       <div class="space-y-4">
-        <div>
-          <label class="block text-sm font-medium text-gray-700">Current Password</label>
-          <input type="password" v-model="security.currentPassword" 
-                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+        <div class="flex items-center">
+          <input type="checkbox" v-model="security.twoFactor" 
+                 class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500">
+          <label class="ml-2 block text-sm text-gray-900">Two-Factor Authentication</label>
         </div>
         <div>
-          <label class="block text-sm font-medium text-gray-700">New Password</label>
-          <input type="password" v-model="security.newPassword" 
-                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
-        </div>
-        <div>
-          <label class="block text-sm font-medium text-gray-700">Confirm New Password</label>
-          <input type="password" v-model="security.confirmPassword" 
+          <label class="block text-sm font-medium text-gray-700">Password Last Changed</label>
+          <input type="text" v-model="security.passwordLastChanged" 
                  class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
         </div>
       </div>
@@ -81,7 +81,7 @@
 import { ref } from 'vue'
 
 defineOptions({
-  name: 'AdminSettingsPage'
+  name: 'UserSettingsPage'
 })
 
 const profile = ref({
@@ -92,20 +92,17 @@ const profile = ref({
 
 const notifications = ref({
   email: true,
-  push: false
+  push: false,
+  sms: true
 })
 
 const security = ref({
-  currentPassword: '',
-  newPassword: '',
-  confirmPassword: ''
+  twoFactor: true,
+  passwordLastChanged: '2023-12-01'
 })
 
 const saveSettings = () => {
-  // TODO: Implement settings save functionality
+  // Save settings logic here
   console.log('Saving settings...')
-  console.log('Profile:', profile.value)
-  console.log('Notifications:', notifications.value)
-  console.log('Security:', security.value)
 }
 </script>

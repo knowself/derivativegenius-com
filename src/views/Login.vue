@@ -62,14 +62,10 @@
   </div>
 </template>
 
-<script setup>
+<script setup name="LoginPage">
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { useAuthStore } from '../stores/auth'
-
-defineOptions({
-  name: 'LoginPage'
-})
 
 const router = useRouter()
 const authStore = useAuthStore()

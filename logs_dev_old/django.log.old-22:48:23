@@ -1,0 +1,121 @@
+Watching for file changes with StatReloader
+[03:44:51] INFO [django.utils.autoreload] Watching for file changes with StatReloader
+Performing system checks...
+
+System check identified no issues (0 silenced).
+
+You have 11 unapplied migration(s). Your project may not work properly until you apply the migrations for app(s): django_celery_results.
+Run 'python manage.py migrate' to apply them.
+[03:44:52] INFO [firebase_app.firebase_admin] Firebase Admin SDK not initialized yet, proceeding with initialization
+[03:44:52] INFO [firebase_app.firebase_admin] Attempting to load Firebase credentials from file: /home/knowself/Web Dev/derivativegenius-com/dev/dg-website-firebase-adminsdk-ykjsf-f0de62e320.json
+[03:44:52] INFO [firebase_app.firebase_admin] Loading Firebase Admin SDK credentials from JSON file
+[03:44:52] INFO [firebase_app.firebase_admin] Firebase Admin SDK initialized successfully from file
+November 30, 2024 - 03:44:52
+Django version 4.2, using settings 'api.settings'
+Starting development server at http://127.0.0.1:8000/
+Quit the server with CONTROL-C.
+
+[03:44:53] DEBUG [firebase_app.csrf_middleware] Request path: /health/
+[03:44:53] DEBUG [firebase_app.csrf_middleware] Request path: /health/
+[03:44:53] DEBUG [firebase_app.csrf_middleware] Request method: GET
+[03:44:53] DEBUG [firebase_app.csrf_middleware] Request method: GET
+[03:44:53] DEBUG [firebase_app.csrf_middleware] CSRF Cookie: None
+[03:44:53] DEBUG [firebase_app.csrf_middleware] CSRF Cookie: None
+[03:44:53] DEBUG [firebase_app.csrf_middleware] CSRF Header: None
+[03:44:53] DEBUG [firebase_app.csrf_middleware] CSRF Header: None
+[03:44:53] DEBUG [firebase_app.csrf_middleware] Origin: None
+[03:44:53] DEBUG [firebase_app.csrf_middleware] Origin: None
+[03:44:53] DEBUG [firebase_app.csrf_middleware] Referer: None
+[03:44:53] DEBUG [firebase_app.csrf_middleware] Referer: None
+[03:44:53] DEBUG [firebase_app.csrf_middleware] Host: localhost:8000
+[03:44:53] DEBUG [firebase_app.csrf_middleware] Host: localhost:8000
+[03:44:53] DEBUG [firebase_app.csrf_middleware] Generated CSRF token: LSiNFsp1ieq8QpFKyD7qboK1loI5wYY0MJxUXlID5Fu6b23yW8nkHUlmuNlIxqVj
+[03:44:53] DEBUG [firebase_app.csrf_middleware] Generated CSRF token: LSiNFsp1ieq8QpFKyD7qboK1loI5wYY0MJxUXlID5Fu6b23yW8nkHUlmuNlIxqVj
+[03:44:53] DEBUG [api.gateway] Health check endpoint called
+[03:44:53] DEBUG [api.gateway] Health check endpoint called
+[03:44:53] DEBUG [api.gateway] CSRF Cookie: None
+[03:44:53] DEBUG [api.gateway] CSRF Cookie: None
+[03:44:53] DEBUG [api.gateway] Request Headers: {'Content-Length': '', 'Content-Type': 'text/plain', 'Host': 'localhost:8000', 'User-Agent': 'curl/7.68.0', 'Accept': '*/*'}
+[03:44:53] DEBUG [api.gateway] Request Headers: {'Content-Length': '', 'Content-Type': 'text/plain', 'Host': 'localhost:8000', 'User-Agent': 'curl/7.68.0', 'Accept': '*/*'}
+[03:44:53] DEBUG [firebase_app.csrf_middleware] Response status: 200
+[03:44:53] DEBUG [firebase_app.csrf_middleware] Response status: 200
+[03:44:53] DEBUG [firebase_app.csrf_middleware] Response cookies: ['csrftoken']
+[03:44:53] DEBUG [firebase_app.csrf_middleware] Response cookies: ['csrftoken']
+[03:44:53] DEBUG [firebase_app.csrf_middleware] Configuring CSRF cookie for development
+[03:44:53] DEBUG [firebase_app.csrf_middleware] Configuring CSRF cookie for development
+[03:44:53] DEBUG [firebase_app.csrf_middleware] Final cookie config: samesite=None, secure=True, httponly=False, domain=None, path=/
+[03:44:53] DEBUG [firebase_app.csrf_middleware] Final cookie config: samesite=None, secure=True, httponly=False, domain=None, path=/
+[03:44:53] INFO [django.server] "GET /health/ HTTP/1.1" 200 21
+"GET /health/ HTTP/1.1" 200 21
+[03:44:53] INFO [django.server] "GET /health/ HTTP/1.1" 200 21
+[03:45:25] DEBUG [firebase_app.csrf_middleware] Request path: /firebase/auth/session/
+[03:45:25] DEBUG [firebase_app.csrf_middleware] Request path: /firebase/auth/session/
+[03:45:25] DEBUG [firebase_app.csrf_middleware] Request method: GET
+[03:45:25] DEBUG [firebase_app.csrf_middleware] Request method: GET
+[03:45:25] DEBUG [firebase_app.csrf_middleware] CSRF Cookie: SD04nMG8Wti9sdgl83pHQY4btgRguZOp
+[03:45:25] DEBUG [firebase_app.csrf_middleware] CSRF Cookie: SD04nMG8Wti9sdgl83pHQY4btgRguZOp
+[03:45:25] DEBUG [firebase_app.csrf_middleware] CSRF Header: SD04nMG8Wti9sdgl83pHQY4btgRguZOp
+[03:45:25] DEBUG [firebase_app.csrf_middleware] CSRF Header: SD04nMG8Wti9sdgl83pHQY4btgRguZOp
+[03:45:25] DEBUG [firebase_app.csrf_middleware] Origin: http://localhost:8080
+[03:45:25] DEBUG [firebase_app.csrf_middleware] Origin: http://localhost:8080
+[03:45:25] DEBUG [firebase_app.csrf_middleware] Referer: http://localhost:8080/
+[03:45:25] DEBUG [firebase_app.csrf_middleware] Referer: http://localhost:8080/
+[03:45:25] DEBUG [firebase_app.csrf_middleware] Host: localhost:8000
+[03:45:25] DEBUG [firebase_app.csrf_middleware] Host: localhost:8000
+[03:45:25] DEBUG [firebase_app.csrf_middleware] Generated CSRF token: mnrOjVknZL5Qv4503LVaI05FmOno5xgqePuyUCpYTi9KD46owzdCTBQRvVzpunm9
+[03:45:25] DEBUG [firebase_app.csrf_middleware] Generated CSRF token: mnrOjVknZL5Qv4503LVaI05FmOno5xgqePuyUCpYTi9KD46owzdCTBQRvVzpunm9
+[03:45:25] DEBUG [firebase_app.csrf_middleware] Response status: 200
+[03:45:25] DEBUG [firebase_app.csrf_middleware] Response status: 200
+[03:45:25] DEBUG [firebase_app.csrf_middleware] Response cookies: ['csrftoken']
+[03:45:25] DEBUG [firebase_app.csrf_middleware] Response cookies: ['csrftoken']
+[03:45:25] DEBUG [firebase_app.csrf_middleware] Configuring CSRF cookie for development
+[03:45:25] DEBUG [firebase_app.csrf_middleware] Configuring CSRF cookie for development
+[03:45:25] DEBUG [firebase_app.csrf_middleware] Setting cookie domain to: localhost
+[03:45:25] DEBUG [firebase_app.csrf_middleware] Setting cookie domain to: localhost
+[03:45:25] DEBUG [firebase_app.csrf_middleware] Final cookie config: samesite=None, secure=True, httponly=False, domain=localhost, path=/
+[03:45:25] DEBUG [firebase_app.csrf_middleware] Final cookie config: samesite=None, secure=True, httponly=False, domain=localhost, path=/
+[03:45:25] INFO [django.server] "GET /firebase/auth/session/ HTTP/1.1" 200 14
+"GET /firebase/auth/session/ HTTP/1.1" 200 14
+[03:45:25] INFO [django.server] "GET /firebase/auth/session/ HTTP/1.1" 200 14
+[03:45:25] DEBUG [firebase_app.csrf_middleware] Request path: /firebase/auth/signin/
+[03:45:25] DEBUG [firebase_app.csrf_middleware] Request path: /firebase/auth/signin/
+[03:45:25] DEBUG [firebase_app.csrf_middleware] Request method: POST
+[03:45:25] DEBUG [firebase_app.csrf_middleware] Request method: POST
+[03:45:25] DEBUG [firebase_app.csrf_middleware] CSRF Cookie: SD04nMG8Wti9sdgl83pHQY4btgRguZOp
+[03:45:25] DEBUG [firebase_app.csrf_middleware] CSRF Cookie: SD04nMG8Wti9sdgl83pHQY4btgRguZOp
+[03:45:25] DEBUG [firebase_app.csrf_middleware] CSRF Header: SD04nMG8Wti9sdgl83pHQY4btgRguZOp
+[03:45:25] DEBUG [firebase_app.csrf_middleware] CSRF Header: SD04nMG8Wti9sdgl83pHQY4btgRguZOp
+[03:45:25] DEBUG [firebase_app.csrf_middleware] Origin: http://localhost:8080
+[03:45:25] DEBUG [firebase_app.csrf_middleware] Origin: http://localhost:8080
+[03:45:25] DEBUG [firebase_app.csrf_middleware] Referer: http://localhost:8080/
+[03:45:25] DEBUG [firebase_app.csrf_middleware] Referer: http://localhost:8080/
+[03:45:25] DEBUG [firebase_app.csrf_middleware] Host: localhost:8000
+[03:45:25] DEBUG [firebase_app.csrf_middleware] Host: localhost:8000
+[03:45:25] DEBUG [firebase_app.csrf_middleware] Generated CSRF token: WuKg906Im6487ZzndYxw0Npondq9xE4I76xJeAlaQc3Typ52i7ZMzzTtb4CpP8sz
+[03:45:25] DEBUG [firebase_app.csrf_middleware] Generated CSRF token: WuKg906Im6487ZzndYxw0Npondq9xE4I76xJeAlaQc3Typ52i7ZMzzTtb4CpP8sz
+=== Signin Request ===
+Headers: {'Content-Length': '61', 'Content-Type': 'application/json', 'Host': 'localhost:8000', 'User-Agent': 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:132.0) Gecko/20100101 Firefox/132.0', 'Accept': 'application/json, text/plain, */*', 'Accept-Language': 'en-US,en;q=0.5', 'Accept-Encoding': 'gzip, deflate, br, zstd', 'X-Requested-With': 'XMLHttpRequest', 'X-Csrftoken': 'SD04nMG8Wti9sdgl83pHQY4btgRguZOp', 'Origin': 'http://localhost:8080', 'Connection': 'keep-alive', 'Referer': 'http://localhost:8080/', 'Cookie': 'csrftoken=SD04nMG8Wti9sdgl83pHQY4btgRguZOp', 'Sec-Fetch-Dest': 'empty', 'Sec-Fetch-Mode': 'cors', 'Sec-Fetch-Site': 'same-site'}
+Content-Type: application/json
+Body: {"email":"Joe@derivativegenius.com","password":"roth1his5#$"}
+CSRF Token: SD04nMG8Wti9sdgl83pHQY4btgRguZOp
+Cookie CSRF Token: SD04nMG8Wti9sdgl83pHQY4btgRguZOp
+Method: POST
+Is AJAX: True
+Request data parsed successfully
+Missing ID token
+[03:45:25] DEBUG [firebase_app.csrf_middleware] Response status: 400
+[03:45:25] DEBUG [firebase_app.csrf_middleware] Response status: 400
+[03:45:25] DEBUG [firebase_app.csrf_middleware] Response cookies: ['csrftoken']
+[03:45:25] DEBUG [firebase_app.csrf_middleware] Response cookies: ['csrftoken']
+[03:45:25] DEBUG [firebase_app.csrf_middleware] Configuring CSRF cookie for development
+[03:45:25] DEBUG [firebase_app.csrf_middleware] Configuring CSRF cookie for development
+[03:45:25] DEBUG [firebase_app.csrf_middleware] Setting cookie domain to: localhost
+[03:45:25] DEBUG [firebase_app.csrf_middleware] Setting cookie domain to: localhost
+[03:45:25] DEBUG [firebase_app.csrf_middleware] Final cookie config: samesite=None, secure=True, httponly=False, domain=localhost, path=/
+[03:45:25] DEBUG [firebase_app.csrf_middleware] Final cookie config: samesite=None, secure=True, httponly=False, domain=localhost, path=/
+[03:45:25] WARNING [django.request] Bad Request: /firebase/auth/signin/
+Bad Request: /firebase/auth/signin/
+[03:45:25] WARNING [django.request] Bad Request: /firebase/auth/signin/
+[03:45:25] WARNING [django.server] "POST /firebase/auth/signin/ HTTP/1.1" 400 33
+"POST /firebase/auth/signin/ HTTP/1.1" 400 33
+[03:45:25] WARNING [django.server] "POST /firebase/auth/signin/ HTTP/1.1" 400 33

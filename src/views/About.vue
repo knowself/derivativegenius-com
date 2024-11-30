@@ -46,8 +46,6 @@
   </div>
 </template>
 
-<script setup>
-defineOptions({
-  name: 'AboutPage'
-})
+<script setup name="AboutPage">
+import { ref } from 'vue'
 </script>

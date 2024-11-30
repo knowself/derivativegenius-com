@@ -46,7 +46,9 @@ By following these principles, we set a high standard for our work. Every line o
 }
 ```
 
-admin privaledges as well as all authentication is controled by firebase.
+We use firebase from the cloud except there are some cloud functions we create locally and then install in the cloud
+
+Admin privileges as well as all authentication is controled by firebase
 
 # AI Development Principles and Standards
 
@@ -54,7 +56,7 @@ admin privaledges as well as all authentication is controled by firebase.
 
 ### Local Development Environment
 - **Python Version**: 3.8
-- **Node Version**: 16.x
+- **Node Version**: 18.x
 - **Package Management**:
   - Use `requirements-dev.txt` for Python dependencies
   - Use `package.json` with `devDependencies` for Node
@@ -74,7 +76,7 @@ admin privaledges as well as all authentication is controled by firebase.
 
 ### Production Environment (Vercel)
 - **Python Version**: 3.8 (Vercel runtime)
-- **Node Version**: 16.x (Vercel default)
+- **Node Version**: 18.x (Vercel default)
 - **Package Management**:
   - Use `requirements.txt` for Python dependencies
   - Use `package.json` `dependencies` only
@@ -222,3 +224,77 @@ dev/
 - Error handling
 - Recovery procedures
 - Security protocols
+
+## Asynchronous Task Processing Standards
+
+### Redis Integration
+- Redis is required as the message broker for Celery
+- Redis must be running before starting Celery workers
+- Default Redis configuration (localhost:6379) should be used in development
+- Production Redis configuration should be managed via environment variables
+- Redis connection health should be monitored via health checks
+
+### Celery Integration
+Our system uses Celery for handling asynchronous tasks and background processing. This ensures efficient handling of resource-intensive operations without impacting user experience.
+
+#### Task Queue Architecture
+- **Broker**: Redis (development) / Redis Enterprise (production)
+- **Result Backend**: Django Database
+- **Task Scheduling**: django-celery-beat
+- **Result Storage**: django-celery-results
+
+#### Task Writing Standards
+1. **Task Definition**:
+   ```python
+   @shared_task(
+       name='meaningful_task_name',
+       bind=True,
+       max_retries=3,
+       autoretry_for=(Exception,),
+       retry_backoff=True
+   )
+   def process_task(self, *args, **kwargs):
+       """
+       Clear docstring explaining:
+       - Task purpose
+       - Expected inputs
+       - Return value
+       - Potential side effects
+       """
+       pass
+   ```
+
+2. **Error Handling**:
+   - Always implement proper error handling
+   - Use retry mechanisms for transient failures
+   - Log all errors with appropriate context
+
+3. **Task Design Principles**:
+   - Keep tasks small and focused (Single Responsibility)
+   - Make tasks idempotent when possible
+   - Include proper logging and monitoring
+   - Use meaningful task names
+
+4. **Performance Considerations**:
+   - Set appropriate timeouts
+   - Implement task routing for different workloads
+   - Monitor queue lengths and processing times
+   - Use task priority when necessary
+
+#### Development Setup
+```bash
+# Start Redis
+redis-server
+
+# Start Celery worker
+celery -A api worker -l INFO
+
+# Start Celery beat (for scheduled tasks)
+celery -A api beat -l INFO
+```
+
+#### Production Configuration
+- Use Redis Enterprise for reliable message broker
+- Implement proper monitoring and alerting
+- Configure worker pools based on workload
+- Set up dead letter queues for failed tasks

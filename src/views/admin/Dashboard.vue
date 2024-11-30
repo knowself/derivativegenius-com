@@ -138,8 +138,8 @@
   </div>
 </template>
 
-<script setup>
-import { ref } from 'vue'
+<script setup name="AdminDashboard">
+import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { useAuthStore } from '../../stores/auth'
 import {
@@ -149,10 +149,6 @@ import {
   ChartBarIcon,
   Cog6ToothIcon as CogIcon
 } from '@heroicons/vue/24/outline'
-
-defineOptions({
-  name: 'AdminDashboard'
-})
 
 const router = useRouter()
 const authStore = useAuthStore()

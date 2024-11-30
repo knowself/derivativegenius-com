@@ -85,10 +85,14 @@
                         type="text" 
                         name="name" 
                         id="name" 
-                        v-model="formData.name"
+                        v-model="name"
                         autocomplete="name" 
-                        class="py-3 px-4 block w-full shadow-sm focus:ring-accent-500 focus:border-accent-500 border-primary-300 rounded-md"
+                        :class="[
+                          'py-3 px-4 block w-full shadow-sm focus:ring-accent-500 focus:border-accent-500 border-primary-300 rounded-md',
+                          errors.name ? 'border-red-300' : 'border-primary-300'
+                        ]"
                       >
+                      <p v-if="errors.name" class="mt-2 text-sm text-red-600">{{ errors.name }}</p>
                     </div>
                   </div>
                   <div class="sm:col-span-2">
@@ -98,10 +102,14 @@
                         id="email" 
                         name="email" 
                         type="email" 
-                        v-model="formData.email"
+                        v-model="email"
                         autocomplete="email" 
-                        class="py-3 px-4 block w-full shadow-sm focus:ring-accent-500 focus:border-accent-500 border-primary-300 rounded-md"
+                        :class="[
+                          'py-3 px-4 block w-full shadow-sm focus:ring-accent-500 focus:border-accent-500 border-primary-300 rounded-md',
+                          errors.email ? 'border-red-300' : 'border-primary-300'
+                        ]"
                       >
+                      <p v-if="errors.email" class="mt-2 text-sm text-red-600">{{ errors.email }}</p>
                     </div>
                   </div>
                   <div class="sm:col-span-2">
@@ -111,17 +119,42 @@
                         id="message" 
                         name="message" 
                         rows="4" 
-                        v-model="formData.message"
-                        class="py-3 px-4 block w-full shadow-sm focus:ring-accent-500 focus:border-accent-500 border-primary-300 rounded-md"
+                        v-model="message"
+                        :class="[
+                          'py-3 px-4 block w-full shadow-sm focus:ring-accent-500 focus:border-accent-500 border-primary-300 rounded-md',
+                          errors.message ? 'border-red-300' : 'border-primary-300'
+                        ]"
                       ></textarea>
+                      <p v-if="errors.message" class="mt-2 text-sm text-red-600">{{ errors.message }}</p>
                     </div>
                   </div>
+                  
+                  <!-- Status Message -->
+                  <div v-if="submitStatus" class="sm:col-span-2">
+                    <div :class="[
+                      'rounded-md p-4',
+                      submitStatus.type === 'success' ? 'bg-green-50' : 'bg-red-50'
+                    ]">
+                      <p :class="[
+                        'text-sm',
+                        submitStatus.type === 'success' ? 'text-green-800' : 'text-red-800'
+                      ]">
+                        {{ submitStatus.message }}
+                      </p>
+                    </div>
+                  </div>
+                  
                   <div class="sm:col-span-2">
                     <button 
                       type="submit" 
-                      class="w-full inline-flex items-center justify-center px-6 py-3 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-secondary-600 hover:bg-secondary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-secondary-500 transition-colors duration-200"
+                      :disabled="loading"
+                      class="w-full inline-flex items-center justify-center px-6 py-3 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-secondary-600 hover:bg-secondary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-secondary-500 transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
                     >
-                      Send Message
+                      <svg v-if="loading" class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                      </svg>
+                      {{ loading ? 'Sending...' : 'Send Message' }}
                     </button>
                   </div>
                 </form>
@@ -164,27 +197,69 @@
   </div>
 </template>
 
-<script setup>
+<script setup name="ContactPageView">
 import { ref } from 'vue'
+import { getFunctions, httpsCallable } from 'firebase/functions'
+import { app } from '../firebase'
 
-defineOptions({
-  name: 'ContactPage'
-})
+const functions = getFunctions(app, 'us-west1')
+const sendContactEmail = httpsCallable(functions, 'sendContactEmail')
 
-const formData = ref({
-  name: '',
-  email: '',
-  message: ''
-})
+const name = ref('')
+const email = ref('')
+const message = ref('')
+const loading = ref(false)
+const success = ref(false)
+const error = ref(null)
+const errors = ref({})
+const submitStatus = ref(null)
+
+const validateForm = () => {
+  errors.value = {}
+  
+  if (!name.value.trim()) {
+    errors.value.name = 'Name is required'
+  }
+  
+  if (!email.value.trim()) {
+    errors.value.email = 'Email is required'
+  } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value)) {
+    errors.value.email = 'Please enter a valid email'
+  }
+  
+  if (!message.value.trim()) {
+    errors.value.message = 'Message is required'
+  }
+  
+  return Object.keys(errors.value).length === 0
+}
 
 const handleSubmit = async () => {
-  // Here you would typically send the form data to your backend
-  console.log('Form submitted:', formData.value)
-  // Reset form after submission
-  formData.value = {
-    name: '',
-    email: '',
-    message: ''
+  if (!validateForm()) return
+  
+  loading.value = true
+  submitStatus.value = null
+  
+  try {
+    await sendContactEmail({ name: name.value, email: email.value, message: message.value })
+    
+    submitStatus.value = {
+      type: 'success',
+      message: 'Thank you for your message! We will get back to you soon.'
+    }
+    
+    // Reset form
+    name.value = ''
+    email.value = ''
+    message.value = ''
+  } catch (error) {
+    console.error('Error submitting form:', error)
+    submitStatus.value = {
+      type: 'error',
+      message: error.message || 'Sorry, there was an error sending your message. Please try again later.'
+    }
+  } finally {
+    loading.value = false
   }
 }
 </script>

@@ -10,12 +10,12 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
-from pathlib import Path
-import os
 from dotenv import load_dotenv
+import os
+from pathlib import Path
 
-# Load environment variables from .env file
-load_dotenv()
+# Load environment variables from .env file at the very beginning
+load_dotenv(verbose=True)
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -47,6 +47,8 @@ INSTALLED_APPS = [
     'core',
     'firebase_app',  # Add Firebase app
     'admin_panel',  # Add admin panel app
+    'django_celery_beat',  # Add Celery beat app
+    'django_celery_results',  # Add Celery results app
 ]
 
 MIDDLEWARE = [
@@ -151,53 +153,67 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'public'
 
 # CORS settings
-CORS_ORIGIN_ALLOW_ALL = False  # More secure
-CORS_ALLOW_CREDENTIALS = True
 CORS_ALLOWED_ORIGINS = [
     'http://localhost:8080',
     'http://localhost:8000',
-]
-CORS_ALLOW_METHODS = [
-    'GET',
-    'POST',
-    'PUT',
-    'PATCH',
-    'DELETE',
-    'OPTIONS'
+    'http://localhost:3000',
+    'http://127.0.0.1:8080',
+    'http://127.0.0.1:8000',
+    'http://127.0.0.1:3000',
 ]
 
-CORS_ALLOW_HEADERS = [
-    'accept',
-    'accept-encoding',
-    'authorization',
-    'content-type',
-    'dnt',
-    'origin',
-    'user-agent',
-    'x-csrftoken',
-    'x-requested-with',
-]
+# In development, allow all origins
+if DEBUG:
+    CORS_ALLOW_ALL_ORIGINS = True
+    CORS_ORIGIN_ALLOW_ALL = True
+
+CORS_ALLOW_CREDENTIALS = True
 
 # CSRF settings
 CSRF_TRUSTED_ORIGINS = [
     'http://localhost:8080',
     'http://localhost:8000',
+    'http://localhost:3000',
+    'http://127.0.0.1:8080',
+    'http://127.0.0.1:8000',
+    'http://127.0.0.1:3000',
 ]
-CSRF_COOKIE_SECURE = False if DEBUG else True  # Allow non-HTTPS in development
-CSRF_USE_SESSIONS = False  # Store CSRF token in cookie
-CSRF_COOKIE_HTTPONLY = False  # Allow JavaScript access to CSRF cookie
-CSRF_COOKIE_SAMESITE = 'Lax' if DEBUG else 'None'
-CSRF_COOKIE_DOMAIN = None  # Allow subdomains in development
 
-# Session settings
-SESSION_COOKIE_SECURE = False if DEBUG else True  # Allow non-HTTPS in development
-SESSION_COOKIE_SAMESITE = 'Lax' if DEBUG else 'None'
-SESSION_COOKIE_DOMAIN = None  # Allow subdomains in development
+# In development, make CSRF more permissive
+if DEBUG:
+    CSRF_COOKIE_SECURE = False
+    CSRF_COOKIE_SAMESITE = 'Lax'
+    CSRF_COOKIE_DOMAIN = None
+    CSRF_USE_SESSIONS = False
+    CSRF_COOKIE_HTTPONLY = False
+else:
+    CSRF_COOKIE_SECURE = True
+    CSRF_COOKIE_SAMESITE = 'Strict'
+    CSRF_COOKIE_HTTPONLY = True
+    CSRF_USE_SESSIONS = True
 
-# Firebase Configuration
-FIREBASE_ADMIN_PROJECT_ID = os.getenv('FIREBASE_ADMIN_PROJECT_ID')
-FIREBASE_ADMIN_PRIVATE_KEY = os.getenv('FIREBASE_ADMIN_PRIVATE_KEY')
-FIREBASE_ADMIN_CLIENT_EMAIL = os.getenv('FIREBASE_ADMIN_CLIENT_EMAIL')
+CSRF_HEADER_NAME = 'HTTP_X_CSRFTOKEN'
+CSRF_COOKIE_NAME = 'csrftoken'
+
+# Firebase configuration
+FIREBASE_CONFIG = {
+    'project_id': os.getenv('FIREBASE_PROJECT_ID'),
+    'web_api_key': os.getenv('FIREBASE_WEB_API_KEY'),
+    'client_email': os.getenv('FIREBASE_CLIENT_EMAIL'),
+    'private_key': os.getenv('FIREBASE_PRIVATE_KEY').replace('\\n', '\n') if os.getenv('FIREBASE_PRIVATE_KEY') else None,
+}
+
+# Validate Firebase configuration
+if not all(FIREBASE_CONFIG.values()):
+    print("Warning: Missing Firebase configuration values:")
+    for key, value in FIREBASE_CONFIG.items():
+        if not value:
+            print(f"- Missing {key}")
+
+# Firebase Configuration (for compatibility)
+FIREBASE_ADMIN_PROJECT_ID = os.getenv('FIREBASE_PROJECT_ID')
+FIREBASE_ADMIN_PRIVATE_KEY = os.getenv('FIREBASE_PRIVATE_KEY')
+FIREBASE_ADMIN_CLIENT_EMAIL = os.getenv('FIREBASE_CLIENT_EMAIL')
 FIREBASE_WEB_API_KEY = os.getenv('FIREBASE_WEB_API_KEY')
 
 # Ensure required Firebase configuration is present
@@ -226,6 +242,21 @@ REST_FRAMEWORK = {
 FIREBASE_AUTH = {
     'VERIFY_EMAIL': False,
 }
+
+# Celery Configuration
+CELERY_BROKER_URL = os.getenv('CELERY_BROKER_URL', 'redis://localhost:6379/0')
+CELERY_RESULT_BACKEND = 'django-db'
+CELERY_CACHE_BACKEND = 'django-cache'
+CELERY_ACCEPT_CONTENT = ['application/json']
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_SERIALIZER = 'json'
+CELERY_TIMEZONE = TIME_ZONE
+CELERY_TASK_TRACK_STARTED = True
+CELERY_TASK_TIME_LIMIT = 30 * 60  # 30 minutes
+CELERY_WORKER_SEND_TASK_EVENTS = True
+
+# Celery Beat Settings
+CELERY_BEAT_SCHEDULER = 'django_celery_beat.schedulers:DatabaseScheduler'
 
 # Logging Configuration
 LOGGING = {

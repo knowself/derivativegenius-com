@@ -1,0 +1,17 @@
+{
+  "functions": [
+    {
+      "source": "contact_email_form",
+      "codebase": "contact_email_form",
+      "ignore": [
+        "node_modules",
+        ".git",
+        "firebase-debug.log",
+        "firebase-debug.*.log"
+      ],
+      "predeploy": [
+        "npm --prefix \"$RESOURCE_DIR\" run lint"
+      ]
+    }
+  ]
+}

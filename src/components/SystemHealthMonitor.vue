@@ -58,13 +58,9 @@
   </div>
 </template>
 
-<script setup>
+<script setup name="SystemHealthMonitor">
 import { onMounted, onUnmounted } from 'vue'
 import { usePerformanceStore } from '../stores/performance'
-
-defineOptions({
-  name: 'SystemHealthMonitor'
-})
 
 const performanceStore = usePerformanceStore()
 

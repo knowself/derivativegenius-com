@@ -39,14 +39,10 @@ import SystemHealthMonitor from '../../components/SystemHealthMonitor.vue'
   </div>
 </template>
 
-<script setup>
+<script setup name="AnalyticsDashboardPage">
 import { ref } from 'vue'
 import { Line as LineChart } from 'vue-chartjs'
 import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend } from 'chart.js'
-
-defineOptions({
-  name: 'AdminAnalyticsPage'
-})
 
 // Register Chart.js components
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend)

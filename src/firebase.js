@@ -1,10 +1,24 @@
 /**
  * Authentication service that interfaces with our backend API
  */
+import { initializeApp } from 'firebase/app';
+import { getFunctions } from 'firebase/functions';
+
+const firebaseConfig = {
+  apiKey: process.env.VUE_APP_FIREBASE_API_KEY,
+  authDomain: process.env.VUE_APP_FIREBASE_AUTH_DOMAIN,
+  projectId: process.env.VUE_APP_FIREBASE_PROJECT_ID,
+  appId: process.env.VUE_APP_FIREBASE_APP_ID
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const functions = getFunctions(app, 'us-west1'); // Region specified as per our standards
+
 class AuthService {
   async signIn(credentials) {
     try {
-      const response = await fetch('/api/auth/signin', {
+      const response = await fetch('/firebase/auth/signin/', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -60,3 +74,4 @@ class AuthService {
 }
 
 export const auth = new AuthService();
+export { app, functions };

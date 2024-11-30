@@ -41,12 +41,8 @@
   </div>
 </template>
 
-<script setup>
+<script setup name="ArticlesPage">
 import { ref } from 'vue'
-
-defineOptions({
-  name: 'ArticlesPage'
-})
 
 const articles = ref([
   {

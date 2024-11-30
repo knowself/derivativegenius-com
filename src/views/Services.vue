@@ -114,7 +114,7 @@
 
 <script>
 export default {
-  name: 'ServicesPage',
+  name: 'ServicesPageView',
   metaInfo: {
     title: 'Our Services'
   }

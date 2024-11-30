@@ -135,7 +135,7 @@
 import { ref, computed } from 'vue'
 
 export default {
-  name: 'AdminApplications',
+  name: 'AdminApplicationsPage',
   setup() {
     const filters = ref({
       client: 'all',

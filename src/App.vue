@@ -83,14 +83,10 @@
   </div>
 </template>
 
-<script setup>
+<script setup name="MainApp">
 import { useAuthStore } from './stores/auth'
 import { useRouter } from 'vue-router'
 import { onMounted, onUnmounted, computed } from 'vue'
-
-defineOptions({
-  name: 'AppComponent'
-})
 
 const authStore = useAuthStore()
 const router = useRouter()
@@ -99,8 +95,12 @@ const isAdminRoute = computed(() => {
   return router.currentRoute.value.path.startsWith('/admin')
 })
 
-onMounted(() => {
-  authStore.initializeAuth()
+onMounted(async () => {
+  try {
+    await authStore.initializeAuth()
+  } catch (error) {
+    console.error('Error initializing auth:', error)
+  }
 })
 
 onUnmounted(() => {
@@ -121,7 +121,7 @@ async function handleSignOut() {
 import { debug } from '@/utils/debug'
 
 export default {
-  name: 'App',
+  name: 'MainApp',
   errorCaptured(err, vm, info) {
     debug.error('ErrorBoundary:', {
       error: err.message,

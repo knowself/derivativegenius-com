@@ -1,0 +1,223 @@
+Watching for file changes with StatReloader
+[03:32:42] INFO [django.utils.autoreload] Watching for file changes with StatReloader
+Performing system checks...
+
+System check identified no issues (0 silenced).
+
+You have 11 unapplied migration(s). Your project may not work properly until you apply the migrations for app(s): django_celery_results.
+Run 'python manage.py migrate' to apply them.
+[03:32:42] INFO [firebase_app.firebase_admin] Firebase Admin SDK not initialized yet, proceeding with initialization
+[03:32:42] INFO [firebase_app.firebase_admin] Attempting to load Firebase credentials from file: /home/knowself/Web Dev/derivativegenius-com/dev/dg-website-firebase-adminsdk-ykjsf-f0de62e320.json
+[03:32:42] INFO [firebase_app.firebase_admin] Loading Firebase Admin SDK credentials from JSON file
+[03:32:42] INFO [firebase_app.firebase_admin] Firebase Admin SDK initialized successfully from file
+November 30, 2024 - 03:32:42
+Django version 4.2, using settings 'api.settings'
+Starting development server at http://127.0.0.1:8000/
+Quit the server with CONTROL-C.
+
+[03:32:42] DEBUG [firebase_app.csrf_middleware] Request path: /health/
+[03:32:42] DEBUG [firebase_app.csrf_middleware] Request path: /health/
+[03:32:42] DEBUG [firebase_app.csrf_middleware] Request method: GET
+[03:32:42] DEBUG [firebase_app.csrf_middleware] Request method: GET
+[03:32:42] DEBUG [firebase_app.csrf_middleware] CSRF Cookie: None
+[03:32:42] DEBUG [firebase_app.csrf_middleware] CSRF Cookie: None
+[03:32:42] DEBUG [firebase_app.csrf_middleware] CSRF Header: None
+[03:32:42] DEBUG [firebase_app.csrf_middleware] CSRF Header: None
+[03:32:42] DEBUG [firebase_app.csrf_middleware] Origin: None
+[03:32:42] DEBUG [firebase_app.csrf_middleware] Origin: None
+[03:32:42] DEBUG [firebase_app.csrf_middleware] Referer: None
+[03:32:42] DEBUG [firebase_app.csrf_middleware] Referer: None
+[03:32:42] DEBUG [firebase_app.csrf_middleware] Host: localhost:8000
+[03:32:42] DEBUG [firebase_app.csrf_middleware] Host: localhost:8000
+[03:32:42] DEBUG [firebase_app.csrf_middleware] Generated CSRF token: RIMOAISnEFVVce10sAr0sU6C8l9IvIVMroSeeXmGrnZiM6grHWs0chLJvOOgvw11
+[03:32:42] DEBUG [firebase_app.csrf_middleware] Generated CSRF token: RIMOAISnEFVVce10sAr0sU6C8l9IvIVMroSeeXmGrnZiM6grHWs0chLJvOOgvw11
+[03:32:42] DEBUG [api.gateway] Health check endpoint called
+[03:32:42] DEBUG [api.gateway] Health check endpoint called
+[03:32:42] DEBUG [api.gateway] CSRF Cookie: None
+[03:32:42] DEBUG [api.gateway] CSRF Cookie: None
+[03:32:42] DEBUG [api.gateway] Request Headers: {'Content-Length': '', 'Content-Type': 'text/plain', 'Host': 'localhost:8000', 'User-Agent': 'curl/7.68.0', 'Accept': '*/*'}
+[03:32:42] DEBUG [api.gateway] Request Headers: {'Content-Length': '', 'Content-Type': 'text/plain', 'Host': 'localhost:8000', 'User-Agent': 'curl/7.68.0', 'Accept': '*/*'}
+[03:32:42] DEBUG [firebase_app.csrf_middleware] Response status: 200
+[03:32:42] DEBUG [firebase_app.csrf_middleware] Response status: 200
+[03:32:42] DEBUG [firebase_app.csrf_middleware] Response cookies: ['csrftoken']
+[03:32:42] DEBUG [firebase_app.csrf_middleware] Response cookies: ['csrftoken']
+[03:32:42] DEBUG [firebase_app.csrf_middleware] Configuring CSRF cookie for development
+[03:32:42] DEBUG [firebase_app.csrf_middleware] Configuring CSRF cookie for development
+[03:32:42] DEBUG [firebase_app.csrf_middleware] Final cookie config: samesite=None, secure=True, httponly=False, domain=None, path=/
+[03:32:42] DEBUG [firebase_app.csrf_middleware] Final cookie config: samesite=None, secure=True, httponly=False, domain=None, path=/
+[03:32:42] INFO [django.server] "GET /health/ HTTP/1.1" 200 21
+"GET /health/ HTTP/1.1" 200 21
+[03:32:42] INFO [django.server] "GET /health/ HTTP/1.1" 200 21
+[03:33:09] DEBUG [firebase_app.csrf_middleware] Request path: /firebase/auth/session/
+[03:33:09] DEBUG [firebase_app.csrf_middleware] Request path: /firebase/auth/session/
+[03:33:09] DEBUG [firebase_app.csrf_middleware] Request method: GET
+[03:33:09] DEBUG [firebase_app.csrf_middleware] Request method: GET
+[03:33:09] DEBUG [firebase_app.csrf_middleware] CSRF Cookie: SD04nMG8Wti9sdgl83pHQY4btgRguZOp
+[03:33:09] DEBUG [firebase_app.csrf_middleware] CSRF Cookie: SD04nMG8Wti9sdgl83pHQY4btgRguZOp
+[03:33:09] DEBUG [firebase_app.csrf_middleware] CSRF Header: SD04nMG8Wti9sdgl83pHQY4btgRguZOp
+[03:33:09] DEBUG [firebase_app.csrf_middleware] CSRF Header: SD04nMG8Wti9sdgl83pHQY4btgRguZOp
+[03:33:09] DEBUG [firebase_app.csrf_middleware] Origin: http://localhost:8080
+[03:33:09] DEBUG [firebase_app.csrf_middleware] Origin: http://localhost:8080
+[03:33:09] DEBUG [firebase_app.csrf_middleware] Referer: http://localhost:8080/
+[03:33:09] DEBUG [firebase_app.csrf_middleware] Referer: http://localhost:8080/
+[03:33:09] DEBUG [firebase_app.csrf_middleware] Host: localhost:8000
+[03:33:09] DEBUG [firebase_app.csrf_middleware] Host: localhost:8000
+[03:33:09] DEBUG [firebase_app.csrf_middleware] Generated CSRF token: 9ReUq6LGqoZJUarX4JRxOTiymlZyybE1frw878rbY5Ew5QGGXA2IjpGVkFhEElVx
+[03:33:09] DEBUG [firebase_app.csrf_middleware] Generated CSRF token: 9ReUq6LGqoZJUarX4JRxOTiymlZyybE1frw878rbY5Ew5QGGXA2IjpGVkFhEElVx
+[03:33:09] DEBUG [firebase_app.csrf_middleware] Response status: 200
+[03:33:09] DEBUG [firebase_app.csrf_middleware] Response status: 200
+[03:33:09] DEBUG [firebase_app.csrf_middleware] Response cookies: ['csrftoken']
+[03:33:09] DEBUG [firebase_app.csrf_middleware] Response cookies: ['csrftoken']
+[03:33:09] DEBUG [firebase_app.csrf_middleware] Configuring CSRF cookie for development
+[03:33:09] DEBUG [firebase_app.csrf_middleware] Configuring CSRF cookie for development
+[03:33:09] DEBUG [firebase_app.csrf_middleware] Setting cookie domain to: localhost
+[03:33:09] DEBUG [firebase_app.csrf_middleware] Setting cookie domain to: localhost
+[03:33:09] DEBUG [firebase_app.csrf_middleware] Final cookie config: samesite=None, secure=True, httponly=False, domain=localhost, path=/
+[03:33:09] DEBUG [firebase_app.csrf_middleware] Final cookie config: samesite=None, secure=True, httponly=False, domain=localhost, path=/
+[03:33:09] INFO [django.server] "GET /firebase/auth/session/ HTTP/1.1" 200 14
+"GET /firebase/auth/session/ HTTP/1.1" 200 14
+[03:33:09] INFO [django.server] "GET /firebase/auth/session/ HTTP/1.1" 200 14
+[03:33:09] DEBUG [firebase_app.csrf_middleware] Request path: /firebase/auth/signin/
+[03:33:09] DEBUG [firebase_app.csrf_middleware] Request path: /firebase/auth/signin/
+[03:33:09] DEBUG [firebase_app.csrf_middleware] Request method: POST
+[03:33:09] DEBUG [firebase_app.csrf_middleware] Request method: POST
+[03:33:09] DEBUG [firebase_app.csrf_middleware] CSRF Cookie: SD04nMG8Wti9sdgl83pHQY4btgRguZOp
+[03:33:09] DEBUG [firebase_app.csrf_middleware] CSRF Cookie: SD04nMG8Wti9sdgl83pHQY4btgRguZOp
+[03:33:09] DEBUG [firebase_app.csrf_middleware] CSRF Header: SD04nMG8Wti9sdgl83pHQY4btgRguZOp
+[03:33:09] DEBUG [firebase_app.csrf_middleware] CSRF Header: SD04nMG8Wti9sdgl83pHQY4btgRguZOp
+[03:33:09] DEBUG [firebase_app.csrf_middleware] Origin: http://localhost:8080
+[03:33:09] DEBUG [firebase_app.csrf_middleware] Origin: http://localhost:8080
+[03:33:09] DEBUG [firebase_app.csrf_middleware] Referer: http://localhost:8080/
+[03:33:09] DEBUG [firebase_app.csrf_middleware] Referer: http://localhost:8080/
+[03:33:09] DEBUG [firebase_app.csrf_middleware] Host: localhost:8000
+[03:33:09] DEBUG [firebase_app.csrf_middleware] Host: localhost:8000
+[03:33:09] DEBUG [firebase_app.csrf_middleware] Generated CSRF token: cbFsTfkD3tJXgCogiivb4HJak9n5XImj2erguJEpCQ7ZDjrrworuivoX0CsWg8JE
+[03:33:09] DEBUG [firebase_app.csrf_middleware] Generated CSRF token: cbFsTfkD3tJXgCogiivb4HJak9n5XImj2erguJEpCQ7ZDjrrworuivoX0CsWg8JE
+=== Signin Request ===
+Headers: {'Content-Length': '61', 'Content-Type': 'application/json', 'Host': 'localhost:8000', 'User-Agent': 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:132.0) Gecko/20100101 Firefox/132.0', 'Accept': 'application/json, text/plain, */*', 'Accept-Language': 'en-US,en;q=0.5', 'Accept-Encoding': 'gzip, deflate, br, zstd', 'X-Requested-With': 'XMLHttpRequest', 'X-Csrftoken': 'SD04nMG8Wti9sdgl83pHQY4btgRguZOp', 'Origin': 'http://localhost:8080', 'Connection': 'keep-alive', 'Referer': 'http://localhost:8080/', 'Cookie': 'csrftoken=SD04nMG8Wti9sdgl83pHQY4btgRguZOp', 'Sec-Fetch-Dest': 'empty', 'Sec-Fetch-Mode': 'cors', 'Sec-Fetch-Site': 'same-site'}
+Content-Type: application/json
+Body: {"email":"Joe@derivativegenius.com","password":"roth1his5#$"}
+CSRF Token: SD04nMG8Wti9sdgl83pHQY4btgRguZOp
+Cookie CSRF Token: SD04nMG8Wti9sdgl83pHQY4btgRguZOp
+Method: POST
+Is AJAX: True
+Request data parsed successfully
+=== Firebase Configuration ===
+Project ID: derivative-genius-website
+API Key present: True
+=== Firebase Auth Request ===
+URL: https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyA5G3UKv24zSNxDlXGUZHqDjJM5NdjATe4
+Email: Joe@derivativegenius.com
+[03:33:09] ERROR [firebase_app.firebase_admin] Failed to get Auth client: module 'firebase_admin.auth' has no attribute 'client'
+Failed to initialize Firebase Admin SDK: module 'firebase_admin.auth' has no attribute 'client'
+[03:33:09] DEBUG [firebase_app.csrf_middleware] Response status: 503
+[03:33:09] DEBUG [firebase_app.csrf_middleware] Response status: 503
+[03:33:09] DEBUG [firebase_app.csrf_middleware] Response cookies: ['csrftoken']
+[03:33:09] DEBUG [firebase_app.csrf_middleware] Response cookies: ['csrftoken']
+[03:33:09] DEBUG [firebase_app.csrf_middleware] Configuring CSRF cookie for development
+[03:33:09] DEBUG [firebase_app.csrf_middleware] Configuring CSRF cookie for development
+[03:33:09] DEBUG [firebase_app.csrf_middleware] Setting cookie domain to: localhost
+[03:33:09] DEBUG [firebase_app.csrf_middleware] Setting cookie domain to: localhost
+[03:33:09] DEBUG [firebase_app.csrf_middleware] Final cookie config: samesite=None, secure=True, httponly=False, domain=localhost, path=/
+[03:33:09] DEBUG [firebase_app.csrf_middleware] Final cookie config: samesite=None, secure=True, httponly=False, domain=localhost, path=/
+[03:33:09] ERROR [django.request] Service Unavailable: /firebase/auth/signin/
+Service Unavailable: /firebase/auth/signin/
+[03:33:09] ERROR [django.request] Service Unavailable: /firebase/auth/signin/
+[03:33:09] ERROR [django.server] "POST /firebase/auth/signin/ HTTP/1.1" 503 116
+"POST /firebase/auth/signin/ HTTP/1.1" 503 116
+[03:33:09] ERROR [django.server] "POST /firebase/auth/signin/ HTTP/1.1" 503 116
+/home/knowself/Web Dev/derivativegenius-com/dev/firebase_app/views.py changed, reloading.
+[03:38:33] INFO [django.utils.autoreload] /home/knowself/Web Dev/derivativegenius-com/dev/firebase_app/views.py changed, reloading.
+Watching for file changes with StatReloader
+[03:38:34] INFO [django.utils.autoreload] Watching for file changes with StatReloader
+Performing system checks...
+
+System check identified no issues (0 silenced).
+
+You have 11 unapplied migration(s). Your project may not work properly until you apply the migrations for app(s): django_celery_results.
+Run 'python manage.py migrate' to apply them.
+[03:38:34] INFO [firebase_app.firebase_admin] Firebase Admin SDK not initialized yet, proceeding with initialization
+[03:38:34] INFO [firebase_app.firebase_admin] Attempting to load Firebase credentials from file: /home/knowself/Web Dev/derivativegenius-com/dev/dg-website-firebase-adminsdk-ykjsf-f0de62e320.json
+[03:38:34] INFO [firebase_app.firebase_admin] Loading Firebase Admin SDK credentials from JSON file
+[03:38:34] INFO [firebase_app.firebase_admin] Firebase Admin SDK initialized successfully from file
+November 30, 2024 - 03:38:34
+Django version 4.2, using settings 'api.settings'
+Starting development server at http://127.0.0.1:8000/
+Quit the server with CONTROL-C.
+
+/home/knowself/Web Dev/derivativegenius-com/dev/firebase_app/views.py changed, reloading.
+[03:39:13] INFO [django.utils.autoreload] /home/knowself/Web Dev/derivativegenius-com/dev/firebase_app/views.py changed, reloading.
+Watching for file changes with StatReloader
+[03:39:14] INFO [django.utils.autoreload] Watching for file changes with StatReloader
+Performing system checks...
+
+System check identified no issues (0 silenced).
+
+You have 11 unapplied migration(s). Your project may not work properly until you apply the migrations for app(s): django_celery_results.
+Run 'python manage.py migrate' to apply them.
+[03:39:15] INFO [firebase_app.firebase_admin] Firebase Admin SDK not initialized yet, proceeding with initialization
+[03:39:15] INFO [firebase_app.firebase_admin] Attempting to load Firebase credentials from file: /home/knowself/Web Dev/derivativegenius-com/dev/dg-website-firebase-adminsdk-ykjsf-f0de62e320.json
+[03:39:15] INFO [firebase_app.firebase_admin] Loading Firebase Admin SDK credentials from JSON file
+[03:39:15] INFO [firebase_app.firebase_admin] Firebase Admin SDK initialized successfully from file
+November 30, 2024 - 03:39:15
+Django version 4.2, using settings 'api.settings'
+Starting development server at http://127.0.0.1:8000/
+Quit the server with CONTROL-C.
+
+/home/knowself/Web Dev/derivativegenius-com/dev/firebase_app/views.py changed, reloading.
+[03:41:00] INFO [django.utils.autoreload] /home/knowself/Web Dev/derivativegenius-com/dev/firebase_app/views.py changed, reloading.
+Watching for file changes with StatReloader
+[03:41:01] INFO [django.utils.autoreload] Watching for file changes with StatReloader
+Performing system checks...
+
+System check identified no issues (0 silenced).
+
+You have 11 unapplied migration(s). Your project may not work properly until you apply the migrations for app(s): django_celery_results.
+Run 'python manage.py migrate' to apply them.
+[03:41:01] INFO [firebase_app.firebase_admin] Firebase Admin SDK not initialized yet, proceeding with initialization
+[03:41:01] INFO [firebase_app.firebase_admin] Attempting to load Firebase credentials from file: /home/knowself/Web Dev/derivativegenius-com/dev/dg-website-firebase-adminsdk-ykjsf-f0de62e320.json
+[03:41:01] INFO [firebase_app.firebase_admin] Loading Firebase Admin SDK credentials from JSON file
+[03:41:02] INFO [firebase_app.firebase_admin] Firebase Admin SDK initialized successfully from file
+November 30, 2024 - 03:41:02
+Django version 4.2, using settings 'api.settings'
+Starting development server at http://127.0.0.1:8000/
+Quit the server with CONTROL-C.
+
+/home/knowself/Web Dev/derivativegenius-com/dev/firebase_app/views.py changed, reloading.
+[03:42:54] INFO [django.utils.autoreload] /home/knowself/Web Dev/derivativegenius-com/dev/firebase_app/views.py changed, reloading.
+Watching for file changes with StatReloader
+[03:42:55] INFO [django.utils.autoreload] Watching for file changes with StatReloader
+Performing system checks...
+
+System check identified no issues (0 silenced).
+
+You have 11 unapplied migration(s). Your project may not work properly until you apply the migrations for app(s): django_celery_results.
+Run 'python manage.py migrate' to apply them.
+[03:42:55] INFO [firebase_app.firebase_admin] Firebase Admin SDK not initialized yet, proceeding with initialization
+[03:42:55] INFO [firebase_app.firebase_admin] Attempting to load Firebase credentials from file: /home/knowself/Web Dev/derivativegenius-com/dev/dg-website-firebase-adminsdk-ykjsf-f0de62e320.json
+[03:42:55] INFO [firebase_app.firebase_admin] Loading Firebase Admin SDK credentials from JSON file
+[03:42:55] INFO [firebase_app.firebase_admin] Firebase Admin SDK initialized successfully from file
+November 30, 2024 - 03:42:55
+Django version 4.2, using settings 'api.settings'
+Starting development server at http://127.0.0.1:8000/
+Quit the server with CONTROL-C.
+
+/home/knowself/Web Dev/derivativegenius-com/dev/firebase_app/views.py changed, reloading.
+[03:43:09] INFO [django.utils.autoreload] /home/knowself/Web Dev/derivativegenius-com/dev/firebase_app/views.py changed, reloading.
+Watching for file changes with StatReloader
+[03:43:10] INFO [django.utils.autoreload] Watching for file changes with StatReloader
+Performing system checks...
+
+System check identified no issues (0 silenced).
+
+You have 11 unapplied migration(s). Your project may not work properly until you apply the migrations for app(s): django_celery_results.
+Run 'python manage.py migrate' to apply them.
+[03:43:10] INFO [firebase_app.firebase_admin] Firebase Admin SDK not initialized yet, proceeding with initialization
+[03:43:10] INFO [firebase_app.firebase_admin] Attempting to load Firebase credentials from file: /home/knowself/Web Dev/derivativegenius-com/dev/dg-website-firebase-adminsdk-ykjsf-f0de62e320.json
+[03:43:10] INFO [firebase_app.firebase_admin] Loading Firebase Admin SDK credentials from JSON file
+[03:43:11] INFO [firebase_app.firebase_admin] Firebase Admin SDK initialized successfully from file
+November 30, 2024 - 03:43:11
+Django version 4.2, using settings 'api.settings'
+Starting development server at http://127.0.0.1:8000/
+Quit the server with CONTROL-C.
+
