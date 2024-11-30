@@ -65,37 +65,27 @@
 <script setup name="LoginPage">
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
-import { useAuthStore } from '../stores/auth'
+import { useAuthStore } from '@/store/auth'
 
 const router = useRouter()
-const authStore = useAuthStore()
+const auth = useAuthStore()
 
 const email = ref('')
 const password = ref('')
-const error = ref('')
+const error = ref(null)
 const loading = ref(false)
 
 async function handleSubmit() {
+  if (loading.value) return
+  
+  error.value = null
+  loading.value = true
+  
   try {
-    loading.value = true
-    error.value = ''
-    await authStore.signIn({ email: email.value, password: password.value })
-    
-    // For admin users, always redirect to admin dashboard
-    if (authStore.isAdmin) {
-      router.push('/admin')
-      return
-    }
-    
-    // For non-admin users, handle redirect or go home
-    const redirect = router.currentRoute.value.query.redirect
-    if (redirect && typeof redirect === 'string' && !redirect.startsWith('/admin')) {
-      router.push(redirect)
-    } else {
-      router.push('/')
-    }
-  } catch (e) {
-    error.value = e.message || 'Failed to sign in'
+    await auth.signIn(email.value, password.value)
+    router.push('/dashboard')
+  } catch (err) {
+    error.value = err.message || 'Failed to sign in'
   } finally {
     loading.value = false
   }

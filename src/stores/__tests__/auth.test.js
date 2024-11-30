@@ -1,11 +1,11 @@
 import { describe, it, expect, beforeEach, vi } from 'vitest'
 import { setActivePinia, createPinia } from 'pinia'
-import { useAuthStore } from '../auth'
-import { auth } from '../../firebase'
+import { useAuthStore } from '@/store/auth'
+import AuthService from '@/services/firebase'
 
 // Mock AuthService
-vi.mock('../../firebase', () => ({
-  auth: {
+vi.mock('@/services/firebase', () => ({
+  default: {
     signIn: vi.fn(),
     signOut: vi.fn(),
     getCurrentUser: vi.fn()
@@ -45,8 +45,8 @@ describe('Auth Store', () => {
       }
       
       // Mock successful sign in
-      auth.signIn.mockResolvedValueOnce({ token: 'mock-token' })
-      auth.getCurrentUser.mockResolvedValueOnce(mockUser)
+      AuthService.default.signIn.mockResolvedValueOnce({ token: 'mock-token' })
+      AuthService.default.getCurrentUser.mockResolvedValueOnce(mockUser)
 
       const success = await store.signIn({ 
         email: 'test@example.com', 
@@ -63,7 +63,7 @@ describe('Auth Store', () => {
       const store = useAuthStore()
       
       // Mock failed sign in
-      auth.signIn.mockRejectedValueOnce(new Error('Invalid credentials'))
+      AuthService.default.signIn.mockRejectedValueOnce(new Error('Invalid credentials'))
 
       const success = await store.signIn({ 
         email: 'test@example.com', 
@@ -84,7 +84,7 @@ describe('Auth Store', () => {
       localStorage.setItem('idToken', 'mock-token')
 
       // Mock successful sign out
-      auth.signOut.mockResolvedValueOnce()
+      AuthService.default.signOut.mockResolvedValueOnce()
 
       const success = await store.signOut()
 
@@ -102,7 +102,7 @@ describe('Auth Store', () => {
       localStorage.setItem('idToken', 'mock-token')
 
       // Mock failed sign out
-      auth.signOut.mockRejectedValueOnce(new Error('Network error'))
+      AuthService.default.signOut.mockRejectedValueOnce(new Error('Network error'))
 
       const success = await store.signOut()
 
@@ -119,7 +119,7 @@ describe('Auth Store', () => {
         isAdmin: false
       }
 
-      auth.getCurrentUser.mockResolvedValueOnce(mockUser)
+      AuthService.default.getCurrentUser.mockResolvedValueOnce(mockUser)
 
       await store.initializeAuth()
 
@@ -131,7 +131,7 @@ describe('Auth Store', () => {
     it('handles initialization error', async () => {
       const store = useAuthStore()
 
-      auth.getCurrentUser.mockRejectedValueOnce(new Error('Network error'))
+      AuthService.default.getCurrentUser.mockRejectedValueOnce(new Error('Network error'))
 
       await store.initializeAuth()
 

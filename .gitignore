@@ -107,6 +107,10 @@ Thumbs.db
 # Git commit message temp file
 .git-commit-message
 
+# Log directories
+/logs/
+/logs_dev_old/
+
 # Vercel
 .vercel/
 .vercel

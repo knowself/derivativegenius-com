@@ -1,3 +1,5 @@
+Let's get this done according to @_ai_dev_principles_standards.md and make a number of suggestions for me to choose from without making any changes
+
 I need you to create a comprehensive commit message which addresses all the changes. I will perform the commit.
 
 my guardian files of truth _ai_dev_principles_standards.md, readme.md, requirements-base, requirements.txt and requirements-dev.txt

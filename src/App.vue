@@ -84,7 +84,7 @@
 </template>
 
 <script setup name="MainApp">
-import { useAuthStore } from './stores/auth'
+import { useAuthStore } from '@/store/auth'
 import { useRouter } from 'vue-router'
 import { onMounted, onUnmounted, computed } from 'vue'
 
