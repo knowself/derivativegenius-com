@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 
 from dotenv import load_dotenv
 import os
+import json
 from pathlib import Path
 
 # Load environment variables from .env file at the very beginning
@@ -169,6 +170,36 @@ if DEBUG:
 
 CORS_ALLOW_CREDENTIALS = True
 
+# Add allowed headers for CORS
+CORS_ALLOW_HEADERS = [
+    'accept',
+    'accept-encoding',
+    'authorization',
+    'content-type',
+    'dnt',
+    'origin',
+    'user-agent',
+    'x-csrftoken',
+    'x-requested-with',
+    'access-control-allow-origin'
+]
+
+CORS_EXPOSE_HEADERS = [
+    'access-control-allow-origin',
+    'access-control-allow-credentials',
+    'access-control-allow-headers',
+    'access-control-allow-methods'
+]
+
+CORS_ALLOW_METHODS = [
+    'DELETE',
+    'GET',
+    'OPTIONS',
+    'PATCH',
+    'POST',
+    'PUT',
+]
+
 # CSRF settings
 CSRF_TRUSTED_ORIGINS = [
     'http://localhost:8080',
@@ -196,36 +227,33 @@ CSRF_HEADER_NAME = 'HTTP_X_CSRFTOKEN'
 CSRF_COOKIE_NAME = 'csrftoken'
 
 # Firebase configuration
-FIREBASE_CONFIG = {
-    'project_id': os.getenv('FIREBASE_PROJECT_ID'),
-    'web_api_key': os.getenv('FIREBASE_WEB_API_KEY'),
-    'client_email': os.getenv('FIREBASE_CLIENT_EMAIL'),
-    'private_key': os.getenv('FIREBASE_PRIVATE_KEY').replace('\\n', '\n') if os.getenv('FIREBASE_PRIVATE_KEY') else None,
-}
+# Note: We store Firebase Admin SDK credentials in a JSON file instead of .env variables
+# This maintains the exact format from Firebase Console and prevents any string escaping issues
+# The JSON file is stored at api/firebase-credentials.json and excluded from version control
+FIREBASE_CREDENTIALS_PATH = os.path.join(BASE_DIR, 'api', 'firebase-credentials.json')
+FIREBASE_WEB_API_KEY = os.getenv('FIREBASE_WEB_API_KEY')  # Still needed for client-side
+
+# Load Firebase credentials from JSON file
+try:
+    with open(FIREBASE_CREDENTIALS_PATH) as f:
+        FIREBASE_CONFIG = json.load(f)
+except FileNotFoundError:
+    print(f"Warning: Firebase credentials file not found at {FIREBASE_CREDENTIALS_PATH}")
+    FIREBASE_CONFIG = {}
+except json.JSONDecodeError:
+    print(f"Warning: Firebase credentials file at {FIREBASE_CREDENTIALS_PATH} is not valid JSON")
+    FIREBASE_CONFIG = {}
+
+# Extract commonly used values
+FIREBASE_ADMIN_PROJECT_ID = FIREBASE_CONFIG.get('project_id')
+FIREBASE_ADMIN_CLIENT_EMAIL = FIREBASE_CONFIG.get('client_email')
 
 # Validate Firebase configuration
-if not all(FIREBASE_CONFIG.values()):
-    print("Warning: Missing Firebase configuration values:")
-    for key, value in FIREBASE_CONFIG.items():
-        if not value:
-            print(f"- Missing {key}")
-
-# Firebase Configuration (for compatibility)
-FIREBASE_ADMIN_PROJECT_ID = os.getenv('FIREBASE_PROJECT_ID')
-FIREBASE_ADMIN_PRIVATE_KEY = os.getenv('FIREBASE_PRIVATE_KEY')
-FIREBASE_ADMIN_CLIENT_EMAIL = os.getenv('FIREBASE_CLIENT_EMAIL')
-FIREBASE_WEB_API_KEY = os.getenv('FIREBASE_WEB_API_KEY')
-
-# Ensure required Firebase configuration is present
-if not all([FIREBASE_ADMIN_PROJECT_ID, FIREBASE_ADMIN_PRIVATE_KEY, FIREBASE_ADMIN_CLIENT_EMAIL, FIREBASE_WEB_API_KEY]):
-    if DEBUG:
-        print("Warning: Missing Firebase configuration variables")
-        print(f"Project ID: {bool(FIREBASE_ADMIN_PROJECT_ID)}")
-        print(f"Private Key: {bool(FIREBASE_ADMIN_PRIVATE_KEY)}")
-        print(f"Client Email: {bool(FIREBASE_ADMIN_CLIENT_EMAIL)}")
-        print(f"Web API Key: {bool(FIREBASE_WEB_API_KEY)}")
-    else:
-        raise ValueError("Missing required Firebase configuration variables")
+if not all([FIREBASE_ADMIN_PROJECT_ID, FIREBASE_ADMIN_CLIENT_EMAIL, FIREBASE_WEB_API_KEY]):
+    print("Warning: Missing required Firebase configuration:")
+    print(f"Project ID: {bool(FIREBASE_ADMIN_PROJECT_ID)}")
+    print(f"Client Email: {bool(FIREBASE_ADMIN_CLIENT_EMAIL)}")
+    print(f"Web API Key: {bool(FIREBASE_WEB_API_KEY)}")
 
 # Authentication settings
 REST_FRAMEWORK = {
@@ -278,43 +306,52 @@ LOGGING = {
         'console': {
             'class': 'logging.StreamHandler',
             'formatter': 'simple',
-            'level': 'DEBUG',
+            'level': 'INFO',
+        },
+        'file': {
+            'class': 'logging.handlers.TimedRotatingFileHandler',
+            'filename': 'django.log',
+            'formatter': 'verbose',
+            'when': 'midnight',
+            'interval': 1,
+            'backupCount': 7,
+            'level': 'INFO',
         },
     },
     'loggers': {
         'django.request': {
-            'handlers': ['console'],
-            'level': 'DEBUG',
+            'handlers': ['console', 'file'],
+            'level': 'INFO',
             'propagate': True,
         },
         'django.security': {
-            'handlers': ['console'],
-            'level': 'DEBUG',
+            'handlers': ['console', 'file'],
+            'level': 'INFO',
             'propagate': True,
         },
         'django.server': {
-            'handlers': ['console'],
-            'level': 'DEBUG',
+            'handlers': ['console', 'file'],
+            'level': 'INFO',
             'propagate': True,
         },
         'firebase_app.csrf_middleware': {
-            'handlers': ['console'],
-            'level': 'DEBUG',
+            'handlers': ['console', 'file'],
+            'level': 'INFO',
             'propagate': True,
         },
         'firebase_app.views': {
-            'handlers': ['console'],
-            'level': 'DEBUG',
+            'handlers': ['console', 'file'],
+            'level': 'INFO',
             'propagate': True,
         },
         'api.gateway': {
-            'handlers': ['console'],
-            'level': 'DEBUG',
+            'handlers': ['console', 'file'],
+            'level': 'INFO',
             'propagate': True,
         },
     },
     'root': {
-        'handlers': ['console'],
+        'handlers': ['console', 'file'],
         'level': 'INFO',
     }
 }

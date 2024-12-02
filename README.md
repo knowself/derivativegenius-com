@@ -242,6 +242,14 @@ npm run test:coverage
 - Vue DevTools: Install browser extension
 - Firebase Emulator: `http://localhost:4000`
 
+## Environment Setup
+
+### Firebase Configuration
+1. Download your Firebase service account JSON file from the Firebase Console
+2. Save it as `/api/firebase-credentials.json`
+3. This file contains all necessary Firebase Admin SDK credentials and is excluded from version control
+4. Do NOT store Firebase credentials in .env files
+
 ## Task Queue Setup
 
 ### Celery Setup

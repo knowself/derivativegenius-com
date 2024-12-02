@@ -74,7 +74,6 @@ static/
 staticfiles/
 *.pyc
 __pycache__/
-db.sqlite3
 django.log
 vue.log
 
@@ -82,7 +81,11 @@ vue.log
 firebase-debug.log
 .firebase/
 firebase-admin-key.json
-*firebase-adminsdk*.json
+*firebase*adminsdk*.json
+
+# Firebase credentials
+/api/firebase-credentials.json
+*firebase*adminsdk*.json
 
 # Tailwind CSS
 .tailwind-cache/

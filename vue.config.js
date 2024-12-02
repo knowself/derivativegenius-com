@@ -1,5 +1,6 @@
 const { defineConfig } = require('@vue/cli-service')
 const path = require('path')
+const webpack = require('webpack')
 
 module.exports = defineConfig({
   transpileDependencies: [],
@@ -43,6 +44,13 @@ module.exports = defineConfig({
       // Disable source maps in development
       config.devtool = false
     }
+
+    // Add Vue feature flags
+    config.plugins.push(
+      new webpack.DefinePlugin({
+        __VUE_PROD_HYDRATION_MISMATCH_DETAILS__: 'false'
+      })
+    )
 
     return {
       performance: {

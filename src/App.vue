@@ -86,7 +86,7 @@
 <script setup name="MainApp">
 import { useAuthStore } from '@/store/auth'
 import { useRouter } from 'vue-router'
-import { onMounted, onUnmounted, computed } from 'vue'
+import { onMounted, onUnmounted, computed, watch } from 'vue'
 
 const authStore = useAuthStore()
 const router = useRouter()
@@ -95,11 +95,29 @@ const isAdminRoute = computed(() => {
   return router.currentRoute.value.path.startsWith('/admin')
 })
 
+const isAuthenticated = computed(() => authStore.isAuthenticated)
+const isAdmin = computed(() => authStore.isAdmin)
+
+// Watch for auth state changes
+watch([isAuthenticated, isAdmin], ([newAuth, newAdmin], [oldAuth, oldAdmin]) => {
+  if (!newAuth && oldAuth) {
+    // User was logged out
+    router.push('/login')
+  } else if (newAuth && newAdmin && !isAdminRoute.value) {
+    // Admin user should be redirected to admin panel
+    router.push('/admin')
+  }
+})
+
 onMounted(async () => {
   try {
-    await authStore.initializeAuth()
+    await authStore.initializeAuth();
   } catch (error) {
-    console.error('Error initializing auth:', error)
+    console.error('Error initializing auth:', error);
+    // Ensure we redirect to login if auth fails
+    if (router.currentRoute.value.meta.requiresAuth) {
+      router.push('/login');
+    }
   }
 })
 

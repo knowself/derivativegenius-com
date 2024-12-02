@@ -761,7 +761,7 @@ test_firebase() {
         if [ ! -z "$config_response" ]; then
             error "Configuration error: $config_response"
         fi
-        error "Please check your Firebase credentials in settings.py and environment variables"
+        error "Please check your Firebase credentials JSON file at api/firebase-credentials.json"
         return 1
     fi
     
@@ -777,21 +777,22 @@ test_firebase() {
             error "Authentication error: $auth_response"
         fi
         if [ "$response_code" = "500" ]; then
-            if echo "$auth_response" | grep -q "Invalid JWT Signature"; then
-                error "Invalid JWT signature detected. This usually means:"
-                error "1. The Firebase private key is truncated or malformed"
-                error "2. The environment variables are not properly set"
+            if echo "$auth_response" | grep -q "Error reading Firebase credentials file\|Invalid JWT Signature"; then
+                error "Firebase credentials file error detected. This usually means:"
+                error "1. The Firebase credentials file is missing or unreadable"
+                error "2. The Firebase credentials are malformed or incomplete"
                 error "3. The Firebase project settings don't match the credentials"
-                log "Checking environment variables..."
-                if [ -z "$FIREBASE_PRIVATE_KEY" ]; then
-                    error "FIREBASE_PRIVATE_KEY is not set"
+                log "Checking Firebase credentials file..."
+                if [ ! -f "api/firebase-credentials.json" ]; then
+                    error "Firebase credentials file not found at api/firebase-credentials.json"
                 else
-                    success "FIREBASE_PRIVATE_KEY is set"
-                fi
-                if [ -z "$FIREBASE_PROJECT_ID" ]; then
-                    error "FIREBASE_PROJECT_ID is not set"
-                else
-                    success "FIREBASE_PROJECT_ID is set"
+                    success "Firebase credentials file exists"
+                    # Check if file is valid JSON
+                    if jq empty api/firebase-credentials.json >/dev/null 2>&1; then
+                        success "Firebase credentials file is valid JSON"
+                    else
+                        error "Firebase credentials file is not valid JSON"
+                    fi
                 fi
             fi
         fi

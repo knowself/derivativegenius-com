@@ -298,3 +298,47 @@ celery -A api beat -l INFO
 - Implement proper monitoring and alerting
 - Configure worker pools based on workload
 - Set up dead letter queues for failed tasks
+
+## Firebase Authentication & Authorization
+
+#### Custom Claims for Admin Status
+Firebase custom claims are used to securely manage user roles and permissions in our application. These claims are:
+- Set by the backend using Firebase Admin SDK
+- Cryptographically signed by Firebase
+- Cannot be modified by client-side code
+- Automatically refreshed with ID tokens
+
+##### Implementation
+1. **Backend (Django)**:
+   ```python
+   # Custom claims are set using Firebase Admin SDK
+   custom_claims = user.custom_claims or {}
+   is_admin = custom_claims.get('admin', False)
+   ```
+
+2. **Frontend (Vue)**:
+   ```javascript
+   // Get claims from Firebase ID token
+   const tokenResult = await user.getIdTokenResult();
+   const isAdmin = tokenResult.claims.admin || false;
+   ```
+
+3. **Security Benefits**:
+   - Claims can only be modified by backend with admin privileges
+   - Claims are signed by Firebase and tamper-proof
+   - Token refresh ensures claims stay current
+   - More secure than email domain checking
+
+##### Usage Guidelines
+1. Always verify admin status using custom claims, not email domains
+2. Cache claims in Vuex store under `user.customClaims`
+3. Use `getIdTokenResult()` to refresh claims when needed
+4. Handle cases where claims might be undefined
+
+## Security and Credentials Management
+
+#### Firebase Configuration
+- Firebase Admin SDK credentials are stored in `/api/firebase-credentials.json`
+- This file contains all necessary Firebase service account credentials (project_id, private_key, client_email, etc.)
+- The file is excluded from version control via .gitignore
+- We do NOT store Firebase credentials in .env files to maintain better security and format integrity

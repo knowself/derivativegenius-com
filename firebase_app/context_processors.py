@@ -1,14 +1,14 @@
-import os
+from django.conf import settings
 
 def firebase_config(request):
     """Add Firebase configuration to all template contexts"""
     return {
         'firebase_config': {
-            'api_key': os.getenv('FIREBASE_API_KEY'),
-            'auth_domain': os.getenv('FIREBASE_AUTH_DOMAIN'),
-            'project_id': os.getenv('FIREBASE_PROJECT_ID'),
-            'storage_bucket': os.getenv('FIREBASE_STORAGE_BUCKET'),
-            'messaging_sender_id': os.getenv('FIREBASE_MESSAGING_SENDER_ID'),
-            'app_id': os.getenv('FIREBASE_APP_ID'),
+            'api_key': settings.FIREBASE_WEB_API_KEY,
+            'project_id': settings.FIREBASE_ADMIN_PROJECT_ID,
+            'auth_domain': f"{settings.FIREBASE_ADMIN_PROJECT_ID}.firebaseapp.com",
+            'storage_bucket': f"{settings.FIREBASE_ADMIN_PROJECT_ID}.appspot.com",
+            'messaging_sender_id': settings.FIREBASE_CONFIG.get('client_id', ''),
+            'app_id': settings.FIREBASE_CONFIG.get('app_id', ''),
         }
     }

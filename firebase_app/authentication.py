@@ -2,9 +2,25 @@ from django.contrib.auth.models import User
 from rest_framework import authentication
 from rest_framework import exceptions
 from firebase_admin import auth
-import firebase_admin
-from firebase_admin import credentials
-import os
+from django.conf import settings
+
+def initialize_firebase_admin():
+    """Initialize Firebase Admin SDK."""
+    try:
+        # Check if already initialized
+        try:
+            app = auth.get_app()
+            return app
+        except ValueError:
+            pass  # Not initialized yet
+
+        # Initialize with credentials from settings
+        cred = auth.Certificate(settings.FIREBASE_CONFIG)
+        return auth.initialize_app(cred)
+
+    except Exception as e:
+        print(f"Error initializing Firebase Admin SDK: {e}")
+        raise
 
 class FirebaseAuthentication(authentication.BaseAuthentication):
     def authenticate(self, request):
@@ -21,14 +37,7 @@ class FirebaseAuthentication(authentication.BaseAuthentication):
         
         try:
             # Initialize Firebase Admin if not already initialized
-            if not firebase_admin._apps:
-                cred = credentials.Certificate({
-                    "type": "service_account",
-                    "project_id": os.getenv('FIREBASE_PROJECT_ID'),
-                    "private_key": os.getenv('FIREBASE_PRIVATE_KEY').replace('\\n', '\n'),
-                    "client_email": os.getenv('FIREBASE_CLIENT_EMAIL'),
-                })
-                firebase_admin.initialize_app(cred)
+            initialize_firebase_admin()
             
             # Verify the token
             decoded_token = auth.verify_id_token(token)

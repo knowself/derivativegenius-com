@@ -62,32 +62,57 @@
   </div>
 </template>
 
-<script setup name="LoginPage">
-import { ref } from 'vue'
-import { useRouter } from 'vue-router'
+<script setup>
+import { ref, computed } from 'vue'
 import { useAuthStore } from '@/store/auth'
+import { useRouter } from 'vue-router'
 
-const router = useRouter()
 const auth = useAuthStore()
+const router = useRouter()
 
 const email = ref('')
 const password = ref('')
-const error = ref(null)
-const loading = ref(false)
+const error = ref('')
+const loading = computed(() => auth.isLoading)
 
 async function handleSubmit() {
-  if (loading.value) return
-  
-  error.value = null
-  loading.value = true
+  if (loading.value) return;
+  error.value = '';
+  loading.value = true;
   
   try {
-    await auth.signIn(email.value, password.value)
-    router.push('/dashboard')
+    console.log('Attempting sign in...');
+    const user = await auth.signIn(email.value, password.value);
+    console.log('Sign in successful:', user);
+    router.push(user.claims.admin ? '/admin' : '/');
   } catch (err) {
-    error.value = err.message || 'Failed to sign in'
+    console.error('Sign in error:', err);
+    
+    // Handle Firebase auth errors
+    if (err.code?.startsWith('auth/')) {
+      switch(err.code) {
+        case 'auth/user-not-found':
+          error.value = 'No account found with this email';
+          break;
+        case 'auth/wrong-password':
+          error.value = 'Incorrect password';
+          break;
+        case 'auth/invalid-email':
+          error.value = 'Invalid email address';
+          break;
+        case 'auth/too-many-requests':
+          error.value = 'Too many failed attempts. Please try again later';
+          break;
+        default:
+          error.value = 'Authentication failed';
+      }
+    } else if (err.response?.status === 401) {
+      error.value = auth.errorMessage || 'Unauthorized access - please check your credentials';
+    } else {
+      error.value = auth.errorMessage || err.message || 'Failed to sign in';
+    }
   } finally {
-    loading.value = false
+    loading.value = false;
   }
 }
 </script>

@@ -19,6 +19,8 @@ urlpatterns = [
     path('test-config/', views.test_firebase_config, name='test_firebase_config'),
     path('test-env/', views.test_environment_variables, name='test_environment_variables'),
     path('firebase-test/', views.firebase_test, name='firebase-test'),
+    path('config-test/', views.test_firebase_config, name='test-firebase-config'),
+    path('auth-test/', views.test_firebase_auth, name='test-firebase-auth'),
     
     # Legacy endpoints
     path('auth/', views.auth_page, name='auth'),

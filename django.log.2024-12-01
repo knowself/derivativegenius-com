@@ -1,0 +1,827 @@
+Watching for file changes with StatReloader
+[23:57:20] INFO [django.utils.autoreload] Watching for file changes with StatReloader
+Performing system checks...
+
+System check identified no issues (0 silenced).
+[23:57:20] INFO [firebase_app.firebase_admin] Firebase Admin SDK not initialized yet
+[23:57:20] INFO [firebase_app.firebase_admin] Firebase Config Keys: ['type', 'project_id', 'private_key_id', 'private_key', 'client_email', 'client_id', 'auth_uri', 'token_uri', 'auth_provider_x509_cert_url', 'client_x509_cert_url', 'universe_domain']
+[23:57:20] INFO [firebase_app.firebase_admin] Project ID: derivative-genius-website
+[23:57:20] INFO [firebase_app.firebase_admin] Client Email: firebase-adminsdk-ykjsf@derivative-genius-website.iam.gserviceaccount.com
+[23:57:20] INFO [firebase_app.firebase_admin] Private Key ID: f0de62e320cf784c32bf8da8d48c1077fbd33e13
+[23:57:20] INFO [firebase_app.firebase_admin] Private Key Format: starts=True, ends=True
+[23:57:20] INFO [firebase_app.firebase_admin] Private Key Length: 1704
+[23:57:20] INFO [firebase_app.firebase_admin] Firebase Admin SDK initialized successfully
+December 01, 2024 - 23:57:20
+Django version 4.2, using settings 'api.settings'
+Starting development server at http://127.0.0.1:8000/
+Quit the server with CONTROL-C.
+
+[23:57:21] INFO [django.server] "GET /health/ HTTP/1.1" 200 21
+"GET /health/ HTTP/1.1" 200 21
+[23:57:21] INFO [django.server] "GET /health/ HTTP/1.1" 200 21
+[23:57:37] INFO [django.server] "GET / HTTP/1.1" 200 14461
+"GET / HTTP/1.1" 200 14461
+[23:57:37] INFO [django.server] "GET / HTTP/1.1" 200 14461
+[23:57:37] INFO [django.server] "GET /admin/ HTTP/1.1" 302 0
+"GET /admin/ HTTP/1.1" 302 0
+[23:57:37] INFO [django.server] "GET /admin/ HTTP/1.1" 302 0
+[23:57:37] INFO [django.server] "GET /api/test HTTP/1.1" 200 124
+"GET /api/test HTTP/1.1" 200 124
+[23:57:37] INFO [django.server] "GET /api/test HTTP/1.1" 200 124
+[23:57:37] INFO [django.server] "GET /admin/ HTTP/1.1" 302 0
+"GET /admin/ HTTP/1.1" 302 0
+[23:57:37] INFO [django.server] "GET /admin/ HTTP/1.1" 302 0
+[23:57:38] INFO [django.server] "HEAD /static/admin/css/base.css HTTP/1.1" 200 0
+"HEAD /static/admin/css/base.css HTTP/1.1" 200 0
+[23:57:38] INFO [django.server] "HEAD /static/admin/css/base.css HTTP/1.1" 200 0
+[00:17:14] INFO [django.server] "GET / HTTP/1.1" 200 14461
+"GET / HTTP/1.1" 200 14461
+[00:17:14] INFO [django.server] "GET / HTTP/1.1" 200 14461
+[00:17:23] WARNING [django.request] Not Found: /firebase/config-test/
+Not Found: /firebase/config-test/
+[00:17:23] WARNING [django.request] Not Found: /firebase/config-test/
+[00:17:23] WARNING [django.server] "GET /firebase/config-test/ HTTP/1.1" 404 6907
+"GET /firebase/config-test/ HTTP/1.1" 404 6907
+[00:17:23] WARNING [django.server] "GET /firebase/config-test/ HTTP/1.1" 404 6907
+[00:17:44] WARNING [django.request] Not Found: /firebase/config-test/
+Not Found: /firebase/config-test/
+[00:17:44] WARNING [django.request] Not Found: /firebase/config-test/
+[00:17:44] WARNING [django.server] "GET /firebase/config-test/ HTTP/1.1" 404 6907
+"GET /firebase/config-test/ HTTP/1.1" 404 6907
+[00:17:44] WARNING [django.server] "GET /firebase/config-test/ HTTP/1.1" 404 6907
+/home/knowself/Web Dev/derivativegenius-com/dev/api/settings.py changed, reloading.
+[00:19:57] INFO [django.utils.autoreload] /home/knowself/Web Dev/derivativegenius-com/dev/api/settings.py changed, reloading.
+Watching for file changes with StatReloader
+[00:19:58] INFO [django.utils.autoreload] Watching for file changes with StatReloader
+Performing system checks...
+
+System check identified no issues (0 silenced).
+[00:19:59] INFO [firebase_app.firebase_admin] Firebase Admin SDK not initialized yet
+[00:19:59] INFO [firebase_app.firebase_admin] Firebase Config Keys: ['type', 'project_id', 'private_key_id', 'private_key', 'client_email', 'client_id', 'auth_uri', 'token_uri', 'auth_provider_x509_cert_url', 'client_x509_cert_url', 'universe_domain']
+[00:19:59] INFO [firebase_app.firebase_admin] Project ID: derivative-genius-website
+[00:19:59] INFO [firebase_app.firebase_admin] Client Email: firebase-adminsdk-ykjsf@derivative-genius-website.iam.gserviceaccount.com
+[00:19:59] INFO [firebase_app.firebase_admin] Private Key ID: f0de62e320cf784c32bf8da8d48c1077fbd33e13
+[00:19:59] INFO [firebase_app.firebase_admin] Private Key Format: starts=True, ends=True
+[00:19:59] INFO [firebase_app.firebase_admin] Private Key Length: 1704
+[00:19:59] INFO [firebase_app.firebase_admin] Firebase Admin SDK initialized successfully
+December 02, 2024 - 00:19:59
+Django version 4.2, using settings 'api.settings'
+Starting development server at http://127.0.0.1:8000/
+Quit the server with CONTROL-C.
+
+[00:21:02] INFO [django.server] "GET / HTTP/1.1" 200 14461
+"GET / HTTP/1.1" 200 14461
+[00:21:02] INFO [django.server] "GET / HTTP/1.1" 200 14461
+[00:21:07] WARNING [django.request] Not Found: /firebase/config-test/
+Not Found: /firebase/config-test/
+[00:21:07] WARNING [django.request] Not Found: /firebase/config-test/
+[00:21:07] WARNING [django.server] "GET /firebase/config-test/ HTTP/1.1" 404 6907
+"GET /firebase/config-test/ HTTP/1.1" 404 6907
+[00:21:07] WARNING [django.server] "GET /firebase/config-test/ HTTP/1.1" 404 6907
+/home/knowself/Web Dev/derivativegenius-com/dev/firebase_app/views.py changed, reloading.
+[00:22:07] INFO [django.utils.autoreload] /home/knowself/Web Dev/derivativegenius-com/dev/firebase_app/views.py changed, reloading.
+Watching for file changes with StatReloader
+[00:22:08] INFO [django.utils.autoreload] Watching for file changes with StatReloader
+Performing system checks...
+
+System check identified no issues (0 silenced).
+[00:22:09] INFO [firebase_app.firebase_admin] Firebase Admin SDK not initialized yet
+[00:22:09] INFO [firebase_app.firebase_admin] Firebase Config Keys: ['type', 'project_id', 'private_key_id', 'private_key', 'client_email', 'client_id', 'auth_uri', 'token_uri', 'auth_provider_x509_cert_url', 'client_x509_cert_url', 'universe_domain']
+[00:22:09] INFO [firebase_app.firebase_admin] Project ID: derivative-genius-website
+[00:22:09] INFO [firebase_app.firebase_admin] Client Email: firebase-adminsdk-ykjsf@derivative-genius-website.iam.gserviceaccount.com
+[00:22:09] INFO [firebase_app.firebase_admin] Private Key ID: f0de62e320cf784c32bf8da8d48c1077fbd33e13
+[00:22:09] INFO [firebase_app.firebase_admin] Private Key Format: starts=True, ends=True
+[00:22:09] INFO [firebase_app.firebase_admin] Private Key Length: 1704
+[00:22:09] INFO [firebase_app.firebase_admin] Firebase Admin SDK initialized successfully
+December 02, 2024 - 00:22:09
+Django version 4.2, using settings 'api.settings'
+Starting development server at http://127.0.0.1:8000/
+Quit the server with CONTROL-C.
+
+/home/knowself/Web Dev/derivativegenius-com/dev/firebase_app/urls.py changed, reloading.
+[00:22:36] INFO [django.utils.autoreload] /home/knowself/Web Dev/derivativegenius-com/dev/firebase_app/urls.py changed, reloading.
+Watching for file changes with StatReloader
+[00:22:36] INFO [django.utils.autoreload] Watching for file changes with StatReloader
+Performing system checks...
+
+System check identified no issues (0 silenced).
+[00:22:37] INFO [firebase_app.firebase_admin] Firebase Admin SDK not initialized yet
+[00:22:37] INFO [firebase_app.firebase_admin] Firebase Config Keys: ['type', 'project_id', 'private_key_id', 'private_key', 'client_email', 'client_id', 'auth_uri', 'token_uri', 'auth_provider_x509_cert_url', 'client_x509_cert_url', 'universe_domain']
+[00:22:37] INFO [firebase_app.firebase_admin] Project ID: derivative-genius-website
+[00:22:37] INFO [firebase_app.firebase_admin] Client Email: firebase-adminsdk-ykjsf@derivative-genius-website.iam.gserviceaccount.com
+[00:22:37] INFO [firebase_app.firebase_admin] Private Key ID: f0de62e320cf784c32bf8da8d48c1077fbd33e13
+[00:22:37] INFO [firebase_app.firebase_admin] Private Key Format: starts=True, ends=True
+[00:22:37] INFO [firebase_app.firebase_admin] Private Key Length: 1704
+[00:22:37] INFO [firebase_app.firebase_admin] Firebase Admin SDK initialized successfully
+December 02, 2024 - 00:22:37
+Django version 4.2, using settings 'api.settings'
+Starting development server at http://127.0.0.1:8000/
+Quit the server with CONTROL-C.
+
+/home/knowself/Web Dev/derivativegenius-com/dev/firebase_app/views.py changed, reloading.
+[00:24:08] INFO [django.utils.autoreload] /home/knowself/Web Dev/derivativegenius-com/dev/firebase_app/views.py changed, reloading.
+Watching for file changes with StatReloader
+[00:24:09] INFO [django.utils.autoreload] Watching for file changes with StatReloader
+Performing system checks...
+
+System check identified no issues (0 silenced).
+[00:24:09] INFO [firebase_app.firebase_admin] Firebase Admin SDK not initialized yet
+[00:24:09] INFO [firebase_app.firebase_admin] Firebase Config Keys: ['type', 'project_id', 'private_key_id', 'private_key', 'client_email', 'client_id', 'auth_uri', 'token_uri', 'auth_provider_x509_cert_url', 'client_x509_cert_url', 'universe_domain']
+[00:24:09] INFO [firebase_app.firebase_admin] Project ID: derivative-genius-website
+[00:24:09] INFO [firebase_app.firebase_admin] Client Email: firebase-adminsdk-ykjsf@derivative-genius-website.iam.gserviceaccount.com
+[00:24:09] INFO [firebase_app.firebase_admin] Private Key ID: f0de62e320cf784c32bf8da8d48c1077fbd33e13
+[00:24:09] INFO [firebase_app.firebase_admin] Private Key Format: starts=True, ends=True
+[00:24:09] INFO [firebase_app.firebase_admin] Private Key Length: 1704
+[00:24:09] INFO [firebase_app.firebase_admin] Firebase Admin SDK initialized successfully
+December 02, 2024 - 00:24:10
+Django version 4.2, using settings 'api.settings'
+Starting development server at http://127.0.0.1:8000/
+Quit the server with CONTROL-C.
+
+[00:25:52] INFO [django.server] "GET /firebase/config-test/ HTTP/1.1" 200 45
+"GET /firebase/config-test/ HTTP/1.1" 200 45
+[00:25:52] INFO [django.server] "GET /firebase/config-test/ HTTP/1.1" 200 45
+[00:25:52] INFO [django.server] "GET /firebase/auth-test/ HTTP/1.1" 200 48
+"GET /firebase/auth-test/ HTTP/1.1" 200 48
+[00:25:52] INFO [django.server] "GET /firebase/auth-test/ HTTP/1.1" 200 48
+[00:26:00] INFO [django.server] "GET /firebase/config-test/ HTTP/1.1" 200 45
+"GET /firebase/config-test/ HTTP/1.1" 200 45
+[00:26:00] INFO [django.server] "GET /firebase/config-test/ HTTP/1.1" 200 45
+[00:26:00] INFO [django.server] "GET /firebase/auth-test/ HTTP/1.1" 200 48
+"GET /firebase/auth-test/ HTTP/1.1" 200 48
+[00:26:00] INFO [django.server] "GET /firebase/auth-test/ HTTP/1.1" 200 48
+[00:26:18] INFO [django.server] "GET / HTTP/1.1" 200 14461
+"GET / HTTP/1.1" 200 14461
+[00:26:18] INFO [django.server] "GET / HTTP/1.1" 200 14461
+[00:26:18] INFO [django.server] "GET /admin/ HTTP/1.1" 302 0
+"GET /admin/ HTTP/1.1" 302 0
+[00:26:18] INFO [django.server] "GET /admin/ HTTP/1.1" 302 0
+[00:26:18] INFO [django.server] "GET /api/test HTTP/1.1" 200 124
+"GET /api/test HTTP/1.1" 200 124
+[00:26:18] INFO [django.server] "GET /api/test HTTP/1.1" 200 124
+[00:26:18] INFO [django.server] "GET /admin/ HTTP/1.1" 302 0
+"GET /admin/ HTTP/1.1" 302 0
+[00:26:18] INFO [django.server] "GET /admin/ HTTP/1.1" 302 0
+[00:26:19] INFO [django.server] "HEAD /static/admin/css/base.css HTTP/1.1" 200 0
+"HEAD /static/admin/css/base.css HTTP/1.1" 200 0
+[00:26:19] INFO [django.server] "HEAD /static/admin/css/base.css HTTP/1.1" 200 0
+[00:26:19] INFO [django.server] "GET /firebase/config-test/ HTTP/1.1" 200 45
+"GET /firebase/config-test/ HTTP/1.1" 200 45
+[00:26:19] INFO [django.server] "GET /firebase/config-test/ HTTP/1.1" 200 45
+[00:26:19] INFO [django.server] "GET /firebase/auth-test/ HTTP/1.1" 200 48
+"GET /firebase/auth-test/ HTTP/1.1" 200 48
+[00:26:19] INFO [django.server] "GET /firebase/auth-test/ HTTP/1.1" 200 48
+[00:26:41] INFO [django.server] "GET / HTTP/1.1" 200 14461
+"GET / HTTP/1.1" 200 14461
+[00:26:41] INFO [django.server] "GET / HTTP/1.1" 200 14461
+[00:26:41] INFO [django.server] "GET /admin/ HTTP/1.1" 302 0
+"GET /admin/ HTTP/1.1" 302 0
+[00:26:41] INFO [django.server] "GET /admin/ HTTP/1.1" 302 0
+[00:26:41] INFO [django.server] "GET /api/test HTTP/1.1" 200 124
+"GET /api/test HTTP/1.1" 200 124
+[00:26:41] INFO [django.server] "GET /api/test HTTP/1.1" 200 124
+[00:26:41] INFO [django.server] "GET /admin/ HTTP/1.1" 302 0
+"GET /admin/ HTTP/1.1" 302 0
+[00:26:41] INFO [django.server] "GET /admin/ HTTP/1.1" 302 0
+[00:26:42] INFO [django.server] "HEAD /static/admin/css/base.css HTTP/1.1" 200 0
+"HEAD /static/admin/css/base.css HTTP/1.1" 200 0
+[00:26:42] INFO [django.server] "HEAD /static/admin/css/base.css HTTP/1.1" 200 0
+[00:26:48] INFO [django.server] "GET / HTTP/1.1" 200 14461
+"GET / HTTP/1.1" 200 14461
+[00:26:48] INFO [django.server] "GET / HTTP/1.1" 200 14461
+[00:26:56] INFO [django.server] "GET /firebase/config-test/ HTTP/1.1" 200 45
+"GET /firebase/config-test/ HTTP/1.1" 200 45
+[00:26:56] INFO [django.server] "GET /firebase/config-test/ HTTP/1.1" 200 45
+[00:26:56] INFO [django.server] "GET /firebase/auth-test/ HTTP/1.1" 200 48
+"GET /firebase/auth-test/ HTTP/1.1" 200 48
+[00:26:56] INFO [django.server] "GET /firebase/auth-test/ HTTP/1.1" 200 48
+[00:27:00] INFO [django.server] "GET /firebase/config-test/ HTTP/1.1" 200 45
+"GET /firebase/config-test/ HTTP/1.1" 200 45
+[00:27:00] INFO [django.server] "GET /firebase/config-test/ HTTP/1.1" 200 45
+[00:27:00] INFO [django.server] "GET /firebase/auth-test/ HTTP/1.1" 200 48
+"GET /firebase/auth-test/ HTTP/1.1" 200 48
+[00:27:00] INFO [django.server] "GET /firebase/auth-test/ HTTP/1.1" 200 48
+[00:29:17] INFO [django.server] "OPTIONS /firebase/auth/signin/ HTTP/1.1" 200 0
+"OPTIONS /firebase/auth/signin/ HTTP/1.1" 200 0
+[00:29:17] INFO [django.server] "OPTIONS /firebase/auth/signin/ HTTP/1.1" 200 0
+[00:29:17] INFO [django.server] "OPTIONS /firebase/auth/signin/ HTTP/1.1" 200 2
+"OPTIONS /firebase/auth/signin/ HTTP/1.1" 200 2
+[00:29:17] INFO [django.server] "OPTIONS /firebase/auth/signin/ HTTP/1.1" 200 2
+[00:29:17] INFO [django.server] "OPTIONS /firebase/auth/signin/ HTTP/1.1" 200 2
+"OPTIONS /firebase/auth/signin/ HTTP/1.1" 200 2
+[00:29:17] INFO [django.server] "OPTIONS /firebase/auth/signin/ HTTP/1.1" 200 2
+
+=== Signin Request ===
+Headers: {'Content-Length': '1011', 'Content-Type': 'application/json', 'Host': 'localhost:8000', 'User-Agent': 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:132.0) Gecko/20100101 Firefox/132.0', 'Accept': 'application/json', 'Accept-Language': 'en-US,en;q=0.5', 'Accept-Encoding': 'gzip, deflate, br, zstd', 'X-Requested-With': 'XMLHttpRequest', 'X-Csrftoken': 'SD04nMG8Wti9sdgl83pHQY4btgRguZOp', 'Origin': 'http://localhost:8080', 'Connection': 'keep-alive', 'Referer': 'http://localhost:8080/', 'Cookie': 'csrftoken=SD04nMG8Wti9sdgl83pHQY4btgRguZOp', 'Sec-Fetch-Dest': 'empty', 'Sec-Fetch-Mode': 'cors', 'Sec-Fetch-Site': 'same-site'}
+Content-Type: application/json
+CSRF Token: SD04nMG8Wti9sdgl83pHQY4btgRguZOp
+Cookie CSRF Token: SD04nMG8Wti9sdgl83pHQY4btgRguZOp
+Method: POST
+Is AJAX: True
+
+=== Request Data ===
+ID Token present: True
+[00:29:17] INFO [firebase_app.firebase_admin] Firebase Admin SDK already initialized
+
+=== Firebase Admin Status ===
+Firebase Auth: <module 'firebase_admin.auth' from '/home/knowself/Web Dev/derivativegenius-com/dev/venv/lib/python3.8/site-packages/firebase_admin/auth.py'>
+Firebase App: <firebase_admin.App object at 0x7f7b78ae3550>
+
+=== Token Verification ===
+Token length: 997
+Token prefix: eyJhbGciOiJSUzI1NiIsImtpZCI6IjNmZDA3MmRmYTM4MDU2Nz...
+Token suffix: ...hOiktP7xIn0azbyLe2zUDSbjM4Y5zM37XnEHKEL76OOWlP8NDQ
+
+=== Signin Request ===
+Headers: {'Content-Length': '1011', 'Content-Type': 'application/json', 'Host': 'localhost:8000', 'User-Agent': 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:132.0) Gecko/20100101 Firefox/132.0', 'Accept': 'application/json', 'Accept-Language': 'en-US,en;q=0.5', 'Accept-Encoding': 'gzip, deflate, br, zstd', 'X-Requested-With': 'XMLHttpRequest', 'X-Csrftoken': 'SD04nMG8Wti9sdgl83pHQY4btgRguZOp', 'Origin': 'http://localhost:8080', 'Connection': 'keep-alive', 'Referer': 'http://localhost:8080/', 'Cookie': 'csrftoken=SD04nMG8Wti9sdgl83pHQY4btgRguZOp', 'Sec-Fetch-Dest': 'empty', 'Sec-Fetch-Mode': 'cors', 'Sec-Fetch-Site': 'same-site'}
+Content-Type: application/json
+CSRF Token: SD04nMG8Wti9sdgl83pHQY4btgRguZOp
+Cookie CSRF Token: SD04nMG8Wti9sdgl83pHQY4btgRguZOp
+Method: POST
+Is AJAX: True
+
+=== Request Data ===
+ID Token present: True
+[00:29:17] INFO [firebase_app.firebase_admin] Firebase Admin SDK already initialized
+
+=== Firebase Admin Status ===
+Firebase Auth: <module 'firebase_admin.auth' from '/home/knowself/Web Dev/derivativegenius-com/dev/venv/lib/python3.8/site-packages/firebase_admin/auth.py'>
+Firebase App: <firebase_admin.App object at 0x7f7b78ae3550>
+
+=== Token Verification ===
+Token length: 997
+Token prefix: eyJhbGciOiJSUzI1NiIsImtpZCI6IjNmZDA3MmRmYTM4MDU2Nz...
+Token suffix: ...hOiktP7xIn0azbyLe2zUDSbjM4Y5zM37XnEHKEL76OOWlP8NDQ
+
+=== Token Verification Success ===
+Decoded token: {'admin': True, 'staff': True, 'iss': 'https://securetoken.google.com/derivative-genius-website', 'aud': 'derivative-genius-website', 'auth_time': 1733099355, 'user_id': 'LUNBOuYa7wfaUDirsglX08qRBHt1', 'sub': 'LUNBOuYa7wfaUDirsglX08qRBHt1', 'email': 'joe@derivativegenius.com', 'email_verified': True, 'firebase': {'identities': {'email': ['joe@derivativegenius.com']}, 'sign_in_provider': 'password'}, 'uid': 'LUNBOuYa7wfaUDirsglX08qRBHt1'}
+
+=== Token Verification Success ===
+Decoded token: {'admin': True, 'staff': True, 'iss': 'https://securetoken.google.com/derivative-genius-website', 'aud': 'derivative-genius-website', 'auth_time': 1733099355, 'user_id': 'LUNBOuYa7wfaUDirsglX08qRBHt1', 'sub': 'LUNBOuYa7wfaUDirsglX08qRBHt1', 'email': 'joe@derivativegenius.com', 'email_verified': True, 'firebase': {'identities': {'email': ['joe@derivativegenius.com']}, 'sign_in_provider': 'password'}, 'uid': 'LUNBOuYa7wfaUDirsglX08qRBHt1'}
+
+=== Unexpected Error ===
+=== Unexpected Error ===
+
+Error type: <class 'google.auth.exceptions.RefreshError'>Error type: <class 'google.auth.exceptions.RefreshError'>
+
+Error message: ('invalid_grant: Invalid JWT Signature.', {'error': 'invalid_grant', 'error_description': 'Invalid JWT Signature.'})
+Error message: ('invalid_grant: Invalid JWT Signature.', {'error': 'invalid_grant', 'error_description': 'Invalid JWT Signature.'})
+Traceback: Traceback (most recent call last):
+  File "/home/knowself/Web Dev/derivativegenius-com/dev/firebase_app/views.py", line 604, in signin
+    user = firebase_auth.get_user(uid)
+  File "/home/knowself/Web Dev/derivativegenius-com/dev/venv/lib/python3.8/site-packages/firebase_admin/auth.py", line 320, in get_user
+    return client.get_user(uid=uid)
+  File "/home/knowself/Web Dev/derivativegenius-com/dev/venv/lib/python3.8/site-packages/firebase_admin/_auth_client.py", line 174, in get_user
+    response = self._user_manager.get_user(uid=uid)
+  File "/home/knowself/Web Dev/derivativegenius-com/dev/venv/lib/python3.8/site-packages/firebase_admin/_user_mgt.py", line 597, in get_user
+    body, http_resp = self._make_request('post', '/accounts:lookup', json=payload)
+  File "/home/knowself/Web Dev/derivativegenius-com/dev/venv/lib/python3.8/site-packages/firebase_admin/_user_mgt.py", line 842, in _make_request
+    return self.http_client.body_and_response(method, url, **kwargs)
+  File "/home/knowself/Web Dev/derivativegenius-com/dev/venv/lib/python3.8/site-packages/firebase_admin/_http_client.py", line 127, in body_and_response
+    resp = self.request(method, url, **kwargs)
+  File "/home/knowself/Web Dev/derivativegenius-com/dev/venv/lib/python3.8/site-packages/firebase_admin/_http_client.py", line 118, in request
+    resp = self._session.request(method, self.base_url + url, **kwargs)
+  File "/home/knowself/Web Dev/derivativegenius-com/dev/venv/lib/python3.8/site-packages/google/auth/transport/requests.py", line 533, in request
+    self.credentials.before_request(auth_request, method, url, request_headers)
+  File "/home/knowself/Web Dev/derivativegenius-com/dev/venv/lib/python3.8/site-packages/google/auth/credentials.py", line 239, in before_request
+    self._blocking_refresh(request)
+  File "/home/knowself/Web Dev/derivativegenius-com/dev/venv/lib/python3.8/site-packages/google/auth/credentials.py", line 202, in _blocking_refresh
+    self.refresh(request)
+  File "/home/knowself/Web Dev/derivativegenius-com/dev/venv/lib/python3.8/site-packages/google/oauth2/service_account.py", line 448, in refresh
+    access_token, expiry, _ = _client.jwt_grant(
+  File "/home/knowself/Web Dev/derivativegenius-com/dev/venv/lib/python3.8/site-packages/google/oauth2/_client.py", line 299, in jwt_grant
+    response_data = _token_endpoint_request(
+  File "/home/knowself/Web Dev/derivativegenius-com/dev/venv/lib/python3.8/site-packages/google/oauth2/_client.py", line 270, in _token_endpoint_request
+    _handle_error_response(response_data, retryable_error)
+  File "/home/knowself/Web Dev/derivativegenius-com/dev/venv/lib/python3.8/site-packages/google/oauth2/_client.py", line 69, in _handle_error_response
+    raise exceptions.RefreshError(
+google.auth.exceptions.RefreshError: ('invalid_grant: Invalid JWT Signature.', {'error': 'invalid_grant', 'error_description': 'Invalid JWT Signature.'})
+Traceback: Traceback (most recent call last):
+  File "/home/knowself/Web Dev/derivativegenius-com/dev/firebase_app/views.py", line 604, in signin
+    user = firebase_auth.get_user(uid)
+  File "/home/knowself/Web Dev/derivativegenius-com/dev/venv/lib/python3.8/site-packages/firebase_admin/auth.py", line 320, in get_user
+    return client.get_user(uid=uid)
+  File "/home/knowself/Web Dev/derivativegenius-com/dev/venv/lib/python3.8/site-packages/firebase_admin/_auth_client.py", line 174, in get_user
+    response = self._user_manager.get_user(uid=uid)
+  File "/home/knowself/Web Dev/derivativegenius-com/dev/venv/lib/python3.8/site-packages/firebase_admin/_user_mgt.py", line 597, in get_user
+    body, http_resp = self._make_request('post', '/accounts:lookup', json=payload)
+  File "/home/knowself/Web Dev/derivativegenius-com/dev/venv/lib/python3.8/site-packages/firebase_admin/_user_mgt.py", line 842, in _make_request
+    return self.http_client.body_and_response(method, url, **kwargs)
+  File "/home/knowself/Web Dev/derivativegenius-com/dev/venv/lib/python3.8/site-packages/firebase_admin/_http_client.py", line 127, in body_and_response
+    resp = self.request(method, url, **kwargs)
+  File "/home/knowself/Web Dev/derivativegenius-com/dev/venv/lib/python3.8/site-packages/firebase_admin/_http_client.py", line 118, in request
+    resp = self._session.request(method, self.base_url + url, **kwargs)
+  File "/home/knowself/Web Dev/derivativegenius-com/dev/venv/lib/python3.8/site-packages/google/auth/transport/requests.py", line 533, in request
+    self.credentials.before_request(auth_request, method, url, request_headers)
+  File "/home/knowself/Web Dev/derivativegenius-com/dev/venv/lib/python3.8/site-packages/google/auth/credentials.py", line 239, in before_request
+    self._blocking_refresh(request)
+  File "/home/knowself/Web Dev/derivativegenius-com/dev/venv/lib/python3.8/site-packages/google/auth/credentials.py", line 202, in _blocking_refresh
+    self.refresh(request)
+  File "/home/knowself/Web Dev/derivativegenius-com/dev/venv/lib/python3.8/site-packages/google/oauth2/service_account.py", line 448, in refresh
+    access_token, expiry, _ = _client.jwt_grant(
+  File "/home/knowself/Web Dev/derivativegenius-com/dev/venv/lib/python3.8/site-packages/google/oauth2/_client.py", line 299, in jwt_grant
+    response_data = _token_endpoint_request(
+  File "/home/knowself/Web Dev/derivativegenius-com/dev/venv/lib/python3.8/site-packages/google/oauth2/_client.py", line 270, in _token_endpoint_request
+    _handle_error_response(response_data, retryable_error)
+  File "/home/knowself/Web Dev/derivativegenius-com/dev/venv/lib/python3.8/site-packages/google/oauth2/_client.py", line 69, in _handle_error_response
+    raise exceptions.RefreshError(
+google.auth.exceptions.RefreshError: ('invalid_grant: Invalid JWT Signature.', {'error': 'invalid_grant', 'error_description': 'Invalid JWT Signature.'})
+
+[00:29:17] ERROR [django.request] Internal Server Error: /firebase/auth/signin/
+
+[00:29:17] ERROR [django.request] Internal Server Error: /firebase/auth/signin/
+Internal Server Error: /firebase/auth/signin/
+[00:29:17] ERROR [django.request] Internal Server Error: /firebase/auth/signin/
+Internal Server Error: /firebase/auth/signin/
+[00:29:17] ERROR [django.request] Internal Server Error: /firebase/auth/signin/
+[00:29:17] ERROR [django.server] "POST /firebase/auth/signin/ HTTP/1.1" 500 68
+[00:29:17] ERROR [django.server] "POST /firebase/auth/signin/ HTTP/1.1" 500 68
+"POST /firebase/auth/signin/ HTTP/1.1" 500 68
+[00:29:17] ERROR [django.server] "POST /firebase/auth/signin/ HTTP/1.1" 500 68
+"POST /firebase/auth/signin/ HTTP/1.1" 500 68
+[00:29:17] ERROR [django.server] "POST /firebase/auth/signin/ HTTP/1.1" 500 68
+[00:30:10] INFO [django.server] "OPTIONS /firebase/auth/signin/ HTTP/1.1" 200 2
+"OPTIONS /firebase/auth/signin/ HTTP/1.1" 200 2
+[00:30:10] INFO [django.server] "OPTIONS /firebase/auth/signin/ HTTP/1.1" 200 2
+
+=== Signin Request ===
+Headers: {'Content-Length': '1011', 'Content-Type': 'application/json', 'Host': 'localhost:8000', 'User-Agent': 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:132.0) Gecko/20100101 Firefox/132.0', 'Accept': 'application/json', 'Accept-Language': 'en-US,en;q=0.5', 'Accept-Encoding': 'gzip, deflate, br, zstd', 'X-Requested-With': 'XMLHttpRequest', 'X-Csrftoken': 'SD04nMG8Wti9sdgl83pHQY4btgRguZOp', 'Origin': 'http://localhost:8080', 'Connection': 'keep-alive', 'Referer': 'http://localhost:8080/', 'Cookie': 'csrftoken=SD04nMG8Wti9sdgl83pHQY4btgRguZOp', 'Sec-Fetch-Dest': 'empty', 'Sec-Fetch-Mode': 'cors', 'Sec-Fetch-Site': 'same-site'}
+Content-Type: application/json
+CSRF Token: SD04nMG8Wti9sdgl83pHQY4btgRguZOp
+Cookie CSRF Token: SD04nMG8Wti9sdgl83pHQY4btgRguZOp
+Method: POST
+Is AJAX: True
+
+=== Request Data ===
+ID Token present: True
+[00:30:10] INFO [firebase_app.firebase_admin] Firebase Admin SDK already initialized
+
+=== Firebase Admin Status ===
+Firebase Auth: <module 'firebase_admin.auth' from '/home/knowself/Web Dev/derivativegenius-com/dev/venv/lib/python3.8/site-packages/firebase_admin/auth.py'>
+Firebase App: <firebase_admin.App object at 0x7f7b78ae3550>
+
+=== Token Verification ===
+Token length: 997
+Token prefix: eyJhbGciOiJSUzI1NiIsImtpZCI6IjNmZDA3MmRmYTM4MDU2Nz...
+Token suffix: ..._rl4B_tlg9D7Qd9L3IIdZTXlXgcP4zS8TsxVX3RMxypXKrBZoQ
+
+=== Token Verification Success ===
+Decoded token: {'admin': True, 'staff': True, 'iss': 'https://securetoken.google.com/derivative-genius-website', 'aud': 'derivative-genius-website', 'auth_time': 1733099355, 'user_id': 'LUNBOuYa7wfaUDirsglX08qRBHt1', 'sub': 'LUNBOuYa7wfaUDirsglX08qRBHt1', 'email': 'joe@derivativegenius.com', 'email_verified': True, 'firebase': {'identities': {'email': ['joe@derivativegenius.com']}, 'sign_in_provider': 'password'}, 'uid': 'LUNBOuYa7wfaUDirsglX08qRBHt1'}
+
+=== Unexpected Error ===
+Error type: <class 'google.auth.exceptions.RefreshError'>
+Error message: ('invalid_grant: Invalid JWT Signature.', {'error': 'invalid_grant', 'error_description': 'Invalid JWT Signature.'})
+Traceback: Traceback (most recent call last):
+  File "/home/knowself/Web Dev/derivativegenius-com/dev/firebase_app/views.py", line 604, in signin
+    user = firebase_auth.get_user(uid)
+  File "/home/knowself/Web Dev/derivativegenius-com/dev/venv/lib/python3.8/site-packages/firebase_admin/auth.py", line 320, in get_user
+    return client.get_user(uid=uid)
+  File "/home/knowself/Web Dev/derivativegenius-com/dev/venv/lib/python3.8/site-packages/firebase_admin/_auth_client.py", line 174, in get_user
+    response = self._user_manager.get_user(uid=uid)
+  File "/home/knowself/Web Dev/derivativegenius-com/dev/venv/lib/python3.8/site-packages/firebase_admin/_user_mgt.py", line 597, in get_user
+    body, http_resp = self._make_request('post', '/accounts:lookup', json=payload)
+  File "/home/knowself/Web Dev/derivativegenius-com/dev/venv/lib/python3.8/site-packages/firebase_admin/_user_mgt.py", line 842, in _make_request
+    return self.http_client.body_and_response(method, url, **kwargs)
+  File "/home/knowself/Web Dev/derivativegenius-com/dev/venv/lib/python3.8/site-packages/firebase_admin/_http_client.py", line 127, in body_and_response
+    resp = self.request(method, url, **kwargs)
+  File "/home/knowself/Web Dev/derivativegenius-com/dev/venv/lib/python3.8/site-packages/firebase_admin/_http_client.py", line 118, in request
+    resp = self._session.request(method, self.base_url + url, **kwargs)
+  File "/home/knowself/Web Dev/derivativegenius-com/dev/venv/lib/python3.8/site-packages/google/auth/transport/requests.py", line 533, in request
+    self.credentials.before_request(auth_request, method, url, request_headers)
+  File "/home/knowself/Web Dev/derivativegenius-com/dev/venv/lib/python3.8/site-packages/google/auth/credentials.py", line 239, in before_request
+    self._blocking_refresh(request)
+  File "/home/knowself/Web Dev/derivativegenius-com/dev/venv/lib/python3.8/site-packages/google/auth/credentials.py", line 202, in _blocking_refresh
+    self.refresh(request)
+  File "/home/knowself/Web Dev/derivativegenius-com/dev/venv/lib/python3.8/site-packages/google/oauth2/service_account.py", line 448, in refresh
+    access_token, expiry, _ = _client.jwt_grant(
+  File "/home/knowself/Web Dev/derivativegenius-com/dev/venv/lib/python3.8/site-packages/google/oauth2/_client.py", line 299, in jwt_grant
+    response_data = _token_endpoint_request(
+  File "/home/knowself/Web Dev/derivativegenius-com/dev/venv/lib/python3.8/site-packages/google/oauth2/_client.py", line 270, in _token_endpoint_request
+    _handle_error_response(response_data, retryable_error)
+  File "/home/knowself/Web Dev/derivativegenius-com/dev/venv/lib/python3.8/site-packages/google/oauth2/_client.py", line 69, in _handle_error_response
+    raise exceptions.RefreshError(
+google.auth.exceptions.RefreshError: ('invalid_grant: Invalid JWT Signature.', {'error': 'invalid_grant', 'error_description': 'Invalid JWT Signature.'})
+
+[00:30:10] ERROR [django.request] Internal Server Error: /firebase/auth/signin/
+Internal Server Error: /firebase/auth/signin/
+[00:30:10] ERROR [django.request] Internal Server Error: /firebase/auth/signin/
+[00:30:10] ERROR [django.server] "POST /firebase/auth/signin/ HTTP/1.1" 500 68
+"POST /firebase/auth/signin/ HTTP/1.1" 500 68
+[00:30:10] ERROR [django.server] "POST /firebase/auth/signin/ HTTP/1.1" 500 68
+[00:30:19] INFO [django.server] "OPTIONS /firebase/auth/signin/ HTTP/1.1" 200 2
+"OPTIONS /firebase/auth/signin/ HTTP/1.1" 200 2
+[00:30:19] INFO [django.server] "OPTIONS /firebase/auth/signin/ HTTP/1.1" 200 2
+
+=== Signin Request ===
+Headers: {'Content-Length': '1011', 'Content-Type': 'application/json', 'Host': 'localhost:8000', 'User-Agent': 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:132.0) Gecko/20100101 Firefox/132.0', 'Accept': 'application/json', 'Accept-Language': 'en-US,en;q=0.5', 'Accept-Encoding': 'gzip, deflate, br, zstd', 'X-Requested-With': 'XMLHttpRequest', 'X-Csrftoken': 'SD04nMG8Wti9sdgl83pHQY4btgRguZOp', 'Origin': 'http://localhost:8080', 'Connection': 'keep-alive', 'Referer': 'http://localhost:8080/', 'Cookie': 'csrftoken=SD04nMG8Wti9sdgl83pHQY4btgRguZOp', 'Sec-Fetch-Dest': 'empty', 'Sec-Fetch-Mode': 'cors', 'Sec-Fetch-Site': 'same-site'}
+Content-Type: application/json
+CSRF Token: SD04nMG8Wti9sdgl83pHQY4btgRguZOp
+Cookie CSRF Token: SD04nMG8Wti9sdgl83pHQY4btgRguZOp
+Method: POST
+Is AJAX: True
+
+=== Request Data ===
+ID Token present: True
+[00:30:19] INFO [firebase_app.firebase_admin] Firebase Admin SDK already initialized
+
+=== Firebase Admin Status ===
+Firebase Auth: <module 'firebase_admin.auth' from '/home/knowself/Web Dev/derivativegenius-com/dev/venv/lib/python3.8/site-packages/firebase_admin/auth.py'>
+Firebase App: <firebase_admin.App object at 0x7f7b78ae3550>
+
+=== Token Verification ===
+Token length: 997
+Token prefix: eyJhbGciOiJSUzI1NiIsImtpZCI6IjNmZDA3MmRmYTM4MDU2Nz...
+Token suffix: ...RDeWocFYE-SIdLab43O6fARjNdeZpCxOWTSOGJRgk7-MtBZBFA
+
+=== Token Verification Success ===
+Decoded token: {'admin': True, 'staff': True, 'iss': 'https://securetoken.google.com/derivative-genius-website', 'aud': 'derivative-genius-website', 'auth_time': 1733099355, 'user_id': 'LUNBOuYa7wfaUDirsglX08qRBHt1', 'sub': 'LUNBOuYa7wfaUDirsglX08qRBHt1', 'email': 'joe@derivativegenius.com', 'email_verified': True, 'firebase': {'identities': {'email': ['joe@derivativegenius.com']}, 'sign_in_provider': 'password'}, 'uid': 'LUNBOuYa7wfaUDirsglX08qRBHt1'}
+
+=== Unexpected Error ===
+Error type: <class 'google.auth.exceptions.RefreshError'>
+Error message: ('invalid_grant: Invalid JWT Signature.', {'error': 'invalid_grant', 'error_description': 'Invalid JWT Signature.'})
+Traceback: Traceback (most recent call last):
+  File "/home/knowself/Web Dev/derivativegenius-com/dev/firebase_app/views.py", line 604, in signin
+    user = firebase_auth.get_user(uid)
+  File "/home/knowself/Web Dev/derivativegenius-com/dev/venv/lib/python3.8/site-packages/firebase_admin/auth.py", line 320, in get_user
+    return client.get_user(uid=uid)
+  File "/home/knowself/Web Dev/derivativegenius-com/dev/venv/lib/python3.8/site-packages/firebase_admin/_auth_client.py", line 174, in get_user
+    response = self._user_manager.get_user(uid=uid)
+  File "/home/knowself/Web Dev/derivativegenius-com/dev/venv/lib/python3.8/site-packages/firebase_admin/_user_mgt.py", line 597, in get_user
+    body, http_resp = self._make_request('post', '/accounts:lookup', json=payload)
+  File "/home/knowself/Web Dev/derivativegenius-com/dev/venv/lib/python3.8/site-packages/firebase_admin/_user_mgt.py", line 842, in _make_request
+    return self.http_client.body_and_response(method, url, **kwargs)
+  File "/home/knowself/Web Dev/derivativegenius-com/dev/venv/lib/python3.8/site-packages/firebase_admin/_http_client.py", line 127, in body_and_response
+    resp = self.request(method, url, **kwargs)
+  File "/home/knowself/Web Dev/derivativegenius-com/dev/venv/lib/python3.8/site-packages/firebase_admin/_http_client.py", line 118, in request
+    resp = self._session.request(method, self.base_url + url, **kwargs)
+  File "/home/knowself/Web Dev/derivativegenius-com/dev/venv/lib/python3.8/site-packages/google/auth/transport/requests.py", line 533, in request
+    self.credentials.before_request(auth_request, method, url, request_headers)
+  File "/home/knowself/Web Dev/derivativegenius-com/dev/venv/lib/python3.8/site-packages/google/auth/credentials.py", line 239, in before_request
+    self._blocking_refresh(request)
+  File "/home/knowself/Web Dev/derivativegenius-com/dev/venv/lib/python3.8/site-packages/google/auth/credentials.py", line 202, in _blocking_refresh
+    self.refresh(request)
+  File "/home/knowself/Web Dev/derivativegenius-com/dev/venv/lib/python3.8/site-packages/google/oauth2/service_account.py", line 448, in refresh
+    access_token, expiry, _ = _client.jwt_grant(
+  File "/home/knowself/Web Dev/derivativegenius-com/dev/venv/lib/python3.8/site-packages/google/oauth2/_client.py", line 299, in jwt_grant
+    response_data = _token_endpoint_request(
+  File "/home/knowself/Web Dev/derivativegenius-com/dev/venv/lib/python3.8/site-packages/google/oauth2/_client.py", line 270, in _token_endpoint_request
+    _handle_error_response(response_data, retryable_error)
+  File "/home/knowself/Web Dev/derivativegenius-com/dev/venv/lib/python3.8/site-packages/google/oauth2/_client.py", line 69, in _handle_error_response
+    raise exceptions.RefreshError(
+google.auth.exceptions.RefreshError: ('invalid_grant: Invalid JWT Signature.', {'error': 'invalid_grant', 'error_description': 'Invalid JWT Signature.'})
+
+[00:30:19] ERROR [django.request] Internal Server Error: /firebase/auth/signin/
+Internal Server Error: /firebase/auth/signin/
+[00:30:19] ERROR [django.request] Internal Server Error: /firebase/auth/signin/
+[00:30:19] ERROR [django.server] "POST /firebase/auth/signin/ HTTP/1.1" 500 68
+"POST /firebase/auth/signin/ HTTP/1.1" 500 68
+[00:30:19] ERROR [django.server] "POST /firebase/auth/signin/ HTTP/1.1" 500 68
+[00:30:26] INFO [django.server] "OPTIONS /firebase/auth/signin/ HTTP/1.1" 200 2
+"OPTIONS /firebase/auth/signin/ HTTP/1.1" 200 2
+[00:30:26] INFO [django.server] "OPTIONS /firebase/auth/signin/ HTTP/1.1" 200 2
+
+=== Signin Request ===
+Headers: {'Content-Length': '1011', 'Content-Type': 'application/json', 'Host': 'localhost:8000', 'User-Agent': 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:132.0) Gecko/20100101 Firefox/132.0', 'Accept': 'application/json', 'Accept-Language': 'en-US,en;q=0.5', 'Accept-Encoding': 'gzip, deflate, br, zstd', 'X-Requested-With': 'XMLHttpRequest', 'X-Csrftoken': 'SD04nMG8Wti9sdgl83pHQY4btgRguZOp', 'Origin': 'http://localhost:8080', 'Connection': 'keep-alive', 'Referer': 'http://localhost:8080/', 'Cookie': 'csrftoken=SD04nMG8Wti9sdgl83pHQY4btgRguZOp', 'Sec-Fetch-Dest': 'empty', 'Sec-Fetch-Mode': 'cors', 'Sec-Fetch-Site': 'same-site'}
+Content-Type: application/json
+CSRF Token: SD04nMG8Wti9sdgl83pHQY4btgRguZOp
+Cookie CSRF Token: SD04nMG8Wti9sdgl83pHQY4btgRguZOp
+Method: POST
+Is AJAX: True
+
+=== Request Data ===
+ID Token present: True
+[00:30:26] INFO [firebase_app.firebase_admin] Firebase Admin SDK already initialized
+
+=== Firebase Admin Status ===
+Firebase Auth: <module 'firebase_admin.auth' from '/home/knowself/Web Dev/derivativegenius-com/dev/venv/lib/python3.8/site-packages/firebase_admin/auth.py'>
+Firebase App: <firebase_admin.App object at 0x7f7b78ae3550>
+
+=== Token Verification ===
+Token length: 997
+Token prefix: eyJhbGciOiJSUzI1NiIsImtpZCI6IjNmZDA3MmRmYTM4MDU2Nz...
+Token suffix: ...BqoITvCXafB-w7ICANQ1BPzuUW4--YKBCsrGPwCzOA3-j4tJlg
+
+=== Token Verification Success ===
+Decoded token: {'admin': True, 'staff': True, 'iss': 'https://securetoken.google.com/derivative-genius-website', 'aud': 'derivative-genius-website', 'auth_time': 1733099355, 'user_id': 'LUNBOuYa7wfaUDirsglX08qRBHt1', 'sub': 'LUNBOuYa7wfaUDirsglX08qRBHt1', 'email': 'joe@derivativegenius.com', 'email_verified': True, 'firebase': {'identities': {'email': ['joe@derivativegenius.com']}, 'sign_in_provider': 'password'}, 'uid': 'LUNBOuYa7wfaUDirsglX08qRBHt1'}
+
+=== Unexpected Error ===
+Error type: <class 'google.auth.exceptions.RefreshError'>
+Error message: ('invalid_grant: Invalid JWT Signature.', {'error': 'invalid_grant', 'error_description': 'Invalid JWT Signature.'})
+Traceback: Traceback (most recent call last):
+  File "/home/knowself/Web Dev/derivativegenius-com/dev/firebase_app/views.py", line 604, in signin
+    user = firebase_auth.get_user(uid)
+  File "/home/knowself/Web Dev/derivativegenius-com/dev/venv/lib/python3.8/site-packages/firebase_admin/auth.py", line 320, in get_user
+    return client.get_user(uid=uid)
+  File "/home/knowself/Web Dev/derivativegenius-com/dev/venv/lib/python3.8/site-packages/firebase_admin/_auth_client.py", line 174, in get_user
+    response = self._user_manager.get_user(uid=uid)
+  File "/home/knowself/Web Dev/derivativegenius-com/dev/venv/lib/python3.8/site-packages/firebase_admin/_user_mgt.py", line 597, in get_user
+    body, http_resp = self._make_request('post', '/accounts:lookup', json=payload)
+  File "/home/knowself/Web Dev/derivativegenius-com/dev/venv/lib/python3.8/site-packages/firebase_admin/_user_mgt.py", line 842, in _make_request
+    return self.http_client.body_and_response(method, url, **kwargs)
+  File "/home/knowself/Web Dev/derivativegenius-com/dev/venv/lib/python3.8/site-packages/firebase_admin/_http_client.py", line 127, in body_and_response
+    resp = self.request(method, url, **kwargs)
+  File "/home/knowself/Web Dev/derivativegenius-com/dev/venv/lib/python3.8/site-packages/firebase_admin/_http_client.py", line 118, in request
+    resp = self._session.request(method, self.base_url + url, **kwargs)
+  File "/home/knowself/Web Dev/derivativegenius-com/dev/venv/lib/python3.8/site-packages/google/auth/transport/requests.py", line 533, in request
+    self.credentials.before_request(auth_request, method, url, request_headers)
+  File "/home/knowself/Web Dev/derivativegenius-com/dev/venv/lib/python3.8/site-packages/google/auth/credentials.py", line 239, in before_request
+    self._blocking_refresh(request)
+  File "/home/knowself/Web Dev/derivativegenius-com/dev/venv/lib/python3.8/site-packages/google/auth/credentials.py", line 202, in _blocking_refresh
+    self.refresh(request)
+  File "/home/knowself/Web Dev/derivativegenius-com/dev/venv/lib/python3.8/site-packages/google/oauth2/service_account.py", line 448, in refresh
+    access_token, expiry, _ = _client.jwt_grant(
+  File "/home/knowself/Web Dev/derivativegenius-com/dev/venv/lib/python3.8/site-packages/google/oauth2/_client.py", line 299, in jwt_grant
+    response_data = _token_endpoint_request(
+  File "/home/knowself/Web Dev/derivativegenius-com/dev/venv/lib/python3.8/site-packages/google/oauth2/_client.py", line 270, in _token_endpoint_request
+    _handle_error_response(response_data, retryable_error)
+  File "/home/knowself/Web Dev/derivativegenius-com/dev/venv/lib/python3.8/site-packages/google/oauth2/_client.py", line 69, in _handle_error_response
+    raise exceptions.RefreshError(
+google.auth.exceptions.RefreshError: ('invalid_grant: Invalid JWT Signature.', {'error': 'invalid_grant', 'error_description': 'Invalid JWT Signature.'})
+
+[00:30:26] ERROR [django.request] Internal Server Error: /firebase/auth/signin/
+Internal Server Error: /firebase/auth/signin/
+[00:30:26] ERROR [django.request] Internal Server Error: /firebase/auth/signin/
+[00:30:26] ERROR [django.server] "POST /firebase/auth/signin/ HTTP/1.1" 500 68
+"POST /firebase/auth/signin/ HTTP/1.1" 500 68
+[00:30:26] ERROR [django.server] "POST /firebase/auth/signin/ HTTP/1.1" 500 68
+[00:30:33] INFO [django.server] "OPTIONS /firebase/auth/signin/ HTTP/1.1" 200 2
+"OPTIONS /firebase/auth/signin/ HTTP/1.1" 200 2
+[00:30:33] INFO [django.server] "OPTIONS /firebase/auth/signin/ HTTP/1.1" 200 2
+
+=== Signin Request ===
+Headers: {'Content-Length': '1011', 'Content-Type': 'application/json', 'Host': 'localhost:8000', 'User-Agent': 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:132.0) Gecko/20100101 Firefox/132.0', 'Accept': 'application/json', 'Accept-Language': 'en-US,en;q=0.5', 'Accept-Encoding': 'gzip, deflate, br, zstd', 'X-Requested-With': 'XMLHttpRequest', 'X-Csrftoken': 'SD04nMG8Wti9sdgl83pHQY4btgRguZOp', 'Origin': 'http://localhost:8080', 'Connection': 'keep-alive', 'Referer': 'http://localhost:8080/', 'Cookie': 'csrftoken=SD04nMG8Wti9sdgl83pHQY4btgRguZOp', 'Sec-Fetch-Dest': 'empty', 'Sec-Fetch-Mode': 'cors', 'Sec-Fetch-Site': 'same-site'}
+Content-Type: application/json
+CSRF Token: SD04nMG8Wti9sdgl83pHQY4btgRguZOp
+Cookie CSRF Token: SD04nMG8Wti9sdgl83pHQY4btgRguZOp
+Method: POST
+Is AJAX: True
+
+=== Request Data ===
+ID Token present: True
+[00:30:33] INFO [firebase_app.firebase_admin] Firebase Admin SDK already initialized
+
+=== Firebase Admin Status ===
+Firebase Auth: <module 'firebase_admin.auth' from '/home/knowself/Web Dev/derivativegenius-com/dev/venv/lib/python3.8/site-packages/firebase_admin/auth.py'>
+Firebase App: <firebase_admin.App object at 0x7f7b78ae3550>
+
+=== Token Verification ===
+Token length: 997
+Token prefix: eyJhbGciOiJSUzI1NiIsImtpZCI6IjNmZDA3MmRmYTM4MDU2Nz...
+Token suffix: ...oWPYIbzbGsSCTI-U_NNhXmsHl4krf3lgZ40dUXZ9brT3DsRrgA
+
+=== Token Verification Success ===
+Decoded token: {'admin': True, 'staff': True, 'iss': 'https://securetoken.google.com/derivative-genius-website', 'aud': 'derivative-genius-website', 'auth_time': 1733099355, 'user_id': 'LUNBOuYa7wfaUDirsglX08qRBHt1', 'sub': 'LUNBOuYa7wfaUDirsglX08qRBHt1', 'email': 'joe@derivativegenius.com', 'email_verified': True, 'firebase': {'identities': {'email': ['joe@derivativegenius.com']}, 'sign_in_provider': 'password'}, 'uid': 'LUNBOuYa7wfaUDirsglX08qRBHt1'}
+
+=== Unexpected Error ===
+Error type: <class 'google.auth.exceptions.RefreshError'>
+Error message: ('invalid_grant: Invalid JWT Signature.', {'error': 'invalid_grant', 'error_description': 'Invalid JWT Signature.'})
+Traceback: Traceback (most recent call last):
+  File "/home/knowself/Web Dev/derivativegenius-com/dev/firebase_app/views.py", line 604, in signin
+    user = firebase_auth.get_user(uid)
+  File "/home/knowself/Web Dev/derivativegenius-com/dev/venv/lib/python3.8/site-packages/firebase_admin/auth.py", line 320, in get_user
+    return client.get_user(uid=uid)
+  File "/home/knowself/Web Dev/derivativegenius-com/dev/venv/lib/python3.8/site-packages/firebase_admin/_auth_client.py", line 174, in get_user
+    response = self._user_manager.get_user(uid=uid)
+  File "/home/knowself/Web Dev/derivativegenius-com/dev/venv/lib/python3.8/site-packages/firebase_admin/_user_mgt.py", line 597, in get_user
+    body, http_resp = self._make_request('post', '/accounts:lookup', json=payload)
+  File "/home/knowself/Web Dev/derivativegenius-com/dev/venv/lib/python3.8/site-packages/firebase_admin/_user_mgt.py", line 842, in _make_request
+    return self.http_client.body_and_response(method, url, **kwargs)
+  File "/home/knowself/Web Dev/derivativegenius-com/dev/venv/lib/python3.8/site-packages/firebase_admin/_http_client.py", line 127, in body_and_response
+    resp = self.request(method, url, **kwargs)
+  File "/home/knowself/Web Dev/derivativegenius-com/dev/venv/lib/python3.8/site-packages/firebase_admin/_http_client.py", line 118, in request
+    resp = self._session.request(method, self.base_url + url, **kwargs)
+  File "/home/knowself/Web Dev/derivativegenius-com/dev/venv/lib/python3.8/site-packages/google/auth/transport/requests.py", line 533, in request
+    self.credentials.before_request(auth_request, method, url, request_headers)
+  File "/home/knowself/Web Dev/derivativegenius-com/dev/venv/lib/python3.8/site-packages/google/auth/credentials.py", line 239, in before_request
+    self._blocking_refresh(request)
+  File "/home/knowself/Web Dev/derivativegenius-com/dev/venv/lib/python3.8/site-packages/google/auth/credentials.py", line 202, in _blocking_refresh
+    self.refresh(request)
+  File "/home/knowself/Web Dev/derivativegenius-com/dev/venv/lib/python3.8/site-packages/google/oauth2/service_account.py", line 448, in refresh
+    access_token, expiry, _ = _client.jwt_grant(
+  File "/home/knowself/Web Dev/derivativegenius-com/dev/venv/lib/python3.8/site-packages/google/oauth2/_client.py", line 299, in jwt_grant
+    response_data = _token_endpoint_request(
+  File "/home/knowself/Web Dev/derivativegenius-com/dev/venv/lib/python3.8/site-packages/google/oauth2/_client.py", line 270, in _token_endpoint_request
+    _handle_error_response(response_data, retryable_error)
+  File "/home/knowself/Web Dev/derivativegenius-com/dev/venv/lib/python3.8/site-packages/google/oauth2/_client.py", line 69, in _handle_error_response
+    raise exceptions.RefreshError(
+google.auth.exceptions.RefreshError: ('invalid_grant: Invalid JWT Signature.', {'error': 'invalid_grant', 'error_description': 'Invalid JWT Signature.'})
+
+[00:30:33] ERROR [django.request] Internal Server Error: /firebase/auth/signin/
+Internal Server Error: /firebase/auth/signin/
+[00:30:33] ERROR [django.request] Internal Server Error: /firebase/auth/signin/
+[00:30:33] ERROR [django.server] "POST /firebase/auth/signin/ HTTP/1.1" 500 68
+"POST /firebase/auth/signin/ HTTP/1.1" 500 68
+[00:30:33] ERROR [django.server] "POST /firebase/auth/signin/ HTTP/1.1" 500 68
+[00:30:41] INFO [django.server] "OPTIONS /firebase/auth/signin/ HTTP/1.1" 200 2
+"OPTIONS /firebase/auth/signin/ HTTP/1.1" 200 2
+[00:30:41] INFO [django.server] "OPTIONS /firebase/auth/signin/ HTTP/1.1" 200 2
+
+=== Signin Request ===
+Headers: {'Content-Length': '1011', 'Content-Type': 'application/json', 'Host': 'localhost:8000', 'User-Agent': 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:132.0) Gecko/20100101 Firefox/132.0', 'Accept': 'application/json', 'Accept-Language': 'en-US,en;q=0.5', 'Accept-Encoding': 'gzip, deflate, br, zstd', 'X-Requested-With': 'XMLHttpRequest', 'X-Csrftoken': 'SD04nMG8Wti9sdgl83pHQY4btgRguZOp', 'Origin': 'http://localhost:8080', 'Connection': 'keep-alive', 'Referer': 'http://localhost:8080/', 'Cookie': 'csrftoken=SD04nMG8Wti9sdgl83pHQY4btgRguZOp', 'Sec-Fetch-Dest': 'empty', 'Sec-Fetch-Mode': 'cors', 'Sec-Fetch-Site': 'same-site'}
+Content-Type: application/json
+CSRF Token: SD04nMG8Wti9sdgl83pHQY4btgRguZOp
+Cookie CSRF Token: SD04nMG8Wti9sdgl83pHQY4btgRguZOp
+Method: POST
+Is AJAX: True
+
+=== Request Data ===
+ID Token present: True
+[00:30:42] INFO [firebase_app.firebase_admin] Firebase Admin SDK already initialized
+
+=== Firebase Admin Status ===
+Firebase Auth: <module 'firebase_admin.auth' from '/home/knowself/Web Dev/derivativegenius-com/dev/venv/lib/python3.8/site-packages/firebase_admin/auth.py'>
+Firebase App: <firebase_admin.App object at 0x7f7b78ae3550>
+
+=== Token Verification ===
+Token length: 997
+Token prefix: eyJhbGciOiJSUzI1NiIsImtpZCI6IjNmZDA3MmRmYTM4MDU2Nz...
+Token suffix: ...rKf7Oysy3g-notk1vXJBkEHB_FUz3Ifca6EJcqszxC1_WYMO2w
+
+=== Token Verification Success ===
+Decoded token: {'admin': True, 'staff': True, 'iss': 'https://securetoken.google.com/derivative-genius-website', 'aud': 'derivative-genius-website', 'auth_time': 1733099355, 'user_id': 'LUNBOuYa7wfaUDirsglX08qRBHt1', 'sub': 'LUNBOuYa7wfaUDirsglX08qRBHt1', 'email': 'joe@derivativegenius.com', 'email_verified': True, 'firebase': {'identities': {'email': ['joe@derivativegenius.com']}, 'sign_in_provider': 'password'}, 'uid': 'LUNBOuYa7wfaUDirsglX08qRBHt1'}
+
+=== Unexpected Error ===
+Error type: <class 'google.auth.exceptions.RefreshError'>
+Error message: ('invalid_grant: Invalid JWT Signature.', {'error': 'invalid_grant', 'error_description': 'Invalid JWT Signature.'})
+Traceback: Traceback (most recent call last):
+  File "/home/knowself/Web Dev/derivativegenius-com/dev/firebase_app/views.py", line 604, in signin
+    user = firebase_auth.get_user(uid)
+  File "/home/knowself/Web Dev/derivativegenius-com/dev/venv/lib/python3.8/site-packages/firebase_admin/auth.py", line 320, in get_user
+    return client.get_user(uid=uid)
+  File "/home/knowself/Web Dev/derivativegenius-com/dev/venv/lib/python3.8/site-packages/firebase_admin/_auth_client.py", line 174, in get_user
+    response = self._user_manager.get_user(uid=uid)
+  File "/home/knowself/Web Dev/derivativegenius-com/dev/venv/lib/python3.8/site-packages/firebase_admin/_user_mgt.py", line 597, in get_user
+    body, http_resp = self._make_request('post', '/accounts:lookup', json=payload)
+  File "/home/knowself/Web Dev/derivativegenius-com/dev/venv/lib/python3.8/site-packages/firebase_admin/_user_mgt.py", line 842, in _make_request
+    return self.http_client.body_and_response(method, url, **kwargs)
+  File "/home/knowself/Web Dev/derivativegenius-com/dev/venv/lib/python3.8/site-packages/firebase_admin/_http_client.py", line 127, in body_and_response
+    resp = self.request(method, url, **kwargs)
+  File "/home/knowself/Web Dev/derivativegenius-com/dev/venv/lib/python3.8/site-packages/firebase_admin/_http_client.py", line 118, in request
+    resp = self._session.request(method, self.base_url + url, **kwargs)
+  File "/home/knowself/Web Dev/derivativegenius-com/dev/venv/lib/python3.8/site-packages/google/auth/transport/requests.py", line 533, in request
+    self.credentials.before_request(auth_request, method, url, request_headers)
+  File "/home/knowself/Web Dev/derivativegenius-com/dev/venv/lib/python3.8/site-packages/google/auth/credentials.py", line 239, in before_request
+    self._blocking_refresh(request)
+  File "/home/knowself/Web Dev/derivativegenius-com/dev/venv/lib/python3.8/site-packages/google/auth/credentials.py", line 202, in _blocking_refresh
+    self.refresh(request)
+  File "/home/knowself/Web Dev/derivativegenius-com/dev/venv/lib/python3.8/site-packages/google/oauth2/service_account.py", line 448, in refresh
+    access_token, expiry, _ = _client.jwt_grant(
+  File "/home/knowself/Web Dev/derivativegenius-com/dev/venv/lib/python3.8/site-packages/google/oauth2/_client.py", line 299, in jwt_grant
+    response_data = _token_endpoint_request(
+  File "/home/knowself/Web Dev/derivativegenius-com/dev/venv/lib/python3.8/site-packages/google/oauth2/_client.py", line 270, in _token_endpoint_request
+    _handle_error_response(response_data, retryable_error)
+  File "/home/knowself/Web Dev/derivativegenius-com/dev/venv/lib/python3.8/site-packages/google/oauth2/_client.py", line 69, in _handle_error_response
+    raise exceptions.RefreshError(
+google.auth.exceptions.RefreshError: ('invalid_grant: Invalid JWT Signature.', {'error': 'invalid_grant', 'error_description': 'Invalid JWT Signature.'})
+
+[00:30:42] ERROR [django.request] Internal Server Error: /firebase/auth/signin/
+Internal Server Error: /firebase/auth/signin/
+[00:30:42] ERROR [django.request] Internal Server Error: /firebase/auth/signin/
+[00:30:42] ERROR [django.server] "POST /firebase/auth/signin/ HTTP/1.1" 500 68
+"POST /firebase/auth/signin/ HTTP/1.1" 500 68
+[00:30:42] ERROR [django.server] "POST /firebase/auth/signin/ HTTP/1.1" 500 68
+[00:30:48] INFO [django.server] "OPTIONS /firebase/auth/signout/ HTTP/1.1" 200 0
+"OPTIONS /firebase/auth/signout/ HTTP/1.1" 200 0
+[00:30:48] INFO [django.server] "OPTIONS /firebase/auth/signout/ HTTP/1.1" 200 0
+[00:30:48] INFO [django.server] "POST /firebase/auth/signout/ HTTP/1.1" 200 55
+"POST /firebase/auth/signout/ HTTP/1.1" 200 55
+[00:30:48] INFO [django.server] "POST /firebase/auth/signout/ HTTP/1.1" 200 55
+[00:31:06] INFO [django.server] "OPTIONS /firebase/auth/signin/ HTTP/1.1" 200 2
+[00:31:06] INFO [django.server] "OPTIONS /firebase/auth/signin/ HTTP/1.1" 200 2
+"OPTIONS /firebase/auth/signin/ HTTP/1.1" 200 2
+[00:31:06] INFO [django.server] "OPTIONS /firebase/auth/signin/ HTTP/1.1" 200 2
+"OPTIONS /firebase/auth/signin/ HTTP/1.1" 200 2
+[00:31:06] INFO [django.server] "OPTIONS /firebase/auth/signin/ HTTP/1.1" 200 2
+
+=== Signin Request ===
+Headers: {'Content-Length': '1011', 'Content-Type': 'application/json', 'Host': 'localhost:8000', 'User-Agent': 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:132.0) Gecko/20100101 Firefox/132.0', 'Accept': 'application/json', 'Accept-Language': 'en-US,en;q=0.5', 'Accept-Encoding': 'gzip, deflate, br, zstd', 'X-Requested-With': 'XMLHttpRequest', 'X-Csrftoken': 'SD04nMG8Wti9sdgl83pHQY4btgRguZOp', 'Origin': 'http://localhost:8080', 'Connection': 'keep-alive', 'Referer': 'http://localhost:8080/', 'Cookie': 'csrftoken=SD04nMG8Wti9sdgl83pHQY4btgRguZOp', 'Sec-Fetch-Dest': 'empty', 'Sec-Fetch-Mode': 'cors', 'Sec-Fetch-Site': 'same-site'}
+Content-Type: application/json
+CSRF Token: SD04nMG8Wti9sdgl83pHQY4btgRguZOp
+Cookie CSRF Token: SD04nMG8Wti9sdgl83pHQY4btgRguZOp
+Method: POST
+Is AJAX: True
+
+=== Request Data ===
+ID Token present: True
+[00:31:06] INFO [firebase_app.firebase_admin] Firebase Admin SDK already initialized
+
+=== Firebase Admin Status ===
+Firebase Auth: <module 'firebase_admin.auth' from '/home/knowself/Web Dev/derivativegenius-com/dev/venv/lib/python3.8/site-packages/firebase_admin/auth.py'>
+Firebase App: <firebase_admin.App object at 0x7f7b78ae3550>
+
+=== Token Verification ===
+Token length: 997
+Token prefix: eyJhbGciOiJSUzI1NiIsImtpZCI6IjNmZDA3MmRmYTM4MDU2Nz...
+Token suffix: ...tA3MP1YwDEKB4hxCLoeokN124-X9cGkDagwc6aAkzEyRS-g-Ng
+
+=== Token Verification Success ===
+Decoded token: {'admin': True, 'staff': True, 'iss': 'https://securetoken.google.com/derivative-genius-website', 'aud': 'derivative-genius-website', 'auth_time': 1733099465, 'user_id': 'LUNBOuYa7wfaUDirsglX08qRBHt1', 'sub': 'LUNBOuYa7wfaUDirsglX08qRBHt1', 'email': 'joe@derivativegenius.com', 'email_verified': True, 'firebase': {'identities': {'email': ['joe@derivativegenius.com']}, 'sign_in_provider': 'password'}, 'uid': 'LUNBOuYa7wfaUDirsglX08qRBHt1'}
+
+=== Signin Request ===
+Headers: {'Content-Length': '1011', 'Content-Type': 'application/json', 'Host': 'localhost:8000', 'User-Agent': 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:132.0) Gecko/20100101 Firefox/132.0', 'Accept': 'application/json', 'Accept-Language': 'en-US,en;q=0.5', 'Accept-Encoding': 'gzip, deflate, br, zstd', 'X-Requested-With': 'XMLHttpRequest', 'X-Csrftoken': 'SD04nMG8Wti9sdgl83pHQY4btgRguZOp', 'Origin': 'http://localhost:8080', 'Connection': 'keep-alive', 'Referer': 'http://localhost:8080/', 'Cookie': 'csrftoken=SD04nMG8Wti9sdgl83pHQY4btgRguZOp', 'Sec-Fetch-Dest': 'empty', 'Sec-Fetch-Mode': 'cors', 'Sec-Fetch-Site': 'same-site'}
+Content-Type: application/json
+CSRF Token: SD04nMG8Wti9sdgl83pHQY4btgRguZOp
+Cookie CSRF Token: SD04nMG8Wti9sdgl83pHQY4btgRguZOp
+Method: POST
+Is AJAX: True
+
+=== Request Data ===
+ID Token present: True
+[00:31:06] INFO [firebase_app.firebase_admin] Firebase Admin SDK already initialized
+
+=== Firebase Admin Status ===
+Firebase Auth: <module 'firebase_admin.auth' from '/home/knowself/Web Dev/derivativegenius-com/dev/venv/lib/python3.8/site-packages/firebase_admin/auth.py'>
+Firebase App: <firebase_admin.App object at 0x7f7b78ae3550>
+
+=== Token Verification ===
+Token length: 997
+Token prefix: eyJhbGciOiJSUzI1NiIsImtpZCI6IjNmZDA3MmRmYTM4MDU2Nz...
+Token suffix: ...tA3MP1YwDEKB4hxCLoeokN124-X9cGkDagwc6aAkzEyRS-g-Ng
+
+=== Token Verification Success ===
+Decoded token: {'admin': True, 'staff': True, 'iss': 'https://securetoken.google.com/derivative-genius-website', 'aud': 'derivative-genius-website', 'auth_time': 1733099465, 'user_id': 'LUNBOuYa7wfaUDirsglX08qRBHt1', 'sub': 'LUNBOuYa7wfaUDirsglX08qRBHt1', 'email': 'joe@derivativegenius.com', 'email_verified': True, 'firebase': {'identities': {'email': ['joe@derivativegenius.com']}, 'sign_in_provider': 'password'}, 'uid': 'LUNBOuYa7wfaUDirsglX08qRBHt1'}
+
+=== Unexpected Error ===
+=== Unexpected Error ===
+
+Error type: <class 'google.auth.exceptions.RefreshError'>
+Error message: ('invalid_grant: Invalid JWT Signature.', {'error': 'invalid_grant', 'error_description': 'Invalid JWT Signature.'})
+Traceback: Traceback (most recent call last):
+  File "/home/knowself/Web Dev/derivativegenius-com/dev/firebase_app/views.py", line 604, in signin
+    user = firebase_auth.get_user(uid)
+  File "/home/knowself/Web Dev/derivativegenius-com/dev/venv/lib/python3.8/site-packages/firebase_admin/auth.py", line 320, in get_user
+    return client.get_user(uid=uid)
+  File "/home/knowself/Web Dev/derivativegenius-com/dev/venv/lib/python3.8/site-packages/firebase_admin/_auth_client.py", line 174, in get_user
+    response = self._user_manager.get_user(uid=uid)
+  File "/home/knowself/Web Dev/derivativegenius-com/dev/venv/lib/python3.8/site-packages/firebase_admin/_user_mgt.py", line 597, in get_user
+    body, http_resp = self._make_request('post', '/accounts:lookup', json=payload)
+  File "/home/knowself/Web Dev/derivativegenius-com/dev/venv/lib/python3.8/site-packages/firebase_admin/_user_mgt.py", line 842, in _make_request
+    return self.http_client.body_and_response(method, url, **kwargs)
+  File "/home/knowself/Web Dev/derivativegenius-com/dev/venv/lib/python3.8/site-packages/firebase_admin/_http_client.py", line 127, in body_and_response
+    resp = self.request(method, url, **kwargs)
+  File "/home/knowself/Web Dev/derivativegenius-com/dev/venv/lib/python3.8/site-packages/firebase_admin/_http_client.py", line 118, in request
+    resp = self._session.request(method, self.base_url + url, **kwargs)
+  File "/home/knowself/Web Dev/derivativegenius-com/dev/venv/lib/python3.8/site-packages/google/auth/transport/requests.py", line 533, in request
+    self.credentials.before_request(auth_request, method, url, request_headers)
+  File "/home/knowself/Web Dev/derivativegenius-com/dev/venv/lib/python3.8/site-packages/google/auth/credentials.py", line 239, in before_request
+    self._blocking_refresh(request)
+  File "/home/knowself/Web Dev/derivativegenius-com/dev/venv/lib/python3.8/site-packages/google/auth/credentials.py", line 202, in _blocking_refresh
+    self.refresh(request)
+  File "/home/knowself/Web Dev/derivativegenius-com/dev/venv/lib/python3.8/site-packages/google/oauth2/service_account.py", line 448, in refresh
+    access_token, expiry, _ = _client.jwt_grant(
+  File "/home/knowself/Web Dev/derivativegenius-com/dev/venv/lib/python3.8/site-packages/google/oauth2/_client.py", line 299, in jwt_grant
+    response_data = _token_endpoint_request(
+  File "/home/knowself/Web Dev/derivativegenius-com/dev/venv/lib/python3.8/site-packages/google/oauth2/_client.py", line 270, in _token_endpoint_request
+    _handle_error_response(response_data, retryable_error)
+  File "/home/knowself/Web Dev/derivativegenius-com/dev/venv/lib/python3.8/site-packages/google/oauth2/_client.py", line 69, in _handle_error_response
+    raise exceptions.RefreshError(
+google.auth.exceptions.RefreshError: ('invalid_grant: Invalid JWT Signature.', {'error': 'invalid_grant', 'error_description': 'Invalid JWT Signature.'})
+
+Error type: <class 'google.auth.exceptions.RefreshError'>[00:31:06] ERROR [django.request] Internal Server Error: /firebase/auth/signin/
+
+Error message: ('invalid_grant: Invalid JWT Signature.', {'error': 'invalid_grant', 'error_description': 'Invalid JWT Signature.'})Internal Server Error: /firebase/auth/signin/
+[00:31:06] ERROR [django.request] Internal Server Error: /firebase/auth/signin/
+
+[00:31:06] ERROR [django.server] "POST /firebase/auth/signin/ HTTP/1.1" 500 68
+Traceback: Traceback (most recent call last):
+  File "/home/knowself/Web Dev/derivativegenius-com/dev/firebase_app/views.py", line 604, in signin
+    user = firebase_auth.get_user(uid)
+  File "/home/knowself/Web Dev/derivativegenius-com/dev/venv/lib/python3.8/site-packages/firebase_admin/auth.py", line 320, in get_user
+    return client.get_user(uid=uid)
+  File "/home/knowself/Web Dev/derivativegenius-com/dev/venv/lib/python3.8/site-packages/firebase_admin/_auth_client.py", line 174, in get_user
+    response = self._user_manager.get_user(uid=uid)
+  File "/home/knowself/Web Dev/derivativegenius-com/dev/venv/lib/python3.8/site-packages/firebase_admin/_user_mgt.py", line 597, in get_user
+    body, http_resp = self._make_request('post', '/accounts:lookup', json=payload)
+  File "/home/knowself/Web Dev/derivativegenius-com/dev/venv/lib/python3.8/site-packages/firebase_admin/_user_mgt.py", line 842, in _make_request
+    return self.http_client.body_and_response(method, url, **kwargs)
+  File "/home/knowself/Web Dev/derivativegenius-com/dev/venv/lib/python3.8/site-packages/firebase_admin/_http_client.py", line 127, in body_and_response
+    resp = self.request(method, url, **kwargs)
+  File "/home/knowself/Web Dev/derivativegenius-com/dev/venv/lib/python3.8/site-packages/firebase_admin/_http_client.py", line 118, in request
+    resp = self._session.request(method, self.base_url + url, **kwargs)
+  File "/home/knowself/Web Dev/derivativegenius-com/dev/venv/lib/python3.8/site-packages/google/auth/transport/requests.py", line 533, in request
+    self.credentials.before_request(auth_request, method, url, request_headers)
+  File "/home/knowself/Web Dev/derivativegenius-com/dev/venv/lib/python3.8/site-packages/google/auth/credentials.py", line 239, in before_request
+    self._blocking_refresh(request)
+  File "/home/knowself/Web Dev/derivativegenius-com/dev/venv/lib/python3.8/site-packages/google/auth/credentials.py", line 202, in _blocking_refresh
+    self.refresh(request)
+  File "/home/knowself/Web Dev/derivativegenius-com/dev/venv/lib/python3.8/site-packages/google/oauth2/service_account.py", line 448, in refresh
+    access_token, expiry, _ = _client.jwt_grant(
+  File "/home/knowself/Web Dev/derivativegenius-com/dev/venv/lib/python3.8/site-packages/google/oauth2/_client.py", line 299, in jwt_grant
+    response_data = _token_endpoint_request(
+  File "/home/knowself/Web Dev/derivativegenius-com/dev/venv/lib/python3.8/site-packages/google/oauth2/_client.py", line 270, in _token_endpoint_request
+    _handle_error_response(response_data, retryable_error)
+  File "/home/knowself/Web Dev/derivativegenius-com/dev/venv/lib/python3.8/site-packages/google/oauth2/_client.py", line 69, in _handle_error_response
+    raise exceptions.RefreshError(
+google.auth.exceptions.RefreshError: ('invalid_grant: Invalid JWT Signature.', {'error': 'invalid_grant', 'error_description': 'Invalid JWT Signature.'})
+
+[00:31:06] ERROR [django.request] Internal Server Error: /firebase/auth/signin/
+"POST /firebase/auth/signin/ HTTP/1.1" 500 68
+[00:31:06] ERROR [django.server] "POST /firebase/auth/signin/ HTTP/1.1" 500 68
+Internal Server Error: /firebase/auth/signin/
+[00:31:06] ERROR [django.request] Internal Server Error: /firebase/auth/signin/
+[00:31:06] ERROR [django.server] "POST /firebase/auth/signin/ HTTP/1.1" 500 68
+"POST /firebase/auth/signin/ HTTP/1.1" 500 68
+[00:31:06] ERROR [django.server] "POST /firebase/auth/signin/ HTTP/1.1" 500 68
+[00:31:11] INFO [django.server] "POST /firebase/auth/signout/ HTTP/1.1" 200 55
+"POST /firebase/auth/signout/ HTTP/1.1" 200 55
+[00:31:11] INFO [django.server] "POST /firebase/auth/signout/ HTTP/1.1" 200 55
