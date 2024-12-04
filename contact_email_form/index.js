@@ -63,7 +63,7 @@ exports.sendContactEmail = onRequest({
   minInstances: 0,
   maxInstances: 10,
   cors: {
-    origin: ['http://localhost:8080', 'https://derivativegenius.com'],
+    origin: ['http://localhost:8080', 'https://derivativegenius.com', 'https://derivativegenius-com-v1.vercel.app'],
     methods: ['POST', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Accept'],
     maxAge: 3600
