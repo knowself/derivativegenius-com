@@ -77,7 +77,7 @@
 
               <!-- Contact form -->
               <div class="py-10 px-6 sm:px-10 lg:col-span-2 xl:p-12">
-                <form @submit.prevent="handleSubmit" class="mt-6 grid grid-cols-1 gap-y-6 sm:grid-cols-2 sm:gap-x-8">
+                <form @submit.prevent="submitForm" class="mt-6 grid grid-cols-1 gap-y-6 sm:grid-cols-2 sm:gap-x-8">
                   <div class="sm:col-span-2">
                     <label for="name" class="block text-sm font-medium text-primary-900">Name</label>
                     <div class="mt-1">
@@ -85,7 +85,7 @@
                         type="text" 
                         name="name" 
                         id="name" 
-                        v-model="name"
+                        v-model="form.name"
                         autocomplete="name" 
                         :class="[
                           'py-3 px-4 block w-full shadow-sm focus:ring-accent-500 focus:border-accent-500 border-primary-300 rounded-md',
@@ -102,7 +102,7 @@
                         id="email" 
                         name="email" 
                         type="email" 
-                        v-model="email"
+                        v-model="form.email"
                         autocomplete="email" 
                         :class="[
                           'py-3 px-4 block w-full shadow-sm focus:ring-accent-500 focus:border-accent-500 border-primary-300 rounded-md',
@@ -119,7 +119,7 @@
                         id="message" 
                         name="message" 
                         rows="4" 
-                        v-model="message"
+                        v-model="form.message"
                         :class="[
                           'py-3 px-4 block w-full shadow-sm focus:ring-accent-500 focus:border-accent-500 border-primary-300 rounded-md',
                           errors.message ? 'border-red-300' : 'border-primary-300'
@@ -165,15 +165,14 @@
           <!-- Company Information -->
           <div class="bg-white shadow-xl rounded-lg overflow-hidden">
             <div class="relative h-[400px]">
-              <img class="absolute inset-0 h-full w-full object-cover" src="/images/office.jpg" alt="Our office">
-              <div class="absolute inset-0 bg-indigo-700 mix-blend-multiply"></div>
-              <div class="absolute inset-0 bg-gradient-to-t from-indigo-600 via-indigo-600 opacity-90"></div>
-              <div class="relative max-w-7xl mx-auto py-24 px-4 sm:py-32 sm:px-6 lg:px-8">
-                <h1 class="text-4xl font-extrabold tracking-tight text-white sm:text-5xl lg:text-6xl">Visit Us</h1>
-                <p class="mt-6 text-xl text-indigo-100 max-w-3xl">
-                  We're located in beautiful Hermosa Beach, where innovation meets the Pacific.
-                </p>
-              </div>
+              <DynamicBackground>
+                <div class="relative max-w-7xl mx-auto py-24 px-4 sm:py-32 sm:px-6 lg:px-8">
+                  <h1 class="text-4xl font-extrabold tracking-tight text-white sm:text-5xl lg:text-6xl">Visit Us</h1>
+                  <p class="mt-6 text-xl text-white max-w-3xl">
+                    We'd love to hear from you! Send us a message using the form or visit our office.
+                  </p>
+                </div>
+              </DynamicBackground>
             </div>
             <div class="px-6 py-8">
               <h3 class="text-lg font-medium text-gray-900">Office Location</h3>
@@ -199,64 +198,83 @@
 
 <script setup name="ContactPageView">
 import { ref } from 'vue'
-import { getFunctions, httpsCallable } from 'firebase/functions'
-import { app } from '../firebase'
+import DynamicBackground from '@/components/DynamicBackground.vue'
 
-const functions = getFunctions(app, 'us-west1')
-const sendContactEmail = httpsCallable(functions, 'sendContactEmail')
-
-const name = ref('')
-const email = ref('')
-const message = ref('')
+const form = ref({
+  name: '',
+  email: '',
+  message: ''
+})
 const loading = ref(false)
-const success = ref(false)
 const error = ref(null)
+const success = ref(false)
 const errors = ref({})
 const submitStatus = ref(null)
 
 const validateForm = () => {
   errors.value = {}
   
-  if (!name.value.trim()) {
+  if (!form.value.name.trim()) {
     errors.value.name = 'Name is required'
   }
   
-  if (!email.value.trim()) {
+  if (!form.value.email.trim()) {
     errors.value.email = 'Email is required'
-  } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value)) {
+  } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.value.email)) {
     errors.value.email = 'Please enter a valid email'
   }
   
-  if (!message.value.trim()) {
+  if (!form.value.message.trim()) {
     errors.value.message = 'Message is required'
   }
   
   return Object.keys(errors.value).length === 0
 }
 
-const handleSubmit = async () => {
+const submitForm = async () => {
   if (!validateForm()) return
   
   loading.value = true
   submitStatus.value = null
   
   try {
-    await sendContactEmail({ name: name.value, email: email.value, message: message.value })
+    const response = await fetch('https://us-west1-derivative-genius-website.cloudfunctions.net/sendContactEmail', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      },
+      mode: 'cors',
+      credentials: 'omit',
+      body: JSON.stringify({
+        name: form.value.name.trim(),
+        email: form.value.email.trim(),
+        message: form.value.message.trim()
+      })
+    })
+
+    const data = await response.json()
+    
+    if (!response.ok) {
+      throw new Error(data.error || 'Failed to send message')
+    }
     
     submitStatus.value = {
       type: 'success',
-      message: 'Thank you for your message! We will get back to you soon.'
+      message: data.message || 'Thank you for your message! We will get back to you soon.'
     }
     
     // Reset form
-    name.value = ''
-    email.value = ''
-    message.value = ''
-  } catch (error) {
-    console.error('Error submitting form:', error)
+    form.value.name = ''
+    form.value.email = ''
+    form.value.message = ''
+  } catch (err) {
+    console.error('Error submitting form:', err)
     submitStatus.value = {
       type: 'error',
-      message: error.message || 'Sorry, there was an error sending your message. Please try again later.'
+      message: err.message === 'Failed to fetch' 
+        ? 'Unable to connect to the server. Please check your internet connection and try again.'
+        : err.message || 'Sorry, there was an error sending your message. Please try again later.'
     }
   } finally {
     loading.value = false

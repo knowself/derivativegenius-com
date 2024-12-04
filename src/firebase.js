@@ -14,7 +14,7 @@ const firebaseConfig = {
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
-const functions = getFunctions(app, 'us-west1'); // Region specified as per our standards
+const functions = getFunctions(app);
 const auth = getAuth(app);
 
 export { app, auth, functions };

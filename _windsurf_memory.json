@@ -1,0 +1,80 @@
+{
+  "session_date": "2024-02-13",
+  "project": "derivative-genius-website",
+  "component": "contact_email_form",
+  "learnings": {
+    "environment_setup": {
+      "type": "Firebase Cloud Function",
+      "function_name": "sendContactEmail",
+      "region": "us-west1",
+      "environment_variables_preference": {
+        "preferred_method": "JSON files",
+        "avoid": ".env files",
+        "reason": "Project standard for configuration management"
+      },
+      "required_environment_variables": [
+        "SMTP_HOST",
+        "SMTP_PORT",
+        "SMTP_USER",
+        "SMTP_PASS",
+        "SMTP_FROM"
+      ],
+      "environment_configuration": {
+        "location": "Firebase Project Configuration",
+        "methods": [
+          "Firebase Console > Functions > Configuration",
+          "Firebase CLI using functions:secrets:set"
+        ]
+      }
+    },
+    "function_configuration": {
+      "cors": [
+        "http://localhost:8080",
+        "http://localhost:8000",
+        "https://derivativegenius.com",
+        "https://www.derivativegenius.com"
+      ],
+      "timeoutSeconds": 60,
+      "memory": "256MiB",
+      "region": "us-west1",
+      "maxInstances": 10,
+      "security": {
+        "enforceAppCheck": false,
+        "consumeAppCheckToken": false
+      }
+    },
+    "key_components": {
+      "email_transport": {
+        "package": "nodemailer",
+        "configuration": {
+          "secure": true,
+          "requires_auth": true
+        }
+      },
+      "database": {
+        "type": "Firestore",
+        "usage": "Rate limiting implementation"
+      }
+    },
+    "testing_setup": {
+      "test_directory": "/contact_email_form/test",
+      "key_files": [
+        "test.js",
+        "firebase-web-config.json",
+        "firebase-admin-config.json"
+      ],
+      "test_data": {
+        "name": "Test User",
+        "email": "test@example.com",
+        "message": "This is a test message from the contact form."
+      }
+    },
+    "important_notes": [
+      "Environment variables are managed through Firebase, not local files",
+      "Function allows unauthenticated access for public contact form use",
+      "Rate limiting is implemented using Firestore",
+      "CORS is configured for specific domains only",
+      "Email transport requires secure SMTP configuration"
+    ]
+  }
+}

@@ -1,0 +1,181 @@
+{
+  "core_principles": {
+    "code_quality": {
+      "mindset": "elite_software_engineer",
+      "primary_goals": [
+        "clean_code",
+        "effective_solutions",
+        "professional_grade",
+        "future_ready"
+      ],
+      "coding_standards": {
+        "clarity": {
+          "requirements": [
+            "clear_purpose_per_line",
+            "descriptive_naming",
+            "meaningful_comments",
+            "purpose_explanation"
+          ]
+        },
+        "best_practices": {
+          "principles": [
+            "SOLID",
+            "DRY",
+            "KISS"
+          ]
+        }
+      }
+    }
+  },
+  "environment_configuration": {
+    "local_development": {
+      "python_version": "3.8",
+      "node_version": "18.x",
+      "package_management": {
+        "python": {
+          "virtual_env": "venv",
+          "requirements": "requirements.txt",
+          "auto_update": true
+        },
+        "node": "package.json"
+      },
+      "servers": {
+        "django": {
+          "command": "python3 manage.py runserver",
+          "port": 8000,
+          "health_check": "/health/"
+        },
+        "vue": {
+          "command": "npm run serve",
+          "port": 8080,
+          "webpack_config": true
+        }
+      },
+      "message_broker": {
+        "redis": {
+          "required": true,
+          "service": "redis-server",
+          "health_check": "redis-cli ping"
+        }
+      },
+      "task_queue": {
+        "celery": {
+          "worker": {
+            "command": "celery -A api worker",
+            "health_check": "celery -A api inspect ping"
+          },
+          "beat": {
+            "command": "celery -A api beat",
+            "scheduler": true
+          }
+        }
+      }
+    },
+    "production": {
+      "hosting": "vercel",
+      "python_version": "3.8",
+      "node_version": "18.x",
+      "package_management": {
+        "python": "requirements.txt",
+        "node": "package.json (dependencies only)"
+      }
+    }
+  },
+  "architecture": {
+    "backend": {
+      "framework": "django",
+      "async_tasks": {
+        "celery": {
+          "broker": "redis",
+          "result_backend": "redis",
+          "beat_scheduler": true
+        }
+      },
+      "health_checks": {
+        "endpoints": ["/health/"],
+        "components": [
+          "django",
+          "redis",
+          "celery_worker",
+          "celery_beat",
+          "firebase"
+        ]
+      }
+    },
+    "frontend": {
+      "framework": "vue",
+      "development": {
+        "webpack": {
+          "hot_reload": true,
+          "progress_tracking": true,
+          "error_reporting": true
+        }
+      }
+    },
+    "firebase": {
+      "mode": "cloud_only",
+      "implementation": "admin_sdk",
+      "client_sdk_forbidden": true,
+      "dependencies": {
+        "required": ["firebase-admin"],
+        "forbidden": ["@firebase/app", "@firebase/auth", "firebase", "firebase-functions"]
+      }
+    }
+  },
+  "development_workflow": {
+    "startup_sequence": [
+      "virtual_env_activation",
+      "dependency_check",
+      "redis_server",
+      "django_server",
+      "celery_worker",
+      "celery_beat",
+      "vue_server"
+    ],
+    "health_monitoring": {
+      "interval": "continuous",
+      "components": [
+        "django_server",
+        "vue_server",
+        "redis_server",
+        "celery_worker",
+        "celery_beat"
+      ]
+    },
+    "logging": {
+      "files": {
+        "django": "django.log",
+        "vue": "vue.log",
+        "celery": "celery.log"
+      },
+      "levels": [
+        "error",
+        "warning",
+        "info",
+        "debug"
+      ]
+    }
+  },
+  "testing": {
+    "components": {
+      "django": {
+        "command": "python manage.py test",
+        "coverage": true,
+        "parallel": true
+      },
+      "firebase": {
+        "connection_test": true,
+        "admin_sdk_test": true
+      },
+      "redis": {
+        "connection_test": true,
+        "service_test": true
+      },
+      "celery": {
+        "worker_test": true,
+        "beat_test": true,
+        "task_test": true
+      }
+    }
+  }
+}
