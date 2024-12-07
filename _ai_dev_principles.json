@@ -40,10 +40,10 @@
         "node": "package.json"
       },
       "servers": {
-        "django": {
-          "command": "python3 manage.py runserver",
+        "fastapi": {
+          "command": "uvicorn main:app --reload",
           "port": 8000,
-          "health_check": "/health/"
+          "health_check": "/health"
         },
         "vue": {
           "command": "npm run serve",
@@ -72,7 +72,11 @@
       }
     },
     "production": {
-      "hosting": "vercel",
+      "hosting": {
+        "frontend": "vercel",
+        "api": "vercel",
+        "long_running_jobs": "cloud_run"
+      },
       "python_version": "3.8",
       "node_version": "18.x",
       "package_management": {
@@ -83,22 +87,21 @@
   },
   "architecture": {
     "backend": {
-      "framework": "django",
+      "framework": "fastapi",
       "async_tasks": {
-        "celery": {
-          "broker": "redis",
-          "result_backend": "redis",
-          "beat_scheduler": true
-        }
+        "handler": "cloud_run",
+        "queue": "cloud_tasks",
+        "monitoring": "cloud_monitoring"
       },
       "health_checks": {
         "endpoints": ["/health/"],
         "components": [
-          "django",
+          "fastapi",
+          "firebase",
+          "cloud_run_jobs",
           "redis",
           "celery_worker",
-          "celery_beat",
-          "firebase"
+          "celery_beat"
         ]
       }
     },
@@ -127,7 +130,7 @@
       "virtual_env_activation",
       "dependency_check",
       "redis_server",
-      "django_server",
+      "fastapi_server",
       "celery_worker",
       "celery_beat",
       "vue_server"
@@ -135,7 +138,7 @@
     "health_monitoring": {
       "interval": "continuous",
       "components": [
-        "django_server",
+        "fastapi_server",
         "vue_server",
         "redis_server",
         "celery_worker",
@@ -144,7 +147,7 @@
     },
     "logging": {
       "files": {
-        "django": "django.log",
+        "fastapi": "fastapi.log",
         "vue": "vue.log",
         "celery": "celery.log"
       },
@@ -158,8 +161,8 @@
   },
   "testing": {
     "components": {
-      "django": {
-        "command": "python manage.py test",
+      "fastapi": {
+        "command": "pytest",
         "coverage": true,
         "parallel": true
       },

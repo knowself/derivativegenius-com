@@ -11,57 +11,82 @@ Derivative Genius is an AI Automation Agency (AAA) that transforms businesses th
 
 ## Core Architecture
 
+## Architecture Overview
+
+### Hybrid Serverless Architecture
+
 ```
-┌─────────────────────┐         ┌──────────────────────┐         ┌─────────────────────┐
-│      Vue.js         │         │       Django         │         │     Firebase        │
-│     Frontend        │    →    │      Backend         │    →    │     Services        │
-├─────────────────────┤    ←    ├──────────────────────┤    ←    ├─────────────────────┤
-│ • User Interface    │         │ • API Gateway        │         │ • Authentication    │
-│ • State Management  │         │ • Business Logic     │         │ • Data Storage      │
-│ • API Integration   │         │ • Health Checks      │         │ • Cloud Functions   │
-└─────────────────────┘         └──────────────────────┘         └─────────────────────┘
-                                         ↑   ↓
-                               ┌──────────────────────┐
-                               │    Task Queue        │
-                               │  (Celery + Redis)    │
-                               ├──────────────────────┤
-                               │ • Async Processing   │
-                               │ • Scheduled Tasks    │
-                               │ • Background Jobs    │
-                               └──────────────────────┘
+┌─────────────┐     ┌─────────────┐     ┌─────────────┐
+│   Vue.js    │     │   Vercel    │     │  Firebase   │
+│  Frontend   │ ──> │  Functions  │ ──> │  Database   │
+└─────────────┘     └─────────────┘     └─────────────┘
+                          │
+                    ┌─────┴─────┐
+                    │Cloud Pub/Sub│
+                    └─────┬─────┘
+                          │
+                    ┌─────┴─────┐
+                    │Cloud Run   │
+                    │LLM Workers │
+                    └───────────┘
 ```
+
+1. **Frontend**
+   - Static Vue.js build
+   - Modern SPA architecture
+   - Deployed to CDN
+   - Optimized for performance
+
+2. **Backend**
+   - Vercel Functions for API endpoints
+     - Fast response times
+     - Automatic scaling
+     - Edge deployment
+   - Google Cloud Run for compute-intensive tasks
+     - LLM processing
+     - Long-running jobs
+     - Custom runtime environment
+
+3. **Database**
+   - Firebase for data persistence
+   - Real-time capabilities
+   - Built-in authentication
+   - Secure data access
+
+4. **Job Queue System**
+   - Cloud Pub/Sub for LLM workloads
+   - Benefits:
+     - Optimized for LLM processing
+     - Flexible scaling capabilities
+     - Full control over long-running jobs
+   - Trade-offs:
+     - Additional service complexity
+     - More infrastructure to manage
+
+### Key Benefits
+
+1. **Performance**
+   - Fast API responses through Vercel's edge network
+   - Efficient processing of LLM tasks on Cloud Run
+   - Real-time updates via Firebase
+
+2. **Scalability**
+   - Independent scaling of each component
+   - Auto-scaling based on demand
+   - Cost-effective resource utilization
+
+3. **Maintainability**
+   - Clear separation of concerns
+   - Independent deployment of components
+   - Simplified monitoring and debugging
 
 ## Key Features
 
-- **Robust Authentication**: Firebase-based authentication with Django integration
-- **Health Monitoring**: Comprehensive health checks for all system components (Django, Redis, Celery)
+- **Robust Authentication**: Firebase-based authentication with FastAPI integration
+- **Health Monitoring**: Comprehensive health checks for all system components (FastAPI, Redis, Celery)
 - **Task Queue System**: Celery-based asynchronous processing with Redis broker
 - **Secure Communication**: CSRF protection and proper session management
 - **Developer Experience**: Streamlined development workflow with automatic server detection
-
-## Architecture Overview
-
-Our application uses a modern, secure architecture combining Vue.js, Django, and Firebase:
-
-```
-┌─────────────────────┐         ┌──────────────────────┐         ┌─────────────────────┐
-│      Vue.js         │         │       Django         │         │     Firebase        │
-│     Frontend        │    →    │      Backend         │    →    │     Services        │
-├─────────────────────┤    ←    ├──────────────────────┤    ←    ├─────────────────────┤
-│ • User Interface    │         │ • API Gateway        │         │ • Authentication    │
-│ • State Management  │         │ • Business Logic     │         │ • Data Storage      │
-│ • API Integration   │         │ • Health Checks      │         │ • Cloud Functions   │
-└─────────────────────┘         └──────────────────────┘         └─────────────────────┘
-                                         ↑   ↓
-                               ┌──────────────────────┐
-                               │    Task Queue        │
-                               │  (Celery + Redis)    │
-                               ├──────────────────────┤
-                               │ • Async Processing   │
-                               │ • Scheduled Tasks    │
-                               │ • Background Jobs    │
-                               └──────────────────────┘
-```
 
 ## Key Responsibilities
 
@@ -72,7 +97,7 @@ Our application uses a modern, secure architecture combining Vue.js, Django, and
    - Real-time automation status
    - User interaction via REST API
 
-2. **Django Backend (Application)**
+2. **FastAPI Backend (Application)**
    - API Gateway for all Firebase operations
    - Authentication via Firebase Admin SDK
    - Workflow orchestration
@@ -92,19 +117,105 @@ Our application uses a modern, secure architecture combining Vue.js, Django, and
 
 1. Client Request Flow:
    ```
-   Vue.js → Django (Firebase Admin SDK) → Firebase Cloud
+   Vue.js → FastAPI (Firebase Admin SDK) → Firebase Cloud
    ```
    - User initiates action via REST API
-   - Django authenticates and processes request
+   - FastAPI authenticates and processes request
    - Firebase Admin SDK handles cloud operations
 
 2. Server Response Flow:
    ```
-   Firebase Cloud → Django (Firebase Admin SDK) → Vue.js
+   Firebase Cloud → FastAPI (Firebase Admin SDK) → Vue.js
    ```
    - Firebase returns data to Admin SDK
-   - Django applies business logic and security
+   - FastAPI applies business logic and security
    - Vue.js updates UI based on REST response
+
+## Tech Stack
+
+- **Backend Framework**: FastAPI 0.85.0
+- **Python Version**: 3.8
+- **Job Processing**: Google Cloud Run + Cloud Tasks
+- **Authentication**: Firebase Admin SDK
+- **Monitoring**: Prometheus FastAPI Instrumentator
+
+### Key Components
+
+1. **API Layer** (`/api`)
+   - FastAPI application handling HTTP requests
+   - Firebase authentication integration
+   - Job submission and management endpoints
+   - Health monitoring and metrics
+
+2. **Worker Layer** (`/worker`)
+   - Cloud Run service for processing long-running jobs
+   - Asynchronous job execution
+   - Automatic scaling based on workload
+   - Callback system for job completion notifications
+
+### Architectural Benefits
+
+1. **Simplified Infrastructure**
+   - Serverless architecture eliminates need for server management
+   - No Redis or Celery infrastructure to maintain
+   - Reduced operational complexity and overhead
+   - Streamlined deployment process
+
+2. **Enhanced Performance**
+   - Native async/await support with FastAPI
+   - Lower latency due to reduced middleware layers
+   - Efficient request handling with ASGI server
+   - Optimized memory usage
+
+3. **Cost Efficiency**
+   - Pay-per-use pricing with Cloud Run
+   - Automatic scaling prevents over-provisioning
+   - No costs for idle resources
+   - Efficient resource utilization
+
+4. **Improved Reliability**
+   - Google Cloud's enterprise-grade infrastructure
+   - Built-in retry mechanisms for failed jobs
+   - Automatic dead-letter queues
+   - Robust error handling and monitoring
+
+5. **Developer Experience**
+   - Modern async Python syntax
+   - Automatic API documentation with OpenAPI
+   - Type hints for better code quality
+   - Simplified codebase maintenance
+
+### Environment Setup
+
+Required environment variables:
+```bash
+GOOGLE_CLOUD_PROJECT=your-project-id
+CLOUD_TASKS_QUEUE=your-queue-name
+CLOUD_TASKS_LOCATION=your-location
+CLOUD_RUN_SERVICE_URL=your-service-url
+```
+
+### Development Workflow
+
+1. **Local Development**
+   ```bash
+   # Start FastAPI server
+   uvicorn api.main:app --reload --port 8000
+
+   # Start worker locally
+   functions-framework --target=process_job --port=8085
+   ```
+
+2. **Deployment**
+   - API deploys to Vercel
+   - Worker deploys to Google Cloud Run
+   - Queue configuration in Google Cloud Tasks
+
+### Monitoring
+
+- Prometheus metrics available at `/metrics`
+- Health check endpoint at `/health`
+- Cloud Run provides built-in logging and monitoring
 
 ## Local Development
 
@@ -148,7 +259,7 @@ cp .env.example .env.local
 ```
 
 The health check will verify:
-- Django server status
+- FastAPI server status
 - Vue development server
 - Redis connection
 - Celery worker status
@@ -218,8 +329,8 @@ firebase emulators:start
 
 ### Development Server
 ```bash
-# Terminal 1: Start Django development server
-python3 manage.py runserver
+# Terminal 1: Start FastAPI development server
+uvicorn main:app --reload
 
 # Terminal 2: Start Vue development server
 npm run serve
@@ -238,7 +349,7 @@ npm run test:coverage
 ```
 
 ### Development Tools
-- Django Debug Toolbar: `http://localhost:8000/__debug__/`
+- FastAPI Debug: `http://localhost:8000/docs`
 - Vue DevTools: Install browser extension
 - Firebase Emulator: `http://localhost:4000`
 
@@ -337,6 +448,103 @@ vercel logs
 - API Responses: Contextual headers
 - Dynamic Routes: Custom cache rules
 
+## System Requirements
+
+Before starting development, ensure you have:
+
+1. **Python 3.8**
+   ```bash
+   sudo apt update
+   sudo apt install python3.8 python3.8-venv
+   ```
+
+2. **Google Cloud SDK**
+   ```bash
+   # Add Google Cloud SDK distribution URI as a package source
+   echo "deb [signed-by=/usr/share/keyrings/cloud.google.gpg] https://packages.cloud.google.com/apt cloud-sdk main" | sudo tee -a /etc/apt/sources.list.d/google-cloud-sdk.list
+
+   # Import the Google Cloud public key
+   curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key --keyring /usr/share/keyrings/cloud.google.gpg add -
+
+   # Update and install the SDK
+   sudo apt-get update && sudo apt-get install google-cloud-sdk
+   ```
+
+3. **Node.js and npm** (for Vue.js development)
+   ```bash
+   curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash -
+   sudo apt-get install -y nodejs
+   ```
+
+The `devs.sh` script will handle:
+- Python virtual environment creation
+- Python package installation
+- Development server startup
+
+## Dependencies Management
+
+Our project uses a structured approach to managing Python dependencies:
+
+```
+requirements/
+├── requirements-base.txt    # Base dependencies for all environments
+├── requirements-dev.txt     # Development-specific dependencies
+└── requirements.txt         # Production dependencies
+```
+
+### Requirements Structure
+
+1. **Base Requirements** (`requirements-base.txt`)
+   - Core dependencies needed in all environments
+   - Includes:
+     - FastAPI 0.85.0 (Last stable version for Python 3.8)
+     - Firebase and Google Cloud packages
+     - Core security packages
+     - Basic monitoring tools
+     - Performance utilities
+
+2. **Development Requirements** (`requirements-dev.txt`)
+   - Extends base requirements (`-r requirements-base.txt`)
+   - Development and testing tools:
+     - Testing: pytest, pytest-asyncio, coverage
+     - Code Quality: black, flake8, mypy, pylint
+     - Type Checking: types-python-jose, types-passlib
+     - FastAPI development extras
+     - Auto-reloading capabilities
+
+3. **Production Requirements** (`requirements.txt`)
+   - Extends base requirements (`-r requirements-base.txt`)
+   - Production-specific tools:
+     - WSGI/ASGI servers: gunicorn, uvicorn[standard]
+     - Monitoring: psutil, prometheus-client
+     - Error tracking: sentry-sdk
+     - Performance optimizations: orjson, ujson
+     - Additional security features
+
+### Version Control
+
+- Python version: 3.8 (LTS)
+- FastAPI version: 0.85.0 (Last stable version fully supporting Python 3.8)
+- All dependencies are pinned to specific versions for reproducibility
+
+### Local Development
+
+The `devs.sh` script automatically:
+1. Creates a Python 3.8 virtual environment
+2. Installs base dependencies
+3. Adds development tools and testing packages
+
+To manually install dependencies:
+```bash
+# Create and activate virtual environment
+python3.8 -m venv venv
+source venv/bin/activate
+
+# Install all dependencies (including development)
+pip install -r requirements.txt
+pip install -r requirements-dev.txt
+```
+
 ## Environment Variables
 
 ### Local Development
@@ -383,23 +591,29 @@ npm run test:e2e:prod
 Our application uses a hybrid deployment strategy on Vercel:
 
 ```
-┌─────────────────┐         ┌──────────────────┐         ┌─────────────────┐
-│    Vercel       │         │     Vercel       │         │    Firebase     │
-│  Static Build   │    →    │   Serverless     │    →    │    Services     │
-├─────────────────┤         ├──────────────────┤         ├─────────────────┤
-│ • Vue.js App    │         │ • Django API     │         │ • Authentication│
-│ • Static Assets │         │ • Admin Panel    │         │ • Firestore     │
-└─────────────────┘         └──────────────────┘         └─────────────────┘
+┌─────────────┐     ┌─────────────┐     ┌─────────────┐
+│   Vue.js    │     │   Vercel    │     │  Firebase   │
+│  Frontend   │ ──> │  Functions  │ ──> │  Database   │
+└─────────────┘     └─────────────┘     └─────────────┘
+                          │
+                    ┌─────┴─────┐
+                    │Cloud Pub/Sub│
+                    └─────┬─────┘
+                          │
+                    ┌─────┴─────┐
+                    │Cloud Run   │
+                    │LLM Workers │
+                    └───────────┘
 ```
 
 ### Local Development
 Local development remains unchanged and independent of deployment:
 - Use `devs.sh` for local development server
 - All Firebase services work locally through `.env` configuration
-- Django development server runs normally
+- FastAPI development server runs normally
 
 ### Deployment Process
-1. Vercel builds both Vue.js frontend and Django backend
+1. Vercel builds both Vue.js frontend and FastAPI backend
 2. Frontend is served as static files
 3. Backend runs as serverless functions
 4. Firebase integration works identically in both environments
@@ -423,7 +637,7 @@ Firebase services are available in both local and deployed environments:
 
 1. Client initiates authentication via Firebase
 2. Server validates Firebase token
-3. Django session is established
+3. FastAPI session is established
 4. CSRF token is provided for subsequent requests
 
 ## Security Features
@@ -436,21 +650,6 @@ Firebase services are available in both local and deployed environments:
 ## Development Guidelines
 
 See our comprehensive development standards in `_ai_dev_principles_standards.md`
-
-## Dependencies
-
-### Backend
-- Django 4.1.3
-- Django REST Framework 3.15.2
-- Firebase Admin 6.2.0
-- Other dependencies in `requirements.txt`
-
-### Frontend
-- Vue.js 3.x
-- Vue Router 4.x
-- Pinia 2.x
-- Axios
-- Other dependencies in `package.json`
 
 ## Contributing
 

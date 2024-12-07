@@ -5,16 +5,16 @@
   "learnings": {
     "python_version_management": {
       "system_default": {
-        "version": "3.12.3",
+        "version": "3.8",
         "configuration_method": "update-alternatives",
         "commands_used": [
-          "sudo update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.12 2",
-          "sudo update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.8 1"
+          "sudo update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.8 2",
+          "sudo update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.12 1"
         ],
         "verification": "python3 --version"
       },
       "virtual_environment": {
-        "version": "3.8.20",
+        "version": "3.8",
         "setup_command": "python3.8 -m venv venv",
         "activation": "source venv/bin/activate",
         "verification": "python --version (after activation)"
@@ -42,6 +42,16 @@
           "Firebase Console > Functions > Configuration",
           "Firebase CLI using functions:secrets:set"
         ]
+      },
+      "python_version_management": {
+        "date": "2024-12-07T11:37:16-05:00",
+        "issue": "Version mismatch - Required: 3.8, Found: 3.12",
+        "resolution_steps": [
+          "sudo apt update",
+          "sudo apt install python3.8 python3.8-venv",
+          "sudo update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.8 1"
+        ],
+        "reason": "Project requires Python 3.8 for compatibility with specific dependencies and Cloud Run environment"
       }
     },
     "function_configuration": {
@@ -71,6 +81,10 @@
       "database": {
         "type": "Firestore",
         "usage": "Rate limiting implementation"
+      },
+      "backend_framework": {
+        "name": "FastAPI",
+        "version": "0.85.0"
       }
     },
     "testing_setup": {
@@ -92,7 +106,7 @@
       "Rate limiting is implemented using Firestore",
       "CORS is configured for specific domains only",
       "Email transport requires secure SMTP configuration"
-    },
+    ],
     "cleanup_configuration": {
       "ignored_files": {
         "python": [
@@ -141,6 +155,60 @@
       "cleanup_commands": {
         "python_cache": "find . -type f -name '*.pyc' -delete && find . -type d -name '__pycache__' -exec rm -r {} +",
         "system_files": "find . -type f -name '.DS_Store' -o -name 'Thumbs.db' -delete"
+      }
+    },
+    "architecture_decisions": {
+      "hybrid_serverless": {
+        "date": "2024-12-07",
+        "decision": "Implementation of hybrid serverless architecture",
+        "components": {
+          "frontend": {
+            "technology": "Vue.js",
+            "type": "Static build",
+            "deployment": "CDN"
+          },
+          "backend": {
+            "primary": {
+              "technology": "Vercel Functions",
+              "purpose": "API endpoints",
+              "benefits": ["Fast response", "Auto-scaling", "Edge deployment"]
+            },
+            "secondary": {
+              "technology": "Google Cloud Run",
+              "purpose": "LLM processing",
+              "benefits": ["Custom runtime", "Long-running jobs"]
+            }
+          },
+          "database": {
+            "technology": "Firebase",
+            "features": ["Real-time", "Authentication", "Data persistence"]
+          },
+          "queue": {
+            "technology": "Cloud Pub/Sub",
+            "purpose": "LLM workloads",
+            "benefits": [
+              "Flexible scaling",
+              "Full job control",
+              "LLM optimization"
+            ],
+            "trade_offs": [
+              "Service complexity",
+              "Infrastructure management"
+            ]
+          }
+        },
+        "documentation": {
+          "updated": "2024-12-07T11:32:39-05:00",
+          "changes": [
+            "Added hybrid serverless architecture diagram",
+            "Updated architecture overview section",
+            "Documented component responsibilities",
+            "Added benefits and trade-offs"
+          ],
+          "files_modified": [
+            "README.md"
+          ]
+        }
       }
     }
   }

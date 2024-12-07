@@ -1,373 +1,385 @@
-# Development Environment Configuration
-# Python: Always use python3 (not python) for all commands
-# Node.js: v18.x LTS
-# Ports: Vue.js (8080), Django (8000)
-
 #!/bin/bash
 
-# Colors for pretty output
-GREEN='\033[0;32m'
-BLUE='\033[0;34m'
+# Colors for output
 RED='\033[0;31m'
+GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
-NC='\033[0m' # No Color
+BLUE='\033[0;34m'
+MAGENTA='\033[0;35m'
+CYAN='\033[0;36m'
+NC='\033[0m'  # No Color
+BOLD='\033[1m'
 
-# Server port configuration
-DJANGO_PORT=8000
-VUE_PORT=8080
-
-# Source our minimal prompt
-source .bash_prompt
-
-# AI Development Principles
-# This check serves as a reminder to developers that this project uses AI assistance
-# guided by principles defined in _ai_dev_principles_standards.md
-# NOTE: Developers must manually share this file with AI assistants during development
-# sessions to ensure the principles are followed.
-if [ -f "_ai_dev_principles_standards.md" ]; then
-    export AI_PRINCIPLES_FILE="_ai_dev_principles_standards.md"
-    echo -e "${BLUE}[$(date +'%H:%M:%S')]${NC} AI development principles file present (remember to share with AI assistants)"
-else
-    echo -e "${RED}[✗]${NC} AI principles file not found. Please ensure _ai_dev_principles_standards.md exists."
-    exit 1
-fi
-
-# Print with timestamp
-log() {
-    echo -e "${BLUE}[$(date +'%H:%M:%S')]${NC} $1"
-}
-
-# Print success message
-success() {
-    echo -e "${GREEN}[✓]${NC} $1"
-}
-
-# Print error message
-error() {
-    echo -e "${RED}[✗]${NC} $1"
-}
-
-# Print warning message
-warn() {
-    echo -e "${YELLOW}[!]${NC} $1"
-}
-
-# Function to check if Django server is running
-is_django_running() {
-    # First check if process exists
-    if pgrep -f "python.*manage.py.*runserver" > /dev/null; then
-        # Then verify it's responding by checking health endpoint
-        if curl -s -m 3 -o /dev/null -w "%{http_code}" http://localhost:$DJANGO_PORT/health/ 2>/dev/null | grep -q "200"; then
-            # Also verify Firebase is initialized
-            if [ -f django.log ] && tail -n 50 django.log | grep -q "Firebase Admin SDK initialized successfully"; then
-                return 0
-            elif [ -f django.log ] && tail -n 50 django.log | grep -q "Error initializing Firebase"; then
-                return 1
-            elif [ -f django.log ] && tail -n 10 django.log | grep -q "Starting development server at"; then
-                # Still starting up
-                return 0
-            fi
-        fi
-    fi
-    return 1
-}
-
-# Function to check if Vue server is running
-is_vue_running() {
-    local VUE_PORT=${VUE_PORT:-8080}
-    local MAX_RETRIES=3
-    local RETRY_COUNT=0
+# Signal handling for clean shutdown
+cleanup_and_exit() {
+    echo -e "\n${YELLOW}Received shutdown signal. Cleaning up...${NC}"
+    stop_servers
     
-    # First check if the process exists
-    VUE_PID=$(pgrep -f "vue-cli-service.*serve")
-    if [ -z "$VUE_PID" ]; then
-        return 1
-    fi
+    # Print all logs with clean headers
+    echo -e "\n${BOLD}${BLUE}=== FastAPI Log ===${NC}"
+    cat "$FASTAPI_LOG"
     
-    # Check if port is being listened on
-    if ! netstat -tlpn 2>/dev/null | grep -q ":$VUE_PORT.*LISTEN.*$VUE_PID/node"; then
-        return 1
-    fi
+    echo -e "\n${BOLD}${BLUE}=== Vue.js Log ===${NC}"
+    grep -v "=== vue Log ===" "$VUE_LOG"
     
-    # Try direct connection to Vue dev server port
-    while [ $RETRY_COUNT -lt $MAX_RETRIES ]; do
-        if timeout 2 bash -c "echo > /dev/tcp/localhost/$VUE_PORT" 2>/dev/null; then
-            # Port is accepting connections, now check Django health endpoint
-            if curl -s -o /dev/null -w "%{http_code}" "http://localhost:8000/health/" 2>/dev/null | grep -q "200"; then
-                return 0
-            fi
-        fi
-        RETRY_COUNT=$((RETRY_COUNT + 1))
-        sleep 1
-        
-        # Show progress at intervals
-        case $RETRY_COUNT in
-            1)
-                log "Still compiling... (this may take a few moments)"
-                tail -n 3 vue.log
-                ;;
-            2)
-                log "Webpack is still bundling... (large projects may take longer)"
-                tail -n 3 vue.log
-                ;;
-            3)
-                warn "Server startup is taking longer than usual..."
-                tail -n 5 vue.log
-                ;;
-        esac
-        
-        # Check for common errors in the log
-        if grep -q "Error:" vue.log 2>/dev/null; then
-            error "Vue server failed to start. Found error in logs:"
-            grep -A 5 "Error:" vue.log | head -n 6
-            cleanup
-            return 1
-        fi
-    done
+    echo -e "\n${BOLD}${BLUE}=== Cloud Run Log ===${NC}"
+    grep -v "=== cloud_run Log ===" "$CLOUD_RUN_LOG"
     
-    # If we got here, port checks failed
-    # Fall back to log file checks as last resort
-    if [ -f vue.log ]; then
-        if tail -n 100 vue.log 2>/dev/null | grep -q "Compiled successfully" && \
-           ! tail -n 50 vue.log 2>/dev/null | grep -q "webpack compilation"; then
-            return 0
-        fi
-    fi
+    echo -e "\n${BOLD}${BLUE}=== Dev Environment Log ===${NC}"
+    grep -v "=== dev_environment Log ===" "$DEV_ENV_LOG"
     
-    return 1
+    echo -e "\n${GREEN}Cleanup complete. Exiting.${NC}"
+    exit 0
 }
 
-# Function to check if Redis is running
-is_redis_running() {
-    if command -v redis-cli >/dev/null 2>&1; then
-        if redis-cli ping >/dev/null 2>&1; then
-            return 0  # Redis is running
-        else
-            error "Redis server is not running"
-            log "Run: ${YELLOW}sudo service redis-server start${NC}"
-            log "Redis must be running before starting development servers"
-            log "If Redis is not installed, run: ${YELLOW}sudo apt-get install redis-server${NC}"
-            return 1
-        fi
-    else
-        error "Redis CLI is not installed"
-        log "Run: ${YELLOW}sudo apt-get install redis-server${NC}"
-        return 1
+# Clean quit without printing logs
+clean_quit() {
+    echo -e "\n${YELLOW}Shutting down cleanly...${NC}"
+    stop_servers
+    echo -e "${GREEN}Cleanup complete. Exiting.${NC}"
+    exit 0
+}
+
+# Set up signal handlers
+trap cleanup_and_exit SIGINT SIGTERM
+
+# Create logs directory if it doesn't exist
+LOGS_DIR="$(dirname "$0")/dev_logs"
+
+# Initialize logging
+setup_logging() {
+    # Create logs directory if it doesn't exist
+    mkdir -p "$LOGS_DIR"
+    
+    # Initialize log files with headers
+    {
+        echo "=== Development Environment Log ==="
+        echo "Started at: $(date)"
+        echo "==================================="
+    } > "$LOGS_DIR/dev_environment.log"
+    
+    {
+        echo "=== FastAPI Server Log ==="
+        echo "Started at: $(date)"
+        echo "========================="
+    } > "$LOGS_DIR/fastapi.log"
+    
+    {
+        echo "=== Vue.js Server Log ==="
+        echo "Started at: $(date)"
+        echo "======================="
+    } > "$LOGS_DIR/vue.log"
+    
+    {
+        echo "=== Cloud Run Emulator Log ==="
+        echo "Started at: $(date)"
+        echo "==========================="
+    } > "$LOGS_DIR/cloud_run.log"
+    
+    # Set permissions to ensure logs are writable
+    chmod -R 755 "$LOGS_DIR"
+    
+    # Create a README in the logs directory
+    cat > "$LOGS_DIR/README.md" << EOF
+# Development Logs
+
+This directory contains logs from the development environment services.
+
+## Log Files:
+- `dev_environment.log`: General development environment logs
+- `fastapi.log`: FastAPI server logs
+- `vue.log`: Vue.js development server logs
+- `cloud_run.log`: Cloud Run emulator logs
+
+These logs are tracked in git to help with debugging and development coordination.
+EOF
+
+    debug "Logging initialized in $LOGS_DIR"
+    debug "Log files are tracked in git and can be committed"
+}
+
+# Log file paths
+FASTAPI_LOG="$LOGS_DIR/fastapi.log"
+VUE_LOG="$LOGS_DIR/vue.log"
+CLOUD_RUN_LOG="$LOGS_DIR/cloud_run.log"
+PIP_BASE_LOG="$LOGS_DIR/pip_base.log"
+PIP_DEV_LOG="$LOGS_DIR/pip_dev.log"
+VENV_LOG="$LOGS_DIR/venv_setup.log"
+DEV_ENV_LOG="$LOGS_DIR/dev_environment.log"
+
+# Logging functions
+log_section() { echo -e "\n${BOLD}${BLUE}[SECTION] $1${NC}\n"; }
+log_step() { echo -e "${CYAN}[STEP]${NC} $1"; }
+log() { echo -e "${GREEN}[INFO]${NC} $1"; }
+warn() { echo -e "${YELLOW}[WARN]${NC} $1"; }
+error() { 
+    echo -e "${RED}[ERROR]${NC} $1"
+    if [ -n "$2" ]; then
+        echo -e "${RED}Details:${NC}\n$2"
+    fi
+}
+success() { echo -e "${GREEN}[SUCCESS]${NC} $1"; }
+debug() {
+    if [ "${DEBUG:-false}" = "true" ]; then
+        echo -e "${MAGENTA}[DEBUG]${NC} $1"
     fi
 }
 
-# Function to check if Celery worker is running
-is_celery_running() {
-    if pgrep -f "celery.*-A.*api.*worker" > /dev/null; then
-        # Verify it's actually responding
-        if celery -A api inspect ping 2>/dev/null | grep -q "pong"; then
-            return 0
-        fi
+# Function to display error details from log file
+show_error_context() {
+    local log_file=$1
+    local lines=${2:-10}
+    
+    if [ -f "$log_file" ]; then
+        echo -e "${RED}Last $lines lines from $log_file:${NC}"
+        echo -e "${YELLOW}-------------------${NC}"
+        tail -n $lines "$log_file"
+        echo -e "${YELLOW}-------------------${NC}"
     fi
-    return 1
 }
 
-# Function to check if Celery beat is running
-is_celery_beat_running() {
-    if pgrep -f "celery.*-A.*api.*beat" > /dev/null; then
+# Function to check if virtual environment is active
+is_venv_active() {
+    if [ -n "$VIRTUAL_ENV" ]; then
         return 0
     fi
     return 1
 }
 
-# Function to start Django server
-start_django() {
-    if ! is_django_running; then
-        log "Starting Django server..."
-        
-        # Check dependencies and environment first
-        check_dependencies || warn "Dependency issues detected"
-        check_environment || warn "Environment issues detected"
-        check_port_availability $DJANGO_PORT || return 1
-        check_network || warn "Network connectivity issues detected"
-        
-        # Ensure virtual environment is activated
-        if [ -z "$VIRTUAL_ENV" ]; then
-            if [ ! -f "venv/bin/activate" ]; then
-                error "Virtual environment not found. Creating one..."
-                python3 -m venv venv
-            fi
-            source venv/bin/activate
-            # Export for subprocesses
-            export VIRTUAL_ENV
-            export PATH="$VIRTUAL_ENV/bin:$PATH"
-        fi
-        
-        # Install/update dependencies if needed
-        if [ ! -f ".deps_installed" ] || [ requirements-base.txt -nt ".deps_installed" ]; then
-            log "Installing/updating Python dependencies..."
-            pip install -r requirements-base.txt
-            touch ".deps_installed"
-        fi
-        
-        # Check Firebase credentials
-        if [ ! -f "dg-website-firebase-adminsdk-ykjsf-f0de62e320.json" ]; then
-            error "Firebase credentials file not found!"
+# Function to ensure virtual environment is active
+ensure_venv() {
+    log_section "Setting up Python virtual environment"
+    
+    if is_venv_active; then
+        success "Virtual environment is already active"
+        return 0
+    fi
+
+    if [ ! -d "venv" ]; then
+        # Check Python version before creating venv
+        if ! check_python_version; then
             return 1
         fi
-        
-        # Start Django server with proper environment
-        echo "DEBUG: Environment variables before starting Django:"
-        env | grep -i 'virtual\|python\|path'
-        echo "DEBUG: Current Python: $(which python3)"
-        PYTHONUNBUFFERED=1 DJANGO_DEBUG=1 python3 manage.py runserver > django.log 2>&1 &
-        DJANGO_PID=$!
-        export DJANGO_PID
-        
-        # Give it time to start, checking progress
-        local start_time=$(date +%s)
-        while true; do
-            sleep 1
-            current_time=$(date +%s)
-            elapsed=$((current_time - start_time))
-            
-            # Check if process is still running
-            if ! kill -0 $DJANGO_PID 2>/dev/null; then
-                error "Django process terminated unexpectedly. Last log entries:"
-                tail -n 10 django.log
-                return 1
-            fi
-            
-            # Check health endpoint
-            if curl -s -o /dev/null -w "%{http_code}" http://localhost:$DJANGO_PORT/health/ 2>/dev/null | grep -q "200"; then
-                success "Django server started successfully"
-                return 0
-            elif [ $elapsed -gt 15 ]; then
-                error "Django server took too long to initialize. Last log entries:"
-                tail -n 10 django.log
-                return 1
-            fi
-            
-            # Show progress at intervals
-            case $elapsed in
-                5)
-                    log "Waiting for Django to initialize..."
-                    ;;
-                10)
-                    log "Still waiting for health check to pass..."
-                    ;;
-            esac
-        done
-    else
-        log "Django server is already running"
-        # Update PID for monitoring
-        DJANGO_PID=$(pgrep -f "python.*manage.py.*runserver" | head -n1)
-        export DJANGO_PID
+        log_step "Creating virtual environment with Python 3.8..."
+        python3.8 -m venv venv 2>"$VENV_LOG"
+        if [ $? -ne 0 ]; then
+            error "Failed to create virtual environment" "$(cat "$VENV_LOG")"
+            return 1
+        fi
     fi
+    
+    log_step "Activating virtual environment..."
+    source venv/bin/activate
+    if [ $? -ne 0 ]; then
+        error "Failed to activate virtual environment"
+        return 1
+    fi
+    
+    log_step "Installing base dependencies..."
+    pip install -r requirements.txt > "$PIP_BASE_LOG" 2>&1
+    if [ $? -ne 0 ]; then
+        error "Failed to install base dependencies" "$(cat "$PIP_BASE_LOG")"
+        return 1
+    fi
+
+    log_step "Installing development dependencies..."
+    pip install -r requirements-dev.txt > "$PIP_DEV_LOG" 2>&1
+    if [ $? -ne 0 ]; then
+        error "Failed to install development dependencies" "$(show_error_context "$PIP_DEV_LOG")"
+        return 1
+    fi
+    
+    success "Virtual environment is ready with all dependencies"
     return 0
+}
+
+# Function to check Python version
+check_python_version() {
+    log_step "Checking Python version..."
+    local required_version="3.8"
+    local current_version=$(python3 --version 2>&1 | cut -d' ' -f2 | cut -d'.' -f1,2)
+    
+    debug "Current Python version: $current_version"
+    debug "Required Python version: $required_version"
+    
+    if [ "$current_version" != "$required_version" ]; then
+        error "Incorrect Python version" "Required: $required_version\nFound: $current_version\n\nTo fix:\n1. sudo apt update\n2. sudo apt install python$required_version python$required_version-venv\n3. sudo update-alternatives --install /usr/bin/python3 python3 /usr/bin/python$required_version 1"
+        return 1
+    fi
+    success "Python $required_version is installed"
+    return 0
+}
+
+# Function to setup virtual environment
+setup_venv() {
+    if [ ! -d "venv" ]; then
+        log "Creating virtual environment with Python 3.8..."
+        python3.8 -m venv venv
+        if [ $? -ne 0 ]; then
+            error "Failed to create virtual environment"
+            return 1
+        fi
+    fi
+    
+    source venv/bin/activate
+    if [ $? -ne 0 ]; then
+        error "Failed to activate virtual environment"
+        return 1
+    fi
+    
+    log "Installing/updating dependencies..."
+    pip install -r requirements.txt
+    if [ $? -ne 0 ]; then
+        error "Failed to install dependencies"
+        return 1
+    fi
+    
+    success "Virtual environment is ready"
+    return 0
+}
+
+# Function to check if FastAPI is running
+is_fastapi_running() {
+    if curl -s http://localhost:8000/health > /dev/null; then
+        return 0
+    fi
+    return 1
+}
+
+# Function to check if Vue is running
+is_vue_running() {
+    if curl -s http://localhost:8080 > /dev/null; then
+        return 0
+    fi
+    return 1
+}
+
+# Function to check if Cloud Run Emulator is running
+is_cloud_run_emulator_running() {
+    if curl -s http://localhost:8085/health > /dev/null; then
+        return 0
+    fi
+    return 1
+}
+
+# Function to check if FastAPI server is responding
+check_fastapi_health() {
+    local max_attempts=$1
+    local attempt=1
+    local delay=1
+
+    while [ $attempt -le $max_attempts ]; do
+        if curl -s http://localhost:8000/health > /dev/null 2>&1; then
+            return 0
+        fi
+        debug "FastAPI health check attempt $attempt of $max_attempts (waiting ${delay}s)"
+        sleep $delay
+        attempt=$((attempt + 1))
+        # Increase delay up to 3 seconds
+        if [ $delay -lt 3 ]; then
+            delay=$((delay + 1))
+        fi
+    done
+    return 1
+}
+
+# Global variables for process tracking
+declare -A SERVER_PIDS
+
+# Function to start FastAPI server
+start_fastapi() {
+    log_section "Starting FastAPI Server"
+    
+    if is_fastapi_running; then
+        warn "FastAPI server is already running"
+        return 0
+    fi
+
+    # Ensure virtual environment is active
+    if ! ensure_venv; then
+        error "Failed to ensure virtual environment"
+        return 1
+    fi
+    
+    # Create run directory if it doesn't exist
+    local run_dir="$LOGS_DIR/run"
+    mkdir -p "$run_dir"
+    
+    # Kill any existing uvicorn processes
+    pkill -f "uvicorn.*main:app" > /dev/null 2>&1
+    sleep 1
+    
+    # Create a wrapper script that handles signals
+    cat > "$run_dir/start_fastapi.sh" << 'EOF'
+#!/bin/bash
+trap '' SIGINT SIGTERM SIGTSTP  # Ignore signals
+exec "$@"  # Execute the command passed to this script
+EOF
+    chmod +x "$run_dir/start_fastapi.sh"
+    
+    # Start FastAPI in its own process group with signal handling
+    (trap '' SIGINT SIGTERM SIGTSTP && \
+     cd "$(pwd)" && \
+     setsid "$run_dir/start_fastapi.sh" "${VIRTUAL_ENV}/bin/python" -m uvicorn main:app \
+        --reload \
+        --host 0.0.0.0 \
+        --port 8000 \
+        --log-level debug \
+        >> "$LOGS_DIR/fastapi.log" 2>&1 &)
+    
+    # Store the PID
+    SERVER_PIDS["fastapi"]=$!
+    
+    # Give FastAPI time to start
+    local max_attempts=30
+    log_step "Waiting for FastAPI server to be ready..."
+    
+    if check_fastapi_health $max_attempts; then
+        success "FastAPI server started successfully"
+        debug "Process ID: ${SERVER_PIDS["fastapi"]}"
+        debug "Port: 8000"
+        debug "API docs available at: http://localhost:8000/docs"
+        return 0
+    else
+        error "FastAPI server failed to start" "$(show_error_context "$LOGS_DIR/fastapi.log")"
+        if [ -f "$LOGS_DIR/fastapi.log" ]; then
+            error "Last 20 lines of FastAPI log:" "$(tail -n 20 "$LOGS_DIR/fastapi.log")"
+        fi
+        
+        # Cleanup
+        if kill -0 ${SERVER_PIDS["fastapi"]} 2>/dev/null; then
+            kill -TERM -${SERVER_PIDS["fastapi"]} 2>/dev/null  # Kill the entire process group
+        fi
+        unset SERVER_PIDS["fastapi"]
+        rm -f "$run_dir/start_fastapi.sh"
+        return 1
+    fi
+}
+
+# Function to stop FastAPI server
+stop_fastapi() {
+    if [ -n "${SERVER_PIDS["fastapi"]}" ]; then
+        log_step "Stopping FastAPI server (PID: ${SERVER_PIDS["fastapi"]})..."
+        kill -TERM -${SERVER_PIDS["fastapi"]} 2>/dev/null  # Kill the entire process group
+        sleep 1
+        pkill -f "uvicorn.*main:app" > /dev/null 2>&1  # Fallback cleanup
+    fi
+    unset SERVER_PIDS["fastapi"]
+    rm -f "$LOGS_DIR/run/start_fastapi.sh"
 }
 
 # Function to start Vue server
 start_vue() {
-    if ! is_vue_running; then
-        log "Starting Vue server..."
-        
-        # Check dependencies and environment first
-        check_dependencies || warn "Dependency issues detected"
-        check_port_availability $VUE_PORT || return 1
-        check_network || warn "Network connectivity issues detected"
-        
-        # First ensure we're in a clean state, but skip cache cleanup
-        export SKIP_CACHE_CLEANUP=1
-        cleanup
-        unset SKIP_CACHE_CLEANUP
-        
-        # Check npm environment
-        if ! command -v npm >/dev/null 2>&1; then
-            error "npm not found. Please install Node.js"
-            return 1
-        fi
-        
-        # Verify node_modules exists
-        if [ ! -d "node_modules" ]; then
-            error "node_modules not found. Please run 'npm install' first"
-            return 1
-        fi
-        
-        # Clear problematic cache files if they exist
-        if [ -d "node_modules/.cache" ]; then
-            log "Clearing webpack cache..."
-            rm -rf node_modules/.cache/* 2>/dev/null || true
-        fi
-        
-        # Preserve important environment variables
-        export NODE_ENV=development
-        export VUE_CLI_BABEL_TRANSPILE_MODULES=true
-        export VUE_CLI_SERVICE_CONFIG_PATH="$(pwd)/vue.config.js"
-        
-        # Start Vue dev server with preserved environment
-        log "Starting Vue development server..."
-        npm run dev > vue.log 2>&1 &
-        VUE_PID=$!
-        
-        # Wait up to 60 seconds for the server to start
-        for i in {1..60}; do
-            if is_vue_running; then
-                success "Vue server started successfully"
-                return 0
-            fi
-            sleep 1
-            
-            # Show progress at intervals
-            case $i in
-                10)
-                    log "Still compiling... (this may take a few moments)"
-                    tail -n 3 vue.log
-                    ;;
-                30)
-                    log "Webpack is still bundling... (large projects may take longer)"
-                    tail -n 3 vue.log
-                    ;;
-                50)
-                    warn "Server startup is taking longer than usual..."
-                    tail -n 5 vue.log
-                    ;;
-            esac
-            
-            # Check for common errors in the log
-            if grep -q "Error:" vue.log 2>/dev/null; then
-                error "Vue server failed to start. Found error in logs:"
-                grep -A 5 "Error:" vue.log | head -n 6
-                export SKIP_CACHE_CLEANUP=1
-                cleanup
-                unset SKIP_CACHE_CLEANUP
-                return 1
-            fi
-        done
-        
-        error "Vue server failed to start within 60 seconds"
-        log "Last 10 lines of vue.log:"
-        tail -n 10 vue.log
-        export SKIP_CACHE_CLEANUP=1
-        cleanup
-        unset SKIP_CACHE_CLEANUP
-        return 1
-    else
-        log "Vue server is already running"
-    fi
-    return 0
-}
-
-# Function to start Celery worker
-start_celery() {
-    if is_celery_running; then
-        warn "Celery worker is already running"
+    log_section "Starting Vue Server"
+    
+    if is_vue_running; then
+        warn "Vue server is already running"
         return 0
     fi
 
-    # First check if Redis is running
-    if ! is_redis_running; then
-        return 1
-    fi
-
-    log "Starting Celery worker..."
-    celery -A api worker -l INFO > celery.log 2>&1 &
-    CELERY_PID=$!
+    log_step "Starting Vue development server..."
+    npm run dev > "$VUE_LOG" 2>&1 &
+    SERVER_PIDS["vue"]=$!
     
     # Give it time to start
     local start_time=$(date +%s)
@@ -376,33 +388,50 @@ start_celery() {
         current_time=$(date +%s)
         elapsed=$((current_time - start_time))
         
-        if ! kill -0 $CELERY_PID 2>/dev/null; then
-            error "Celery worker process terminated unexpectedly. Last log entries:"
-            tail -n 10 celery.log
+        if ! kill -0 ${SERVER_PIDS["vue"]} 2>/dev/null; then
+            error "Vue server process terminated unexpectedly" "$(show_error_context "$VUE_LOG")"
             return 1
         fi
         
-        if is_celery_running; then
-            success "Celery worker started successfully"
+        if is_vue_running; then
+            success "Vue server started successfully"
+            debug "Process ID: ${SERVER_PIDS["vue"]}"
+            debug "Port: 8080"
             return 0
-        elif [ $elapsed -gt 10 ]; then
-            error "Celery worker took too long to initialize. Last log entries:"
-            tail -n 10 celery.log
+        elif [ $elapsed -gt 30 ]; then
+            error "Vue server took too long to initialize" "$(show_error_context "$VUE_LOG")"
             return 1
         fi
     done
 }
 
-# Function to start Celery beat
-start_celery_beat() {
-    if is_celery_beat_running; then
-        warn "Celery beat is already running"
+# Function to start Cloud Run Emulator
+start_cloud_run_emulator() {
+    log_section "Starting Cloud Run Emulator"
+    
+    if is_cloud_run_emulator_running; then
+        warn "Cloud Run Emulator is already running"
         return 0
     fi
 
-    log "Starting Celery beat..."
-    celery -A api beat -l INFO > celery_beat.log 2>&1 &
-    CELERY_BEAT_PID=$!
+    if ! ensure_venv; then
+        return 1
+    fi
+
+    log_step "Starting Cloud Run Emulator..."
+    
+    # Check if worker/main.py exists
+    if [ ! -f "worker/main.py" ]; then
+        error "Cloud Run Emulator failed to start" "worker/main.py not found"
+        return 1
+    fi
+    
+    # Start the worker with functions-framework
+    (cd worker && \
+     PYTHONPATH=. \
+     functions-framework --target=process_job --debug --port=8085 > "$CLOUD_RUN_LOG" 2>&1 &)
+    
+    SERVER_PIDS["cloud_run"]=$!
     
     # Give it time to start
     local start_time=$(date +%s)
@@ -411,110 +440,319 @@ start_celery_beat() {
         current_time=$(date +%s)
         elapsed=$((current_time - start_time))
         
-        if ! kill -0 $CELERY_BEAT_PID 2>/dev/null; then
-            error "Celery beat process terminated unexpectedly. Last log entries:"
-            tail -n 10 celery_beat.log
+        if ! kill -0 ${SERVER_PIDS["cloud_run"]} 2>/dev/null; then
+            error "Cloud Run Emulator process terminated unexpectedly" "$(show_error_context "$CLOUD_RUN_LOG")"
             return 1
         fi
         
-        if is_celery_beat_running; then
-            success "Celery beat started successfully"
+        if is_cloud_run_emulator_running; then
+            success "Cloud Run Emulator started successfully"
+            debug "Process ID: ${SERVER_PIDS["cloud_run"]}"
+            debug "Port: 8085"
             return 0
         elif [ $elapsed -gt 10 ]; then
-            error "Celery beat took too long to initialize. Last log entries:"
-            tail -n 10 celery_beat.log
+            error "Cloud Run Emulator took too long to initialize" "$(show_error_context "$CLOUD_RUN_LOG")"
             return 1
         fi
     done
 }
 
-# Function to check servers health
-check_health() {
-    local ALL_HEALTHY=true
-
-    # Check Redis
-    if is_redis_running; then
-        success "Redis server is running"
-    else
-        ALL_HEALTHY=false
-    fi
-
-    # Check Django
-    if curl -s http://localhost:$DJANGO_PORT/ >/dev/null 2>&1; then
-        success "Django server is running"
-    else
-        error "Django server is not responding"
-        ALL_HEALTHY=false
-    fi
-
-    # Check Vue
-    if curl -s http://localhost:$VUE_PORT/ >/dev/null 2>&1; then
-        success "Vue server is running"
-    else
-        error "Vue server is not responding"
-        ALL_HEALTHY=false
-    fi
-
-    # Check Celery worker
-    if is_celery_running; then
-        success "Celery worker is running"
-    else
-        error "Celery worker is not running"
-        ALL_HEALTHY=false
-    fi
-
-    # Check Celery beat
-    if is_celery_beat_running; then
-        success "Celery beat is running"
-    else
-        error "Celery beat is not running"
-        ALL_HEALTHY=false
-    fi
-
-    if $ALL_HEALTHY; then
-        success "All services are healthy"
-        return 0
-    else
-        error "Some services are not healthy"
-        return 1
-    fi
-}
-
-# Function to start servers
+# Function to start all servers
 start_servers() {
-    log "Starting servers..."
+    log_section "Starting All Servers"
     
-    # Check Redis first since it's required
-    if ! is_redis_running; then
-        error "Redis must be running before starting servers"
-        return 1
+    # Start FastAPI if not running
+    if ! is_fastapi_running; then
+        start_fastapi || warn "Failed to start FastAPI server"
     fi
     
-    # Start Vue server since it takes longer to compile
-    if ! start_vue; then
-        error "Failed to start Vue server"
-        return 1
+    # Start Vue if not running
+    if ! is_vue_running; then
+        start_vue || warn "Failed to start Vue server"
     fi
     
-    # Start Django server
-    if ! start_django; then
-        error "Failed to start Django server"
-        cleanup  # Clean up Vue server if Django fails
-        return 1
+    # Start Cloud Run if not running
+    if ! is_cloud_run_emulator_running; then
+        start_cloud_run_emulator || warn "Failed to start Cloud Run Emulator"
     fi
     
-    # Start Celery worker and beat
-    if ! start_celery; then
-        error "Failed to start Celery worker"
-        return 1
-    fi
-    if ! start_celery_beat; then
-        error "Failed to start Celery beat"
-        return 1
+    success "Started available servers"
+    print_service_status
+}
+
+# Function to stop all servers
+stop_servers() {
+    log_section "Stopping All Servers"
+    
+    # Kill FastAPI server and its tmux session
+    if [ -n "${SERVER_PIDS["fastapi"]}" ]; then
+        tmux kill-session -t fastapi 2>/dev/null
+        pkill -f "uvicorn.*main:app" > /dev/null 2>&1
+        success "FastAPI server stopped"
+        unset SERVER_PIDS["fastapi"]
     fi
     
-    success "All servers started successfully"
-    return 0
+    # Kill Vue server
+    if [ -n "${SERVER_PIDS["vue"]}" ] && kill -0 ${SERVER_PIDS["vue"]} 2>/dev/null; then
+        kill ${SERVER_PIDS["vue"]} 2>/dev/null
+        success "Vue server stopped"
+        unset SERVER_PIDS["vue"]
+    fi
+    
+    # Kill Cloud Run Emulator
+    if [ -n "${SERVER_PIDS["cloud_run"]}" ] && kill -0 ${SERVER_PIDS["cloud_run"]} 2>/dev/null; then
+        kill ${SERVER_PIDS["cloud_run"]} 2>/dev/null
+        success "Cloud Run Emulator stopped"
+        unset SERVER_PIDS["cloud_run"]
+    fi
+    
+    # Cleanup any remaining processes
+    pkill -f "uvicorn.*main:app" > /dev/null 2>&1
+    pkill -f "vue-cli-service.*serve" > /dev/null 2>&1
+    pkill -f "python3.*worker.py" > /dev/null 2>&1
+    
+    # Deactivate virtual environment if active
+    if [ -n "$VIRTUAL_ENV" ]; then
+        deactivate 2>/dev/null || true
+    fi
+}
+
+# Function to print service status
+print_service_status() {
+    echo -e "\n${BOLD}${BLUE}Service Status:${NC}"
+    
+    # Check FastAPI
+    if is_fastapi_running; then
+        echo -e "${GREEN}✓${NC} FastAPI Server     - ${CYAN}http://localhost:8000${NC}"
+        echo -e "                    └─ API Docs: ${CYAN}http://localhost:8000/docs${NC}"
+    else
+        echo -e "${RED}✗${NC} FastAPI Server     - Not running"
+    fi
+    
+    # Check Vue.js
+    if is_vue_running; then
+        echo -e "${GREEN}✓${NC} Vue.js Server     - ${CYAN}http://localhost:8080${NC}"
+    else
+        echo -e "${RED}✗${NC} Vue.js Server     - Not running"
+    fi
+    
+    # Check Cloud Run
+    if is_cloud_run_emulator_running; then
+        echo -e "${GREEN}✓${NC} Cloud Run Server  - ${CYAN}http://localhost:8085${NC}"
+    else
+        echo -e "${RED}✗${NC} Cloud Run Server  - Not running"
+    fi
+    
+    echo -e "\n${BOLD}${BLUE}Available Commands:${NC}"
+    echo -e "  ${CYAN}./devs.sh${NC}         - Show service status"
+    echo -e "  ${CYAN}./devs.sh start${NC}   - Start all services"
+    echo -e "  ${CYAN}./devs.sh stop${NC}    - Stop all services"
+    echo -e "  ${CYAN}./devs.sh restart${NC} - Restart all services"
+    echo -e "  ${CYAN}./devs.sh logs${NC}    - View service logs"
+    echo -e "  ${CYAN}./devs.sh q${NC}       - Quit quietly"
+}
+
+# Function to check server status
+check_status() {
+    log_section "Checking Server Status"
+    local all_running=true
+    local status_details=""
+    
+    # Check Python version
+    if check_python_version; then
+        status_details+="✅ Python 3.8\n"
+    else
+        status_details+="❌ Python 3.8\n"
+        all_running=false
+    fi
+    
+    # Check virtual environment
+    if is_venv_active; then
+        status_details+="✅ Virtual Environment\n"
+    else
+        status_details+="❌ Virtual Environment\n"
+        all_running=false
+    fi
+    
+    # Check FastAPI
+    if is_fastapi_running; then
+        status_details+="✅ FastAPI (http://localhost:8000)\n"
+    else
+        status_details+="❌ FastAPI\n"
+        all_running=false
+    fi
+    
+    # Check Vue.js
+    if is_vue_running; then
+        status_details+="✅ Vue.js (http://localhost:8080)\n"
+    else
+        status_details+="❌ Vue.js\n"
+        all_running=false
+    fi
+    
+    # Check Cloud Run Emulator
+    if is_cloud_run_emulator_running; then
+        status_details+="✅ Cloud Run Emulator (http://localhost:8085)\n"
+    else
+        status_details+="❌ Cloud Run Emulator\n"
+        all_running=false
+    fi
+    
+    echo -e "\n${BOLD}Service Status:${NC}\n$status_details"
+    
+    if $all_running; then
+        success "All services are running"
+        return 0
+    else
+        warn "Some services are not running"
+        return 1
+    fi
+}
+
+# Function to view logs
+view_logs() {
+    log_section "Viewing Service Logs"
+    
+    echo -e "\n${BOLD}${BLUE}Select a service to view logs:${NC}"
+    echo -e "${CYAN}1${NC} - FastAPI"
+    echo -e "${CYAN}2${NC} - Vue.js"
+    echo -e "${CYAN}3${NC} - Cloud Run Emulator"
+    echo -e "${CYAN}4${NC} - Dependency Installation"
+    echo -e "${CYAN}5${NC} - All Services"
+    echo -e "${CYAN}b${NC} - Back to main menu"
+    
+    read -r choice
+    
+    case "$choice" in
+        1)
+            if [ -f "$FASTAPI_LOG" ]; then
+                echo -e "\n${BOLD}${BLUE}FastAPI Logs:${NC}"
+                tail -n 50 "$FASTAPI_LOG"
+            else
+                warn "No FastAPI logs found"
+            fi
+            ;;
+        2)
+            if [ -f "$VUE_LOG" ]; then
+                echo -e "\n${BOLD}${BLUE}Vue.js Logs:${NC}"
+                tail -n 50 "$VUE_LOG"
+            else
+                warn "No Vue.js logs found"
+            fi
+            ;;
+        3)
+            if [ -f "$CLOUD_RUN_LOG" ]; then
+                echo -e "\n${BOLD}${BLUE}Cloud Run Emulator Logs:${NC}"
+                tail -n 50 "$CLOUD_RUN_LOG"
+            else
+                warn "No Cloud Run Emulator logs found"
+            fi
+            ;;
+        4)
+            echo -e "\n${BOLD}${BLUE}Dependency Installation Logs:${NC}"
+            if [ -f "$PIP_BASE_LOG" ]; then
+                echo -e "\n${CYAN}Base Dependencies:${NC}"
+                tail -n 20 "$PIP_BASE_LOG"
+            fi
+            if [ -f "$PIP_DEV_LOG" ]; then
+                echo -e "\n${CYAN}Development Dependencies:${NC}"
+                tail -n 20 "$PIP_DEV_LOG"
+            fi
+            if [ -f "$VENV_LOG" ]; then
+                echo -e "\n${CYAN}Virtual Environment Setup:${NC}"
+                tail -n 20 "$VENV_LOG"
+            fi
+            ;;
+        5)
+            echo -e "\n${BOLD}${BLUE}All Service Logs:${NC}"
+            for log in "$FASTAPI_LOG" "$VUE_LOG" "$CLOUD_RUN_LOG" "$PIP_BASE_LOG" "$PIP_DEV_LOG" "$VENV_LOG"; do
+                if [ -f "$log" ]; then
+                    echo -e "\n${CYAN}=== $(basename "$log") ====${NC}"
+                    tail -n 20 "$log"
+                fi
+            done
+            ;;
+        b|B)
+            return
+            ;;
+        *)
+            warn "Invalid choice"
+            ;;
+    esac
+    
+    echo -e "\nPress Enter to continue..."
+    read -r
+}
+
+# Function to display help menu
+show_help() {
+    echo -e "\n${BOLD}${BLUE}Available Commands:${NC}"
+    echo -e "${CYAN}[Enter]${NC} - Show this help menu"
+    echo -e "${CYAN}h/H${NC}    - Run health check on all services"
+    echo -e "${CYAN}s${NC}      - Show service status"
+    echo -e "${CYAN}r${NC}      - Restart all services"
+    echo -e "${CYAN}c${NC}      - Clean Python cache"
+    echo -e "${CYAN}l${NC}      - View service logs"
+    echo -e "${CYAN}q${NC}      - Quit development server"
+    echo -e "\n${BOLD}${BLUE}Active Services:${NC}"
+    echo -e "FastAPI:          ${CYAN}http://localhost:8000${NC}"
+    echo -e "Vue.js:           ${CYAN}http://localhost:8080${NC}"
+    echo -e "Cloud Run:        ${CYAN}http://localhost:8085${NC}"
+    echo -e "API Docs:         ${CYAN}http://localhost:8000/docs${NC}"
+}
+
+# Function to handle interactive mode
+interactive_mode() {
+    # Function to show available commands
+    show_commands() {
+        echo -e "\n${BOLD}Commands:${NC}"
+        echo -e "  ${CYAN}q${NC} - Quit cleanly"
+        echo -e "  ${CYAN}r${NC} - Restart all servers"
+        echo -e "  ${CYAN}s${NC} - Show status"
+        echo -e "  ${CYAN}l${NC} - Show log locations"
+        echo -e "  ${CYAN}p${NC} - Print all logs"
+        echo -e "  ${CYAN}h${NC} - Show this help"
+    }
+
+    while true; do
+        echo -e "\n${BOLD}${BLUE}Interactive Mode${NC}"
+        read -n 1 -r -p "> " cmd
+        echo
+        case "${cmd,,}" in  # Convert to lowercase
+            q)
+                clean_quit
+                ;;
+            r)
+                stop_servers
+                start_servers
+                ;;
+            s)
+                check_status
+                ;;
+            l)
+                view_logs
+                ;;
+            p)
+                echo -e "\n${BOLD}${BLUE}=== FastAPI Log ===${NC}"
+                cat "$FASTAPI_LOG"
+                echo -e "\n${BOLD}${BLUE}=== Vue.js Log ===${NC}"
+                cat "$VUE_LOG"
+                echo -e "\n${BOLD}${BLUE}=== Cloud Run Log ===${NC}"
+                cat "$CLOUD_RUN_LOG"
+                echo -e "\n${BOLD}${BLUE}=== Dev Environment Log ===${NC}"
+                cat "$DEV_ENV_LOG"
+                ;;
+            h)
+                show_commands
+                ;;
+            *)
+                if [ -n "$cmd" ]; then  # Only show error if a key was pressed
+                    echo -e "${RED}Unknown command.${NC}"
+                fi
+                show_commands
+                ;;
+        esac
+    done
 }
 
 # Function to clean Python bytecode files
@@ -534,809 +772,160 @@ clean_system_files() {
     find . -type f -name "*.swo" -delete
 }
 
-# Function to cleanup processes
+# Function to cleanup processes and files
 cleanup() {
-    log "Cleaning up..."
+    log_section "Cleaning Up"
     
+    stop_servers
     clean_python_cache
     clean_system_files
     
-    # Kill Django server
-    if pgrep -f "python.*manage.py.*runserver" > /dev/null; then
-        pkill -f "python.*manage.py.*runserver"
-        sleep 1
-        pkill -9 -f "python.*manage.py.*runserver" 2>/dev/null || true
-    fi
-    
-    # Kill Vue development server and webpack processes
-    if pgrep -f "vue-cli-service.*serve" > /dev/null || pgrep -f "webpack" > /dev/null; then
-        pkill -f "vue-cli-service.*serve"
-        pkill -f "webpack"
-        sleep 1
-        pkill -9 -f "vue-cli-service.*serve" 2>/dev/null || true
-        pkill -9 -f "webpack" 2>/dev/null || true
-    fi
-    
-    # Kill Celery worker and beat
-    if pgrep -f "celery.*-A.*api.*worker" > /dev/null || pgrep -f "celery.*-A.*api.*beat" > /dev/null; then
-        pkill -f "celery.*-A.*api.*worker"
-        pkill -f "celery.*-A.*api.*beat"
-        sleep 1
-        pkill -9 -f "celery.*-A.*api.*worker" 2>/dev/null || true
-        pkill -9 -f "celery.*-A.*api.*beat" 2>/dev/null || true
-    fi
-    
-    # Clean up ports if needed
-    if command -v fuser >/dev/null 2>&1; then
-        fuser -k $DJANGO_PORT/tcp 2>/dev/null || true
-        fuser -k $VUE_PORT/tcp 2>/dev/null || true
-    fi
-    
-    # Clean webpack cache
-    if [ "${SKIP_CACHE_CLEANUP:-}" != "1" ]; then
-        rm -rf node_modules/.cache .cache dist 2>/dev/null || true
-    fi
-    
-    # Rotate log files instead of removing them
-    mkdir -p ./logs_dev_old
-    for log in django.log vue.log celery.log celery_beat.log webpack.log; do
-        if [ -f "$log" ]; then
-            mv "$log" "./logs_dev_old/${log}.old-$(date +'%H:%M:%S')" 2>/dev/null || true
-        fi
-        touch "$log" 2>/dev/null || true
-    done
-    
-    # Reset cleanup flag
-    export CLEANUP_IN_PROGRESS=0
     success "Cleanup completed"
 }
 
-# Function to restart servers
-restart_servers() {
-    local from_where=$1
-    
-    log "Restarting development servers..."
-    
-    # First stop all servers
-    cleanup
-    
-    # Check Redis first since it's required
-    if ! is_redis_running; then
-        error "Redis must be running before starting servers"
-        return 1
-    fi
-    
-    # Start Vue server first
-    if ! start_vue; then
-        error "Failed to restart Vue server"
-        return 1
-    fi
-    
-    # Then start Django
-    if ! start_django; then
-        error "Failed to restart Django server"
-        cleanup  # Clean up Vue server if Django fails
-        return 1
-    fi
-    
-    # Start Celery worker and beat
-    if ! start_celery; then
-        error "Failed to restart Celery worker"
-        return 1
-    fi
-    if ! start_celery_beat; then
-        error "Failed to restart Celery beat"
-        return 1
-    fi
-    
-    success "Servers restarted successfully"
-    
-    # Only enter interactive mode if not called from interactive mode
-    if [ "$from_where" != "from_interactive" ]; then
-        start_interactive
-    fi
-    return 0
+# Function to display help menu
+show_help() {
+    echo -e "\n${BOLD}${BLUE}Available Commands:${NC}"
+    echo -e "${CYAN}[Enter]${NC} - Show this help menu"
+    echo -e "${CYAN}h/H${NC}    - Run health check on all services"
+    echo -e "${CYAN}s${NC}      - Show service status"
+    echo -e "${CYAN}r${NC}      - Restart all services"
+    echo -e "${CYAN}c${NC}      - Clean Python cache"
+    echo -e "${CYAN}l${NC}      - View service logs"
+    echo -e "${CYAN}q${NC}      - Quit development server"
+    echo -e "\n${BOLD}${BLUE}Active Services:${NC}"
+    echo -e "FastAPI:          ${CYAN}http://localhost:8000${NC}"
+    echo -e "Vue.js:           ${CYAN}http://localhost:8080${NC}"
+    echo -e "Cloud Run:        ${CYAN}http://localhost:8085${NC}"
+    echo -e "API Docs:         ${CYAN}http://localhost:8000/docs${NC}"
 }
 
-# Function to test Django
-test_django() {
-    log "Testing Django server..."
+# Function to run health check
+health_check() {
+    log_section "Running Health Check"
     
-    # First check if Django process is running
-    if ! pgrep -f "python.*manage.py.*runserver" > /dev/null; then
-        error "Django server process is not running"
-        return 1
+    local all_healthy=true
+    local details=""
+    
+    # Check FastAPI health
+    if curl -s http://localhost:8000/health > /dev/null 2>&1; then
+        details+="✅ FastAPI is responding\n"
+    else
+        details+="❌ FastAPI is not responding\n"
+        all_healthy=false
     fi
     
-    # Test multiple Django endpoints
-    local endpoints=(
-        "/"
-        "/admin/"
-        "/api/test"
-    )
+    # Check Vue.js
+    if curl -s http://localhost:8080 > /dev/null 2>&1; then
+        details+="✅ Vue.js is responding\n"
+    else
+        details+="❌ Vue.js is not responding\n"
+        all_healthy=false
+    fi
     
-    local all_passed=true
-    log "\nTesting Django endpoints:"
+    # Check Cloud Run Emulator
+    if curl -s http://localhost:8085/health > /dev/null 2>&1; then
+        details+="✅ Cloud Run Emulator is responding\n"
+    else
+        details+="❌ Cloud Run Emulator is not responding\n"
+        all_healthy=false
+    fi
     
-    for endpoint in "${endpoints[@]}"; do
-        log "Testing $endpoint ... "
-        response=$(curl -s -w "%{http_code}" http://localhost:$DJANGO_PORT$endpoint -o /tmp/django_response.txt)
-        body=$(cat /tmp/django_response.txt)
-        rm -f /tmp/django_response.txt
-        
-        if [[ "$response" =~ ^(200|302|301|303)$ ]]; then
-            success "OK (Status: $response)"
-        else
-            error "FAILED (Status: $response)"
-            if [ ! -z "$body" ]; then
-                error "Error: $body"
-            fi
-            all_passed=false
+    # Check Python environment
+    if is_venv_active; then
+        details+="✅ Virtual Environment is active\n"
+    else
+        details+="❌ Virtual Environment is not active\n"
+        all_healthy=false
+    fi
+    
+    echo -e "\n${BOLD}Health Check Results:${NC}\n$details"
+    
+    if $all_healthy; then
+        success "All services are healthy"
+        return 0
+    else
+        warn "Some services are unhealthy"
+        return 1
+    fi
+}
+
+# Main script execution
+main() {
+    # Set up environment variables
+    SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+    LOGS_DIR="$SCRIPT_DIR/dev_logs"
+    export LOGS_DIR
+    
+    # Create logs directory if it doesn't exist
+    mkdir -p "$LOGS_DIR"
+    
+    # Ensure logs directory is properly ignored by git
+    if ! grep -q "^dev_logs/$" "$SCRIPT_DIR/.gitignore" 2>/dev/null; then
+        debug "Adding dev_logs/ to .gitignore"
+        echo "dev_logs/" >> "$SCRIPT_DIR/.gitignore"
+    fi
+    
+    # Set up log file paths
+    FASTAPI_LOG="$LOGS_DIR/fastapi.log"
+    VUE_LOG="$LOGS_DIR/vue.log"
+    CLOUD_RUN_LOG="$LOGS_DIR/cloud_run.log"
+    DEV_ENV_LOG="$LOGS_DIR/dev_environment.log"
+    
+    # Initialize or rotate logs if they get too large (>10MB)
+    for log_file in "$FASTAPI_LOG" "$VUE_LOG" "$CLOUD_RUN_LOG" "$DEV_ENV_LOG"; do
+        if [ -f "$log_file" ] && [ "$(stat -f%z "$log_file" 2>/dev/null || stat -c%s "$log_file")" -gt 10485760 ]; then
+            mv "$log_file" "${log_file}.old"
+        fi
+        touch "$log_file"
+    done
+    
+    # Add headers to empty log files
+    for log_file in "$FASTAPI_LOG" "$VUE_LOG" "$CLOUD_RUN_LOG" "$DEV_ENV_LOG"; do
+        if [ ! -s "$log_file" ]; then
+            {
+                echo "=== $(basename "${log_file%.*}") Log ==="
+                echo "Started at: $(date)"
+                echo "==============================="
+            } > "$log_file"
         fi
     done
     
-    # Test Django admin interface accessibility
-    log "Testing Django admin interface ... "
-    response=$(curl -s -w "%{http_code}" http://localhost:$DJANGO_PORT/admin/ -o /tmp/admin_response.txt)
-    if [[ "$response" =~ ^(200|302|301|303)$ ]]; then
-        success "OK (Status: $response)"
-    else
-        error "FAILED (Status: $response)"
-        all_passed=false
-    fi
+    # Default command is 'start' if no command provided
+    local command=${1:-status}
     
-    # Test Firebase Configuration
-    log "Testing Firebase Configuration ... "
-    python3 manage.py shell -c "
-from django.conf import settings
-import json
-
-# Get Firebase config
-firebase_config = getattr(settings, 'FIREBASE_CONFIG', {})
-
-print('\nFirebase Configuration Structure:')
-print('Expected structure in settings.py:')
-print('''
-FIREBASE_CONFIG = {
-    'project_id': 'your-project-id',
-    'web_api_key': 'your-web-api-key',
-    'client_email': 'your-client-email@project.iam.gserviceaccount.com',
-    'private_key': 'your-private-key'
-}
-''')
-
-print('\nCurrent Configuration Status:')
-for key, settings_key in [
-    ('project_id', 'project_id'),
-    ('web_api_key', 'web_api_key'),
-    ('client_email', 'admin_client_email'),
-    ('private_key', 'admin_private_key')
-]:
-    value = firebase_config.get(settings_key, '')
-    if value:
-        if key in ['project_id', 'web_api_key']:
-            print(f'- {key}: Valid')
-            print(f'  Current value: {value}')
-        else:
-            print(f'- {key}: Valid (value hidden)')
-    else:
-        print(f'- {key}: Not configured')
-
-print('\nEnvironment Variables Check:')
-import os
-env_vars = {
-    'FIREBASE_ADMIN_PROJECT_ID': os.getenv('FIREBASE_ADMIN_PROJECT_ID'),
-    'FIREBASE_WEB_API_KEY': os.getenv('FIREBASE_WEB_API_KEY'),
-    'FIREBASE_ADMIN_CLIENT_EMAIL': os.getenv('FIREBASE_ADMIN_CLIENT_EMAIL'),
-    'FIREBASE_ADMIN_PRIVATE_KEY': os.getenv('FIREBASE_ADMIN_PRIVATE_KEY')
-}
-for key, value in env_vars.items():
-    if value:
-        if key in ['FIREBASE_ADMIN_PROJECT_ID', 'FIREBASE_WEB_API_KEY']:
-            print(f'- {key}: Valid (Value: {value})')
-        else:
-            print(f'- {key}: Valid (value hidden)')
-    else:
-        print(f'- {key}: Not configured')
-
-print('\nDebug Tips:')
-print('1. Ensure your .env file contains all required Firebase variables')
-print('2. Check that settings.py is loading environment variables correctly')
-print('3. Verify that project_id and web_api_key match your Firebase console')
-"
-    if [ $? -eq 0 ]; then
-        success "Firebase configuration check completed"
-    else
-        error "Failed to check Firebase configuration"
-        all_passed=false
-    fi
-    
-    # Test Django static files
-    log "Testing static files ... "
-    if curl -s -I http://localhost:$DJANGO_PORT/static/admin/css/base.css | grep -q "200 OK"; then
-        success "OK"
-    else
-        error "FAILED"
-        all_passed=false
-    fi
-    
-    log ""
-    if [ "$all_passed" = true ]; then
-        success "All Django tests passed successfully"
-        return 0
-    else
-        error "Some Django tests failed"
-        return 1
-    fi
-}
-
-# Function to test Firebase connection
-test_firebase() {
-    log "Testing Firebase connection..."
-    
-    # Test Firebase configuration first
-    log "Checking Firebase configuration..."
-    response_code=$(curl -s -w "%{http_code}" http://localhost:$DJANGO_PORT/firebase/config-test/ -o /tmp/firebase_config.txt)
-    config_response=$(cat /tmp/firebase_config.txt)
-    rm -f /tmp/firebase_config.txt
-    
-    if [ "$response_code" != "200" ]; then
-        error "Firebase configuration test failed: Server returned status $response_code"
-        if [ ! -z "$config_response" ]; then
-            error "Configuration error: $config_response"
-        fi
-        error "Please check your Firebase credentials JSON file at api/firebase-credentials.json"
-        return 1
-    fi
-    
-    # Test Firebase authentication
-    log "Testing Firebase authentication..."
-    response_code=$(curl -s -w "%{http_code}" http://localhost:$DJANGO_PORT/firebase/auth-test/ -o /tmp/firebase_auth.txt)
-    auth_response=$(cat /tmp/firebase_auth.txt)
-    rm -f /tmp/firebase_auth.txt
-    
-    if [ "$response_code" != "200" ]; then
-        error "Firebase authentication test failed: Server returned status $response_code"
-        if [ ! -z "$auth_response" ]; then
-            error "Authentication error: $auth_response"
-        fi
-        if [ "$response_code" = "500" ]; then
-            if echo "$auth_response" | grep -q "Error reading Firebase credentials file\|Invalid JWT Signature"; then
-                error "Firebase credentials file error detected. This usually means:"
-                error "1. The Firebase credentials file is missing or unreadable"
-                error "2. The Firebase credentials are malformed or incomplete"
-                error "3. The Firebase project settings don't match the credentials"
-                log "Checking Firebase credentials file..."
-                if [ ! -f "api/firebase-credentials.json" ]; then
-                    error "Firebase credentials file not found at api/firebase-credentials.json"
-                else
-                    success "Firebase credentials file exists"
-                    # Check if file is valid JSON
-                    if jq empty api/firebase-credentials.json >/dev/null 2>&1; then
-                        success "Firebase credentials file is valid JSON"
-                    else
-                        error "Firebase credentials file is not valid JSON"
-                    fi
-                fi
-            fi
-        fi
-        return 1
-    fi
-    
-    success "Firebase tests passed successfully"
-    log "Configuration: $config_response"
-    log "Authentication: $auth_response"
-    return 0
-}
-
-# Function to test Redis
-test_redis() {
-    log "Testing Redis connection..."
-    
-    # Check if Redis is installed
-    if ! command -v redis-cli >/dev/null 2>&1; then
-        error "Redis CLI is not installed"
-        log "Run: ${YELLOW}sudo apt-get install redis-server${NC}"
-        return 1
-    fi
-    
-    # Test Redis connection
-    if redis-cli ping >/dev/null 2>&1; then
-        success "Redis server is running and responding"
-        
-        # Test basic operations
-        log "Testing basic Redis operations..."
-        local TEST_KEY="test_key_$(date +%s)"
-        local TEST_VALUE="test_value"
-        
-        # Test SET operation
-        if redis-cli set "$TEST_KEY" "$TEST_VALUE" >/dev/null; then
-            success "Redis SET operation successful"
-        else
-            error "Redis SET operation failed"
-            return 1
-        fi
-        
-        # Test GET operation
-        if [ "$(redis-cli get "$TEST_KEY")" = "$TEST_VALUE" ]; then
-            success "Redis GET operation successful"
-        else
-            error "Redis GET operation failed"
-            return 1
-        fi
-        
-        # Clean up test key
-        redis-cli del "$TEST_KEY" >/dev/null
-        
-        success "All Redis tests passed successfully"
-        return 0
-    else
-        error "Redis server is not responding"
-        log "Make sure Redis is running: ${YELLOW}sudo service redis-server start${NC}"
-        return 1
-    fi
-}
-
-# Function to test Celery
-test_celery() {
-    log "Testing Celery..."
-    
-    # Check if Celery worker is running
-    if ! is_celery_running; then
-        error "Celery worker is not running"
-        return 1
-    fi
-    
-    # Test Celery task
-    log "Testing Celery task execution..."
-    if python manage.py shell -c "
-from core.tasks import test_celery_task
-result = test_celery_task.delay()
-try:
-    output = result.get(timeout=10)
-    if output == 'test_success':
-        print('success')
-    else:
-        print('fail')
-except Exception as e:
-    print(f'error: {str(e)}')
-" | grep -q "success"; then
-        success "Celery task test passed"
-    else
-        error "Celery task test failed"
-        return 1
-    fi
-    
-    return 0
-}
-
-# Function to handle interactive commands
-handle_command() {
-    case "${1,,}" in  # Convert to lowercase
-        q|quit|exit)
-            cleanup
-            exit 0
+    case "$command" in
+        "stop")
+            stop_servers
             ;;
-        r|restart)
-            restart_servers "from_interactive"
-            start_interactive
+        "restart")
+            stop_servers
+            start_servers
             ;;
-        h|health)
-            check_health
+        "logs")
+            show_all_logs
             ;;
-        d|django)
-            test_django
+        "q")
+            stop_servers_quietly
             ;;
-        f|firebase)
-            test_firebase
+        "start")
+            start_servers
             ;;
-        red|RED)
-            test_redis
+        "status"|"")  # Both empty and "status" will show status
+            print_service_status
             ;;
-        c|celery)
-            case "${2,,}" in
-                s|status)
-                    celery -A api status
-                    ;;
-                i|inspect)
-                    case "${3,,}" in
-                        a|active)
-                            celery -A api inspect active
-                            ;;
-                        s|scheduled)
-                            celery -A api inspect scheduled
-                            ;;
-                        *)
-                            error "Unknown celery inspect command. Available commands: a/active, s/scheduled"
-                            ;;
-                    esac
-                    ;;
-                *)
-                    log "Celery commands:"
-                    log "  ${YELLOW}c s${NC} or ${YELLOW}celery status${NC}    - show Celery status"
-                    log "  ${YELLOW}c i a${NC} or ${YELLOW}celery inspect active${NC}    - show active tasks"
-                    log "  ${YELLOW}c i s${NC} or ${YELLOW}celery inspect scheduled${NC} - show scheduled tasks"
-                    ;;
-            esac
-            ;;
-        t|test)
-            log "Running all tests..."
-            test_django && test_firebase && test_redis && test_celery
-            ;;
-        det|DET)
-            success "Detaching from servers. Servers will continue running in the background."
-            log "Use './devs.sh' to reattach to the servers"
-            exit 0
+        "help"|"-h"|"--help")
+            show_help
             ;;
         *)
-            log "Unknown command. Here are the options:"
-            log "  ${YELLOW}r/restart${NC}  - restart servers"
-            log "  ${YELLOW}h/health${NC}   - check health"
-            log "  ${YELLOW}d/django${NC}   - test Django"
-            log "  ${YELLOW}f/firebase${NC} - test Firebase"
-            log "  ${YELLOW}red/RED${NC}    - test Redis"
-            log "  ${YELLOW}c/celery${NC}   - Celery commands (status, inspect)"
-            log "  ${YELLOW}t/test${NC}     - run all tests"
-            log "  ${YELLOW}det/DET${NC}    - detach from servers (leave them running)"
-            log "  ${YELLOW}q/quit${NC}     - quit and stop servers"
+            error "Unknown command: $command"
+            show_help
+            exit 1
             ;;
     esac
 }
 
-# Function to start interactive mode
-start_interactive() {
-    success "Interactive mode started. Type 'det/DET' to leave servers running in background."
-    # Use read with timeout to check for both input and server status
-    while true; do
-        read -t 5 -r cmd
-        read_status=$?
-        if [ $read_status -eq 0 ]; then
-            # Command was entered
-            handle_command "$cmd"
-        elif [ $read_status -eq 130 ]; then
-            # Ctrl+C was pressed
-            cleanup
-            exit 0
-        elif [ $read_status -eq 142 ]; then
-            # SIGALRM (timeout) - just continue monitoring
-            continue
-        else
-            # Other timeout or error occurred, check server status
-            VUE_RUNNING=false
-            DJANGO_RUNNING=false
-            
-            # Check Vue server
-            if kill -0 $VUE_PID 2>/dev/null && curl -sL -k -m 3 -o /dev/null http://localhost:$VUE_PORT/ > /dev/null 2>&1; then
-                VUE_RUNNING=true
-            fi
-            
-            # Check Django server with PID and Firebase
-            if [ -n "$DJANGO_PID" ] && kill -0 $DJANGO_PID 2>/dev/null; then
-                if curl -s -m 3 -o /dev/null http://localhost:$DJANGO_PORT/ > /dev/null 2>&1; then
-                    if tail -n 50 django.log | grep -q "Firebase Admin SDK initialized successfully"; then
-                        DJANGO_RUNNING=true
-                    elif tail -n 50 django.log | grep -q "Error initializing Firebase"; then
-                        error "Firebase initialization failed"
-                        tail -n 10 django.log
-                    elif tail -n 10 django.log | grep -q "Starting development server at"; then
-                        # Still starting up
-                        DJANGO_RUNNING=true
-                    fi
-                fi
-            fi
-            
-            # Only report failures, don't stop servers
-            if ! $VUE_RUNNING || ! $DJANGO_RUNNING; then
-                if ! $VUE_RUNNING; then
-                    error "Vue server stopped unexpectedly"
-                    tail -n 5 vue.log
-                fi
-                if ! $DJANGO_RUNNING; then
-                    error "Django server stopped unexpectedly"
-                    tail -n 5 django.log
-                fi
-            fi
-        fi
-    done
-}
-
-# Function to check if servers are running
-check_running() {
-    # More thorough check for Vue process
-    if pgrep -f "vue-cli-service serve" >/dev/null; then
-        # Also verify it's responding
-        if netstat -tlpn 2>/dev/null | grep -q ":$VUE_PORT.*LISTEN.*$(pgrep -f "vue-cli-service.*serve")/node"; then
-            # Vue is running and responding
-            if pgrep -f "runserver" >/dev/null; then
-                # Both servers are running
-                return 0
-            fi
-        fi
-    fi
-    # One or both servers are not running properly
-    return 1
-}
-
-# Function to attach to running servers
-attach_to_servers() {
-    log "Checking for running servers..."
-    
-    # Find Vue process
-    VUE_PID=$(pgrep -f "vue-cli-service.*serve" | head -n1)
-    if [ -z "$VUE_PID" ]; then
-        error "Vue server is not running"
-        return 1
-    fi
-    
-    # Find Django process
-    DJANGO_PID=$(pgrep -f "python.*manage.py.*runserver" | head -n1)
-    if [ -z "$DJANGO_PID" ]; then
-        error "Django server is not running"
-        return 1
-    fi
-    
-    # Verify servers are responding
-    if ! check_running; then
-        error "Servers are not responding properly"
-        return 1
-    fi
-    
-    success "Found running servers:"
-    log "Vue server (PID: $VUE_PID)"
-    log "Django server (PID: $DJANGO_PID)"
-    
-    # Start interactive mode
-    start_interactive
-}
-
-# Function to check port availability
-check_port_availability() {
-    local port=$1
-    if lsof -i :$port > /dev/null 2>&1; then
-        error "Port $port is already in use"
-        log "Process using port $port:"
-        lsof -i :$port
-        return 1
-    fi
-    success "Port $port is available"
-    return 0
-}
-
-# Function to check network connectivity
-check_network() {
-    log "Checking network connectivity..."
-    if ping -c 1 8.8.8.8 >/dev/null 2>&1; then
-        success "Network is reachable"
-        return 0
-    else
-        error "Network is unreachable"
-        return 1
-    fi
-}
-
-# Function to validate environment variables
-check_environment() {
-    log "Validating environment variables..."
-    local missing_vars=()
-    
-    # Django required vars
-    [[ -z "${DJANGO_DEBUG}" ]] && missing_vars+=("DJANGO_DEBUG")
-    [[ -z "${DJANGO_SECRET_KEY}" ]] && missing_vars+=("DJANGO_SECRET_KEY")
-    
-    # Firebase required vars
-    [[ ! -f "dg-website-firebase-adminsdk-ykjsf-f0de62e320.json" ]] && missing_vars+=("Firebase credentials file")
-    
-    if [ ${#missing_vars[@]} -ne 0 ]; then
-        error "Missing required environment variables or files:"
-        printf '%s\n' "${missing_vars[@]}"
-        return 1
-    fi
-    success "All required environment variables are set"
-    return 0
-}
-
-# Function to check dependencies
-check_dependencies() {
-    log "Checking project dependencies..."
-    
-    # Check Python dependencies
-    if [ -f "requirements-dev.txt" ]; then
-        log "Checking Python packages..."
-        # First install base requirements if needed
-        if [ -f "requirements-base.txt" ]; then
-            if [ ! -f ".deps_installed" ] || [ requirements-base.txt -nt ".deps_installed" ] || [ requirements-dev.txt -nt ".deps_installed" ]; then
-                log "Installing/updating Python dependencies..."
-                # First install base requirements
-                pip install -r requirements-base.txt
-                # Then install dev requirements
-                pip install -r requirements-dev.txt
-                touch ".deps_installed"
-            fi
-        else
-            error "requirements-base.txt not found"
-            return 1
-        fi
-        
-        # Sort installed packages for comparison
-        pip freeze | sort > /tmp/sorted-installed.txt
-        
-        # Process requirements files to resolve -r references and handle extras
-        python3 -c '
-import os
-import re
-
-def normalize_requirement(req):
-    # Remove comments
-    req = re.sub(r"#.*$", "", req)
-    # Handle package with extras
-    if "[" in req and "]" in req:
-        pkg_name = req.split("[")[0]
-        return pkg_name
-    # Handle version specifiers
-    return re.split(r"[<>=~!]", req)[0]
-
-def process_requirements(file_path, processed=None):
-    if processed is None:
-        processed = set()
-    if file_path in processed:
-        return ""
-    processed.add(file_path)
-    content = []
-    with open(file_path) as f:
-        for line in f:
-            line = line.strip()
-            if line.startswith("-r "):
-                ref_file = line.split(" ", 1)[1]
-                ref_path = os.path.join(os.path.dirname(file_path), ref_file)
-                content.extend(process_requirements(ref_path, processed).split("\n"))
-            elif line and not line.startswith("#"):
-                norm_req = normalize_requirement(line)
-                if norm_req:
-                    content.append(norm_req)
-    return "\n".join(content)
-
-print(process_requirements("requirements-dev.txt"))
-' | sort > /tmp/sorted-requirements.txt
-        
-        # Compare sorted files
-        local missing_py_deps=$(comm -23 /tmp/sorted-requirements.txt /tmp/sorted-installed.txt || true)
-        
-        # Cleanup temp files
-        rm -f /tmp/sorted-installed.txt /tmp/sorted-requirements.txt
-        
-        if [ ! -z "$missing_py_deps" ]; then
-            warn "Missing Python dependencies:"
-            echo "$missing_py_deps"
-            # Try to reinstall all dependencies
-            pip install -r requirements-base.txt
-            pip install -r requirements-dev.txt
-        else
-            success "Python dependencies are up to date"
-        fi
-    else
-        error "requirements-dev.txt not found"
-        return 1
-    fi
-    
-    # Check Node.js dependencies
-    if [ -f "package.json" ]; then
-        log "Checking Node.js packages..."
-        if [ ! -d "node_modules" ]; then
-            error "node_modules not found"
-        else
-            local pkg_issues=$(npm list 2>&1 | grep -E "missing:|invalid:|UNMET DEPENDENCY" || true)
-            if [ ! -z "$pkg_issues" ]; then
-                warn "Node.js package issues found:"
-                echo "$pkg_issues"
-            else
-                success "Node.js dependencies are up to date"
-            fi
-        fi
-    else
-        error "package.json not found"
-    fi
-}
-
-# Trap Ctrl+C and other termination signals
-trap cleanup SIGINT SIGTERM
-
-# Process command line arguments
-case "${1,,}" in  # Convert to lowercase
-    r|restart)
-        if check_running; then
-            # Get the script's directory
-            SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-            cd "$SCRIPT_DIR"
-            
-            log "Servers are running, restarting for a fresh session..."
-            restart_servers "from_cli"
-            start_interactive
-        else
-            error "No servers running. Use './devs.sh' to start servers."
-            exit 1
-        fi
-        ;;
-    h|health)
-        if check_running; then
-            check_health
-            start_interactive
-        else
-            error "No servers running. Use './devs.sh' to start servers."
-            exit 1
-        fi
-        ;;
-    det|DET)
-        if check_running; then
-            # Get the script's directory
-            SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-            cd "$SCRIPT_DIR"
-            
-            # Find existing PIDs
-            VUE_PID=$(pgrep -f "vue-cli-service.*serve" | head -n1)
-            DJANGO_PID=$(pgrep -f "python.*manage.py.*runserver" | head -n1)
-            
-            success "Found running servers:"
-            log "Vue server (PID: $VUE_PID)"
-            log "Django server (PID: $DJANGO_PID)"
-            
-            # Start interactive mode
-            start_interactive
-        else
-            error "No servers running. Use './devs.sh' to start servers."
-            exit 1
-        fi
-        ;;
-    help|--help|-h)
-        log "Development Server Control Script"
-        log ""
-        log "Usage:"
-        log "  ${YELLOW}./devs.sh${NC}           - Start servers and enter interactive mode"
-        log "  ${YELLOW}./devs.sh det/DET${NC}   - Attach to running servers"
-        log "  ${YELLOW}./devs.sh restart${NC}   - Restart running servers"
-        log "  ${YELLOW}./devs.sh health${NC}    - Check servers health"
-        log "  ${YELLOW}./devs.sh help${NC}      - Show this help message"
-        log ""
-        log "Interactive Commands:"
-        log "  ${YELLOW}r/restart${NC}  - restart servers"
-        log "  ${YELLOW}h/health${NC}   - check health"
-        log "  ${YELLOW}d/django${NC}   - test Django"
-        log "  ${YELLOW}f/firebase${NC} - test Firebase"
-        log "  ${YELLOW}red/RED${NC}    - test Redis"
-        log "  ${YELLOW}c/celery${NC}   - Celery commands (status, inspect)"
-        log "  ${YELLOW}t/test${NC}     - run all tests"
-        log "  ${YELLOW}det/DET${NC}    - detach from servers (leave them running)"
-        log "  ${YELLOW}q/quit${NC}     - quit and stop servers"
-        exit 0
-        ;;
-    *)
-        # Always ensure clean slate before starting
-        if check_running; then
-            log "Existing servers found, restarting for a fresh session..."
-            cleanup
-        fi
-
-        # Check if virtual environment exists, if not create it
-        if [ ! -d "venv" ]; then
-            log "Creating Python virtual environment..."
-            python3 -m venv venv
-            success "Virtual environment created"
-        fi
-
-        # Activate virtual environment
-        log "Activating virtual environment..."
-        source venv/bin/activate
-        success "Virtual environment activated"
-
-        # Install/update dependencies
-        log "Checking dependencies..."
-        pip install -q -r requirements-base.txt >/dev/null 2>&1
-        success "Python dependencies installed"
-
-        npm install --silent >/dev/null 2>&1
-        success "Node.js dependencies installed"
-
-        # Start servers and enter interactive mode
-        start_servers
-        start_interactive
-        ;;
-esac
+# If script is being sourced, don't run main
+if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
+    main "$@"
+fi
