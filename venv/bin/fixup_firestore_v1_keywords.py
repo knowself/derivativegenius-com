@@ -1,4 +1,4 @@
-#!/home/knowself/Web Dev/derivativegenius-com/dev/venv/bin/python3
+#!/home/knowself/webdev/dg-web/dev/venv/bin/python3.8
 # -*- coding: utf-8 -*-
 # Copyright 2022 Google LLC
 #

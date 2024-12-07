@@ -286,7 +286,10 @@ CELERY_WORKER_SEND_TASK_EVENTS = True
 # Celery Beat Settings
 CELERY_BEAT_SCHEDULER = 'django_celery_beat.schedulers:DatabaseScheduler'
 
-# Logging Configuration
+# Ensure logs directory exists
+LOGS_DIR = BASE_DIR / 'logs'
+LOGS_DIR.mkdir(exist_ok=True)
+
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
@@ -308,50 +311,68 @@ LOGGING = {
             'formatter': 'simple',
             'level': 'INFO',
         },
-        'file': {
-            'class': 'logging.handlers.TimedRotatingFileHandler',
-            'filename': 'django.log',
+        'file_django': {
+            'class': 'logging.handlers.RotatingFileHandler',
+            'filename': os.path.join(LOGS_DIR, 'django.log'),
             'formatter': 'verbose',
-            'when': 'midnight',
-            'interval': 1,
-            'backupCount': 7,
             'level': 'INFO',
+            'maxBytes': 10 * 1024 * 1024,  # 10 MB
+            'backupCount': 5,  # Keep 5 backup files
+        },
+        'file_security': {
+            'class': 'logging.handlers.RotatingFileHandler',
+            'filename': os.path.join(LOGS_DIR, 'security.log'),
+            'formatter': 'verbose',
+            'level': 'INFO',
+            'maxBytes': 5 * 1024 * 1024,  # 5 MB
+            'backupCount': 3,  # Keep 3 backup files
+        },
+        'file_firebase': {
+            'class': 'logging.handlers.RotatingFileHandler',
+            'filename': os.path.join(LOGS_DIR, 'firebase.log'),
+            'formatter': 'verbose',
+            'level': 'INFO',
+            'maxBytes': 5 * 1024 * 1024,  # 5 MB
+            'backupCount': 3,  # Keep 3 backup files
+        },
+        'file_api': {
+            'class': 'logging.handlers.RotatingFileHandler',
+            'filename': os.path.join(LOGS_DIR, 'api.log'),
+            'formatter': 'verbose',
+            'level': 'INFO',
+            'maxBytes': 5 * 1024 * 1024,  # 5 MB
+            'backupCount': 3,  # Keep 3 backup files
         },
     },
     'loggers': {
         'django.request': {
-            'handlers': ['console', 'file'],
+            'handlers': ['console', 'file_django'],
             'level': 'INFO',
             'propagate': True,
         },
         'django.security': {
-            'handlers': ['console', 'file'],
+            'handlers': ['console', 'file_security'],
             'level': 'INFO',
             'propagate': True,
         },
         'django.server': {
-            'handlers': ['console', 'file'],
+            'handlers': ['console', 'file_django'],
             'level': 'INFO',
             'propagate': True,
         },
-        'firebase_app.csrf_middleware': {
-            'handlers': ['console', 'file'],
+        'firebase_app': {
+            'handlers': ['console', 'file_firebase'],
             'level': 'INFO',
             'propagate': True,
         },
-        'firebase_app.views': {
-            'handlers': ['console', 'file'],
-            'level': 'INFO',
-            'propagate': True,
-        },
-        'api.gateway': {
-            'handlers': ['console', 'file'],
+        'api': {
+            'handlers': ['console', 'file_api'],
             'level': 'INFO',
             'propagate': True,
         },
     },
     'root': {
-        'handlers': ['console', 'file'],
+        'handlers': ['console', 'file_django'],
         'level': 'INFO',
     }
 }

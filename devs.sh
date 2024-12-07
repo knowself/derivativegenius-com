@@ -180,6 +180,12 @@ start_django() {
     if ! is_django_running; then
         log "Starting Django server..."
         
+        # Check dependencies and environment first
+        check_dependencies || warn "Dependency issues detected"
+        check_environment || warn "Environment issues detected"
+        check_port_availability $DJANGO_PORT || return 1
+        check_network || warn "Network connectivity issues detected"
+        
         # Ensure virtual environment is activated
         if [ -z "$VIRTUAL_ENV" ]; then
             if [ ! -f "venv/bin/activate" ]; then
@@ -193,9 +199,9 @@ start_django() {
         fi
         
         # Install/update dependencies if needed
-        if [ ! -f ".deps_installed" ] || [ requirements.txt -nt ".deps_installed" ]; then
+        if [ ! -f ".deps_installed" ] || [ requirements-base.txt -nt ".deps_installed" ]; then
             log "Installing/updating Python dependencies..."
-            pip install -r requirements.txt
+            pip install -r requirements-base.txt
             touch ".deps_installed"
         fi
         
@@ -206,6 +212,9 @@ start_django() {
         fi
         
         # Start Django server with proper environment
+        echo "DEBUG: Environment variables before starting Django:"
+        env | grep -i 'virtual\|python\|path'
+        echo "DEBUG: Current Python: $(which python3)"
         PYTHONUNBUFFERED=1 DJANGO_DEBUG=1 python3 manage.py runserver > django.log 2>&1 &
         DJANGO_PID=$!
         export DJANGO_PID
@@ -257,6 +266,11 @@ start_django() {
 start_vue() {
     if ! is_vue_running; then
         log "Starting Vue server..."
+        
+        # Check dependencies and environment first
+        check_dependencies || warn "Dependency issues detected"
+        check_port_availability $VUE_PORT || return 1
+        check_network || warn "Network connectivity issues detected"
         
         # First ensure we're in a clean state, but skip cache cleanup
         export SKIP_CACHE_CLEANUP=1
@@ -503,19 +517,32 @@ start_servers() {
     return 0
 }
 
+# Function to clean Python bytecode files
+clean_python_cache() {
+    find . -type f -name "*.pyc" -delete
+    find . -type d -name "__pycache__" -exec rm -r {} +
+    find . -type f -name "*.pyo" -delete
+    find . -type f -name "*.pyd" -delete
+}
+
+# Function to clean system and IDE files
+clean_system_files() {
+    find . -type f -name ".DS_Store" -delete
+    find . -type f -name "Thumbs.db" -delete
+    find . -type f -name "desktop.ini" -delete
+    find . -type f -name "*.swp" -delete
+    find . -type f -name "*.swo" -delete
+}
+
 # Function to cleanup processes
 cleanup() {
-    # Prevent recursive cleanup
-    if [ "${CLEANUP_IN_PROGRESS:-}" = "1" ]; then
-        return 0
-    fi
-    export CLEANUP_IN_PROGRESS=1
+    log "Cleaning up..."
     
-    log "Cleaning up processes..."
+    clean_python_cache
+    clean_system_files
     
     # Kill Django server
     if pgrep -f "python.*manage.py.*runserver" > /dev/null; then
-        log "Stopping Django server..."
         pkill -f "python.*manage.py.*runserver"
         sleep 1
         pkill -9 -f "python.*manage.py.*runserver" 2>/dev/null || true
@@ -523,7 +550,6 @@ cleanup() {
     
     # Kill Vue development server and webpack processes
     if pgrep -f "vue-cli-service.*serve" > /dev/null || pgrep -f "webpack" > /dev/null; then
-        log "Stopping Vue and webpack processes..."
         pkill -f "vue-cli-service.*serve"
         pkill -f "webpack"
         sleep 1
@@ -533,7 +559,6 @@ cleanup() {
     
     # Kill Celery worker and beat
     if pgrep -f "celery.*-A.*api.*worker" > /dev/null || pgrep -f "celery.*-A.*api.*beat" > /dev/null; then
-        log "Stopping Celery processes..."
         pkill -f "celery.*-A.*api.*worker"
         pkill -f "celery.*-A.*api.*beat"
         sleep 1
@@ -549,7 +574,6 @@ cleanup() {
     
     # Clean webpack cache
     if [ "${SKIP_CACHE_CLEANUP:-}" != "1" ]; then
-        log "Cleaning webpack cache..."
         rm -rf node_modules/.cache .cache dist 2>/dev/null || true
     fi
     
@@ -1065,6 +1089,154 @@ attach_to_servers() {
     start_interactive
 }
 
+# Function to check port availability
+check_port_availability() {
+    local port=$1
+    if lsof -i :$port > /dev/null 2>&1; then
+        error "Port $port is already in use"
+        log "Process using port $port:"
+        lsof -i :$port
+        return 1
+    fi
+    success "Port $port is available"
+    return 0
+}
+
+# Function to check network connectivity
+check_network() {
+    log "Checking network connectivity..."
+    if ping -c 1 8.8.8.8 >/dev/null 2>&1; then
+        success "Network is reachable"
+        return 0
+    else
+        error "Network is unreachable"
+        return 1
+    fi
+}
+
+# Function to validate environment variables
+check_environment() {
+    log "Validating environment variables..."
+    local missing_vars=()
+    
+    # Django required vars
+    [[ -z "${DJANGO_DEBUG}" ]] && missing_vars+=("DJANGO_DEBUG")
+    [[ -z "${DJANGO_SECRET_KEY}" ]] && missing_vars+=("DJANGO_SECRET_KEY")
+    
+    # Firebase required vars
+    [[ ! -f "dg-website-firebase-adminsdk-ykjsf-f0de62e320.json" ]] && missing_vars+=("Firebase credentials file")
+    
+    if [ ${#missing_vars[@]} -ne 0 ]; then
+        error "Missing required environment variables or files:"
+        printf '%s\n' "${missing_vars[@]}"
+        return 1
+    fi
+    success "All required environment variables are set"
+    return 0
+}
+
+# Function to check dependencies
+check_dependencies() {
+    log "Checking project dependencies..."
+    
+    # Check Python dependencies
+    if [ -f "requirements-dev.txt" ]; then
+        log "Checking Python packages..."
+        # First install base requirements if needed
+        if [ -f "requirements-base.txt" ]; then
+            if [ ! -f ".deps_installed" ] || [ requirements-base.txt -nt ".deps_installed" ] || [ requirements-dev.txt -nt ".deps_installed" ]; then
+                log "Installing/updating Python dependencies..."
+                # First install base requirements
+                pip install -r requirements-base.txt
+                # Then install dev requirements
+                pip install -r requirements-dev.txt
+                touch ".deps_installed"
+            fi
+        else
+            error "requirements-base.txt not found"
+            return 1
+        fi
+        
+        # Sort installed packages for comparison
+        pip freeze | sort > /tmp/sorted-installed.txt
+        
+        # Process requirements files to resolve -r references and handle extras
+        python3 -c '
+import os
+import re
+
+def normalize_requirement(req):
+    # Remove comments
+    req = re.sub(r"#.*$", "", req)
+    # Handle package with extras
+    if "[" in req and "]" in req:
+        pkg_name = req.split("[")[0]
+        return pkg_name
+    # Handle version specifiers
+    return re.split(r"[<>=~!]", req)[0]
+
+def process_requirements(file_path, processed=None):
+    if processed is None:
+        processed = set()
+    if file_path in processed:
+        return ""
+    processed.add(file_path)
+    content = []
+    with open(file_path) as f:
+        for line in f:
+            line = line.strip()
+            if line.startswith("-r "):
+                ref_file = line.split(" ", 1)[1]
+                ref_path = os.path.join(os.path.dirname(file_path), ref_file)
+                content.extend(process_requirements(ref_path, processed).split("\n"))
+            elif line and not line.startswith("#"):
+                norm_req = normalize_requirement(line)
+                if norm_req:
+                    content.append(norm_req)
+    return "\n".join(content)
+
+print(process_requirements("requirements-dev.txt"))
+' | sort > /tmp/sorted-requirements.txt
+        
+        # Compare sorted files
+        local missing_py_deps=$(comm -23 /tmp/sorted-requirements.txt /tmp/sorted-installed.txt || true)
+        
+        # Cleanup temp files
+        rm -f /tmp/sorted-installed.txt /tmp/sorted-requirements.txt
+        
+        if [ ! -z "$missing_py_deps" ]; then
+            warn "Missing Python dependencies:"
+            echo "$missing_py_deps"
+            # Try to reinstall all dependencies
+            pip install -r requirements-base.txt
+            pip install -r requirements-dev.txt
+        else
+            success "Python dependencies are up to date"
+        fi
+    else
+        error "requirements-dev.txt not found"
+        return 1
+    fi
+    
+    # Check Node.js dependencies
+    if [ -f "package.json" ]; then
+        log "Checking Node.js packages..."
+        if [ ! -d "node_modules" ]; then
+            error "node_modules not found"
+        else
+            local pkg_issues=$(npm list 2>&1 | grep -E "missing:|invalid:|UNMET DEPENDENCY" || true)
+            if [ ! -z "$pkg_issues" ]; then
+                warn "Node.js package issues found:"
+                echo "$pkg_issues"
+            else
+                success "Node.js dependencies are up to date"
+            fi
+        fi
+    else
+        error "package.json not found"
+    fi
+}
+
 # Trap Ctrl+C and other termination signals
 trap cleanup SIGINT SIGTERM
 
@@ -1157,7 +1329,7 @@ case "${1,,}" in  # Convert to lowercase
 
         # Install/update dependencies
         log "Checking dependencies..."
-        pip install -q -r requirements.txt >/dev/null 2>&1
+        pip install -q -r requirements-base.txt >/dev/null 2>&1
         success "Python dependencies installed"
 
         npm install --silent >/dev/null 2>&1

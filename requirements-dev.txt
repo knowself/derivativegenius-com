@@ -1,9 +1,6 @@
 # Development requirements for Python 3.8
 -r requirements-base.txt
 
-# Development-specific Health Check (minimal setup for local)
-django-health-check[db,migrations]>=3.17.0
-
 # Testing
 pytest==7.4.3
 pytest-django==4.7.0
