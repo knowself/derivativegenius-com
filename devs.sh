@@ -12,31 +12,18 @@ BOLD='\033[1m'
 
 # Signal handling for clean shutdown
 cleanup_and_exit() {
-    echo -e "\n${YELLOW}Received shutdown signal. Cleaning up...${NC}"
-    stop_servers
-    
-    # Print all logs with clean headers
-    echo -e "\n${BOLD}${BLUE}=== FastAPI Log ===${NC}"
-    cat "$FASTAPI_LOG"
-    
-    echo -e "\n${BOLD}${BLUE}=== Vue.js Log ===${NC}"
-    grep -v "=== vue Log ===" "$VUE_LOG"
-    
-    echo -e "\n${BOLD}${BLUE}=== Cloud Run Log ===${NC}"
-    grep -v "=== cloud_run Log ===" "$CLOUD_RUN_LOG"
-    
-    echo -e "\n${BOLD}${BLUE}=== Dev Environment Log ===${NC}"
-    grep -v "=== dev_environment Log ===" "$DEV_ENV_LOG"
-    
-    echo -e "\n${GREEN}Cleanup complete. Exiting.${NC}"
+    echo ""
+    echo "Received shutdown signal. Cleaning up..."
+    stop_servers_quietly
     exit 0
 }
 
 # Clean quit without printing logs
 clean_quit() {
-    echo -e "\n${YELLOW}Shutting down cleanly...${NC}"
-    stop_servers
-    echo -e "${GREEN}Cleanup complete. Exiting.${NC}"
+    echo ""
+    echo "Shutting down cleanly..."
+    stop_servers_quietly
+    echo "Cleanup complete. Exiting."
     exit 0
 }
 
@@ -108,20 +95,20 @@ VENV_LOG="$LOGS_DIR/venv_setup.log"
 DEV_ENV_LOG="$LOGS_DIR/dev_environment.log"
 
 # Logging functions
-log_section() { echo -e "\n${BOLD}${BLUE}[SECTION] $1${NC}\n"; }
-log_step() { echo -e "${CYAN}[STEP]${NC} $1"; }
-log() { echo -e "${GREEN}[INFO]${NC} $1"; }
-warn() { echo -e "${YELLOW}[WARN]${NC} $1"; }
+log_section() { echo ""; echo "[SECTION] $1"; }
+log_step() { echo "[STEP] $1"; }
+log() { echo "[INFO] $1"; }
+warn() { echo "[WARN] $1"; }
 error() { 
-    echo -e "${RED}[ERROR]${NC} $1"
+    echo "[ERROR] $1"
     if [ -n "$2" ]; then
-        echo -e "${RED}Details:${NC}\n$2"
+        echo "Details:\n$2"
     fi
 }
-success() { echo -e "${GREEN}[SUCCESS]${NC} $1"; }
+success() { echo "[SUCCESS] $1"; }
 debug() {
     if [ "${DEBUG:-false}" = "true" ]; then
-        echo -e "${MAGENTA}[DEBUG]${NC} $1"
+        echo "[DEBUG] $1"
     fi
 }
 
@@ -131,10 +118,10 @@ show_error_context() {
     local lines=${2:-10}
     
     if [ -f "$log_file" ]; then
-        echo -e "${RED}Last $lines lines from $log_file:${NC}"
-        echo -e "${YELLOW}-------------------${NC}"
+        echo "Last $lines lines from $log_file:"
+        echo "-------------------"
         tail -n $lines "$log_file"
-        echo -e "${YELLOW}-------------------${NC}"
+        echo "-------------------"
     fi
 }
 
@@ -148,11 +135,17 @@ is_venv_active() {
 
 # Function to ensure virtual environment is active
 ensure_venv() {
-    log_section "Setting up Python virtual environment"
+    local quiet=${1:-false}
     
     if is_venv_active; then
-        success "Virtual environment is already active"
+        if [ "$quiet" != "true" ]; then
+            success "Virtual environment is already active"
+        fi
         return 0
+    fi
+
+    if [ "$quiet" != "true" ]; then
+        log_section "Setting up Python virtual environment"
     fi
 
     if [ ! -d "venv" ]; then
@@ -160,53 +153,54 @@ ensure_venv() {
         if ! check_python_version; then
             return 1
         fi
-        log_step "Creating virtual environment with Python 3.8..."
+        if [ "$quiet" != "true" ]; then
+            log_step "Creating virtual environment..."
+        fi
         python3.8 -m venv venv 2>"$VENV_LOG"
         if [ $? -ne 0 ]; then
-            error "Failed to create virtual environment" "$(cat "$VENV_LOG")"
+            if [ "$quiet" != "true" ]; then
+                error "Failed to create virtual environment" "$(cat "$VENV_LOG")"
+            fi
             return 1
         fi
     fi
     
-    log_step "Activating virtual environment..."
+    if [ "$quiet" != "true" ]; then
+        log_step "Activating virtual environment..."
+    fi
     source venv/bin/activate
     if [ $? -ne 0 ]; then
-        error "Failed to activate virtual environment"
+        if [ "$quiet" != "true" ]; then
+            error "Failed to activate virtual environment"
+        fi
         return 1
     fi
     
-    log_step "Installing base dependencies..."
+    if [ "$quiet" != "true" ]; then
+        log_step "Installing base dependencies..."
+    fi
     pip install -r requirements.txt > "$PIP_BASE_LOG" 2>&1
     if [ $? -ne 0 ]; then
-        error "Failed to install base dependencies" "$(cat "$PIP_BASE_LOG")"
+        if [ "$quiet" != "true" ]; then
+            error "Failed to install base dependencies" "$(cat "$PIP_BASE_LOG")"
+        fi
         return 1
     fi
 
-    log_step "Installing development dependencies..."
+    if [ "$quiet" != "true" ]; then
+        log_step "Installing development dependencies..."
+    fi
     pip install -r requirements-dev.txt > "$PIP_DEV_LOG" 2>&1
     if [ $? -ne 0 ]; then
-        error "Failed to install development dependencies" "$(show_error_context "$PIP_DEV_LOG")"
+        if [ "$quiet" != "true" ]; then
+            error "Failed to install development dependencies" "$(show_error_context "$PIP_DEV_LOG")"
+        fi
         return 1
     fi
     
-    success "Virtual environment is ready with all dependencies"
-    return 0
-}
-
-# Function to check Python version
-check_python_version() {
-    log_step "Checking Python version..."
-    local required_version="3.8"
-    local current_version=$(python3 --version 2>&1 | cut -d' ' -f2 | cut -d'.' -f1,2)
-    
-    debug "Current Python version: $current_version"
-    debug "Required Python version: $required_version"
-    
-    if [ "$current_version" != "$required_version" ]; then
-        error "Incorrect Python version" "Required: $required_version\nFound: $current_version\n\nTo fix:\n1. sudo apt update\n2. sudo apt install python$required_version python$required_version-venv\n3. sudo update-alternatives --install /usr/bin/python3 python3 /usr/bin/python$required_version 1"
-        return 1
+    if [ "$quiet" != "true" ]; then
+        success "Virtual environment is ready with all dependencies"
     fi
-    success "Python $required_version is installed"
     return 0
 }
 
@@ -240,46 +234,51 @@ setup_venv() {
 
 # Function to check if FastAPI is running
 is_fastapi_running() {
-    if curl -s http://localhost:8000/health > /dev/null; then
+    local quiet=${1:-false}
+    if pgrep -f "uvicorn.*main:app" > /dev/null; then
         return 0
+    fi
+    if [ "$quiet" != "true" ]; then
+        error "FastAPI server is not running"
     fi
     return 1
 }
 
 # Function to check if Vue is running
 is_vue_running() {
-    if curl -s http://localhost:8080 > /dev/null; then
+    local quiet=${1:-false}
+    if pgrep -f "node.*@vue/cli-service/bin/vue-cli-service" > /dev/null || \
+       curl -s --connect-timeout 1 --max-time 2 http://localhost:8080 > /dev/null 2>&1; then
         return 0
+    fi
+    if [ "$quiet" != "true" ]; then
+        error "Vue server is not running"
     fi
     return 1
 }
 
 # Function to check if Cloud Run Emulator is running
 is_cloud_run_emulator_running() {
-    if curl -s http://localhost:8085/health > /dev/null; then
+    local quiet=${1:-false}
+    if pgrep -f "cloud_run_emulator" > /dev/null || \
+       curl -s --connect-timeout 1 --max-time 2 http://localhost:8085 > /dev/null 2>&1; then
         return 0
+    fi
+    if [ "$quiet" != "true" ]; then
+        error "Cloud Run emulator is not running"
     fi
     return 1
 }
 
 # Function to check if FastAPI server is responding
 check_fastapi_health() {
-    local max_attempts=$1
-    local attempt=1
-    local delay=1
-
-    while [ $attempt -le $max_attempts ]; do
-        if curl -s http://localhost:8000/health > /dev/null 2>&1; then
-            return 0
-        fi
-        debug "FastAPI health check attempt $attempt of $max_attempts (waiting ${delay}s)"
-        sleep $delay
-        attempt=$((attempt + 1))
-        # Increase delay up to 3 seconds
-        if [ $delay -lt 3 ]; then
-            delay=$((delay + 1))
-        fi
-    done
+    local quiet=${1:-false}
+    if curl -s --connect-timeout 1 --max-time 2 http://localhost:8000/health > /dev/null 2>&1; then
+        return 0
+    fi
+    if [ "$quiet" != "true" ]; then
+        error "FastAPI server is not responding"
+    fi
     return 1
 }
 
@@ -290,70 +289,25 @@ declare -A SERVER_PIDS
 start_fastapi() {
     log_section "Starting FastAPI Server"
     
-    if is_fastapi_running; then
-        warn "FastAPI server is already running"
-        return 0
-    fi
-
-    # Ensure virtual environment is active
-    if ! ensure_venv; then
-        error "Failed to ensure virtual environment"
-        return 1
-    fi
+    # Start FastAPI server
+    nohup python3.8 -m uvicorn main:app --reload --port 8000 > "$FASTAPI_LOG" 2>&1 &
+    local pid=$!
     
-    # Create run directory if it doesn't exist
-    local run_dir="$LOGS_DIR/run"
-    mkdir -p "$run_dir"
-    
-    # Kill any existing uvicorn processes
-    pkill -f "uvicorn.*main:app" > /dev/null 2>&1
-    sleep 1
-    
-    # Create a wrapper script that handles signals
-    cat > "$run_dir/start_fastapi.sh" << 'EOF'
-#!/bin/bash
-trap '' SIGINT SIGTERM SIGTSTP  # Ignore signals
-exec "$@"  # Execute the command passed to this script
-EOF
-    chmod +x "$run_dir/start_fastapi.sh"
-    
-    # Start FastAPI in its own process group with signal handling
-    (trap '' SIGINT SIGTERM SIGTSTP && \
-     cd "$(pwd)" && \
-     setsid "$run_dir/start_fastapi.sh" "${VIRTUAL_ENV}/bin/python" -m uvicorn main:app \
-        --reload \
-        --host 0.0.0.0 \
-        --port 8000 \
-        --log-level debug \
-        >> "$LOGS_DIR/fastapi.log" 2>&1 &)
-    
-    # Store the PID
-    SERVER_PIDS["fastapi"]=$!
-    
-    # Give FastAPI time to start
-    local max_attempts=30
+    # Wait for server to be ready
     log_step "Waiting for FastAPI server to be ready..."
+    local max_attempts=30
+    local attempt=0
+    while [ $attempt -lt $max_attempts ]; do
+        if check_fastapi_health true; then
+            success "FastAPI server started successfully"
+            return 0
+        fi
+        sleep 1
+        attempt=$((attempt + 1))
+    done
     
-    if check_fastapi_health $max_attempts; then
-        success "FastAPI server started successfully"
-        debug "Process ID: ${SERVER_PIDS["fastapi"]}"
-        debug "Port: 8000"
-        debug "API docs available at: http://localhost:8000/docs"
-        return 0
-    else
-        error "FastAPI server failed to start" "$(show_error_context "$LOGS_DIR/fastapi.log")"
-        if [ -f "$LOGS_DIR/fastapi.log" ]; then
-            error "Last 20 lines of FastAPI log:" "$(tail -n 20 "$LOGS_DIR/fastapi.log")"
-        fi
-        
-        # Cleanup
-        if kill -0 ${SERVER_PIDS["fastapi"]} 2>/dev/null; then
-            kill -TERM -${SERVER_PIDS["fastapi"]} 2>/dev/null  # Kill the entire process group
-        fi
-        unset SERVER_PIDS["fastapi"]
-        rm -f "$run_dir/start_fastapi.sh"
-        return 1
-    fi
+    error "Failed to start FastAPI server" "Server did not respond after $max_attempts seconds"
+    return 1
 }
 
 # Function to stop FastAPI server
@@ -362,7 +316,7 @@ stop_fastapi() {
         log_step "Stopping FastAPI server (PID: ${SERVER_PIDS["fastapi"]})..."
         kill -TERM -${SERVER_PIDS["fastapi"]} 2>/dev/null  # Kill the entire process group
         sleep 1
-        pkill -f "uvicorn.*main:app" > /dev/null 2>&1  # Fallback cleanup
+        pkill -9 -f "uvicorn.*api.main:app" > /dev/null 2>&1  # Fallback cleanup
     fi
     unset SERVER_PIDS["fastapi"]
     rm -f "$LOGS_DIR/run/start_fastapi.sh"
@@ -372,89 +326,50 @@ stop_fastapi() {
 start_vue() {
     log_section "Starting Vue Server"
     
-    if is_vue_running; then
-        warn "Vue server is already running"
-        return 0
-    fi
-
+    # Start Vue development server
     log_step "Starting Vue development server..."
-    npm run dev > "$VUE_LOG" 2>&1 &
-    SERVER_PIDS["vue"]=$!
+    nohup npm run dev > "$VUE_LOG" 2>&1 &
+    local pid=$!
     
-    # Give it time to start
-    local start_time=$(date +%s)
-    while true; do
-        sleep 1
-        current_time=$(date +%s)
-        elapsed=$((current_time - start_time))
-        
-        if ! kill -0 ${SERVER_PIDS["vue"]} 2>/dev/null; then
-            error "Vue server process terminated unexpectedly" "$(show_error_context "$VUE_LOG")"
-            return 1
-        fi
-        
-        if is_vue_running; then
+    # Wait for server to be ready
+    local max_attempts=30
+    local attempt=0
+    while [ $attempt -lt $max_attempts ]; do
+        if is_vue_running true; then
             success "Vue server started successfully"
-            debug "Process ID: ${SERVER_PIDS["vue"]}"
-            debug "Port: 8080"
             return 0
-        elif [ $elapsed -gt 30 ]; then
-            error "Vue server took too long to initialize" "$(show_error_context "$VUE_LOG")"
-            return 1
         fi
+        sleep 1
+        attempt=$((attempt + 1))
     done
+    
+    error "Failed to start Vue server" "Server did not respond after $max_attempts seconds"
+    return 1
 }
 
-# Function to start Cloud Run Emulator
+# Function to start Cloud Run emulator
 start_cloud_run_emulator() {
     log_section "Starting Cloud Run Emulator"
     
-    if is_cloud_run_emulator_running; then
-        warn "Cloud Run Emulator is already running"
-        return 0
-    fi
-
-    if ! ensure_venv; then
-        return 1
-    fi
-
+    # Start Cloud Run emulator
     log_step "Starting Cloud Run Emulator..."
+    nohup python3.8 -m cloud_run_emulator > "$CLOUD_RUN_LOG" 2>&1 &
+    local pid=$!
     
-    # Check if worker/main.py exists
-    if [ ! -f "worker/main.py" ]; then
-        error "Cloud Run Emulator failed to start" "worker/main.py not found"
-        return 1
-    fi
-    
-    # Start the worker with functions-framework
-    (cd worker && \
-     PYTHONPATH=. \
-     functions-framework --target=process_job --debug --port=8085 > "$CLOUD_RUN_LOG" 2>&1 &)
-    
-    SERVER_PIDS["cloud_run"]=$!
-    
-    # Give it time to start
-    local start_time=$(date +%s)
-    while true; do
-        sleep 1
-        current_time=$(date +%s)
-        elapsed=$((current_time - start_time))
-        
-        if ! kill -0 ${SERVER_PIDS["cloud_run"]} 2>/dev/null; then
-            error "Cloud Run Emulator process terminated unexpectedly" "$(show_error_context "$CLOUD_RUN_LOG")"
-            return 1
-        fi
-        
-        if is_cloud_run_emulator_running; then
+    # Wait for emulator to be ready
+    local max_attempts=30
+    local attempt=0
+    while [ $attempt -lt $max_attempts ]; do
+        if is_cloud_run_emulator_running true; then
             success "Cloud Run Emulator started successfully"
-            debug "Process ID: ${SERVER_PIDS["cloud_run"]}"
-            debug "Port: 8085"
             return 0
-        elif [ $elapsed -gt 10 ]; then
-            error "Cloud Run Emulator took too long to initialize" "$(show_error_context "$CLOUD_RUN_LOG")"
-            return 1
         fi
+        sleep 1
+        attempt=$((attempt + 1))
     done
+    
+    error "Failed to start Cloud Run Emulator" "Emulator did not respond after $max_attempts seconds"
+    return 1
 }
 
 # Function to start all servers
@@ -484,72 +399,84 @@ start_servers() {
 stop_servers() {
     log_section "Stopping All Servers"
     
-    # Kill FastAPI server and its tmux session
-    if [ -n "${SERVER_PIDS["fastapi"]}" ]; then
-        tmux kill-session -t fastapi 2>/dev/null
-        pkill -f "uvicorn.*main:app" > /dev/null 2>&1
-        success "FastAPI server stopped"
+    # Kill only our specific server processes
+    pkill -9 -f "uvicorn.*api.main:app" 2>/dev/null        # FastAPI
+    pkill -9 -f "vue-cli-service.*serve" 2>/dev/null       # Vue
+    pkill -9 -f "python.*cloud_run/worker.py" 2>/dev/null  # Cloud Run worker
+    
+    # Clean up PIDs
+    unset SERVER_PIDS["fastapi"]
+    unset SERVER_PIDS["vue"]
+    unset SERVER_PIDS["cloud_run"]
+    
+    success "All servers stopped"
+}
+
+# Function to stop servers without output
+stop_servers_quietly() {
+    {
+        # Kill only our specific server processes
+        pkill -9 -f "uvicorn.*api.main:app" 2>/dev/null        # FastAPI
+        pkill -9 -f "vue-cli-service.*serve" 2>/dev/null       # Vue
+        pkill -9 -f "python.*cloud_run/worker.py" 2>/dev/null  # Cloud Run worker
+        
+        # Clean up PIDs
         unset SERVER_PIDS["fastapi"]
-    fi
-    
-    # Kill Vue server
-    if [ -n "${SERVER_PIDS["vue"]}" ] && kill -0 ${SERVER_PIDS["vue"]} 2>/dev/null; then
-        kill ${SERVER_PIDS["vue"]} 2>/dev/null
-        success "Vue server stopped"
         unset SERVER_PIDS["vue"]
-    fi
-    
-    # Kill Cloud Run Emulator
-    if [ -n "${SERVER_PIDS["cloud_run"]}" ] && kill -0 ${SERVER_PIDS["cloud_run"]} 2>/dev/null; then
-        kill ${SERVER_PIDS["cloud_run"]} 2>/dev/null
-        success "Cloud Run Emulator stopped"
         unset SERVER_PIDS["cloud_run"]
-    fi
-    
-    # Cleanup any remaining processes
-    pkill -f "uvicorn.*main:app" > /dev/null 2>&1
-    pkill -f "vue-cli-service.*serve" > /dev/null 2>&1
-    pkill -f "python3.*worker.py" > /dev/null 2>&1
-    
-    # Deactivate virtual environment if active
-    if [ -n "$VIRTUAL_ENV" ]; then
-        deactivate 2>/dev/null || true
-    fi
+    } > /dev/null 2>&1
 }
 
 # Function to print service status
 print_service_status() {
-    echo -e "\n${BOLD}${BLUE}Service Status:${NC}"
+    echo ""
+    echo "Service Status:"
     
-    # Check FastAPI
-    if is_fastapi_running; then
-        echo -e "${GREEN}✓${NC} FastAPI Server     - ${CYAN}http://localhost:8000${NC}"
-        echo -e "                    └─ API Docs: ${CYAN}http://localhost:8000/docs${NC}"
+    # Check Python and venv status
+    local python_status="✗"
+    local venv_status="✗"
+    if check_python_version true; then
+        python_status="✓"
+    fi
+    if is_venv_active; then
+        venv_status="✓"
+    fi
+    echo "${python_status} Python 3.8 | ${venv_status} Virtual Environment"
+    
+    # Check server statuses quietly and show formatted output
+    local status="✗"
+    if check_fastapi_health true; then
+        status="✓"
+        echo "$status FastAPI Server     - http://localhost:8000"
+        echo "                    └─ API Docs: http://localhost:8000/docs"
     else
-        echo -e "${RED}✗${NC} FastAPI Server     - Not running"
+        echo "$status FastAPI Server     - Not running"
     fi
     
-    # Check Vue.js
-    if is_vue_running; then
-        echo -e "${GREEN}✓${NC} Vue.js Server     - ${CYAN}http://localhost:8080${NC}"
+    status="✗"
+    if is_vue_running true; then
+        status="✓"
+        echo "$status Vue.js Server     - http://localhost:8080"
     else
-        echo -e "${RED}✗${NC} Vue.js Server     - Not running"
+        echo "$status Vue.js Server     - Not running"
     fi
     
-    # Check Cloud Run
-    if is_cloud_run_emulator_running; then
-        echo -e "${GREEN}✓${NC} Cloud Run Server  - ${CYAN}http://localhost:8085${NC}"
+    status="✗"
+    if is_cloud_run_emulator_running true; then
+        status="✓"
+        echo "$status Cloud Run Server  - http://localhost:8085"
     else
-        echo -e "${RED}✗${NC} Cloud Run Server  - Not running"
+        echo "$status Cloud Run Server  - Not running"
     fi
     
-    echo -e "\n${BOLD}${BLUE}Available Commands:${NC}"
-    echo -e "  ${CYAN}./devs.sh${NC}         - Show service status"
-    echo -e "  ${CYAN}./devs.sh start${NC}   - Start all services"
-    echo -e "  ${CYAN}./devs.sh stop${NC}    - Stop all services"
-    echo -e "  ${CYAN}./devs.sh restart${NC} - Restart all services"
-    echo -e "  ${CYAN}./devs.sh logs${NC}    - View service logs"
-    echo -e "  ${CYAN}./devs.sh q${NC}       - Quit quietly"
+    echo ""
+    echo "Available Commands:"
+    echo "  ./devs.sh         - Check environment and show status"
+    echo "  ./devs.sh stop    - Stop all services"
+    echo "  ./devs.sh restart - Restart all services"
+    echo "  ./devs.sh logs    - View service logs"
+    echo "  ./devs.sh q       - Stop services quietly"
+    echo "  ./devs.sh help    - Show detailed help"
 }
 
 # Function to check server status
@@ -559,7 +486,7 @@ check_status() {
     local status_details=""
     
     # Check Python version
-    if check_python_version; then
+    if check_python_version true; then
         status_details+="✅ Python 3.8\n"
     else
         status_details+="❌ Python 3.8\n"
@@ -598,7 +525,9 @@ check_status() {
         all_running=false
     fi
     
-    echo -e "\n${BOLD}Service Status:${NC}\n$status_details"
+    echo ""
+    echo "Service Status:"
+    echo "$status_details"
     
     if $all_running; then
         success "All services are running"
@@ -613,20 +542,22 @@ check_status() {
 view_logs() {
     log_section "Viewing Service Logs"
     
-    echo -e "\n${BOLD}${BLUE}Select a service to view logs:${NC}"
-    echo -e "${CYAN}1${NC} - FastAPI"
-    echo -e "${CYAN}2${NC} - Vue.js"
-    echo -e "${CYAN}3${NC} - Cloud Run Emulator"
-    echo -e "${CYAN}4${NC} - Dependency Installation"
-    echo -e "${CYAN}5${NC} - All Services"
-    echo -e "${CYAN}b${NC} - Back to main menu"
+    echo ""
+    echo "Select a service to view logs:"
+    echo "1 - FastAPI"
+    echo "2 - Vue.js"
+    echo "3 - Cloud Run Emulator"
+    echo "4 - Dependency Installation"
+    echo "5 - All Services"
+    echo "b - Back to main menu"
     
     read -r choice
     
     case "$choice" in
         1)
             if [ -f "$FASTAPI_LOG" ]; then
-                echo -e "\n${BOLD}${BLUE}FastAPI Logs:${NC}"
+                echo ""
+                echo "FastAPI Logs:"
                 tail -n 50 "$FASTAPI_LOG"
             else
                 warn "No FastAPI logs found"
@@ -634,7 +565,8 @@ view_logs() {
             ;;
         2)
             if [ -f "$VUE_LOG" ]; then
-                echo -e "\n${BOLD}${BLUE}Vue.js Logs:${NC}"
+                echo ""
+                echo "Vue.js Logs:"
                 tail -n 50 "$VUE_LOG"
             else
                 warn "No Vue.js logs found"
@@ -642,32 +574,39 @@ view_logs() {
             ;;
         3)
             if [ -f "$CLOUD_RUN_LOG" ]; then
-                echo -e "\n${BOLD}${BLUE}Cloud Run Emulator Logs:${NC}"
+                echo ""
+                echo "Cloud Run Emulator Logs:"
                 tail -n 50 "$CLOUD_RUN_LOG"
             else
                 warn "No Cloud Run Emulator logs found"
             fi
             ;;
         4)
-            echo -e "\n${BOLD}${BLUE}Dependency Installation Logs:${NC}"
+            echo ""
+            echo "Dependency Installation Logs:"
             if [ -f "$PIP_BASE_LOG" ]; then
-                echo -e "\n${CYAN}Base Dependencies:${NC}"
+                echo ""
+                echo "Base Dependencies:"
                 tail -n 20 "$PIP_BASE_LOG"
             fi
             if [ -f "$PIP_DEV_LOG" ]; then
-                echo -e "\n${CYAN}Development Dependencies:${NC}"
+                echo ""
+                echo "Development Dependencies:"
                 tail -n 20 "$PIP_DEV_LOG"
             fi
             if [ -f "$VENV_LOG" ]; then
-                echo -e "\n${CYAN}Virtual Environment Setup:${NC}"
+                echo ""
+                echo "Virtual Environment Setup:"
                 tail -n 20 "$VENV_LOG"
             fi
             ;;
         5)
-            echo -e "\n${BOLD}${BLUE}All Service Logs:${NC}"
+            echo ""
+            echo "All Service Logs:"
             for log in "$FASTAPI_LOG" "$VUE_LOG" "$CLOUD_RUN_LOG" "$PIP_BASE_LOG" "$PIP_DEV_LOG" "$VENV_LOG"; do
                 if [ -f "$log" ]; then
-                    echo -e "\n${CYAN}=== $(basename "$log") ====${NC}"
+                    echo ""
+                    echo "=== $(basename "$log") ===="
                     tail -n 20 "$log"
                 fi
             done
@@ -676,46 +615,54 @@ view_logs() {
             return
             ;;
         *)
-            warn "Invalid choice"
+            if [ -n "$choice" ]; then  # Only show error if a key was pressed
+                echo ""
+                echo "Unknown command."
+            fi
             ;;
     esac
     
-    echo -e "\nPress Enter to continue..."
+    echo ""
+    echo "Press Enter to continue..."
     read -r
 }
 
 # Function to display help menu
 show_help() {
-    echo -e "\n${BOLD}${BLUE}Available Commands:${NC}"
-    echo -e "${CYAN}[Enter]${NC} - Show this help menu"
-    echo -e "${CYAN}h/H${NC}    - Run health check on all services"
-    echo -e "${CYAN}s${NC}      - Show service status"
-    echo -e "${CYAN}r${NC}      - Restart all services"
-    echo -e "${CYAN}c${NC}      - Clean Python cache"
-    echo -e "${CYAN}l${NC}      - View service logs"
-    echo -e "${CYAN}q${NC}      - Quit development server"
-    echo -e "\n${BOLD}${BLUE}Active Services:${NC}"
-    echo -e "FastAPI:          ${CYAN}http://localhost:8000${NC}"
-    echo -e "Vue.js:           ${CYAN}http://localhost:8080${NC}"
-    echo -e "Cloud Run:        ${CYAN}http://localhost:8085${NC}"
-    echo -e "API Docs:         ${CYAN}http://localhost:8000/docs${NC}"
+    echo ""
+    echo "Available Commands:"
+    echo "[Enter] - Show this help menu"
+    echo "h/H    - Run health check on all services"
+    echo "s      - Show service status"
+    echo "r      - Restart all services"
+    echo "c      - Clean Python cache"
+    echo "l      - View service logs"
+    echo "q      - Quit development server"
+    echo ""
+    echo "Active Services:"
+    echo "FastAPI:          http://localhost:8000"
+    echo "Vue.js:           http://localhost:8080"
+    echo "Cloud Run:        http://localhost:8085"
+    echo "API Docs:         http://localhost:8000/docs"
 }
 
 # Function to handle interactive mode
 interactive_mode() {
     # Function to show available commands
     show_commands() {
-        echo -e "\n${BOLD}Commands:${NC}"
-        echo -e "  ${CYAN}q${NC} - Quit cleanly"
-        echo -e "  ${CYAN}r${NC} - Restart all servers"
-        echo -e "  ${CYAN}s${NC} - Show status"
-        echo -e "  ${CYAN}l${NC} - Show log locations"
-        echo -e "  ${CYAN}p${NC} - Print all logs"
-        echo -e "  ${CYAN}h${NC} - Show this help"
+        echo ""
+        echo "Commands:"
+        echo "  q - Quit cleanly"
+        echo "  r - Restart all servers"
+        echo "  s - Show status"
+        echo "  l - Show log locations"
+        echo "  p - Print all logs"
+        echo "  h - Show this help"
     }
 
     while true; do
-        echo -e "\n${BOLD}${BLUE}Interactive Mode${NC}"
+        echo ""
+        echo "Interactive Mode"
         read -n 1 -r -p "> " cmd
         echo
         case "${cmd,,}" in  # Convert to lowercase
@@ -733,13 +680,17 @@ interactive_mode() {
                 view_logs
                 ;;
             p)
-                echo -e "\n${BOLD}${BLUE}=== FastAPI Log ===${NC}"
+                echo ""
+                echo "=== FastAPI Log ===="
                 cat "$FASTAPI_LOG"
-                echo -e "\n${BOLD}${BLUE}=== Vue.js Log ===${NC}"
+                echo ""
+                echo "=== Vue.js Log ===="
                 cat "$VUE_LOG"
-                echo -e "\n${BOLD}${BLUE}=== Cloud Run Log ===${NC}"
+                echo ""
+                echo "=== Cloud Run Log ===="
                 cat "$CLOUD_RUN_LOG"
-                echo -e "\n${BOLD}${BLUE}=== Dev Environment Log ===${NC}"
+                echo ""
+                echo "=== Dev Environment Log ===="
                 cat "$DEV_ENV_LOG"
                 ;;
             h)
@@ -747,7 +698,8 @@ interactive_mode() {
                 ;;
             *)
                 if [ -n "$cmd" ]; then  # Only show error if a key was pressed
-                    echo -e "${RED}Unknown command.${NC}"
+                    echo ""
+                    echo "Unknown command."
                 fi
                 show_commands
                 ;;
@@ -785,19 +737,21 @@ cleanup() {
 
 # Function to display help menu
 show_help() {
-    echo -e "\n${BOLD}${BLUE}Available Commands:${NC}"
-    echo -e "${CYAN}[Enter]${NC} - Show this help menu"
-    echo -e "${CYAN}h/H${NC}    - Run health check on all services"
-    echo -e "${CYAN}s${NC}      - Show service status"
-    echo -e "${CYAN}r${NC}      - Restart all services"
-    echo -e "${CYAN}c${NC}      - Clean Python cache"
-    echo -e "${CYAN}l${NC}      - View service logs"
-    echo -e "${CYAN}q${NC}      - Quit development server"
-    echo -e "\n${BOLD}${BLUE}Active Services:${NC}"
-    echo -e "FastAPI:          ${CYAN}http://localhost:8000${NC}"
-    echo -e "Vue.js:           ${CYAN}http://localhost:8080${NC}"
-    echo -e "Cloud Run:        ${CYAN}http://localhost:8085${NC}"
-    echo -e "API Docs:         ${CYAN}http://localhost:8000/docs${NC}"
+    echo ""
+    echo "Available Commands:"
+    echo "[Enter] - Show this help menu"
+    echo "h/H    - Run health check on all services"
+    echo "s      - Show service status"
+    echo "r      - Restart all services"
+    echo "c      - Clean Python cache"
+    echo "l      - View service logs"
+    echo "q      - Quit development server"
+    echo ""
+    echo "Active Services:"
+    echo "FastAPI:          http://localhost:8000"
+    echo "Vue.js:           http://localhost:8080"
+    echo "Cloud Run:        http://localhost:8085"
+    echo "API Docs:         http://localhost:8000/docs"
 }
 
 # Function to run health check
@@ -807,39 +761,44 @@ health_check() {
     local all_healthy=true
     local details=""
     
-    # Check FastAPI health
-    if curl -s http://localhost:8000/health > /dev/null 2>&1; then
-        details+="✅ FastAPI is responding\n"
+    # Check Python and venv status
+    local python_status="✗"
+    local venv_status="✗"
+    if check_python_version true; then
+        python_status="✓"
+    fi
+    if is_venv_active; then
+        venv_status="✓"
+    fi
+    details+="${python_status} Python 3.8 | ${venv_status} Virtual Environment\n"
+    
+    # Check FastAPI
+    if is_fastapi_running; then
+        details+="✅ FastAPI (http://localhost:8000)\n"
     else
-        details+="❌ FastAPI is not responding\n"
+        details+="❌ FastAPI\n"
         all_healthy=false
     fi
     
     # Check Vue.js
-    if curl -s http://localhost:8080 > /dev/null 2>&1; then
-        details+="✅ Vue.js is responding\n"
+    if is_vue_running; then
+        details+="✅ Vue.js (http://localhost:8080)\n"
     else
-        details+="❌ Vue.js is not responding\n"
+        details+="❌ Vue.js\n"
         all_healthy=false
     fi
     
     # Check Cloud Run Emulator
-    if curl -s http://localhost:8085/health > /dev/null 2>&1; then
-        details+="✅ Cloud Run Emulator is responding\n"
+    if is_cloud_run_emulator_running; then
+        details+="✅ Cloud Run Emulator (http://localhost:8085)\n"
     else
-        details+="❌ Cloud Run Emulator is not responding\n"
+        details+="❌ Cloud Run Emulator\n"
         all_healthy=false
     fi
     
-    # Check Python environment
-    if is_venv_active; then
-        details+="✅ Virtual Environment is active\n"
-    else
-        details+="❌ Virtual Environment is not active\n"
-        all_healthy=false
-    fi
-    
-    echo -e "\n${BOLD}Health Check Results:${NC}\n$details"
+    echo ""
+    echo "Health Check Results:"
+    echo "$details"
     
     if $all_healthy; then
         success "All services are healthy"
@@ -847,6 +806,73 @@ health_check() {
     else
         warn "Some services are unhealthy"
         return 1
+    fi
+}
+
+# Function to check Python version
+check_python_version() {
+    local quiet=${1:-false}
+    
+    if ! command -v python3.8 &> /dev/null; then
+        if [ "$quiet" != "true" ]; then
+            error "Python 3.8 is required but not found"
+        fi
+        return 1
+    fi
+
+    local python_version=$(python3.8 -c 'import sys; print(".".join(map(str, sys.version_info[:2])))')
+    if [[ "$python_version" != "3.8" ]]; then
+        if [ "$quiet" != "true" ]; then
+            error "Python version 3.8 is required, but found $python_version"
+        fi
+        return 1
+    fi
+
+    if [ "$quiet" != "true" ]; then
+        success "Python 3.8 is installed"
+    fi
+    return 0
+}
+
+# Function to check and start servers if needed
+check_and_start_servers() {
+    local fastapi_running=false
+    local vue_running=false
+    local cloudrun_running=false
+    local any_server_started=false
+
+    # Check current status of all servers quietly
+    check_fastapi_health true && fastapi_running=true
+    is_vue_running true && vue_running=true
+    is_cloud_run_emulator_running true && cloudrun_running=true
+
+    if [ "$fastapi_running" = "false" ] || [ "$vue_running" = "false" ] || [ "$cloudrun_running" = "false" ]; then
+        log_section "Starting required services"
+        
+        if [ "$fastapi_running" = "false" ]; then
+            log_step "Starting FastAPI server..."
+            start_fastapi
+            any_server_started=true
+        fi
+        
+        if [ "$vue_running" = "false" ]; then
+            log_step "Starting Vue.js server..."
+            start_vue
+            any_server_started=true
+        fi
+        
+        if [ "$cloudrun_running" = "false" ]; then
+            log_step "Starting Cloud Run emulator..."
+            start_cloud_run_emulator
+            any_server_started=true
+        fi
+
+        if [ "$any_server_started" = "true" ]; then
+            # Give servers a moment to start
+            sleep 2
+            success "Services started"
+            echo ""
+        fi
     fi
 }
 
@@ -860,39 +886,13 @@ main() {
     # Create logs directory if it doesn't exist
     mkdir -p "$LOGS_DIR"
     
-    # Ensure logs directory is properly ignored by git
-    if ! grep -q "^dev_logs/$" "$SCRIPT_DIR/.gitignore" 2>/dev/null; then
-        debug "Adding dev_logs/ to .gitignore"
-        echo "dev_logs/" >> "$SCRIPT_DIR/.gitignore"
-    fi
-    
     # Set up log file paths
     FASTAPI_LOG="$LOGS_DIR/fastapi.log"
     VUE_LOG="$LOGS_DIR/vue.log"
     CLOUD_RUN_LOG="$LOGS_DIR/cloud_run.log"
     DEV_ENV_LOG="$LOGS_DIR/dev_environment.log"
     
-    # Initialize or rotate logs if they get too large (>10MB)
-    for log_file in "$FASTAPI_LOG" "$VUE_LOG" "$CLOUD_RUN_LOG" "$DEV_ENV_LOG"; do
-        if [ -f "$log_file" ] && [ "$(stat -f%z "$log_file" 2>/dev/null || stat -c%s "$log_file")" -gt 10485760 ]; then
-            mv "$log_file" "${log_file}.old"
-        fi
-        touch "$log_file"
-    done
-    
-    # Add headers to empty log files
-    for log_file in "$FASTAPI_LOG" "$VUE_LOG" "$CLOUD_RUN_LOG" "$DEV_ENV_LOG"; do
-        if [ ! -s "$log_file" ]; then
-            {
-                echo "=== $(basename "${log_file%.*}") Log ==="
-                echo "Started at: $(date)"
-                echo "==============================="
-            } > "$log_file"
-        fi
-    done
-    
-    # Default command is 'start' if no command provided
-    local command=${1:-status}
+    local command=${1:-""}
     
     case "$command" in
         "stop")
@@ -908,24 +908,33 @@ main() {
         "q")
             stop_servers_quietly
             ;;
-        "start")
-            start_servers
-            ;;
-        "status"|"")  # Both empty and "status" will show status
-            print_service_status
-            ;;
         "help"|"-h"|"--help")
             show_help
             ;;
         *)
-            error "Unknown command: $command"
-            show_help
-            exit 1
+            # Default behavior: ensure venv and check/start services
+            #
+            # IMPORTANT DESIGN DECISIONS:
+            # 1. Virtual environment must be active before any server operations
+            # 2. Server startup sequence:
+            #    - First check and start any non-running servers
+            #    - Then show final status of all services
+            # 3. Port assignments (DO NOT CHANGE):
+            #    - FastAPI:    8000 (API docs at /docs)
+            #    - Vue.js:     8080 (dev server)
+            #    - Cloud Run:  8085 (emulator)
+            #
+            # WARNING: Do not add a status check before server startup.
+            # The current flow ensures clean startup and accurate final status.
+            if ! ensure_venv; then
+                error "Failed to set up Python virtual environment"
+                exit 1
+            fi
+            check_and_start_servers
+            print_service_status  # Show final status after any server changes
             ;;
     esac
 }
 
-# If script is being sourced, don't run main
-if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
-    main "$@"
-fi
+# Call main function with all script arguments
+main "$@"

@@ -48,14 +48,14 @@ class AuthService {
         
         // First check if backend is accessible
         try {
-          await api.options('/firebase/auth/signin/');
+          await api.options('/auth/verify');
         } catch (error) {
           console.error('CORS preflight failed:', error);
           console.log('Continuing with Firebase token claims');
         }
         
-        const response = await api.post('/firebase/auth/signin/', {
-          idToken: idToken
+        const response = await api.post('/auth/verify', {
+          token: idToken
         });
 
         if (!response.data) {

@@ -1,0 +1,7 @@
+{
+  "allowed_paths": [
+    "dev_logs/*",
+    "*.log"
+  ],
+  "allow_gitignored": true
+}

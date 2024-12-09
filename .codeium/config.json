@@ -1,0 +1,18 @@
+{
+  "version": "1.0",
+  "ignore": {
+    "exclude_from_ignore": [
+      "dev_logs/*",
+      "*.log"
+    ]
+  },
+  "tools": {
+    "file_access": {
+      "allow_gitignored": true,
+      "read_patterns": [
+        "dev_logs/*",
+        "*.log"
+      ]
+    }
+  }
+}

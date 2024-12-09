@@ -1,0 +1,19 @@
+{
+  "version": "1.0",
+  "tool_permissions": {
+    "allow_gitignored_files": true,
+    "allow_gitignored_patterns": [
+      "dev_logs/*",
+      "*.log"
+    ],
+    "rationale": "Enable AI tools to access log files for debugging while keeping them out of git history"
+  },
+  "security": {
+    "file_access": {
+      "read_only_patterns": [
+        "dev_logs/*",
+        "*.log"
+      ]
+    }
+  }
+}

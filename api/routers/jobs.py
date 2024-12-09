@@ -1,5 +1,6 @@
 from fastapi import APIRouter, Depends, HTTPException, BackgroundTasks
 from google.cloud import tasks_v2
+from google.auth.exceptions import DefaultCredentialsError
 from pydantic import BaseModel
 from typing import Optional, Dict, Any
 import json
@@ -8,7 +9,13 @@ import os
 from api.routers.auth import verify_token
 
 router = APIRouter()
-client = tasks_v2.CloudTasksClient()
+
+# Initialize Cloud Tasks client with error handling
+try:
+    client = tasks_v2.CloudTasksClient()
+except DefaultCredentialsError:
+    print("Warning: Google Cloud credentials not found. Job submission will be disabled.")
+    client = None
 
 class JobRequest(BaseModel):
     job_type: str
@@ -16,6 +23,11 @@ class JobRequest(BaseModel):
     callback_url: Optional[str] = None
 
 def create_cloud_task(job_request: JobRequest, user_id: str):
+    if client is None:
+        raise HTTPException(
+            status_code=503,
+            detail="Job submission is currently disabled. Google Cloud credentials not configured."
+        )
     project = os.getenv("GOOGLE_CLOUD_PROJECT")
     queue = os.getenv("CLOUD_TASKS_QUEUE")
     location = os.getenv("CLOUD_TASKS_LOCATION", "us-central1")

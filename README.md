@@ -47,11 +47,18 @@ Derivative Genius is an AI Automation Agency (AAA) that transforms businesses th
      - Long-running jobs
      - Custom runtime environment
 
-3. **Database**
+3. **Database & Backend Services**
    - Firebase for data persistence
-   - Real-time capabilities
-   - Built-in authentication
-   - Secure data access
+     - Real-time capabilities
+     - Built-in authentication
+     - Secure data access
+   - Firebase Functions v2 for serverless operations
+     - Enhanced secrets management with `defineSecret`
+     - Type-safe configuration
+     - Function-level resource settings
+     - Secure environment variable handling
+     - Used for contact form and email services
+     - See [FIREBASE_SETUP.md](./FIREBASE_SETUP.md) for detailed setup instructions and lessons learned
 
 4. **Job Queue System**
    - Cloud Pub/Sub for LLM workloads
@@ -130,6 +137,125 @@ Derivative Genius is an AI Automation Agency (AAA) that transforms businesses th
    - Firebase returns data to Admin SDK
    - FastAPI applies business logic and security
    - Vue.js updates UI based on REST response
+
+## System Resilience and Fault Tolerance
+
+### Design Principles for Handling System Failures
+
+Our application is designed to maintain data integrity and user experience even when facing multiple system failures. Here's how we implement this resilient architecture:
+
+1. **Data Persistence First**
+   - Always save core data before triggering dependent systems
+   - Example from Contact Form:
+     ```javascript
+     // Save contact to Firestore first
+     const saveContact = async (contactData) => {
+       try {
+         return await db.collection('contacts').add({
+           ...contactData,
+           timestamp: admin.firestore.Timestamp.now(),
+           status: 'pending',
+           emailSent: !!transporter  // Track email capability
+         });
+       } catch (error) {
+         logger.error('Error saving to Firestore:', error);
+         throw new Error('Failed to save contact information');
+       }
+     };
+     ```
+
+2. **Graceful Degradation**
+   - Systems should continue functioning with reduced capabilities rather than failing completely
+   - Example: Contact form continues working even when email system is down:
+     ```javascript
+     // Email sending is attempted only after data is saved
+     try {
+       await sendEmails(contactData, notificationEmail, confirmationEmail);
+     } catch (emailError) {
+       logger.warn('Failed to send emails, but contact was saved:', emailError);
+       // Continue execution - don't throw error
+     }
+     ```
+
+3. **Transparent User Feedback**
+   - Clearly communicate system status to users
+   - Provide appropriate feedback based on available functionality
+   ```javascript
+   res.status(200).json({
+     success: true,
+     message: 'Thank you for your message! ' + 
+       (transporter ? 'We will get back to you soon.' : 
+       'Your message has been received, but email notifications are currently unavailable.')
+   });
+   ```
+
+4. **System Status Tracking**
+   - Track the status of each system component
+   - Store metadata about system capabilities with each transaction
+   ```javascript
+   const contactRef = await db.collection('contacts').add({
+     ...contactData,
+     status: 'pending',
+     emailSent: !!transporter,  // Track email system status
+     timestamp: admin.firestore.Timestamp.now()
+   });
+   ```
+
+5. **Comprehensive Logging**
+   - Log all system states and failures for debugging
+   - Include relevant context in error logs
+   ```javascript
+   logger.error('Error in contact form:', {
+     error: error.message,
+     stack: error.stack,
+     systemState: {
+       emailSystem: !!transporter,
+       timestamp: new Date().toISOString()
+     }
+   });
+   ```
+
+### Implementation Guidelines
+
+When implementing new features, follow these guidelines to ensure system resilience:
+
+1. **Data Flow**
+   - Always save core data to the primary database first
+   - Only proceed with auxiliary operations (email, notifications) after data is secured
+   - Track the status of each operation in the database
+
+2. **Error Handling**
+   - Implement proper error boundaries
+   - Catch and handle errors at appropriate levels
+   - Provide meaningful error messages to users
+   - Log detailed error information for debugging
+
+3. **Status Tracking**
+   - Maintain status flags for all system components
+   - Store operation results with timestamps
+   - Enable easy auditing of system state
+
+4. **User Communication**
+   - Provide clear feedback about system status
+   - Explain any reduced functionality
+   - Offer alternative actions when possible
+
+### Example: Contact Form Implementation
+
+The contact form demonstrates these principles:
+
+1. **Primary Operation**: Save contact data to Firestore
+2. **Secondary Operation**: Send notification emails
+3. **Fallback Behavior**: Continue without email if SMTP is unavailable
+4. **User Feedback**: Clear messages about submission status
+5. **Monitoring**: Comprehensive logging of all operations
+
+This architecture ensures that:
+- No user data is lost, even if multiple systems fail
+- Users always receive appropriate feedback
+- System status is tracked and logged
+- Operations degrade gracefully
+- Recovery paths are clear and well-documented
 
 ## Tech Stack
 

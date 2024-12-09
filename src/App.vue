@@ -1,7 +1,7 @@
 <template>
-  <div class="min-h-screen bg-gray-50">
+  <div class="min-h-screen bg-gradient-to-br from-gray-900 via-indigo-900 to-purple-900">
     <!-- Navigation -->
-    <nav v-if="!isAdminRoute" class="bg-white shadow-sm">
+    <nav v-if="!isAdminRoute" class="bg-gray-900/50 backdrop-blur-sm border-b border-white/10">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between h-[145px]">
           <div class="flex">
@@ -11,33 +11,33 @@
               </router-link>
             </div>
             <div class="hidden sm:ml-6 sm:flex sm:space-x-8">
-              <router-link to="/services" class="inline-flex items-center px-1 pt-1 text-sm font-medium text-gray-500 hover:text-gray-900">
+              <router-link to="/services" class="inline-flex items-center px-1 pt-1 text-sm font-medium text-gray-300 hover:text-yellow-400 transition-colors">
                 Services
               </router-link>
-              <router-link to="/articles" class="inline-flex items-center px-1 pt-1 text-sm font-medium text-gray-500 hover:text-gray-900">
+              <router-link to="/articles" class="inline-flex items-center px-1 pt-1 text-sm font-medium text-gray-300 hover:text-yellow-400 transition-colors">
                 Articles
               </router-link>
-              <router-link to="/about" class="inline-flex items-center px-1 pt-1 text-sm font-medium text-gray-500 hover:text-gray-900">
+              <router-link to="/about" class="inline-flex items-center px-1 pt-1 text-sm font-medium text-gray-300 hover:text-yellow-400 transition-colors">
                 About
               </router-link>
-              <router-link to="/contact" class="inline-flex items-center px-1 pt-1 text-sm font-medium text-gray-500 hover:text-gray-900">
+              <router-link to="/contact" class="inline-flex items-center px-1 pt-1 text-sm font-medium text-gray-300 hover:text-yellow-400 transition-colors">
                 Contact
               </router-link>
             </div>
           </div>
           <div class="flex items-center">
             <template v-if="!authStore.isAuthenticated">
-              <router-link to="/login" class="inline-flex items-center px-3 py-2 text-sm font-medium text-gray-700 hover:text-indigo-600">
+              <router-link to="/login" class="inline-flex items-center px-3 py-2 text-sm font-medium text-gray-300 hover:text-yellow-400 transition-colors">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1" />
                 </svg>
               </router-link>
             </template>
             <template v-else>
-              <router-link v-if="authStore.isAdmin" to="/admin" class="inline-flex items-center px-3 py-2 text-sm font-medium text-gray-700 hover:text-indigo-600 mr-4">
+              <router-link v-if="authStore.isAdmin" to="/admin" class="inline-flex items-center px-3 py-2 text-sm font-medium text-gray-300 hover:text-yellow-400 transition-colors mr-4">
                 Admin Dashboard
               </router-link>
-              <button @click="handleSignOut" class="inline-flex items-center px-3 py-2 text-sm font-medium text-gray-700 hover:text-indigo-600">
+              <button @click="handleSignOut" class="inline-flex items-center px-3 py-2 text-sm font-medium text-gray-300 hover:text-yellow-400 transition-colors">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
                 </svg>

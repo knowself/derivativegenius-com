@@ -20,11 +20,11 @@ api.interceptors.request.use(async config => {
     ?.split('=')[1];
   
   // If no CSRF token is found, try to get one from the server
-  if (!csrfToken && config.method !== 'get' && !config.url.endsWith('/signin/')) {
+  if (!csrfToken && config.method !== 'get' && !config.url.endsWith('/verify')) {
     try {
       console.log('No CSRF token found, fetching from server...');
-      // Make a GET request to the signin endpoint to get a CSRF token
-      await axios.get(config.baseURL + '/firebase/auth/signin/', { withCredentials: true });
+      // Make a GET request to the verify endpoint to get a CSRF token
+      await axios.get(config.baseURL + '/auth/verify', { withCredentials: true });
       
       // Try to get the token again
       csrfToken = document.cookie

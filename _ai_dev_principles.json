@@ -25,6 +25,81 @@
           ]
         }
       }
+    },
+    "resilience": {
+      "principles": [
+        "data_persistence_first",
+        "graceful_degradation",
+        "transparent_user_feedback",
+        "system_status_tracking",
+        "comprehensive_logging"
+      ],
+      "implementation": {
+        "data_flow": {
+          "requirements": [
+            "save_core_data_first",
+            "auxiliary_operations_after_data_secured",
+            "track_operation_status"
+          ]
+        },
+        "error_handling": {
+          "requirements": [
+            "proper_error_boundaries",
+            "appropriate_error_levels",
+            "meaningful_user_messages",
+            "detailed_error_logging"
+          ]
+        },
+        "status_tracking": {
+          "requirements": [
+            "component_status_flags",
+            "operation_timestamps",
+            "system_state_auditing"
+          ]
+        },
+        "user_communication": {
+          "requirements": [
+            "clear_status_feedback",
+            "explain_reduced_functionality",
+            "provide_alternative_actions"
+          ]
+        }
+      },
+      "example_implementations": {
+        "contact_form": {
+          "operations": [
+            "primary_data_storage",
+            "secondary_email_notifications",
+            "fallback_behavior",
+            "user_feedback",
+            "operation_monitoring"
+          ],
+          "guarantees": [
+            "no_data_loss",
+            "appropriate_feedback",
+            "status_tracking",
+            "graceful_degradation",
+            "clear_recovery_paths"
+          ]
+        }
+      }
+    },
+    "security": {
+      "principles": [
+        "zero_trust",
+        "least_privilege",
+        "defense_in_depth"
+      ],
+      "implementation": {
+        "secrets_management": {
+          "tool": "Firebase Functions v2 Secrets",
+          "requirements": [
+            "use_defineSecret_for_sensitive_data",
+            "no_environment_variables_for_secrets",
+            "function_level_secret_access"
+          ]
+        }
+      }
     }
   },
   "environment_configuration": {
@@ -40,6 +115,23 @@
         "node": "package.json"
       },
       "servers": {
+        "management": {
+          "tool": "devs.sh",
+          "required": true,
+          "description": "Primary tool for managing all development servers and environments",
+          "log_management": {
+            "strategy": "tool_permission_override",
+            "implementation": {
+              "log_dir": "dev_logs",
+              "gitignore": true,
+              "ai_tool_access": {
+                "method": "direct_gitignore_access",
+                "rationale": "Allow AI tools to read .gitignored files for debugging while keeping logs out of git history",
+                "security_note": "Logs remain private as they never enter git history"
+              }
+            }
+          }
+        },
         "fastapi": {
           "command": "uvicorn main:app --reload",
           "port": 8000,
@@ -122,6 +214,25 @@
       "dependencies": {
         "required": ["firebase-admin"],
         "forbidden": ["@firebase/app", "@firebase/auth", "firebase", "firebase-functions"]
+      }
+    }
+  },
+  "frameworks": {
+    "backend": {
+      "firebase_functions": {
+        "version": "v2",
+        "key_features": [
+          "Enhanced secrets management with defineSecret",
+          "Type-safe configuration parameters",
+          "Function-level resource configuration",
+          "Improved security features"
+        ],
+        "best_practices": [
+          "Use specific imports from firebase-functions/v2",
+          "Configure secrets at function level",
+          "Implement proper error handling",
+          "Verify service connections"
+        ]
       }
     }
   },

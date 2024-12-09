@@ -1,0 +1,10 @@
+# Allow log files to be read by AI tools
+!dev_logs/*
+!*.log
+
+# Follow standard gitignore patterns otherwise
+**/node_modules/
+**/__pycache__/
+**/.pytest_cache/
+**/dist/
+**/build/

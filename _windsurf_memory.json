@@ -3,6 +3,55 @@
   "project": "derivative-genius-website",
   "component": "contact_email_form",
   "learnings": {
+    "log_management": {
+      "date": "2024-12-08T17:52:46-05:00",
+      "issue": "AI tools blocked from accessing .gitignored log files",
+      "attempted_solutions": {
+        "configuration_files": [
+          ".windsurf/config.json",
+          ".codeium/config.json",
+          ".codeiumignore",
+          ".codeium/allowed_paths.json"
+        ],
+        "attempted_approaches": [
+          "Tool permission override configuration",
+          "Explicit path allowlisting",
+          "Ignore file exclusions with ! patterns"
+        ],
+        "outcome": "Configuration attempts unsuccessful - feature may not be available"
+      },
+      "next_steps": {
+        "primary": "Contact Codeium support for guidance on accessing gitignored files",
+        "request": {
+          "feature": "Controlled access to gitignored files",
+          "use_case": "AI assistant debugging using log files",
+          "security_considerations": [
+            "Read-only access",
+            "Explicit path allowlisting",
+            "Configuration-controlled access"
+          ]
+        }
+      },
+      "solution": {
+        "approach": "tool_permission_override",
+        "details": [
+          "Keep logs in git-ignored dev_logs/",
+          "Configure AI tools to have permission to read .gitignored files",
+          "No need for symlinks or duplicate files"
+        ],
+        "benefits": [
+          "Logs remain completely out of git history",
+          "AI tools can access logs directly",
+          "Simple, clean solution with no file management overhead",
+          "Maintains security while enabling debugging capabilities"
+        ],
+        "security_considerations": [
+          "Logs never enter git history",
+          "AI tools can only read, not write to logs",
+          "Access is limited to development environment"
+        ]
+      }
+    },
     "python_version_management": {
       "system_default": {
         "version": "3.8",
@@ -20,8 +69,31 @@
         "verification": "python --version (after activation)"
       }
     },
+    "firebase_functions": {
+      "version": "v2",
+      "key_features": {
+        "secrets_management": {
+          "tool": "Firebase Functions v2 Secrets",
+          "commands": [
+            "firebase functions:secrets:set SMTP_HOST",
+            "firebase functions:secrets:set SMTP_PORT",
+            "firebase functions:secrets:set SMTP_USER",
+            "firebase functions:secrets:set SMTP_PASS",
+            "firebase functions:secrets:set SMTP_FROM"
+          ]
+        },
+        "function_configuration": {
+          "imports": "firebase-functions/v2/https",
+          "settings": {
+            "region": "us-west1",
+            "memory": "256MiB",
+            "timeoutSeconds": 60
+          }
+        }
+      }
+    },
     "environment_setup": {
-      "type": "Firebase Cloud Function",
+      "type": "Firebase Cloud Function v2",
       "function_name": "sendContactEmail",
       "region": "us-west1",
       "environment_variables_preference": {
@@ -29,18 +101,23 @@
         "avoid": ".env files",
         "reason": "Project standard for configuration management"
       },
-      "required_environment_variables": [
+      "secrets_management": {
+        "preferred_method": "Firebase Functions v2 Secrets",
+        "avoid": ".env files and functions:config:set",
+        "reason": "Enhanced security and type-safe configuration"
+      },
+      "required_secrets": [
         "SMTP_HOST",
         "SMTP_PORT",
         "SMTP_USER",
         "SMTP_PASS",
         "SMTP_FROM"
       ],
-      "environment_configuration": {
+      "configuration": {
         "location": "Firebase Project Configuration",
         "methods": [
-          "Firebase Console > Functions > Configuration",
-          "Firebase CLI using functions:secrets:set"
+          "Firebase CLI using functions:secrets:set",
+          "Function-level configuration in code"
         ]
       },
       "python_version_management": {
@@ -208,6 +285,26 @@
           "files_modified": [
             "README.md"
           ]
+        }
+      },
+      "firebase_functions_v2": {
+        "date": "2024-12-07",
+        "decision": "Migration to Firebase Functions v2",
+        "benefits": [
+          "Enhanced secrets management",
+          "Type-safe configuration",
+          "Function-level resource settings",
+          "Improved security features"
+        ],
+        "implementation": {
+          "contact_form": {
+            "type": "v2/https.onRequest",
+            "features": [
+              "Secrets management for SMTP",
+              "Function-level configuration",
+              "Improved error handling"
+            ]
+          }
         }
       }
     }

@@ -1,6 +1,6 @@
 <template>
   <!-- Quote Section -->
-  <div class="py-8 bg-white relative overflow-hidden">
+  <div class="py-8 bg-white relative overflow-hidden animate-on-scroll">
     <div class="absolute inset-0 bg-grid-pattern opacity-5"></div>
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
       <div class="text-center">
@@ -20,111 +20,112 @@
   </div>
   
   <!-- Hero Section -->
-  <div class="relative overflow-hidden bg-gradient-to-br from-gray-900 via-indigo-900 to-purple-900">
+  <div class="relative min-h-screen overflow-hidden bg-gradient-to-br from-gray-900 via-indigo-900 to-purple-900 animate-on-scroll">
     <div class="absolute inset-0 bg-grid-pattern opacity-10"></div>
     <div class="max-w-7xl mx-auto">
-      <div class="relative z-10 pb-8 sm:pb-16 md:pb-20 lg:max-w-2xl lg:w-full lg:pb-28 xl:pb-32">
+      <div class="relative z-10 pb-8 pt-20 sm:pb-16 md:pb-20 lg:w-full lg:pb-28 xl:pb-32">
         <main class="mt-10 mx-auto max-w-7xl px-4 sm:mt-12 sm:px-6 md:mt-16 lg:mt-20 lg:px-8 xl:mt-28">
-          <div class="sm:text-center lg:text-left">
-            <h1 class="text-4xl tracking-tight font-extrabold text-white sm:text-5xl md:text-6xl">
-              <span class="block animate-fade-in-up">Automate & Transform</span>
-              <span class="block text-gradient animate-fade-in-up-delay">Your Business with AI</span>
-            </h1>
-            <p class="mt-3 text-base text-gray-300 sm:mt-5 sm:text-lg sm:max-w-xl sm:mx-auto md:mt-5 md:text-xl lg:mx-0 animate-fade-in-up-delay-2">
-              Derivative Genius is an AI Automation Agency (AAA) that transforms businesses through intelligent automation. We harness cutting-edge AI tools to automate workflows, streamline operations, and create scalable solutions.
-            </p>
-            <div class="mt-5 sm:mt-8 sm:flex sm:justify-center lg:justify-start animate-fade-in-up-delay-3">
-              <div class="rounded-md shadow">
-                <a href="#" class="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 transform hover:scale-105 transition-all duration-200 md:py-4 md:text-lg md:px-10">
+          <div class="text-center lg:text-left flex flex-col lg:flex-row items-center justify-between">
+            <div class="lg:w-1/2">
+              <h1 class="text-4xl tracking-tight font-extrabold text-white sm:text-5xl md:text-6xl">
+                <span class="block animate-fade-in-up">Automate & Transform</span>
+                <span class="block bg-clip-text text-transparent bg-gradient-to-r from-yellow-400 to-yellow-200 animate-fade-in-up-delay">
+                  Your Business with AI
+                </span>
+              </h1>
+              <p class="mt-3 text-base text-gray-300 sm:mt-5 sm:text-lg sm:max-w-xl sm:mx-auto md:mt-5 md:text-xl lg:mx-0 animate-fade-in-up-delay-2">
+                Derivative Genius is an AI Automation Agency (AAA) that transforms businesses through intelligent automation. We harness cutting-edge AI tools to automate workflows, streamline operations, and create scalable solutions.
+              </p>
+              <div class="mt-8 flex flex-col sm:flex-row justify-center lg:justify-start gap-4 animate-fade-in-up-delay-3">
+                <a href="#contact" 
+                   class="inline-flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-black bg-gradient-to-r from-yellow-400 to-yellow-300 hover:from-yellow-500 hover:to-yellow-400 transform hover:scale-105 transition-all duration-200 shadow-lg hover-lift">
                   Get Started
                 </a>
-              </div>
-              <div class="mt-3 sm:mt-0 sm:ml-3">
-                <a href="#" class="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-gradient-to-r from-indigo-500 to-purple-500 bg-opacity-20 hover:bg-opacity-30 backdrop-blur-sm transform hover:scale-105 transition-all duration-200 md:py-4 md:text-lg md:px-10">
-                  View Solutions
+                <a href="#services" 
+                   class="inline-flex items-center justify-center px-8 py-3 border-2 border-yellow-400 text-base font-medium rounded-md text-yellow-400 hover:bg-yellow-400 hover:text-black transform hover:scale-105 transition-all duration-200 hover-lift">
+                  Our Services
                 </a>
               </div>
+            </div>
+            <div class="lg:w-1/2 mt-10 lg:mt-0 animate-fade-in-up-delay-2">
+              <img 
+                src="/images/standing on the shoulders of giants.jpg" 
+                alt="Standing on the shoulders of giants" 
+                class="rounded-2xl shadow-2xl max-w-lg mx-auto w-full hover:transform hover:scale-105 transition-all duration-300 hover-lift"
+              >
             </div>
           </div>
         </main>
       </div>
     </div>
-    <div class="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-white to-transparent"></div>
   </div>
 
   <!-- Services Section -->
-  <div class="pt-32 pb-12 bg-white">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="lg:text-center">
-        <h2 id="services" class="text-base font-semibold tracking-wide uppercase text-gradient-purple">Our Services</h2>
-        <p class="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-gray-900 sm:text-4xl">
-          Intelligent Automation Solutions
-        </p>
-        <p class="mt-4 max-w-2xl text-xl text-gray-500 lg:mx-auto">
-          Transform your business with cutting-edge AI automation tools and expert implementation.
+  <div class="bg-white py-24 sm:py-32 animate-on-scroll">
+    <div class="mx-auto max-w-7xl px-6 lg:px-8">
+      <div class="mx-auto max-w-2xl text-center">
+        <h2 class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">Transform Your Business with AI</h2>
+        <p class="mt-6 text-lg leading-8 text-gray-600">
+          We specialize in creating custom AI solutions that automate your workflows and drive business growth.
         </p>
       </div>
-
-      <div class="mt-16 space-y-16">
-        <div v-for="(service, index) in services" 
-             :key="service.title" 
-             class="service-card transform hover:scale-105 transition-all duration-200 relative"
-             :class="{'from-left': index % 2 === 0, 'from-right': index % 2 === 1}">
-          <div class="lg:grid lg:grid-cols-2 lg:gap-8">
-            <div class="relative">
-              <h3 class="text-2xl font-extrabold text-gray-900 tracking-tight sm:text-3xl flex items-center">
-                <div class="flex-shrink-0 h-12 w-12 rounded-md bg-gradient-to-br from-purple-600 to-indigo-600 text-white flex items-center justify-center transform hover:rotate-12 transition-transform duration-200 mr-4">
-                  <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" :d="service.icon" />
-                  </svg>
-                </div>
-                {{ service.title }}
-              </h3>
-              <p class="mt-3 text-lg text-gray-500">{{ service.description }}</p>
-              
-              <div class="mt-6">
-                <h4 class="text-lg font-semibold text-indigo-600">Key Features</h4>
-                <ul class="mt-2 space-y-2">
-                  <li v-for="feature in service.features" 
-                      :key="feature" 
-                      class="flex items-center text-gray-500">
-                    <svg class="h-5 w-5 text-indigo-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-                    </svg>
-                    {{ feature }}
-                  </li>
-                </ul>
+      <div class="mx-auto mt-16 max-w-2xl sm:mt-20 lg:mt-24 lg:max-w-none">
+        <dl class="grid max-w-xl grid-cols-1 gap-x-8 gap-y-16 lg:max-w-none lg:grid-cols-3">
+          <div class="flex flex-col transform hover:scale-105 transition-all duration-300 hover-lift">
+            <dt class="text-base font-semibold leading-7 text-gray-900">
+              <div class="mb-6 flex h-10 w-10 items-center justify-center rounded-lg bg-gradient-to-r from-purple-600 to-indigo-600">
+                <svg class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 00-2.456 2.456zM16.894 20.567L16.5 21.75l-.394-1.183a2.25 2.25 0 00-1.423-1.423L13.5 18.75l1.183-.394a2.25 2.25 0 001.423-1.423l.394-1.183.394 1.183a2.25 2.25 0 001.423 1.423l1.183.394-1.183.394a2.25 2.25 0 00-1.423 1.423z" />
+                </svg>
               </div>
-            </div>
-            
-            <div class="mt-8 lg:mt-0">
-              <div class="bg-gradient-to-br from-gray-50 to-white rounded-lg shadow-lg p-6">
-                <h4 class="text-lg font-semibold text-indigo-600 mb-4">Business Impact</h4>
-                <p class="text-gray-600 mb-6">{{ service.benefits }}</p>
-                
-                <div class="border-t border-gray-200 pt-4">
-                  <h4 class="text-lg font-semibold text-indigo-600 mb-2">Success Story</h4>
-                  <p class="text-gray-600 italic">{{ service.useCase }}</p>
-                </div>
-                
-                <div class="mt-6">
-                  <a href="#" class="inline-flex items-center text-indigo-600 font-medium hover:text-indigo-500 transition-colors duration-200">
-                    Learn more
-                    <svg class="ml-2 h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-                    </svg>
-                  </a>
-                </div>
-              </div>
-            </div>
+              AI Strategy Development
+            </dt>
+            <dd class="mt-1 flex flex-auto flex-col text-base leading-7 text-gray-600">
+              <p class="flex-auto">We help you identify opportunities for AI implementation and develop a comprehensive strategy aligned with your business goals.</p>
+              <p class="mt-6">
+                <a href="#contact" class="text-sm font-semibold leading-6 text-indigo-600">Learn more <span aria-hidden="true">→</span></a>
+              </p>
+            </dd>
           </div>
-        </div>
+          <div class="flex flex-col transform hover:scale-105 transition-all duration-300 hover-lift">
+            <dt class="text-base font-semibold leading-7 text-gray-900">
+              <div class="mb-6 flex h-10 w-10 items-center justify-center rounded-lg bg-gradient-to-r from-purple-600 to-indigo-600">
+                <svg class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 13.5l10.5-11.25L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 00-2.456 2.456zM16.894 20.567L16.5 21.75l-.394-1.183a2.25 2.25 0 00-1.423-1.423L13.5 18.75l1.183-.394a2.25 2.25 0 001.423-1.423l.394-1.183.394 1.183a2.25 2.25 0 001.423 1.423l1.183.394-1.183.394a2.25 2.25 0 00-1.423 1.423z" />
+                </svg>
+              </div>
+              Custom AI Solutions
+            </dt>
+            <dd class="mt-1 flex flex-auto flex-col text-base leading-7 text-gray-600">
+              <p class="flex-auto">We build tailored AI solutions that automate your workflows, enhance productivity, and drive innovation across your organization.</p>
+              <p class="mt-6">
+                <a href="#contact" class="text-sm font-semibold leading-6 text-indigo-600">Learn more <span aria-hidden="true">→</span></a>
+              </p>
+            </dd>
+          </div>
+          <div class="flex flex-col transform hover:scale-105 transition-all duration-300 hover-lift">
+            <dt class="text-base font-semibold leading-7 text-gray-900">
+              <div class="mb-6 flex h-10 w-10 items-center justify-center rounded-lg bg-gradient-to-r from-purple-600 to-indigo-600">
+                <svg class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99" />
+                </svg>
+              </div>
+              AI Integration & Training
+            </dt>
+            <dd class="mt-1 flex flex-auto flex-col text-base leading-7 text-gray-600">
+              <p class="flex-auto">We seamlessly integrate AI solutions into your existing systems and provide comprehensive training to ensure successful adoption.</p>
+              <p class="mt-6">
+                <a href="#contact" class="text-sm font-semibold leading-6 text-indigo-600">Learn more <span aria-hidden="true">→</span></a>
+              </p>
+            </dd>
+          </div>
+        </dl>
       </div>
     </div>
   </div>
 
   <!-- Articles Section -->
-  <div id="articles" class="py-12 bg-gray-50">
+  <div id="articles" class="py-12 bg-gray-50 animate-on-scroll">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="lg:text-center">
         <h2 class="text-base text-indigo-600 font-semibold tracking-wide uppercase">Resources</h2>
@@ -140,7 +141,7 @@
   </div>
 
   <!-- Contact Section -->
-  <div id="contact" class="py-12 bg-white">
+  <div id="contact" class="py-12 bg-white animate-on-scroll">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="lg:text-center">
         <h2 class="text-base text-indigo-600 font-semibold tracking-wide uppercase">Contact Us</h2>
@@ -156,70 +157,101 @@
   </div>
 </template>
 
-<script setup name="HomePage">
-import { ref } from 'vue'
+<script>
+export default {
+  name: 'Home',
+  data() {
+    return {
+      isVisible: false,
+      observer: null
+    }
+  },
+  mounted() {
+    // Initialize Intersection Observer for scroll animations
+    this.observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+        }
+      });
+    }, {
+      threshold: 0.1
+    });
 
-const services = ref([
-  {
-    title: 'Custom AI Automation',
-    description: 'Tailored automation solutions designed specifically for your business needs and workflows.',
-    icon: 'M13 10V3L4 14h7v7l9-11h-7z',
-    features: [
-      'Custom AI model development',
-      'Workflow automation pipelines',
-      'Integration with existing systems',
-      'Scalable architecture design'
-    ],
-    benefits: 'Reduce manual work by up to 80% while improving accuracy and consistency.',
-    useCase: 'Document processing automation for a legal firm, reducing processing time from days to minutes.'
+    // Observe all animatable elements
+    document.querySelectorAll('.animate-on-scroll').forEach((element) => {
+      this.observer.observe(element);
+    });
   },
-  {
-    title: 'Workflow Optimization',
-    description: 'Streamline your operations with intelligent process automation and workflow integration.',
-    icon: 'M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10a2 2 0 01-2 2h-2a2 2 0 01-2-2z',
-    features: [
-      'Process analysis and mapping',
-      'Bottleneck identification',
-      'Automated workflow design',
-      'Performance monitoring'
-    ],
-    benefits: 'Optimize operational efficiency by 40-60% through intelligent automation.',
-    useCase: 'Customer service automation for an e-commerce platform, reducing response time by 90%.'
-  },
-  {
-    title: 'AI Implementation',
-    description: 'Expert implementation of cutting-edge AI tools with comprehensive training and support.',
-    icon: 'M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4',
-    features: [
-      'AI tool selection and setup',
-      'Custom model training',
-      'Team training programs',
-      'Ongoing technical support'
-    ],
-    benefits: 'Achieve ROI within 3-6 months through effective AI implementation.',
-    useCase: 'Sales prediction system for a retail chain, improving inventory management by 35%.'
-  },
-  {
-    title: 'Process Consulting',
-    description: 'Strategic guidance for your automation journey with proven methodologies and best practices.',
-    icon: 'M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z',
-    features: [
-      'Automation readiness assessment',
-      'ROI analysis and planning',
-      'Technology stack evaluation',
-      'Implementation roadmap'
-    ],
-    benefits: 'Make informed decisions that lead to 200-300% ROI on automation investments.',
-    useCase: 'Digital transformation strategy for a healthcare provider, resulting in 50% cost reduction.'
+  beforeDestroy() {
+    if (this.observer) {
+      this.observer.disconnect();
+    }
   }
-])
+}
 </script>
 
-<style scoped>
-.feature-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 2rem;
+<style>
+/* Page Transition Animations */
+.page-enter-active,
+.page-leave-active {
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.page-enter-from,
+.page-leave-to {
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+/* Scroll Animations */
+.animate-on-scroll {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+
+.animate-on-scroll.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Enhanced hover effects */
+.hover-lift {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.hover-lift:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+/* Gradient animations */
+.gradient-animate {
+  background-size: 200% 200%;
+  animation: gradientMove 8s ease infinite;
+}
+
+@keyframes gradientMove {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+/* Smooth scrolling for anchor links */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Original styles */
+.text-gradient {
+  @apply bg-clip-text text-transparent bg-gradient-to-r from-yellow-400 to-yellow-200;
 }
 
 .bg-grid-pattern {
@@ -228,65 +260,33 @@ const services = ref([
   background-size: 20px 20px;
 }
 
-.text-gradient {
-  background: linear-gradient(to right, #818cf8, #c084fc);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-}
-
-.text-gradient-purple {
-  background: linear-gradient(to right, #8b5cf6, #6366f1);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-}
-
-.service-card {
-  padding: 2rem;
-  border-radius: 1rem;
-  background: white;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-  opacity: 0;
-  animation: fadeIn 0.6s ease-out forwards;
-}
-
 .from-left {
-  animation: slideFromLeft 0.6s ease-out forwards;
+  animation: slideInFromLeft 0.5s ease-out;
 }
 
 .from-right {
-  animation: slideFromRight 0.6s ease-out forwards;
+  animation: slideInFromRight 0.5s ease-out;
 }
 
-@keyframes fadeIn {
-  from {
+@keyframes slideInFromLeft {
+  0% {
+    transform: translateX(-100%);
     opacity: 0;
   }
-  to {
-    opacity: 1;
-  }
-}
-
-@keyframes slideFromLeft {
-  from {
-    opacity: 0;
-    transform: translateX(-50px);
-  }
-  to {
-    opacity: 1;
+  100% {
     transform: translateX(0);
+    opacity: 1;
   }
 }
 
-@keyframes slideFromRight {
-  from {
+@keyframes slideInFromRight {
+  0% {
+    transform: translateX(100%);
     opacity: 0;
-    transform: translateX(50px);
   }
-  to {
-    opacity: 1;
+  100% {
     transform: translateX(0);
+    opacity: 1;
   }
 }
 
@@ -318,5 +318,14 @@ const services = ref([
 .animate-fade-in-up-delay-3 {
   animation: fadeInUp 0.6s ease-out 0.6s forwards;
   opacity: 0;
+}
+
+.service-card {
+  @apply p-6 bg-white rounded-lg shadow-lg border border-gray-100 hover:shadow-xl transition-all duration-300;
+}
+
+.service-card:hover {
+  @apply border-indigo-200;
+  transform: translateY(-5px);
 }
 </style>
