@@ -71,6 +71,7 @@
     },
     "firebase_functions": {
       "version": "v2",
+      "last_updated": "2024-12-09T02:05:37-05:00",
       "key_features": {
         "secrets_management": {
           "tool": "Firebase Functions v2 Secrets",
@@ -80,14 +81,63 @@
             "firebase functions:secrets:set SMTP_USER",
             "firebase functions:secrets:set SMTP_PASS",
             "firebase functions:secrets:set SMTP_FROM"
+          ],
+          "troubleshooting": {
+            "common_issues": [
+              {
+                "issue": "SMTP Authentication Failures",
+                "causes": [
+                  "Spaces in App Password",
+                  "Incorrect email/password combination",
+                  "Missing 2FA setup"
+                ],
+                "solutions": [
+                  "Remove ALL spaces from App Password",
+                  "Verify credentials in development environment first",
+                  "Enable 2FA and regenerate App Password"
+                ]
+              },
+              {
+                "issue": "Secret Access Permission Denied",
+                "causes": [
+                  "Missing IAM roles",
+                  "Incorrect service account configuration"
+                ],
+                "solutions": [
+                  "Grant secretmanager.secretAccessor role",
+                  "Verify service account in Cloud Console"
+                ]
+              }
+            ]
+          }
+        },
+        "deployment_workflow": {
+          "steps": [
+            "Local testing with firebase emulators",
+            "Secret verification in development",
+            "Staged deployment to production"
+          ],
+          "best_practices": [
+            "Use separate service accounts per environment",
+            "Implement proper error handling and logging",
+            "Monitor function execution and costs"
+          ],
+          "learned_optimizations": [
+            "Pre-warm functions for better cold start",
+            "Optimize memory allocation based on usage",
+            "Implement proper request validation"
           ]
         },
-        "function_configuration": {
-          "imports": "firebase-functions/v2/https",
-          "settings": {
-            "region": "us-west1",
-            "memory": "256MiB",
-            "timeoutSeconds": 60
+        "integration_patterns": {
+          "email_service": {
+            "implementation": "SMTP via nodemailer",
+            "configuration": "Secret Manager for credentials",
+            "fallback": "Queue-based retry mechanism"
+          },
+          "database": {
+            "implementation": "Firestore",
+            "access_pattern": "Direct via Admin SDK",
+            "optimization": "Batch writes for multiple operations"
           }
         }
       }
@@ -304,6 +354,28 @@
               "Function-level configuration",
               "Improved error handling"
             ]
+          }
+        }
+      }
+    },
+    "vue_lifecycle_hooks": {
+      "last_updated": "2024-12-09T02:08:06-05:00",
+      "migrations": {
+        "vue3_compatibility": {
+          "deprecated_hooks": {
+            "beforeDestroy": {
+              "replacement": "beforeUnmount",
+              "reason": "Vue 3 composition API alignment",
+              "impact": "Required for Vercel deployment ESLint rules"
+            }
+          },
+          "affected_files": [
+            "src/views/Home.vue"
+          ],
+          "resolution": {
+            "action": "Updated lifecycle hook",
+            "code_change": "beforeDestroy() -> beforeUnmount()",
+            "verification": "Vercel build passes ESLint checks"
           }
         }
       }

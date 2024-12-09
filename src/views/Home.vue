@@ -183,7 +183,7 @@ export default {
       this.observer.observe(element);
     });
   },
-  beforeDestroy() {
+  beforeUnmount() {
     if (this.observer) {
       this.observer.disconnect();
     }

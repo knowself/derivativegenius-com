@@ -98,6 +98,49 @@
             "no_environment_variables_for_secrets",
             "function_level_secret_access"
           ]
+        },
+        "firebase_functions": {
+          "version": "v2",
+          "security_practices": [
+            "use_secret_manager_exclusively",
+            "implement_proper_service_account_roles",
+            "maintain_separate_dev_prod_secrets"
+          ],
+          "service_account": {
+            "required_roles": [
+              "Secret Manager Secret Accessor",
+              "Cloud Functions Invoker"
+            ],
+            "permission_model": "least_privilege_access"
+          },
+          "secret_handling": {
+            "principles": [
+              "version_controlled_secrets",
+              "function_scoped_access",
+              "rotation_strategy"
+            ],
+            "implementation": {
+              "secret_definition": "use_defineSecret_with_version",
+              "access_pattern": "value_method_only",
+              "error_handling": "graceful_fallback_with_logging"
+            }
+          },
+          "environment_separation": {
+            "development": {
+              "principles": [
+                "local_secret_mocking",
+                "emulator_suite_usage",
+                "detailed_error_logging"
+              ]
+            },
+            "production": {
+              "principles": [
+                "strict_secret_access",
+                "minimal_error_exposure",
+                "audit_logging"
+              ]
+            }
+          }
         }
       }
     }
