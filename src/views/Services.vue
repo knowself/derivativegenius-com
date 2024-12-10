@@ -64,7 +64,7 @@
                 </div>
                 <div class="tech-item">
                   <span class="font-medium text-yellow-400">Backend:</span>
-                  <p class="text-gray-300">Django, Node.js, Python</p>
+                  <p class="text-gray-300">FastAPI, Node.js, Python</p>
                 </div>
                 <div class="tech-item">
                   <span class="font-medium text-yellow-400">Cloud:</span>

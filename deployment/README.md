@@ -46,9 +46,27 @@ deployment/
 - Memory: 1024MB
 - Timeout: 10s
 
-### Build Process
+## Deployment Steps
+
 1. Frontend build (Vue.js)
-2. Backend preparation (Django)
+2. Backend preparation (FastAPI)
+   - Set up virtual environment: `python -m venv venv`
+   - Install dependencies: `pip install -r requirements.txt`
+   - Configure environment variables:
+
+```bash
+# FastAPI
+PYTHONPATH=./api
+DEBUG=false
+ALLOWED_HOSTS=.vercel.app,localhost,127.0.0.1
+
+# Firebase
+FIREBASE_PROJECT_ID=
+FIREBASE_CLIENT_EMAIL=
+FIREBASE_PRIVATE_KEY=
+FIREBASE_STORAGE_BUCKET=
+```
+
 3. Static file collection
 4. Output structure verification
 
@@ -68,4 +86,3 @@ FIREBASE_ADMIN_CLIENT_EMAIL=
 # Django
 DJANGO_SECRET_KEY=
 DJANGO_SETTINGS_MODULE=
-```

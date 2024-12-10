@@ -574,6 +574,188 @@ vercel logs
 - API Responses: Contextual headers
 - Dynamic Routes: Custom cache rules
 
+## Marketing Resources & Documentation
+
+### PDF Generation System
+
+Our marketing materials and documentation are automatically generated using a combination of technologies:
+
+```
+┌───────────────┐     ┌───────────────┐     ┌───────────────┐
+│   Templates   │     │   PDFKit.js   │     │   Firebase    │
+│   (Vue.js)    │ --> │   Generator   │ --> │   Storage     │
+└───────────────┘     └───────────────┘     └───────────────┘
+```
+
+#### PDF Document Types
+
+1. **Executive Overview** (`/public/resources/executive-overview.pdf`)
+   - Company introduction and vision
+   - AI automation capabilities
+   - SMB-focused benefits
+   - ROI case studies
+
+2. **Service Catalog** (`/public/resources/service-catalog.pdf`)
+   - Detailed service descriptions
+   - Technical capabilities
+   - Integration options
+   - Pricing models
+
+3. **Implementation Guide** (`/public/resources/implementation-guide.pdf`)
+   - Step-by-step process
+   - Timeline expectations
+   - Technical requirements
+   - Success metrics
+
+#### PDF Generation Process
+
+1. **Template Management**
+   ```bash
+   /src/
+     templates/
+       pdf/
+         executive/
+           template.vue
+           sections/
+         catalog/
+           template.vue
+           sections/
+         implementation/
+           template.vue
+           sections/
+   ```
+
+2. **Asset Management**
+   ```bash
+   /public/
+     resources/
+       images/
+         logos/
+         diagrams/
+       pdfs/
+   ```
+
+3. **Generation Scripts**
+   ```javascript
+   // scripts/generate-pdfs.js
+   const PDFDocument = require('pdfkit');
+   const { Storage } = require('@google-cloud/storage');
+
+   async function generatePDF(template, data) {
+     const doc = new PDFDocument();
+     // Template processing
+     return doc;
+   }
+   ```
+
+#### Website Integration
+
+The resources section is implemented in Vue.js:
+
+```vue
+// src/components/ResourcesSection.vue
+<template>
+  <section id="resources" class="py-12 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <h2 class="text-3xl font-bold text-gray-900">
+        Resources & Guides
+      </h2>
+      <div class="mt-8 grid grid-cols-1 gap-6 md:grid-cols-3">
+        <ResourceCard 
+          v-for="resource in resources" 
+          :key="resource.id"
+          :resource="resource"
+        />
+      </div>
+    </div>
+  </section>
+</template>
+```
+
+#### Automated Updates
+
+PDF resources are automatically regenerated when:
+1. Content templates are updated
+2. New case studies are added
+3. Service offerings change
+4. Pricing models are updated
+
+#### Development Workflow
+
+1. **Setup PDF Generation**
+   ```bash
+   # Install dependencies
+   npm install pdfkit @google-cloud/storage
+
+   # Setup templates
+   mkdir -p src/templates/pdf
+   ```
+
+2. **Local Development**
+   ```bash
+   # Generate PDFs locally
+   npm run generate-pdfs
+
+   # Test PDF viewer component
+   npm run serve
+   ```
+
+3. **Deployment**
+   ```bash
+   # Build and deploy
+   npm run build
+   vercel deploy
+   ```
+
+### Firebase Storage Configuration
+
+1. **Setup Storage Rules**
+   ```javascript
+   // storage.rules
+   rules_version = '2';
+   service firebase.storage {
+     match /b/{bucket}/o {
+       match /public/resources/{allPaths=**} {
+         allow read;
+         allow write: if false;
+       }
+     }
+   }
+   ```
+
+2. **Upload Configuration**
+   ```javascript
+   // scripts/upload-pdfs.js
+   const storage = new Storage();
+   const bucket = storage.bucket('your-bucket-name');
+
+   async function uploadPDF(filePath, destination) {
+     await bucket.upload(filePath, {
+       destination,
+       metadata: {
+         cacheControl: 'public, max-age=3600',
+       },
+     });
+   }
+   ```
+
+### Maintenance and Updates
+
+1. **Regular Updates**
+   - Monthly content reviews
+   - Quarterly design updates
+   - Annual comprehensive revision
+
+2. **Version Control**
+   - PDF versions tracked in Git
+   - Template changes reviewed
+   - Automated generation on merge
+
+3. **Quality Assurance**
+   - Automated PDF validation
+   - Mobile responsiveness checks
+   - Cross-browser testing
+
 ## System Requirements
 
 Before starting development, ensure you have:

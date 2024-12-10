@@ -140,6 +140,9 @@
     </div>
   </div>
 
+  <!-- Resources Section -->
+  <ResourcesSection />
+
   <!-- Contact Section -->
   <div id="contact" class="py-12 bg-white animate-on-scroll">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -158,8 +161,13 @@
 </template>
 
 <script>
+import ResourcesSection from '@/components/ResourcesSection.vue';
+
 export default {
   name: 'Home',
+  components: {
+    ResourcesSection
+  },
   data() {
     return {
       isVisible: false,

@@ -185,25 +185,6 @@
           "port": 8080,
           "webpack_config": true
         }
-      },
-      "message_broker": {
-        "redis": {
-          "required": true,
-          "service": "redis-server",
-          "health_check": "redis-cli ping"
-        }
-      },
-      "task_queue": {
-        "celery": {
-          "worker": {
-            "command": "celery -A api worker",
-            "health_check": "celery -A api inspect ping"
-          },
-          "beat": {
-            "command": "celery -A api beat",
-            "scheduler": true
-          }
-        }
       }
     },
     "production": {
@@ -234,7 +215,6 @@
           "fastapi",
           "firebase",
           "cloud_run_jobs",
-          "redis",
           "celery_worker",
           "celery_beat"
         ]
@@ -283,27 +263,20 @@
     "startup_sequence": [
       "virtual_env_activation",
       "dependency_check",
-      "redis_server",
       "fastapi_server",
-      "celery_worker",
-      "celery_beat",
       "vue_server"
     ],
     "health_monitoring": {
       "interval": "continuous",
       "components": [
         "fastapi_server",
-        "vue_server",
-        "redis_server",
-        "celery_worker",
-        "celery_beat"
+        "vue_server"
       ]
     },
     "logging": {
       "files": {
         "fastapi": "fastapi.log",
-        "vue": "vue.log",
-        "celery": "celery.log"
+        "vue": "vue.log"
       },
       "levels": [
         "error",
@@ -323,15 +296,6 @@
       "firebase": {
         "connection_test": true,
         "admin_sdk_test": true
-      },
-      "redis": {
-        "connection_test": true,
-        "service_test": true
-      },
-      "celery": {
-        "worker_test": true,
-        "beat_test": true,
-        "task_test": true
       }
     }
   }

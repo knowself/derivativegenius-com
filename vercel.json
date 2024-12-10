@@ -47,11 +47,10 @@
     "FIREBASE_PROJECT_ID": "${FIREBASE_PROJECT_ID}",
     "FIREBASE_CLIENT_EMAIL": "${FIREBASE_CLIENT_EMAIL}",
     "FIREBASE_PRIVATE_KEY": "${FIREBASE_PRIVATE_KEY}",
-    "DJANGO_SECRET_KEY": "${DJANGO_SECRET_KEY}",
+    "FIREBASE_STORAGE_BUCKET": "${FIREBASE_STORAGE_BUCKET}",
     "DEBUG": "false",
     "ALLOWED_HOSTS": ".vercel.app,localhost,127.0.0.1",
-    "PYTHONPATH": "./api",
-    "DJANGO_SETTINGS_MODULE": "api.settings"
+    "PYTHONPATH": "./api"
   },
   "build": {
     "env": {

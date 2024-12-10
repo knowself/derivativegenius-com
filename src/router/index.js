@@ -30,6 +30,51 @@ const routes = [
     component: () => import(/* webpackChunkName: "services" */ '../views/Services.vue')
   },
   {
+    path: '/chatbots',
+    name: 'chatbots',
+    component: () => import(/* webpackChunkName: "chatbots" */ '../views/Chatbots.vue')
+  },
+  {
+    path: '/chatbots/local',
+    name: 'LocalBusiness',
+    component: () => import(/* webpackChunkName: "chatbot-local" */ '../views/chatbots/LocalBusiness.vue')
+  },
+  {
+    path: '/chatbots/education',
+    name: 'Education',
+    component: () => import(/* webpackChunkName: "chatbot-education" */ '../views/chatbots/Education.vue')
+  },
+  {
+    path: '/chatbots/technology',
+    name: 'Technology',
+    component: () => import(/* webpackChunkName: "chatbot-technology" */ '../views/chatbots/Technology.vue')
+  },
+  {
+    path: '/chatbots/manufacturing',
+    name: 'Manufacturing',
+    component: () => import(/* webpackChunkName: "chatbot-manufacturing" */ '../views/chatbots/Manufacturing.vue')
+  },
+  {
+    path: '/chatbots/hospitality',
+    name: 'Hospitality',
+    component: () => import(/* webpackChunkName: "chatbot-hospitality" */ '../views/chatbots/Hospitality.vue')
+  },
+  {
+    path: '/chatbots/retail',
+    name: 'Retail',
+    component: () => import(/* webpackChunkName: "chatbot-retail" */ '../views/chatbots/Retail.vue')
+  },
+  {
+    path: '/chatbots/healthcare',
+    name: 'Healthcare',
+    component: () => import(/* webpackChunkName: "chatbot-healthcare" */ '../views/chatbots/Healthcare.vue')
+  },
+  {
+    path: '/chatbots/financial',
+    name: 'Financial',
+    component: () => import(/* webpackChunkName: "chatbot-financial" */ '../views/chatbots/Financial.vue')
+  },
+  {
     path: '/login',
     name: 'login',
     component: () => import(/* webpackChunkName: "login" */ '../views/Login.vue')

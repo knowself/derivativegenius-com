@@ -14,6 +14,9 @@
               <router-link to="/services" class="inline-flex items-center px-1 pt-1 text-sm font-medium text-gray-300 hover:text-yellow-400 transition-colors">
                 Services
               </router-link>
+              <router-link to="/chatbots" class="inline-flex items-center px-1 pt-1 text-sm font-medium text-gray-300 hover:text-yellow-400 transition-colors">
+                Chatbots
+              </router-link>
               <router-link to="/articles" class="inline-flex items-center px-1 pt-1 text-sm font-medium text-gray-300 hover:text-yellow-400 transition-colors">
                 Articles
               </router-link>
@@ -51,9 +54,11 @@
 
     <!-- Main Content -->
     <main>
-      <router-view v-slot="{ Component }">
-        <component :is="Component" />
-      </router-view>
+      <transition name="page" mode="out-in">
+        <router-view v-slot="{ Component }">
+          <component :is="Component" />
+        </router-view>
+      </transition>
     </main>
 
     <!-- Footer -->
@@ -181,6 +186,16 @@ html {
 
 .fade-enter-from,
 .fade-leave-to {
+  opacity: 0;
+}
+
+.page-enter-active,
+.page-leave-active {
+  transition: opacity 0.3s ease;
+}
+
+.page-enter-from,
+.page-leave-to {
   opacity: 0;
 }
 </style>

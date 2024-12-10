@@ -264,7 +264,6 @@
           "yarn-error.log*",
           "django.log",
           "vue.log",
-          "celery.log",
           "logs/",
           "log/",
           "*.log.*",
@@ -377,6 +376,39 @@
             "code_change": "beforeDestroy() -> beforeUnmount()",
             "verification": "Vercel build passes ESLint checks"
           }
+        }
+      }
+    },
+    "development_environment": {
+      "servers": {
+        "fastapi": {
+          "port": 8000,
+          "health_check": "/health",
+          "startup_sequence": [
+            "activate_venv",
+            "verify_dependencies",
+            "start_server"
+          ]
+        },
+        "vue": {
+          "port": 8080,
+          "webpack_config": true,
+          "startup_sequence": [
+            "verify_node_modules",
+            "start_dev_server"
+          ]
+        }
+      }
+    },
+    "deployment": {
+      "vercel": {
+        "environment_variables": {
+          "required": [
+            "FIREBASE_PROJECT_ID",
+            "FIREBASE_CLIENT_EMAIL",
+            "FIREBASE_PRIVATE_KEY",
+            "FIREBASE_STORAGE_BUCKET"
+          ]
         }
       }
     }
