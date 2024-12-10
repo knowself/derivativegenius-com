@@ -1,27 +1,27 @@
-&lt;template&gt;
-  &lt;section id="resources" class="py-12 bg-white"&gt;
-    &lt;div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"&gt;
-      &lt;div class="text-center"&gt;
-        &lt;h2 class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl"&gt;
-          Resources &amp; Guides
-        &lt;/h2&gt;
-        &lt;p class="mt-4 text-lg leading-8 text-gray-600"&gt;
+<template>
+  <section id="resources" class="py-12 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center">
+        <h2 class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
+          Resources & Guides
+        </h2>
+        <p class="mt-4 text-lg leading-8 text-gray-600">
           Download our comprehensive guides to learn how AI automation can transform your business
-        &lt;/p&gt;
-      &lt;/div&gt;
-      &lt;div class="mt-12 grid grid-cols-1 gap-8 md:grid-cols-3"&gt;
-        &lt;ResourceCard 
+        </p>
+      </div>
+      <div class="mt-12 grid grid-cols-1 gap-8 md:grid-cols-3">
+        <ResourceCard 
           v-for="resource in resources" 
           :key="resource.id"
           :resource="resource"
           @download="handleDownload"
-        /&gt;
-      &lt;/div&gt;
-    &lt;/div&gt;
-  &lt;/section&gt;
-&lt;/template&gt;
+        />
+      </div>
+    </div>
+  </section>
+</template>
 
-&lt;script&gt;
+<script>
 import ResourceCard from './ResourceCard.vue';
 import { ref } from 'vue';
 import { getStorage, ref as storageRef, getDownloadURL } from 'firebase/storage';
@@ -81,4 +81,4 @@ export default {
     };
   }
 };
-&lt;/script&gt;
+</script>
