@@ -1,7 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import { watch } from 'vue'
-import { useAuthStore } from '@/store/auth'
-import { debug } from '@/utils/debug'
+import { useAuthStore } from '../store/auth'
+import { debug } from '../utils/debug'
 
 const routes = [
   {
@@ -29,50 +29,31 @@ const routes = [
     name: 'services',
     component: () => import(/* webpackChunkName: "services" */ '../views/Services.vue')
   },
+  // Chatbots routes
   {
     path: '/chatbots',
     name: 'chatbots',
-    component: () => import(/* webpackChunkName: "chatbots" */ '../views/Chatbots.vue')
-  },
-  {
-    path: '/chatbots/local',
-    name: 'LocalBusiness',
-    component: () => import(/* webpackChunkName: "chatbot-local" */ '../views/chatbots/LocalBusiness.vue')
-  },
-  {
-    path: '/chatbots/education',
-    name: 'Education',
-    component: () => import(/* webpackChunkName: "chatbot-education" */ '../views/chatbots/Education.vue')
+    component: () => import(/* webpackChunkName: "chatbots" */ '../views/ChatbotIndustry.vue')
   },
   {
     path: '/chatbots/technology',
-    name: 'Technology',
-    component: () => import(/* webpackChunkName: "chatbot-technology" */ '../views/chatbots/Technology.vue')
+    name: 'chatbots-technology',
+    component: () => import(/* webpackChunkName: "chatbots-technology" */ '../views/chatbots/Technology.vue')
   },
   {
-    path: '/chatbots/manufacturing',
-    name: 'Manufacturing',
-    component: () => import(/* webpackChunkName: "chatbot-manufacturing" */ '../views/chatbots/Manufacturing.vue')
+    path: '/chatbots/real-estate',
+    name: 'chatbots-real-estate',
+    component: () => import(/* webpackChunkName: "chatbots-real-estate" */ '../views/chatbots/RealEstate.vue')
   },
   {
-    path: '/chatbots/hospitality',
-    name: 'Hospitality',
-    component: () => import(/* webpackChunkName: "chatbot-hospitality" */ '../views/chatbots/Hospitality.vue')
+    path: '/chatbots/education',
+    name: 'chatbots-education',
+    component: () => import(/* webpackChunkName: "chatbots-education" */ '../views/chatbots/Education.vue')
   },
   {
-    path: '/chatbots/retail',
-    name: 'Retail',
-    component: () => import(/* webpackChunkName: "chatbot-retail" */ '../views/chatbots/Retail.vue')
-  },
-  {
-    path: '/chatbots/healthcare',
-    name: 'Healthcare',
-    component: () => import(/* webpackChunkName: "chatbot-healthcare" */ '../views/chatbots/Healthcare.vue')
-  },
-  {
-    path: '/chatbots/financial',
-    name: 'Financial',
-    component: () => import(/* webpackChunkName: "chatbot-financial" */ '../views/chatbots/Financial.vue')
+    path: '/chatbots/local',
+    name: 'chatbots-local',
+    component: () => import(/* webpackChunkName: "chatbots-local" */ '../views/chatbots/LocalBusiness.vue')
   },
   {
     path: '/login',
@@ -110,6 +91,11 @@ const routes = [
         meta: { requiresAdmin: true }
       }
     ]
+  },
+  {
+    path: '/:pathMatch(.*)*',
+    name: 'not-found',
+    redirect: '/'
   }
 ]
 

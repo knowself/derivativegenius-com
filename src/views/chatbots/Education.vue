@@ -1,21 +1,45 @@
 <template>
-  <div>
+  <div class="education-container bg-gray-50 dark:bg-gray-900 min-h-screen">
     <ChatbotBreadcrumb current-page="Education" />
-    <div class="chatbot-industry-page">
-      <h1>{{ industryData.name }}</h1>
-      <p class="industry-description">{{ industryData.fullDescription }}</p>
-      
-      <div class="use-cases-grid">
-        <div v-for="useCase in industryData.useCases" :key="useCase.title" class="use-case-card">
-          <div class="use-case-icon">
-            <i :class="useCase.icon"></i>
-          </div>
-          <h3>{{ useCase.title }}</h3>
-          <p>{{ useCase.description }}</p>
-          <ul class="benefits-list">
-            <li v-for="benefit in useCase.benefits" :key="benefit">{{ benefit }}</li>
+    
+    <div class="max-w-7xl mx-auto px-4 py-12">
+      <div class="text-center mb-16">
+        <h1 class="text-4xl font-bold text-black dark:text-white mb-6">
+          Education Chatbot Solutions
+        </h1>
+        <p class="text-xl text-black dark:text-white max-w-3xl mx-auto leading-relaxed">
+          Transform learning experiences with AI-powered chatbots.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
+        <div v-for="(feature, index) in features" 
+             :key="index" 
+             class="bg-white dark:bg-black rounded-lg p-8 shadow-xl">
+          <i :class="feature.icon + ' text-4xl text-black dark:text-white mb-6'"></i>
+          <h3 class="text-2xl font-bold mb-4 text-black dark:text-white">{{ feature.title }}</h3>
+          <p class="text-black dark:text-white text-lg mb-6 leading-relaxed">{{ feature.description }}</p>
+          <ul class="space-y-4">
+            <li v-for="(point, pIndex) in feature.points" 
+                :key="pIndex" 
+                class="flex items-start">
+              <i class="fas fa-check-circle text-black dark:text-white mt-1.5 mr-3"></i>
+              <span class="text-black dark:text-white text-lg">{{ point }}</span>
+            </li>
           </ul>
         </div>
+      </div>
+
+      <div class="bg-black text-white dark:bg-white dark:text-black rounded-lg p-12 text-center">
+        <h2 class="text-3xl font-bold mb-6">Ready to Transform Your Educational Institution?</h2>
+        <p class="text-xl mb-8 max-w-2xl mx-auto leading-relaxed">
+          Join leading educational institutions that have revolutionized their operations with our AI solutions.
+        </p>
+        <router-link 
+          to="/contact" 
+          class="inline-block bg-white text-black dark:bg-black dark:text-white px-8 py-4 rounded-lg font-bold text-xl hover:bg-gray-100 dark:hover:bg-gray-900 transition-colors shadow-xl">
+          Get Started
+        </router-link>
       </div>
     </div>
   </div>
@@ -23,7 +47,6 @@
 
 <script>
 import ChatbotBreadcrumb from '@/components/ChatbotBreadcrumb.vue'
-import '@/assets/styles/chatbot-industry.css'
 
 export default {
   name: 'Education',
@@ -32,122 +55,98 @@ export default {
   },
   data() {
     return {
-      industryData: {
-        name: 'Education AI Solutions',
-        fullDescription: 'Transform learning experiences with AI-powered chatbots that provide personalized support, streamline administrative tasks, and enhance engagement for students, educators, and administrators across all educational levels.',
-        useCases: [
-          {
-            title: 'Student Support Assistant',
-            icon: 'fas fa-graduation-cap',
-            description: '24/7 academic guidance and support',
-            benefits: [
-              'Answer 90% of common questions',
-              'Reduce support wait times by 75%',
-              'Personalized learning paths',
-              'Multi-language assistance'
-            ]
-          },
-          {
-            title: 'Homework Helper',
-            icon: 'fas fa-book-reader',
-            description: 'Interactive homework assistance and study guidance',
-            benefits: [
-              'Step-by-step problem solving',
-              'Subject-specific resources',
-              'Practice exercises generation',
-              'Progress tracking'
-            ]
-          },
-          {
-            title: 'Course Registration Bot',
-            icon: 'fas fa-calendar-plus',
-            description: 'Streamlined course enrollment and scheduling',
-            benefits: [
-              'Real-time class availability',
-              'Prerequisites verification',
-              'Schedule conflict detection',
-              'Waitlist management'
-            ]
-          },
-          {
-            title: 'Research Assistant',
-            icon: 'fas fa-microscope',
-            description: 'Advanced research support and resource discovery',
-            benefits: [
-              'Literature search automation',
-              'Citation assistance',
-              'Research methodology guidance',
-              'Data analysis support'
-            ]
-          },
-          {
-            title: 'Language Learning Companion',
-            icon: 'fas fa-language',
-            description: 'Interactive language practice and assessment',
-            benefits: [
-              'Real-time conversation practice',
-              'Pronunciation feedback',
-              'Vocabulary building exercises',
-              'Cultural context insights'
-            ]
-          },
-          {
-            title: 'Parent Communication Hub',
-            icon: 'fas fa-users',
-            description: 'Streamlined parent-teacher communication',
-            benefits: [
-              'Progress report delivery',
-              'Event notifications',
-              'Meeting scheduling',
-              'Attendance updates'
-            ]
-          },
-          {
-            title: 'Campus Life Navigator',
-            icon: 'fas fa-university',
-            description: 'Comprehensive campus information and services',
-            benefits: [
-              'Campus event updates',
-              'Facility booking system',
-              'Club/activity information',
-              'Emergency services access'
-            ]
-          },
-          {
-            title: 'Assessment & Grading Assistant',
-            icon: 'fas fa-check-square',
-            description: 'Automated assessment and feedback system',
-            benefits: [
-              'Auto-grading capabilities',
-              'Personalized feedback generation',
-              'Performance analytics',
-              'Learning gap identification'
-            ]
-          },
-          {
-            title: 'Special Education Support',
-            icon: 'fas fa-hand-holding-heart',
-            description: 'Specialized assistance for diverse learning needs',
-            benefits: [
-              'Adaptive learning paths',
-              'Accessibility features',
-              'IEP progress tracking',
-              'Resource recommendations'
-            ]
-          },
-          {
-            title: 'Professional Development Coach',
-            icon: 'fas fa-chalkboard-teacher',
-            description: 'Teacher training and skill development',
-            benefits: [
-              'Personalized training plans',
-              'Teaching resource library',
-              'Best practice sharing',
-              'Certification tracking'
-            ]
-          }
-        ]
-      }
+      features: [
+        {
+          title: 'Student Support Assistant',
+          icon: 'fas fa-user-graduate',
+          description: 'Provide 24/7 personalized support for students.',
+          points: [
+            'Course registration assistance',
+            'Financial aid information',
+            'Campus resources and services'
+          ]
+        },
+        {
+          title: 'Learning Management',
+          icon: 'fas fa-chalkboard-teacher',
+          description: 'Enhance the learning experience with AI-powered tools.',
+          points: [
+            'Personalized learning paths',
+            'Progress tracking',
+            'Interactive study materials'
+          ]
+        },
+        {
+          title: 'Administrative Automation',
+          icon: 'fas fa-cogs',
+          description: 'Streamline administrative tasks efficiently.',
+          points: [
+            'Enrollment automation',
+            'Document processing',
+            'Schedule management'
+          ]
+        },
+        {
+          title: 'Faculty Assistant',
+          icon: 'fas fa-users',
+          description: 'Support faculty with course management tools.',
+          points: [
+            'Grade management',
+            'Course content organization',
+            'Student performance tracking'
+          ]
+        },
+        {
+          title: 'Parent Communication',
+          icon: 'fas fa-comments',
+          description: 'Keep parents informed and engaged.',
+          points: [
+            'Progress updates',
+            'Event announcements',
+            'Meeting scheduling'
+          ]
+        },
+        {
+          title: 'Library Services',
+          icon: 'fas fa-book',
+          description: 'Modernize library services with AI assistance.',
+          points: [
+            'Resource discovery',
+            'Reservation management',
+            'Research assistance'
+          ]
+        },
+        {
+          title: 'Career Services',
+          icon: 'fas fa-briefcase',
+          description: 'Support student career development.',
+          points: [
+            'Career guidance',
+            'Resume assistance',
+            'Job matching'
+          ]
+        },
+        {
+          title: 'Campus Life Support',
+          icon: 'fas fa-university',
+          description: 'Enhance campus life experience.',
+          points: [
+            'Housing assistance',
+            'Event information',
+            'Transportation services'
+          ]
+        },
+        {
+          title: 'International Student Support',
+          icon: 'fas fa-globe',
+          description: 'Provide specialized assistance for international students.',
+          points: [
+            'Visa support',
+            'Cultural resources',
+            'Language assistance'
+          ]
+        }
+      ]
     }
   }
 }

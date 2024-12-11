@@ -1,7 +1,7 @@
 <template>
   <div class="industry-container" v-if="industryData">
     <div class="hero-section">
-      <router-link to="/chatbots" class="back-button">
+      <router-link v-if="$route.params.industry" to="/chatbots" class="back-button">
         <i class="fas fa-arrow-left mr-2"></i> Back to Industries
       </router-link>
       <h1 class="text-4xl font-bold mb-6">{{ industryData.name }}</h1>
@@ -9,8 +9,9 @@
     </div>
 
     <div class="use-cases-grid">
-      <div v-for="(useCase, index) in industryData.useCases" 
+      <router-link v-for="(useCase, index) in industryData.useCases" 
            :key="index"
+           :to="'/chatbots/' + useCase.route"
            class="use-case-card">
         <i :class="useCase.icon + ' text-3xl mb-4'"></i>
         <h3 class="text-xl font-semibold mb-3">{{ useCase.title }}</h3>
@@ -23,13 +24,18 @@
             {{ benefit }}
           </li>
         </ul>
-      </div>
+        <div class="mt-6">
+          <span class="text-indigo-600 hover:text-indigo-700 font-medium">
+            Learn more <i class="fas fa-arrow-right ml-1"></i>
+          </span>
+        </div>
+      </router-link>
     </div>
 
     <div class="cta-section">
       <h2 class="text-2xl font-semibold mb-4">Ready to Transform Your Business?</h2>
       <p class="mb-6">Experience the power of AI chatbots tailored for your industry</p>
-      <router-link to="/contact" class="cta-button">
+      <router-link to="/contact" class="cta-button primary">
         Get Started
       </router-link>
     </div>
@@ -41,7 +47,64 @@ export default {
   name: 'ChatbotIndustry',
   data() {
     return {
-      industryData: null,
+      industryData: {
+        name: 'AI-Powered Chatbot Solutions',
+        fullDescription: 'Transform your business with intelligent chatbots designed for your specific industry needs. Our AI solutions enhance customer experience, automate operations, and drive growth across various sectors.',
+        useCases: [
+          {
+            title: 'Technology',
+            route: 'technology',
+            icon: 'fas fa-microchip',
+            description: 'Empower your tech company with AI-driven solutions that streamline development processes, enhance customer support, and boost team productivity.',
+            benefits: [
+              'Automated 24/7 technical support',
+              'Smart development workflow automation',
+              'Real-time system monitoring and alerts',
+              'Intelligent code review assistance',
+              'Automated deployment pipelines'
+            ]
+          },
+          {
+            title: 'Real Estate',
+            route: 'real-estate',
+            icon: 'fas fa-home',
+            description: 'Revolutionize property management and sales with AI chatbots that streamline client interactions, automate showings, and enhance property marketing.',
+            benefits: [
+              'Automated property matching',
+              '24/7 property inquiries handling',
+              'Smart scheduling for viewings',
+              'Real-time market analysis',
+              'Automated lead qualification'
+            ]
+          },
+          {
+            title: 'Education',
+            route: 'education',
+            icon: 'fas fa-graduation-cap',
+            description: 'Revolutionize learning with AI chatbots that provide personalized support, streamline administrative tasks, and enhance student engagement.',
+            benefits: [
+              'Personalized learning assistance',
+              'Automated course management',
+              'Smart administrative support',
+              'Real-time student feedback',
+              'Intelligent content recommendations'
+            ]
+          },
+          {
+            title: 'Local Business',
+            route: 'local',
+            icon: 'fas fa-store',
+            description: 'Transform your local business with AI solutions that enhance customer service, streamline operations, and drive growth in your community.',
+            benefits: [
+              'Intelligent 24/7 customer support',
+              'Smart appointment scheduling',
+              'Automated inventory management',
+              'Local SEO optimization',
+              'Customer insights and analytics'
+            ]
+          }
+        ]
+      },
       industries: {
         retail: {
           name: 'Retail AI Solutions',
@@ -289,12 +352,12 @@ export default {
             {
               title: 'Tenant Communication Hub',
               icon: 'fas fa-comments',
-              description: 'Centralized tenant communication and support',
+              description: 'Centralized tenant interaction management',
               benefits: [
                 'Respond to inquiries within minutes',
-                'Automated rent reminders',
-                'Community announcements',
-                'Satisfaction tracking'
+                'Secure message encryption',
+                'Multi-channel support',
+                'Communication analytics'
               ]
             },
             {
@@ -481,8 +544,8 @@ export default {
               benefits: [
                 'Process orders in under 1 minute',
                 'Custom menu recommendations',
-                'Dietary preference tracking',
-                'Real-time order status'
+                'Dietary filter options',
+                'Special requests handling'
               ]
             },
             {
@@ -1221,46 +1284,24 @@ export default {
   },
   created() {
     const industry = this.$route.params.industry
-    this.industryData = this.industries[industry]
+    if (industry) {
+      this.industryData = this.industries[industry]
+    }
   }
 }
 </script>
 
 <style scoped>
 .industry-container {
-  @apply px-4 py-12 max-w-7xl mx-auto;
+  @apply max-w-7xl mx-auto px-4 py-8;
 }
 
 .hero-section {
-  @apply text-center mb-16 bg-gradient-to-r from-blue-900 via-indigo-900 to-purple-900 rounded-2xl p-12 shadow-2xl relative overflow-hidden;
-}
-
-.hero-section::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: repeating-linear-gradient(
-    45deg,
-    transparent,
-    transparent 10px,
-    rgba(59, 130, 246, 0.1) 10px,
-    rgba(59, 130, 246, 0.1) 20px
-  );
-  opacity: 0.1;
-  animation: diagonalStripes 15s linear infinite;
+  @apply text-center mb-16 bg-gradient-to-br from-indigo-600 to-purple-600 text-white rounded-lg p-12;
 }
 
 .back-button {
-  @apply absolute left-6 top-6 inline-flex items-center text-gray-200 hover:text-yellow-400 transition-colors z-10;
-}
-
-.hero-section h1 {
-  @apply text-5xl md:text-6xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-yellow-400 via-yellow-300 to-yellow-200 leading-tight relative z-10;
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.hero-section p {
-  @apply text-xl md:text-2xl mb-8 text-gray-200 leading-relaxed max-w-3xl mx-auto relative z-10;
+  @apply inline-flex items-center text-white hover:text-indigo-200 mb-8 transition-colors;
 }
 
 .use-cases-grid {
@@ -1268,156 +1309,56 @@ export default {
 }
 
 .use-case-card {
-  @apply bg-white/95 backdrop-blur-sm p-8 rounded-lg shadow-xl relative overflow-hidden;
-  transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
-}
-
-.use-case-card::before,
-.use-case-card::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  border-radius: inherit;
-  transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
-}
-
-.use-case-card::before {
-  background: linear-gradient(transparent 50%, rgba(59, 130, 246, 0.1));
-  transform: translateY(-100%);
-  z-index: 1;
-}
-
-.use-case-card::after {
-  background: repeating-linear-gradient(
-    45deg,
-    transparent,
-    transparent 10px,
-    rgba(59, 130, 246, 0.1) 10px,
-    rgba(59, 130, 246, 0.1) 20px
-  );
-  opacity: 0;
-  z-index: 1;
-}
-
-.use-case-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 
-    0 20px 25px -5px rgba(0, 0, 0, 0.1),
-    0 10px 10px -5px rgba(0, 0, 0, 0.04),
-    0 0 20px rgba(59, 130, 246, 0.4);
-}
-
-.use-case-card:hover::before {
-  transform: translateY(0);
-  animation: scanline 2s linear infinite;
-}
-
-.use-case-card:hover::after {
-  opacity: 1;
-  animation: diagonalStripes 15s linear infinite;
+  @apply bg-white dark:bg-gray-800 rounded-lg p-6 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1;
+  text-decoration: none;
+  color: inherit;
 }
 
 .use-case-card i {
-  @apply text-blue-600 mb-4 relative z-10;
+  @apply text-indigo-600 dark:text-indigo-400 transition-colors duration-300;
 }
 
 .use-case-card:hover i {
-  animation: glitch 1s cubic-bezier(0.25, 0.46, 0.45, 0.94) infinite both;
+  @apply text-indigo-500;
 }
 
 .use-case-card h3 {
-  @apply relative z-10;
+  @apply text-gray-900 dark:text-white transition-colors duration-300;
+}
+
+.use-case-card p {
+  @apply text-gray-600 dark:text-gray-300;
 }
 
 .benefits-list {
-  @apply mt-6 space-y-3 relative z-10;
+  @apply mt-4 space-y-2;
 }
 
 .benefit-item {
-  @apply flex items-start text-sm text-gray-600 transition-colors;
+  @apply flex items-center text-gray-700 dark:text-gray-300 text-sm;
 }
 
 .benefit-item i {
-  @apply text-green-500 mr-2 mt-1;
+  @apply text-green-500 text-xs;
 }
 
 .cta-section {
-  @apply text-center py-12 bg-gradient-to-r from-blue-900 via-indigo-900 to-purple-900 rounded-2xl px-8 relative overflow-hidden;
+  @apply text-center bg-gray-50 dark:bg-gray-900 rounded-lg p-12;
 }
 
-.cta-section::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: repeating-linear-gradient(
-    45deg,
-    transparent,
-    transparent 10px,
-    rgba(59, 130, 246, 0.1) 10px,
-    rgba(59, 130, 246, 0.1) 20px
-  );
-  opacity: 0.1;
-  animation: diagonalStripes 15s linear infinite;
-}
-
-.cta-section h2 {
-  @apply text-3xl md:text-4xl font-bold mb-6 text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 via-yellow-300 to-yellow-200 relative z-10;
-}
-
-.cta-section p {
-  @apply text-xl text-gray-200 mb-8 relative z-10;
+.cta-buttons {
+  @apply flex justify-center space-x-4;
 }
 
 .cta-button {
-  @apply inline-block px-8 py-4 bg-yellow-400 text-gray-900 rounded-lg font-semibold text-lg relative overflow-hidden transition-all duration-300 z-10;
+  @apply px-6 py-3 rounded-lg font-medium transition-colors;
 }
 
-.cta-button:hover {
-  @apply bg-yellow-300 transform -translate-y-1;
-  box-shadow: 0 0 30px rgba(250, 204, 21, 0.4);
+.cta-button.primary {
+  @apply bg-indigo-600 text-white hover:bg-indigo-700;
 }
 
-@keyframes scanline {
-  0% {
-    background: linear-gradient(transparent 0%, rgba(59, 130, 246, 0.2));
-    transform: translateY(-100%);
-  }
-  50% {
-    background: linear-gradient(transparent 0%, rgba(59, 130, 246, 0.1));
-  }
-  100% {
-    background: linear-gradient(transparent 0%, rgba(59, 130, 246, 0.2));
-    transform: translateY(100%);
-  }
-}
-
-@keyframes diagonalStripes {
-  0% {
-    background-position: 0 0;
-  }
-  100% {
-    background-position: 100% 100%;
-  }
-}
-
-@keyframes glitch {
-  0% {
-    transform: translate(0);
-  }
-  20% {
-    transform: translate(-2px, 2px);
-  }
-  40% {
-    transform: translate(-2px, -2px);
-  }
-  60% {
-    transform: translate(2px, 2px);
-  }
-  80% {
-    transform: translate(2px, -2px);
-  }
-  100% {
-    transform: translate(0);
-  }
+.cta-button.secondary {
+  @apply bg-white text-indigo-600 border border-indigo-600 hover:bg-indigo-50;
 }
 </style>

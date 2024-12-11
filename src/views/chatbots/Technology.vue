@@ -1,21 +1,46 @@
 <template>
-  <div>
+  <div class="technology-container bg-gray-50 dark:bg-gray-900 min-h-screen">
     <ChatbotBreadcrumb current-page="Technology" />
-    <div class="chatbot-industry-page">
-      <h1>{{ industryData.name }}</h1>
-      <p class="industry-description">{{ industryData.fullDescription }}</p>
-      
-      <div class="use-cases-grid">
-        <div v-for="useCase in industryData.useCases" :key="useCase.title" class="use-case-card">
-          <div class="use-case-icon">
-            <i :class="useCase.icon"></i>
-          </div>
-          <h3>{{ useCase.title }}</h3>
-          <p>{{ useCase.description }}</p>
-          <ul class="benefits-list">
-            <li v-for="benefit in useCase.benefits" :key="benefit">{{ benefit }}</li>
+    
+    <div class="max-w-7xl mx-auto px-4 py-12">
+      <div class="text-center mb-16">
+        <h1 class="text-4xl font-bold text-black dark:text-white mb-6">
+          Technology Chatbot Solutions
+        </h1>
+        <p class="text-xl text-black dark:text-white max-w-3xl mx-auto leading-relaxed">
+          Empower your tech company with AI-driven solutions that streamline development processes,
+          enhance customer support, and boost team productivity through intelligent automation.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
+        <div v-for="(feature, index) in features" 
+             :key="index" 
+             class="bg-white dark:bg-black rounded-lg p-8 shadow-xl">
+          <i :class="feature.icon + ' text-4xl text-black dark:text-white mb-6'"></i>
+          <h3 class="text-2xl font-bold mb-4 text-black dark:text-white">{{ feature.title }}</h3>
+          <p class="text-black dark:text-white text-lg mb-6 leading-relaxed">{{ feature.description }}</p>
+          <ul class="space-y-4">
+            <li v-for="(point, pIndex) in feature.points" 
+                :key="pIndex" 
+                class="flex items-start">
+              <i class="fas fa-check-circle text-black dark:text-white mt-1.5 mr-3"></i>
+              <span class="text-black dark:text-white text-lg">{{ point }}</span>
+            </li>
           </ul>
         </div>
+      </div>
+
+      <div class="bg-black text-white dark:bg-white dark:text-black rounded-lg p-12 text-center">
+        <h2 class="text-3xl font-bold mb-6">Ready to Transform Your Tech Operations?</h2>
+        <p class="text-xl mb-8 max-w-2xl mx-auto leading-relaxed">
+          Join leading technology companies that have revolutionized their operations with our AI solutions.
+        </p>
+        <router-link 
+          to="/contact" 
+          class="inline-block bg-white text-black dark:bg-black dark:text-white px-8 py-4 rounded-lg font-bold text-xl hover:bg-gray-100 dark:hover:bg-gray-900 transition-colors shadow-xl">
+          Get Started
+        </router-link>
       </div>
     </div>
   </div>
@@ -23,7 +48,6 @@
 
 <script>
 import ChatbotBreadcrumb from '@/components/ChatbotBreadcrumb.vue'
-import '@/assets/styles/chatbot-industry.css'
 
 export default {
   name: 'Technology',
@@ -32,144 +56,116 @@ export default {
   },
   data() {
     return {
-      industryData: {
-        name: 'Technology AI Solutions',
-        fullDescription: 'Accelerate innovation and enhance productivity with AI-powered chatbots that streamline development processes, automate IT operations, provide technical support, and improve product management across technology organizations.',
-        useCases: [
-          {
-            title: 'Developer Assistant',
-            icon: 'fas fa-code',
-            description: 'Intelligent coding and development support',
-            benefits: [
-              'Code review automation',
-              'API documentation generation',
-              'Best practices suggestions',
-              'Dependency management'
-            ]
-          },
-          {
-            title: 'DevOps Automation',
-            icon: 'fas fa-infinity',
-            description: 'Streamline CI/CD pipelines and infrastructure management',
-            benefits: [
-              'Automated deployment checks',
-              'Infrastructure monitoring',
-              'Pipeline optimization',
-              'Security compliance automation'
-            ]
-          },
-          {
-            title: 'Technical Support Hub',
-            icon: 'fas fa-headset',
-            description: 'Intelligent customer support and issue resolution',
-            benefits: [
-              '24/7 technical assistance',
-              'Automated troubleshooting',
-              'Knowledge base integration',
-              'Ticket prioritization'
-            ]
-          },
-          {
-            title: 'Cloud Resource Manager',
-            icon: 'fas fa-cloud',
-            description: 'Optimize cloud infrastructure and costs',
-            benefits: [
-              'Resource scaling automation',
-              'Cost optimization alerts',
-              'Performance monitoring',
-              'Usage analytics'
-            ]
-          },
-          {
-            title: 'Security Operations Center',
-            icon: 'fas fa-shield-alt',
-            description: 'Enhanced cybersecurity monitoring and response',
-            benefits: [
-              'Threat detection automation',
-              'Incident response coordination',
-              'Security audit assistance',
-              'Compliance monitoring'
-            ]
-          },
-          {
-            title: 'Product Analytics Assistant',
-            icon: 'fas fa-chart-line',
-            description: 'Data-driven product insights and optimization',
-            benefits: [
-              'User behavior analysis',
-              'Feature usage tracking',
-              'A/B testing automation',
-              'Performance metrics'
-            ]
-          },
-          {
-            title: 'QA Testing Companion',
-            icon: 'fas fa-vial',
-            description: 'Automated testing and quality assurance',
-            benefits: [
-              'Test case generation',
-              'Regression testing',
-              'Bug reporting automation',
-              'Test coverage analysis'
-            ]
-          },
-          {
-            title: 'API Management Bot',
-            icon: 'fas fa-plug',
-            description: 'Streamline API development and management',
-            benefits: [
-              'API documentation updates',
-              'Version control assistance',
-              'Usage monitoring',
-              'Integration testing'
-            ]
-          },
-          {
-            title: 'Data Pipeline Assistant',
-            icon: 'fas fa-database',
-            description: 'Optimize data workflows and analytics',
-            benefits: [
-              'ETL process automation',
-              'Data quality checks',
-              'Pipeline monitoring',
-              'Performance optimization'
-            ]
-          },
-          {
-            title: 'Tech Talent Manager',
-            icon: 'fas fa-users-cog',
-            description: 'Technical recruitment and team management',
-            benefits: [
-              'Skill assessment automation',
-              'Technical interview assistance',
-              'Team capacity planning',
-              'Training recommendations'
-            ]
-          },
-          {
-            title: 'Release Manager',
-            icon: 'fas fa-rocket',
-            description: 'Streamline software release processes',
-            benefits: [
-              'Release schedule automation',
-              'Change log generation',
-              'Stakeholder communications',
-              'Rollback coordination'
-            ]
-          },
-          {
-            title: 'Technical Documentation Bot',
-            icon: 'fas fa-file-code',
-            description: 'Automated technical documentation management',
-            benefits: [
-              'Documentation updates',
-              'Code comment analysis',
-              'Version tracking',
-              'Search optimization'
-            ]
-          }
-        ]
-      }
+      features: [
+        {
+          title: 'AI Development Assistant',
+          icon: 'fas fa-code',
+          description: 'Supercharge your development workflow with AI-powered code assistance and automation.',
+          points: [
+            'Intelligent code completion and suggestions',
+            'Automated code review and quality checks',
+            'Smart debugging assistance and error detection',
+            'API integration recommendations',
+            'Performance optimization suggestions'
+          ]
+        },
+        {
+          title: 'DevOps Automation',
+          icon: 'fas fa-cogs',
+          description: 'Streamline your DevOps processes with intelligent automation and monitoring.',
+          points: [
+            'Automated CI/CD pipeline optimization',
+            'Infrastructure as Code (IaC) assistance',
+            'Container orchestration management',
+            'Deployment strategy recommendations',
+            'Environment configuration automation'
+          ]
+        },
+        {
+          title: 'Technical Support Bot',
+          icon: 'fas fa-headset',
+          description: 'Provide instant, intelligent technical support to users and developers.',
+          points: [
+            '24/7 automated technical assistance',
+            'Smart ticket routing and prioritization',
+            'Knowledge base integration and updates',
+            'Solution recommendation engine',
+            'Escalation path automation'
+          ]
+        },
+        {
+          title: 'Cloud Resource Manager',
+          icon: 'fas fa-cloud',
+          description: 'Optimize your cloud infrastructure with AI-driven insights and automation.',
+          points: [
+            'Automated resource scaling',
+            'Cost optimization recommendations',
+            'Performance monitoring and alerts',
+            'Security compliance checks',
+            'Disaster recovery automation'
+          ]
+        },
+        {
+          title: 'QA & Testing Assistant',
+          icon: 'fas fa-vial',
+          description: 'Enhance your testing processes with AI-powered test automation.',
+          points: [
+            'Automated test case generation',
+            'Regression testing optimization',
+            'Test coverage analysis',
+            'Bug pattern detection',
+            'Performance testing automation'
+          ]
+        },
+        {
+          title: 'Project Management Bot',
+          icon: 'fas fa-tasks',
+          description: 'Streamline project management with intelligent task automation.',
+          points: [
+            'Sprint planning assistance',
+            'Resource allocation optimization',
+            'Progress tracking and reporting',
+            'Risk assessment automation',
+            'Team collaboration enhancement'
+          ]
+        },
+        {
+          title: 'Security Operations',
+          icon: 'fas fa-shield-alt',
+          description: 'Strengthen your security posture with AI-powered threat detection.',
+          points: [
+            'Real-time threat detection',
+            'Security incident response',
+            'Compliance monitoring automation',
+            'Vulnerability assessment',
+            'Access control management'
+          ]
+        },
+        {
+          title: 'API Management',
+          icon: 'fas fa-plug',
+          description: 'Simplify API development and management with intelligent automation.',
+          points: [
+            'API documentation generation',
+            'Version control assistance',
+            'Performance monitoring',
+            'Usage analytics',
+            'Integration testing automation'
+          ]
+        },
+        {
+          title: 'Data Pipeline Assistant',
+          icon: 'fas fa-database',
+          description: 'Optimize your data workflows with AI-powered automation.',
+          points: [
+            'ETL process automation',
+            'Data quality monitoring',
+            'Pipeline optimization',
+            'Schema management',
+            'Data governance automation'
+          ]
+        }
+      ]
     }
   }
 }

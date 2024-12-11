@@ -1,10 +1,17 @@
 {
+  "metadata": {
+    "last_updated": "2024-12-10T10:09:07-05:00",
+    "version": "1.0.0",
+    "description": "System of record for technical decisions and implementation learnings",
+    "principles_reference": "@_ai_dev_principles.json"
+  },
   "session_date": "2024-02-13",
   "project": "derivative-genius-website",
   "component": "contact_email_form",
   "learnings": {
     "log_management": {
       "date": "2024-12-08T17:52:46-05:00",
+      "principle_ref": "@_ai_dev_principles.json#core_principles.resilience.implementation.status_tracking",
       "issue": "AI tools blocked from accessing .gitignored log files",
       "attempted_solutions": {
         "configuration_files": [
