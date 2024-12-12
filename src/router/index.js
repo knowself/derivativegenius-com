@@ -33,27 +33,12 @@ const routes = [
   {
     path: '/chatbots',
     name: 'chatbots',
-    component: () => import(/* webpackChunkName: "chatbots" */ '../views/ChatbotIndustry.vue')
+    component: () => import(/* webpackChunkName: "chatbots" */ '../views/Chatbots.vue')
   },
   {
-    path: '/chatbots/technology',
-    name: 'chatbots-technology',
-    component: () => import(/* webpackChunkName: "chatbots-technology" */ '../views/chatbots/Technology.vue')
-  },
-  {
-    path: '/chatbots/real-estate',
-    name: 'chatbots-real-estate',
-    component: () => import(/* webpackChunkName: "chatbots-real-estate" */ '../views/chatbots/RealEstate.vue')
-  },
-  {
-    path: '/chatbots/education',
-    name: 'chatbots-education',
-    component: () => import(/* webpackChunkName: "chatbots-education" */ '../views/chatbots/Education.vue')
-  },
-  {
-    path: '/chatbots/local',
-    name: 'chatbots-local',
-    component: () => import(/* webpackChunkName: "chatbots-local" */ '../views/chatbots/LocalBusiness.vue')
+    path: '/chatbot-details/:id',
+    name: 'chatbot-details',
+    component: () => import(/* webpackChunkName: "chatbot-details" */ '../views/ChatbotDetails.vue')
   },
   {
     path: '/login',

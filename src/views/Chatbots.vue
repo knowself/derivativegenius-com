@@ -10,155 +10,114 @@
           <i class="fas fa-lightbulb text-yellow-300 mr-2"></i>
           Imagine a world where your business operates with unparalleled efficiency, where your customers feel valued every moment, and where your team is free to focus on what truly matters. With our AI-powered chatbots, this isn't just a vision – it's a reality.
         </div>
-        <div class="hero-description">
-          <i class="fas fa-clock text-yellow-300 mr-2"></i>
-          In today's fast-paced world, every second counts. Your customers demand instant solutions, seamless interactions, and a personalized touch. Our AI chatbot solutions are more than just tools; they are partners in your journey to redefine success.
-        </div>
       </div>
     </div>
 
-    <div class="how-it-works">
-      <div class="section-content">
-        <div class="section-icon">
-          <i class="fas fa-cogs text-4xl mb-6 text-indigo-600"></i>
-        </div>
-        <h2 class="section-title">
-          <i class="fas fa-magic text-indigo-600 mr-2"></i>
-          How Our Chatbots Work for You
-        </h2>
-        <p class="section-text">
-          <i class="fas fa-handshake text-indigo-600 mr-2"></i>
-          Behind every successful business is the ability to connect – to truly listen and respond. Our chatbots provide that connection, tirelessly working 24/7 to ensure your customers feel heard and supported.
-        </p>
-      </div>
-    </div>
-
-    <div class="features-grid">
-      <div v-for="(feature, index) in features" :key="index" class="feature-card">
-        <div class="feature-icon-wrapper">
-          <i :class="feature.icon"></i>
-        </div>
-        <h3>{{ feature.title }}</h3>
-        <p>{{ feature.description }}</p>
-      </div>
-    </div>
-
-    <div class="industries-section">
-      <h2 class="section-title">Tailored Industry Solutions</h2>
-      <p class="section-description">Your business is unique, and so are your challenges. Our chatbots adapt to meet your specific needs.</p>
-      
-      <div class="industries-grid">
-        <router-link 
-          v-for="industry in industries" 
-          :key="industry.id"
-          :to="{ name: 'ChatbotIndustry', params: { industry: industry.id }}"
-          class="industry-card"
-        >
-          <div class="industry-icon-wrapper">
-            <i :class="industry.icon"></i>
-          </div>
-          <h3>{{ industry.name }}</h3>
-          <p>{{ industry.description }}</p>
-        </router-link>
-      </div>
-    </div>
-
-    <div class="industry-links-section">
-      <h2 class="text-3xl font-bold text-center mb-12">Explore Industry Solutions</h2>
-      <div class="industry-grid">
-        <router-link to="/chatbots/local-business" class="industry-card">
-          <div class="icon-wrapper">
-            <i class="fas fa-store text-3xl"></i>
-          </div>
-          <h3>Local Business</h3>
-          <p>Build stronger community relationships</p>
-          <span class="learn-more">Learn More <i class="fas fa-arrow-right ml-2"></i></span>
-        </router-link>
-
-        <router-link to="/chatbots/education" class="industry-card">
-          <div class="icon-wrapper">
-            <i class="fas fa-graduation-cap text-3xl"></i>
-          </div>
-          <h3>Education</h3>
-          <p>Transform learning experiences</p>
-          <span class="learn-more">Learn More <i class="fas fa-arrow-right ml-2"></i></span>
-        </router-link>
-
-        <router-link to="/chatbots/technology" class="industry-card">
-          <div class="icon-wrapper">
-            <i class="fas fa-microchip text-3xl"></i>
-          </div>
-          <h3>Technology</h3>
-          <p>Accelerate digital innovation</p>
-          <span class="learn-more">Learn More <i class="fas fa-arrow-right ml-2"></i></span>
-        </router-link>
-
-        <router-link to="/chatbots/manufacturing" class="industry-card">
-          <div class="icon-wrapper">
-            <i class="fas fa-industry text-3xl"></i>
-          </div>
-          <h3>Manufacturing</h3>
-          <p>Optimize production processes</p>
-          <span class="learn-more">Learn More <i class="fas fa-arrow-right ml-2"></i></span>
-        </router-link>
-
-        <router-link to="/chatbots/hospitality" class="industry-card">
-          <div class="icon-wrapper">
-            <i class="fas fa-hotel text-3xl"></i>
-          </div>
-          <h3>Hospitality</h3>
-          <p>Elevate guest experiences</p>
-          <span class="learn-more">Learn More <i class="fas fa-arrow-right ml-2"></i></span>
-        </router-link>
-      </div>
-    </div>
-
-    <div class="why-choose-us">
-      <div class="section-content">
-        <div class="section-icon">
-          <i class="fas fa-award text-4xl mb-6 text-indigo-600"></i>
-        </div>
-        <h2 class="section-title">Why Choose Us?</h2>
-        <p class="section-text">We don't just build chatbots – we build connections.</p>
-        <div class="reasons-grid">
-          <div class="reason-card">
-            <div class="reason-icon">
-              <i class="fas fa-industry text-3xl text-indigo-600"></i>
-            </div>
-            <h4>Industry Expertise</h4>
-            <p>We understand your unique challenges</p>
-          </div>
-          <div class="reason-card">
-            <div class="reason-icon">
-              <i class="fas fa-brain text-3xl text-indigo-600"></i>
-            </div>
-            <h4>Advanced AI Technology</h4>
-            <p>Cutting-edge solutions for modern needs</p>
-          </div>
-          <div class="reason-card">
-            <div class="reason-icon">
-              <i class="fas fa-heart text-3xl text-indigo-600"></i>
-            </div>
-            <h4>Customer-Centric Design</h4>
-            <p>Built with your success in mind</p>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="chatbot-types mt-8 mb-12">
+    <div class="market-segments-grid mt-16 mb-24">
       <div class="max-w-7xl mx-auto px-4">
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <router-link
-            v-for="type in chatbotTypes"
-            :key="type.path"
-            :to="type.path"
-            class="p-6 bg-white dark:bg-gray-800 rounded-lg shadow-md hover:shadow-lg transition-shadow"
-          >
-            <i :class="type.icon + ' text-3xl text-indigo-600 mb-4 block'"></i>
-            <h3 class="text-xl font-semibold mb-2">{{ type.name }}</h3>
-            <p class="text-gray-600 dark:text-gray-300">{{ type.description }}</p>
-          </router-link>
+        <div class="mb-12">
+          <h2 class="text-4xl font-bold text-center mb-4">AI-Powered Chatbot Solutions</h2>
+          <p class="text-xl text-center text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
+            Explore our comprehensive suite of intelligent chatbot solutions designed for various industries and use cases.
+          </p>
+        </div>
+        
+        <div class="grid grid-cols-1 gap-12">
+          <!-- Technology Solutions -->
+          <section class="technology-solutions">
+            <h2 class="text-3xl font-bold mb-6 text-blue-600 dark:text-blue-400">
+              <i class="fas fa-microchip mr-3"></i>Technology Solutions
+            </h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+              <div v-for="segment in technologySegments" 
+                   :key="segment.id" 
+                   class="segment-card bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 hover:shadow-xl transition-shadow">
+                <div class="segment-number text-sm text-blue-600 dark:text-blue-400 mb-2">
+                  #{{ segment.number }}
+                </div>
+                <h3 class="text-xl font-bold mb-3 text-gray-900 dark:text-white">{{ segment.name }}</h3>
+                <p class="text-gray-600 dark:text-gray-300 mb-4">{{ segment.description }}</p>
+                <p class="text-base text-center text-gray-500 dark:text-gray-400 mb-3">Click below to learn more</p>
+                <router-link 
+                  :to="{ name: 'chatbot-details', params: { id: segment.id }}"
+                  class="block text-center">
+                  <i :class="segment.detailIcon + ' text-4xl text-blue-600 hover:text-blue-700 transition-colors'"></i>
+                </router-link>
+              </div>
+            </div>
+          </section>
+
+          <!-- Real Estate Solutions -->
+          <section class="real-estate-solutions">
+            <h2 class="text-3xl font-bold mb-6 text-blue-600 dark:text-blue-400">
+              <i class="fas fa-home mr-3"></i>Real Estate Solutions
+            </h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+              <div v-for="segment in realEstateSegments" 
+                   :key="segment.id" 
+                   class="segment-card bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 hover:shadow-xl transition-shadow">
+                <div class="segment-number text-sm text-blue-600 dark:text-blue-400 mb-2">
+                  #{{ segment.number }}
+                </div>
+                <h3 class="text-xl font-bold mb-3 text-gray-900 dark:text-white">{{ segment.name }}</h3>
+                <p class="text-gray-600 dark:text-gray-300 mb-4">{{ segment.description }}</p>
+                <p class="text-base text-center text-gray-500 dark:text-gray-400 mb-3">Click below to learn more</p>
+                <router-link 
+                  :to="{ name: 'chatbot-details', params: { id: segment.id }}"
+                  class="block text-center">
+                  <i :class="segment.detailIcon + ' text-4xl text-blue-600 hover:text-blue-700 transition-colors'"></i>
+                </router-link>
+              </div>
+            </div>
+          </section>
+
+          <!-- Education Solutions -->
+          <section class="education-solutions">
+            <h2 class="text-3xl font-bold mb-6 text-blue-600 dark:text-blue-400">
+              <i class="fas fa-graduation-cap mr-3"></i>Education Solutions
+            </h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+              <div v-for="segment in educationSegments" 
+                   :key="segment.id" 
+                   class="segment-card bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 hover:shadow-xl transition-shadow">
+                <div class="segment-number text-sm text-blue-600 dark:text-blue-400 mb-2">
+                  #{{ segment.number }}
+                </div>
+                <h3 class="text-xl font-bold mb-3 text-gray-900 dark:text-white">{{ segment.name }}</h3>
+                <p class="text-gray-600 dark:text-gray-300 mb-4">{{ segment.description }}</p>
+                <p class="text-base text-center text-gray-500 dark:text-gray-400 mb-3">Click below to learn more</p>
+                <router-link 
+                  :to="{ name: 'chatbot-details', params: { id: segment.id }}"
+                  class="block text-center">
+                  <i :class="segment.detailIcon + ' text-4xl text-blue-600 hover:text-blue-700 transition-colors'"></i>
+                </router-link>
+              </div>
+            </div>
+          </section>
+
+          <!-- Local Business Solutions -->
+          <section class="local-business-solutions">
+            <h2 class="text-3xl font-bold mb-6 text-blue-600 dark:text-blue-400">
+              <i class="fas fa-store mr-3"></i>Local Business Solutions
+            </h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+              <div v-for="segment in localBusinessSegments" 
+                   :key="segment.id" 
+                   class="segment-card bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 hover:shadow-xl transition-shadow">
+                <div class="segment-number text-sm text-blue-600 dark:text-blue-400 mb-2">
+                  #{{ segment.number }}
+                </div>
+                <h3 class="text-xl font-bold mb-3 text-gray-900 dark:text-white">{{ segment.name }}</h3>
+                <p class="text-gray-600 dark:text-gray-300 mb-4">{{ segment.description }}</p>
+                <p class="text-base text-center text-gray-500 dark:text-gray-400 mb-3">Click below to learn more</p>
+                <router-link 
+                  :to="{ name: 'chatbot-details', params: { id: segment.id }}"
+                  class="block text-center">
+                  <i :class="segment.detailIcon + ' text-4xl text-blue-600 hover:text-blue-700 transition-colors'"></i>
+                </router-link>
+              </div>
+            </div>
+          </section>
         </div>
       </div>
     </div>
@@ -169,10 +128,10 @@
       </div>
       <h2>Take the First Step Today</h2>
       <p>Your business has dreams, goals, and a mission. Let us help you achieve them.</p>
-      <button class="cta-button">
+      <router-link to="/contact" class="cta-button">
         <i class="fas fa-paper-plane mr-2"></i>
         Contact Us Today
-      </button>
+      </router-link>
     </div>
   </div>
 </template>
@@ -182,122 +141,309 @@ export default {
   name: 'Chatbots',
   data() {
     return {
-      features: [
+      technologySegments: [
         {
-          title: '24/7 Availability',
-          icon: 'fas fa-clock-rotate-left',
-          description: 'Never miss a customer inquiry with round-the-clock service'
+          id: 'ai-development',
+          number: 1,
+          name: 'AI Development Assistant',
+          description: 'Intelligent coding assistance and automation for developers',
+          icon: 'fas fa-code',
+          detailIcon: 'fas fa-laptop-code',
+          color: 'blue'
         },
         {
-          title: 'Cost Reduction',
-          icon: 'fas fa-chart-line-down',
-          description: 'Reduce operational costs while maintaining quality'
+          id: 'devops-automation',
+          number: 2,
+          name: 'DevOps Automation',
+          description: 'Streamline deployment and infrastructure management',
+          icon: 'fas fa-cogs',
+          detailIcon: 'fas fa-server',
+          color: 'blue'
         },
         {
-          title: 'Increased Efficiency',
-          icon: 'fas fa-gauge-high',
-          description: 'Lightning-fast responses and automated workflows'
+          id: 'cloud-management',
+          number: 3,
+          name: 'Cloud Management',
+          description: 'Optimize cloud resources and cost management',
+          icon: 'fas fa-cloud',
+          detailIcon: 'fas fa-cloud-upload-alt',
+          color: 'blue'
         },
         {
-          title: 'Better Experience',
-          icon: 'fas fa-face-smile-beam',
-          description: 'Delightful interactions that keep customers coming back'
+          id: 'security-monitoring',
+          number: 4,
+          name: 'Security Monitoring',
+          description: 'Real-time threat detection and response',
+          icon: 'fas fa-shield-alt',
+          detailIcon: 'fas fa-user-shield',
+          color: 'blue'
+        },
+        {
+          id: 'data-analytics',
+          number: 5,
+          name: 'Data Analytics',
+          description: 'Intelligent data processing and visualization',
+          icon: 'fas fa-chart-line',
+          detailIcon: 'fas fa-database',
+          color: 'blue'
+        },
+        {
+          id: 'api-integration',
+          number: 6,
+          name: 'API Integration',
+          description: 'Seamless API management and integration',
+          icon: 'fas fa-plug',
+          detailIcon: 'fas fa-network-wired',
+          color: 'blue'
+        },
+        {
+          id: 'testing-automation',
+          number: 7,
+          name: 'Testing Automation',
+          description: 'Automated testing and quality assurance',
+          icon: 'fas fa-vial',
+          detailIcon: 'fas fa-check-circle',
+          color: 'blue'
+        },
+        {
+          id: 'ci-cd',
+          number: 8,
+          name: 'CI/CD Pipeline',
+          description: 'Continuous integration and deployment automation',
+          icon: 'fas fa-sync',
+          detailIcon: 'fas fa-code-branch',
+          color: 'blue'
+        },
+        {
+          id: 'tech-support',
+          number: 9,
+          name: 'Technical Support',
+          description: '24/7 technical assistance and troubleshooting',
+          icon: 'fas fa-headset',
+          detailIcon: 'fas fa-life-ring',
+          color: 'blue'
         }
       ],
-      industries: [
+      realEstateSegments: [
         {
-          id: 'retail',
-          name: 'Retail & E-commerce',
-          icon: 'fas fa-store-alt',
-          description: 'Smart retail solutions for enhanced shopping experiences'
+          id: 'property-matching',
+          number: 10,
+          name: 'Property Matching',
+          description: 'AI-powered property recommendations',
+          icon: 'fas fa-home',
+          detailIcon: 'fas fa-search-location',
+          color: 'blue'
         },
         {
-          id: 'healthcare',
-          name: 'Healthcare',
-          icon: 'fas fa-staff-snake',
-          description: 'Intelligent healthcare assistance and patient support'
+          id: 'virtual-tours',
+          number: 11,
+          name: 'Virtual Tours',
+          description: 'Interactive virtual property tours',
+          icon: 'fas fa-vr-cardboard',
+          detailIcon: 'fas fa-street-view',
+          color: 'blue'
         },
         {
-          id: 'financial',
-          name: 'Financial Services',
-          icon: 'fas fa-money-bill-transfer',
-          description: 'Secure and efficient financial service automation'
+          id: 'market-analysis',
+          number: 12,
+          name: 'Market Analysis',
+          description: 'Real-time market insights and trends',
+          icon: 'fas fa-chart-bar',
+          detailIcon: 'fas fa-analytics',
+          color: 'blue'
         },
         {
-          id: 'realestate',
-          name: 'Real Estate',
-          icon: 'fas fa-building-user',
-          description: 'Property management and client service automation'
+          id: 'lease-management',
+          number: 13,
+          name: 'Lease Management',
+          description: 'Automated lease processing and tracking',
+          icon: 'fas fa-file-contract',
+          detailIcon: 'fas fa-file-signature',
+          color: 'blue'
         },
         {
-          id: 'professional',
-          name: 'Professional Services',
-          icon: 'fas fa-handshake-angle',
-          description: 'Streamlined professional service delivery'
+          id: 'property-maintenance',
+          number: 14,
+          name: 'Property Maintenance',
+          description: 'Maintenance request handling and scheduling',
+          icon: 'fas fa-tools',
+          detailIcon: 'fas fa-wrench',
+          color: 'blue'
         },
         {
-          id: 'hospitality',
-          name: 'Hospitality',
-          icon: 'fas fa-bell-concierge',
-          description: 'Enhanced guest experiences and booking management'
-        },
-        {
-          id: 'education',
-          name: 'Education',
-          icon: 'fas fa-graduation-cap',
-          description: 'Intelligent learning assistance and support'
-        },
-        {
-          id: 'manufacturing',
-          name: 'Manufacturing',
-          icon: 'fas fa-industry',
-          description: 'Automated manufacturing support and monitoring'
-        },
-        {
-          id: 'technology',
-          name: 'Technology',
-          icon: 'fas fa-microchip',
-          description: 'Tech support and service automation'
-        },
-        {
-          id: 'local',
-          name: 'Local Services',
-          icon: 'fas fa-shop',
-          description: 'Local business and home service automation'
+          id: 'agent-support',
+          number: 15,
+          name: 'Agent Support',
+          description: 'Real estate agent assistance and coordination',
+          icon: 'fas fa-user-tie',
+          detailIcon: 'fas fa-id-badge',
+          color: 'blue'
         }
       ],
-      chatbotTypes: [
+      educationSegments: [
         {
-          path: '/chatbots/technology',
-          name: 'Technology Solutions',
-          icon: 'fas fa-microchip',
-          description: 'AI-powered solutions for technology companies'
+          id: 'student-support',
+          number: 16,
+          name: 'Student Support',
+          description: '24/7 student assistance and guidance',
+          icon: 'fas fa-user-graduate',
+          detailIcon: 'fas fa-graduation-cap',
+          color: 'blue'
         },
         {
-          path: '/chatbots/education',
-          name: 'Education Solutions',
-          icon: 'fas fa-graduation-cap',
-          description: 'Smart chatbots for educational institutions'
+          id: 'course-registration',
+          number: 17,
+          name: 'Course Registration',
+          description: 'Automated course enrollment and scheduling',
+          icon: 'fas fa-calendar-alt',
+          detailIcon: 'fas fa-calendar-check',
+          color: 'blue'
         },
         {
-          path: '/chatbots/local',
-          name: 'Local Business Solutions',
-          icon: 'fas fa-store',
-          description: 'Chatbot solutions for local businesses'
+          id: 'academic-advising',
+          number: 18,
+          name: 'Academic Advising',
+          description: 'Personalized academic guidance',
+          icon: 'fas fa-chalkboard-teacher',
+          detailIcon: 'fas fa-user-friends',
+          color: 'blue'
+        },
+        {
+          id: 'library-services',
+          number: 19,
+          name: 'Library Services',
+          description: 'Digital library assistance and research support',
+          icon: 'fas fa-book',
+          detailIcon: 'fas fa-books',
+          color: 'blue'
+        },
+        {
+          id: 'campus-info',
+          number: 20,
+          name: 'Campus Information',
+          description: 'Campus resources and facilities information',
+          icon: 'fas fa-university',
+          detailIcon: 'fas fa-info-circle',
+          color: 'blue'
+        },
+        {
+          id: 'financial-aid',
+          number: 21,
+          name: 'Financial Aid',
+          description: 'Financial aid guidance and processing',
+          icon: 'fas fa-dollar-sign',
+          detailIcon: 'fas fa-hand-holding-usd',
+          color: 'blue'
+        },
+        {
+          id: 'study-groups',
+          number: 22,
+          name: 'Study Groups',
+          description: 'Study group coordination and management',
+          icon: 'fas fa-users',
+          detailIcon: 'fas fa-user-friends',
+          color: 'blue'
+        },
+        {
+          id: 'exam-prep',
+          number: 23,
+          name: 'Exam Preparation',
+          description: 'Exam scheduling and preparation assistance',
+          icon: 'fas fa-tasks',
+          detailIcon: 'fas fa-clipboard-check',
+          color: 'blue'
+        },
+        {
+          id: 'career-services',
+          number: 24,
+          name: 'Career Services',
+          description: 'Career guidance and job placement support',
+          icon: 'fas fa-briefcase',
+          detailIcon: 'fas fa-handshake',
+          color: 'blue'
         }
       ],
-      reasons: [
+      localBusinessSegments: [
         {
-          title: 'Reason 1',
-          description: 'Description 1'
+          id: 'customer-service',
+          number: 25,
+          name: 'Customer Service',
+          description: '24/7 customer support and assistance',
+          icon: 'fas fa-headset',
+          detailIcon: 'fas fa-comments',
+          color: 'blue'
         },
         {
-          title: 'Reason 2',
-          description: 'Description 2'
+          id: 'appointment-scheduling',
+          number: 26,
+          name: 'Appointment Scheduling',
+          description: 'Automated appointment booking and management',
+          icon: 'fas fa-calendar-check',
+          detailIcon: 'fas fa-clock',
+          color: 'blue'
         },
         {
-          title: 'Reason 3',
-          description: 'Description 3'
+          id: 'inventory-management',
+          number: 27,
+          name: 'Inventory Management',
+          description: 'Real-time inventory tracking and alerts',
+          icon: 'fas fa-boxes',
+          detailIcon: 'fas fa-warehouse',
+          color: 'blue'
+        },
+        {
+          id: 'order-processing',
+          number: 28,
+          name: 'Order Processing',
+          description: 'Automated order handling and fulfillment',
+          icon: 'fas fa-shopping-cart',
+          detailIcon: 'fas fa-truck',
+          color: 'blue'
+        },
+        {
+          id: 'loyalty-programs',
+          number: 29,
+          name: 'Loyalty Programs',
+          description: 'Customer loyalty tracking and rewards',
+          icon: 'fas fa-gift',
+          detailIcon: 'fas fa-medal',
+          color: 'blue'
+        },
+        {
+          id: 'marketing-automation',
+          number: 30,
+          name: 'Marketing Automation',
+          description: 'Automated marketing campaigns and analytics',
+          icon: 'fas fa-bullhorn',
+          detailIcon: 'fas fa-chart-line',
+          color: 'blue'
+        },
+        {
+          id: 'feedback-management',
+          number: 31,
+          name: 'Feedback Management',
+          description: 'Customer feedback collection and analysis',
+          icon: 'fas fa-star',
+          detailIcon: 'fas fa-clipboard-list',
+          color: 'blue'
+        },
+        {
+          id: 'employee-scheduling',
+          number: 32,
+          name: 'Employee Scheduling',
+          description: 'Staff scheduling and shift management',
+          icon: 'fas fa-user-clock',
+          detailIcon: 'fas fa-calendar-alt',
+          color: 'blue'
+        },
+        {
+          id: 'pos-integration',
+          number: 33,
+          name: 'POS Integration',
+          description: 'Point of sale system integration',
+          icon: 'fas fa-cash-register',
+          detailIcon: 'fas fa-receipt',
+          color: 'blue'
         }
       ]
     }
@@ -307,256 +453,62 @@ export default {
 
 <style scoped>
 .chatbots-container {
-  @apply px-4 py-12 max-w-7xl mx-auto space-y-24;
+  @apply min-h-screen bg-gray-50 dark:bg-gray-900;
 }
 
 .hero-section {
-  @apply text-center mb-16 bg-gradient-to-br from-blue-900 via-indigo-900 to-purple-900 p-16 shadow-2xl;
-  border-radius: 48px 48px 180px 48px;
+  @apply bg-gradient-to-b from-indigo-900 to-indigo-800 text-white py-20 px-4;
 }
 
 .hero-content {
-  @apply max-w-4xl mx-auto space-y-8;
+  @apply max-w-4xl mx-auto text-center;
 }
 
 .hero-icon {
-  @apply text-center;
-}
-
-.hero-icon i {
-  @apply transition-all duration-500;
-  animation: float 3s ease-in-out infinite;
+  @apply flex justify-center;
 }
 
 .hero-title {
-  @apply text-5xl md:text-6xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-yellow-400 via-yellow-300 to-yellow-200 leading-tight;
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  @apply text-4xl md:text-5xl font-bold mb-8;
 }
 
 .hero-subtitle {
-  @apply text-xl md:text-2xl text-gray-200 leading-relaxed;
+  @apply text-xl mb-6 leading-relaxed;
 }
 
-.hero-description {
-  @apply text-lg text-gray-300 leading-relaxed;
+.market-segments-grid {
+  @apply py-16;
 }
 
-.how-it-works {
-  @apply bg-gradient-to-br from-indigo-100 to-purple-100 p-16 shadow-xl;
-  border-radius: 180px 48px 48px 48px;
+.segment-card {
+  @apply bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 hover:shadow-xl transition-shadow;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  position: relative;
 }
 
-.section-content {
-  @apply max-w-4xl mx-auto text-center space-y-8;
+.segment-icon {
+  @apply flex justify-center items-center mb-4;
+  height: 80px;
 }
 
-.section-icon {
-  @apply text-center;
+.segment-icon i {
+  font-size: 2.5rem;
 }
 
-.section-icon i {
-  @apply transition-all duration-300;
-  animation: spin-slow 10s linear infinite;
-}
-
-.section-title {
-  @apply text-4xl font-bold text-gray-800 mb-6;
-}
-
-.section-text {
-  @apply text-xl text-gray-600 leading-relaxed;
-}
-
-.features-grid {
-  @apply grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-6xl mx-auto;
-}
-
-.feature-card {
-  @apply bg-white p-8 shadow-xl text-center space-y-4 hover:shadow-2xl transition-all duration-300 hover:-translate-y-2;
-  border-radius: 32px 32px 64px 32px;
-}
-
-.feature-icon-wrapper {
-  @apply w-16 h-16 mx-auto bg-gradient-to-br from-indigo-500 to-purple-500 flex items-center justify-center text-white text-2xl transform -rotate-12;
-  border-radius: 16px 16px 32px 16px;
-}
-
-.feature-icon-wrapper i {
-  @apply transition-all duration-300;
-}
-
-.feature-card:hover .feature-icon-wrapper i {
-  animation: bounce 1s ease infinite;
-}
-
-.industries-section {
-  @apply py-16 space-y-12;
-}
-
-.industries-grid {
-  @apply grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8;
-}
-
-.industry-card {
-  @apply bg-white p-8 shadow-xl text-center space-y-4 hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 cursor-pointer;
-  border-radius: 32px 32px 64px 32px;
-}
-
-.industry-icon-wrapper {
-  @apply w-20 h-20 mx-auto bg-gradient-to-br from-blue-500 to-indigo-500 flex items-center justify-center text-white text-3xl transform -rotate-12;
-  border-radius: 20px 20px 40px 20px;
-}
-
-.industry-icon-wrapper i {
-  @apply transition-all duration-300;
-}
-
-.industry-card:hover .industry-icon-wrapper i {
-  animation: pulse 1s ease infinite;
-}
-
-.industry-links-section {
-  @apply py-16 px-4 max-w-7xl mx-auto;
-}
-
-.industry-grid {
-  @apply grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8;
-}
-
-.industry-card {
-  @apply bg-white p-8 rounded-[2rem] shadow-lg hover:shadow-2xl transition-all duration-300 flex flex-col items-center text-center cursor-pointer relative overflow-hidden group;
-  border-radius: 32px 32px 64px 32px;
-}
-
-.industry-card::before {
-  content: '';
-  @apply absolute inset-0 bg-gradient-to-br from-indigo-500/5 to-purple-500/5 opacity-0 transition-opacity duration-300;
-}
-
-.industry-card:hover::before {
-  @apply opacity-100;
-}
-
-.icon-wrapper {
-  @apply w-20 h-20 rounded-2xl bg-gradient-to-br from-indigo-500 to-purple-500 flex items-center justify-center text-white mb-6 transform -rotate-12 transition-transform duration-300;
-}
-
-.industry-card:hover .icon-wrapper {
-  @apply rotate-0 scale-110;
-}
-
-.industry-card h3 {
-  @apply text-xl font-bold text-gray-800 mb-2;
-}
-
-.industry-card p {
-  @apply text-gray-600 mb-4;
-}
-
-.learn-more {
-  @apply text-indigo-600 font-semibold flex items-center justify-center opacity-0 transform translate-y-2 transition-all duration-300;
-}
-
-.industry-card:hover .learn-more {
-  @apply opacity-100 translate-y-0;
-}
-
-.why-choose-us {
-  @apply bg-gradient-to-br from-purple-100 to-indigo-100 p-16 shadow-xl;
-  border-radius: 48px 180px 48px 48px;
-}
-
-.reasons-grid {
-  @apply grid grid-cols-1 md:grid-cols-3 gap-8 mt-12;
-}
-
-.reason-card {
-  @apply bg-white/80 backdrop-blur-sm p-6 shadow-lg space-y-4;
-  border-radius: 24px 24px 48px 24px;
-}
-
-.reason-icon {
-  @apply text-center;
-}
-
-.reason-icon i {
-  @apply transition-all duration-300;
-}
-
-.reason-card:hover .reason-icon i {
-  animation: wiggle 1s ease infinite;
+.segment-number {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
 }
 
 .cta-section {
-  @apply text-center bg-gradient-to-br from-blue-900 via-indigo-900 to-purple-900 p-16 shadow-2xl text-white space-y-8;
-  border-radius: 180px 48px 48px 180px;
+  @apply bg-gradient-to-b from-indigo-800 to-indigo-900 text-white py-20 px-4 text-center;
 }
 
-.cta-icon {
-  @apply text-center;
-}
-
-.cta-icon i {
-  animation: rocket 2s ease-in-out infinite;
-}
-
-@keyframes float {
-  0%, 100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-20px);
-  }
-}
-
-@keyframes spin-slow {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-@keyframes bounce {
-  0%, 100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-10px);
-  }
-}
-
-@keyframes pulse {
-  0% {
-    transform: scale(1);
-  }
-  50% {
-    transform: scale(1.1);
-  }
-  100% {
-    transform: scale(1);
-  }
-}
-
-@keyframes wiggle {
-  0%, 100% {
-    transform: rotate(0deg);
-  }
-  25% {
-    transform: rotate(-10deg);
-  }
-  75% {
-    transform: rotate(10deg);
-  }
-}
-
-@keyframes rocket {
-  0%, 100% {
-    transform: translateY(0) rotate(-45deg);
-  }
-  50% {
-    transform: translateY(-10px) rotate(-45deg);
-  }
+.cta-button {
+  @apply inline-block bg-yellow-500 text-black px-8 py-4 rounded-lg font-bold text-xl 
+         hover:bg-yellow-400 transition-colors mt-8;
 }
 </style>
