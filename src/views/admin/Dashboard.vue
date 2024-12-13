@@ -1,226 +1,210 @@
 <!-- Admin Dashboard -->
 <template>
-  <div class="min-h-screen bg-primary-50">
-    <!-- Sidebar -->
-    <nav class="fixed top-0 left-0 h-full w-64 bg-gray-900 text-white">
-      <div class="px-4 py-6">
-        <img class="h-8 w-auto" src="/images/DG-AAA.png" alt="Derivative Genius">
+  <div>
+    <!-- Welcome Section -->
+    <div class="mb-8">
+      <h1 class="text-2xl font-bold text-gray-900">Welcome to your Dashboard</h1>
+      <p class="mt-2 text-sm text-gray-600">Here's what's happening with your projects today.</p>
+    </div>
+
+    <!-- Stats Grid -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+      <div
+        v-for="stat in stats"
+        :key="stat.name"
+        class="bg-white overflow-hidden shadow rounded-lg hover:shadow-lg transition-shadow duration-200"
+      >
+        <div class="p-5">
+          <div class="flex items-center">
+            <div class="flex-shrink-0">
+              <component
+                :is="stat.icon"
+                class="h-6 w-6 text-primary-600"
+                aria-hidden="true"
+              />
+            </div>
+            <div class="ml-5 w-0 flex-1">
+              <dl>
+                <dt class="text-sm font-medium text-gray-500 truncate">
+                  {{ stat.name }}
+                </dt>
+                <dd class="flex items-baseline">
+                  <div class="text-2xl font-semibold text-gray-900">
+                    {{ stat.value }}
+                  </div>
+                  <div
+                    v-if="stat.change"
+                    :class="[
+                      stat.changeType === 'increase' ? 'text-green-600' : 'text-red-600',
+                      'ml-2 flex items-baseline text-sm font-semibold'
+                    ]"
+                  >
+                    <component
+                      :is="stat.changeType === 'increase' ? ArrowUpIcon : ArrowDownIcon"
+                      class="self-center flex-shrink-0 h-4 w-4 text-current"
+                      aria-hidden="true"
+                    />
+                    <span class="sr-only">
+                      {{ stat.changeType === 'increase' ? 'Increased' : 'Decreased' }} by
+                    </span>
+                    {{ stat.change }}
+                  </div>
+                </dd>
+              </dl>
+            </div>
+          </div>
+        </div>
       </div>
-      <div class="mt-6">
-        <router-link 
-          v-for="item in navigation" 
-          :key="item.name"
-          :to="item.href"
-          :class="[
-            item.current ? 'bg-gray-800 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white',
-            'group flex items-center px-4 py-2 text-sm font-medium'
-          ]"
+    </div>
+
+    <!-- Quick Actions -->
+    <div class="mb-8">
+      <h2 class="text-lg font-medium text-gray-900 mb-4">Quick Actions</h2>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <router-link
+          to="/admin/blog/new"
+          class="flex items-center p-4 bg-white shadow rounded-lg hover:shadow-lg transition-shadow duration-200"
         >
-          <component 
-            :is="item.icon" 
-            :class="[
-              item.current ? 'text-white' : 'text-gray-400 group-hover:text-white',
-              'mr-3 h-6 w-6'
-            ]"
-          />
-          {{ item.name }}
+          <DocumentPlusIcon class="h-6 w-6 text-primary-600" />
+          <span class="ml-3 text-gray-900">Create New Post</span>
+        </router-link>
+        <router-link
+          to="/admin/applications"
+          class="flex items-center p-4 bg-white shadow rounded-lg hover:shadow-lg transition-shadow duration-200"
+        >
+          <ListBulletIcon class="h-6 w-6 text-primary-600" />
+          <span class="ml-3 text-gray-900">View Applications</span>
+        </router-link>
+        <router-link
+          to="/admin/settings"
+          class="flex items-center p-4 bg-white shadow rounded-lg hover:shadow-lg transition-shadow duration-200"
+        >
+          <Cog6ToothIcon class="h-6 w-6 text-primary-600" />
+          <span class="ml-3 text-gray-900">Settings</span>
         </router-link>
       </div>
-    </nav>
+    </div>
 
-    <!-- Main Content -->
-    <div class="pl-64">
-      <!-- Top Navigation -->
-      <header class="bg-white shadow">
-        <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-          <h1 class="text-3xl font-bold text-primary-900">Dashboard</h1>
-          <div class="flex items-center">
-            <button class="ml-3 relative inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-              <span>New Report</span>
-            </button>
-            <button 
-              @click="handleLogout" 
-              class="ml-3 relative inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-red-600 shadow-sm hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
-            >
-              <span>Logout</span>
-            </button>
-            <!-- Profile dropdown -->
-            <div class="ml-3 relative">
-              <button class="flex items-center text-sm rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                <span class="sr-only">Open user menu</span>
-                <img class="h-8 w-8 rounded-full" src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="">
-              </button>
-            </div>
-          </div>
-        </div>
-      </header>
-
-      <!-- Dashboard Content -->
-      <main class="py-6">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <!-- Stats Overview -->
-          <div class="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
-            <div v-for="stat in stats" :key="stat.name" class="bg-white overflow-hidden shadow rounded-lg">
-              <div class="p-5">
-                <div class="flex items-center">
-                  <div class="flex-shrink-0">
-                    <component :is="stat.icon" class="h-6 w-6 text-gray-400" />
+    <!-- Recent Activity -->
+    <div class="bg-white shadow rounded-lg">
+      <div class="px-4 py-5 sm:p-6">
+        <h3 class="text-lg font-medium text-gray-900 mb-4">Recent Activity</h3>
+        <div class="flow-root">
+          <ul role="list" class="-mb-8">
+            <li v-for="(activity, index) in recentActivity" :key="activity.id">
+              <div class="relative pb-8">
+                <span
+                  v-if="index !== recentActivity.length - 1"
+                  class="absolute top-4 left-4 -ml-px h-full w-0.5 bg-gray-200"
+                  aria-hidden="true"
+                />
+                <div class="relative flex space-x-3">
+                  <div>
+                    <span
+                      :class="[
+                        activity.type === 'comment' ? 'bg-blue-500' :
+                        activity.type === 'assignment' ? 'bg-green-500' :
+                        'bg-gray-400',
+                        'h-8 w-8 rounded-full flex items-center justify-center ring-8 ring-white'
+                      ]"
+                    >
+                      <component
+                        :is="activity.icon"
+                        class="h-5 w-5 text-white"
+                        aria-hidden="true"
+                      />
+                    </span>
                   </div>
-                  <div class="ml-5 w-0 flex-1">
-                    <dl>
-                      <dt class="text-sm font-medium text-gray-500 truncate">{{ stat.name }}</dt>
-                      <dd class="flex items-baseline">
-                        <div class="text-2xl font-semibold text-gray-900">{{ stat.value }}</div>
-                        <div :class="[
-                          stat.change.type === 'increase' ? 'text-green-600' : 'text-red-600',
-                          'ml-2 flex items-baseline text-sm font-semibold'
-                        ]">
-                          {{ stat.change.value }}
-                        </div>
-                      </dd>
-                    </dl>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Charts Section -->
-          <div class="mt-8 grid grid-cols-1 gap-5 lg:grid-cols-2">
-            <!-- Usage Chart -->
-            <div class="bg-white overflow-hidden shadow rounded-lg">
-              <div class="p-5">
-                <h3 class="text-lg leading-6 font-medium text-gray-900">Usage Analytics</h3>
-                <div class="mt-4 h-96">
-                  <!-- Chart will be mounted here -->
-                </div>
-              </div>
-            </div>
-
-            <!-- Revenue Chart -->
-            <div class="bg-white overflow-hidden shadow rounded-lg">
-              <div class="p-5">
-                <h3 class="text-lg leading-6 font-medium text-gray-900">Revenue Overview</h3>
-                <div class="mt-4 h-96">
-                  <!-- Chart will be mounted here -->
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Recent Activity -->
-          <div class="mt-8">
-            <div class="bg-white shadow rounded-lg">
-              <div class="px-5 py-4 border-b border-gray-200">
-                <h3 class="text-lg leading-6 font-medium text-gray-900">Recent Activity</h3>
-              </div>
-              <ul class="divide-y divide-gray-200">
-                <li v-for="activity in recentActivity" :key="activity.id" class="p-5">
-                  <div class="flex items-center space-x-4">
-                    <div class="flex-shrink-0">
-                      <component :is="activity.icon" class="h-6 w-6 text-gray-400" />
-                    </div>
-                    <div class="flex-1 min-w-0">
-                      <p class="text-sm font-medium text-gray-900 truncate">{{ activity.title }}</p>
-                      <p class="text-sm text-gray-500">{{ activity.description }}</p>
-                    </div>
+                  <div class="min-w-0 flex-1 pt-1.5 flex justify-between space-x-4">
                     <div>
-                      <span class="text-sm text-gray-500">{{ activity.time }}</span>
+                      <p class="text-sm text-gray-500">
+                        {{ activity.content }}
+                      </p>
+                    </div>
+                    <div class="text-right text-sm whitespace-nowrap text-gray-500">
+                      <time :datetime="activity.datetime">{{ activity.date }}</time>
                     </div>
                   </div>
-                </li>
-              </ul>
-            </div>
-          </div>
+                </div>
+              </div>
+            </li>
+          </ul>
         </div>
-      </main>
+      </div>
     </div>
   </div>
 </template>
 
-<script setup name="AdminDashboard">
+<script setup>
 import { ref, onMounted } from 'vue'
-import { useRouter } from 'vue-router'
-import { useAuthStore } from '@/store/auth'
-import {
-  HomeIcon,
-  UsersIcon,
-  FolderIcon,
+import { 
+  UserCircleIcon,
+  DocumentTextIcon,
+  CurrencyDollarIcon,
   ChartBarIcon,
-  Cog6ToothIcon as CogIcon
+  ArrowUpIcon,
+  ArrowDownIcon,
+  ChatBubbleLeftIcon,
+  DocumentPlusIcon,
+  ListBulletIcon,
+  Cog6ToothIcon
 } from '@heroicons/vue/24/outline'
 
-const router = useRouter()
-const authStore = useAuthStore()
-
-const navigation = ref([
-  { name: 'Dashboard', href: '/admin', icon: HomeIcon, current: true },
-  { name: 'Analytics', href: '/admin/analytics', icon: ChartBarIcon, current: false },
-  { name: 'Clients', href: '/admin/clients', icon: UsersIcon, current: false },
-  { name: 'Applications', href: '/admin/applications', icon: FolderIcon, current: false },
-  { name: 'Settings', href: '/admin/settings', icon: CogIcon, current: false },
-])
-
-async function handleLogout() {
-  await authStore.signOut()
-  router.push('/')
-}
-
-// Update current route highlight
-navigation.value = navigation.value.map(item => ({
-  ...item,
-  current: router.currentRoute.value.path === item.href
-}))
-
+// Initialize data
 const stats = ref([
   {
     name: 'Total Clients',
     value: '71',
-    icon: UsersIcon,
-    change: { value: '+5.4%', type: 'increase' }
+    icon: UserCircleIcon,
+    change: '12%',
+    changeType: 'increase'
   },
   {
-    name: 'Active Applications',
-    value: '245',
-    icon: FolderIcon,
-    change: { value: '+3.2%', type: 'increase' }
-  },
-  {
-    name: 'API Calls',
-    value: '23.4k',
-    icon: ChartBarIcon,
-    change: { value: '+2.3%', type: 'increase' }
+    name: 'Active Projects',
+    value: '13',
+    icon: DocumentTextIcon,
+    change: '2',
+    changeType: 'increase'
   },
   {
     name: 'Revenue',
-    value: '$45,233',
+    value: '$24,500',
+    icon: CurrencyDollarIcon,
+    change: '4.75%',
+    changeType: 'increase'
+  },
+  {
+    name: 'Conversion Rate',
+    value: '24.57%',
     icon: ChartBarIcon,
-    change: { value: '+4.1%', type: 'increase' }
+    change: '3.2%',
+    changeType: 'decrease'
   }
 ])
 
 const recentActivity = ref([
   {
     id: 1,
-    title: 'New Client Registration',
-    description: 'TechCorp Industries signed up for Enterprise plan',
-    time: '2 hours ago',
-    icon: UsersIcon
+    type: 'comment',
+    content: 'New blog post published: "AI-Powered Development Workflow"',
+    date: '3 hours ago',
+    datetime: '2024-12-12T15:00:00',
+    icon: ChatBubbleLeftIcon
   },
   {
     id: 2,
-    title: 'API Usage Spike',
-    description: 'Unusual activity detected for client ID: 2847',
-    time: '4 hours ago',
-    icon: ChartBarIcon
-  },
-  {
-    id: 3,
-    title: 'System Update',
-    description: 'Successfully deployed v2.3.0',
-    time: '6 hours ago',
-    icon: CogIcon
+    type: 'assignment',
+    content: 'New client onboarded: TechCorp Solutions',
+    date: '8 hours ago',
+    datetime: '2024-12-12T10:00:00',
+    icon: UserCircleIcon
   }
 ])
 
+// Add console logs for debugging
+onMounted(() => {
+  console.log('Dashboard mounted')
+  console.log('Stats:', stats.value)
+  console.log('Recent Activity:', recentActivity.value)
+})
 </script>

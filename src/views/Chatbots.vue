@@ -249,7 +249,7 @@ export default {
           name: 'Market Analysis',
           description: 'Real-time market insights and trends',
           icon: 'fas fa-chart-bar',
-          detailIcon: 'fas fa-analytics',
+          detailIcon: 'fas fa-chart-bar',
           color: 'blue'
         },
         {

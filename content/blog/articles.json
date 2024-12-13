@@ -1,0 +1,38 @@
+{
+  "articles": [
+    {
+      "id": "1",
+      "title": "Building an AI-Powered Development Workflow",
+      "slug": "ai-powered-workflow",
+      "folder": "ai-powered-workflow-2023-12",
+      "category": "AI Engineering",
+      "publishedAt": "2023-12-12",
+      "featured": true,
+      "seo": {
+        "metaTitle": "Building an AI-Powered Development Workflow | Derivative Insights",
+        "metaDescription": "Learn how to integrate modern AI tools into your development pipeline for enhanced productivity and code quality.",
+        "keywords": ["ai", "automation", "development", "workflow", "engineering"],
+        "canonicalUrl": "https://derivativegenius.com/articles/ai-powered-workflow"
+      }
+    }
+  ],
+  "schema": {
+    "version": "1.0",
+    "description": "Self-documenting schema for Derivative Insights articles",
+    "fields": {
+      "id": "Unique identifier for the article",
+      "title": "Article title",
+      "slug": "URL-friendly version of title",
+      "folder": "Name of the folder containing article content",
+      "category": "Primary category of the article",
+      "publishedAt": "Publication date (YYYY-MM-DD)",
+      "featured": "Boolean indicating if article should be featured",
+      "seo": {
+        "metaTitle": "Optional custom meta title for SEO",
+        "metaDescription": "Custom description for search engine results",
+        "keywords": "Array of relevant keywords for SEO",
+        "canonicalUrl": "Full canonical URL for the article"
+      }
+    }
+  }
+}

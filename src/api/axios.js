@@ -7,7 +7,8 @@ const api = axios.create({
   headers: {
     'Content-Type': 'application/json',
     'X-Requested-With': 'XMLHttpRequest',
-    'Accept': 'application/json'
+    'Accept': 'application/json',
+    'Access-Control-Allow-Credentials': 'true'
   }
 });
 
@@ -24,7 +25,12 @@ api.interceptors.request.use(async config => {
     try {
       console.log('No CSRF token found, fetching from server...');
       // Make a GET request to the verify endpoint to get a CSRF token
-      await axios.get(config.baseURL + '/auth/verify', { withCredentials: true });
+      const response = await axios.get(config.baseURL + '/auth/verify', { 
+        withCredentials: true,
+        headers: {
+          'Access-Control-Allow-Credentials': 'true'
+        }
+      });
       
       // Try to get the token again
       csrfToken = document.cookie

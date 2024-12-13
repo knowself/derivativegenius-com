@@ -257,6 +257,78 @@ This architecture ensures that:
 - Operations degrade gracefully
 - Recovery paths are clear and well-documented
 
+## Blog System
+
+### Directory Structure
+```
+/content
+  /blog
+    articles.json          # Central JSON file containing metadata for ALL articles
+    /articles
+      /article-1-2023-12   # Individual article folder
+        content.md         # Full article content in markdown
+        description.md     # Article excerpt/preview in markdown
+      /article-2-2023-12   # Another article folder
+        content.md         # Article 2 content
+        description.md     # Article 2 description
+/public
+  /images
+    /blog                  # Centralized image storage for all articles
+      article-1-header.jpg
+      article-2-header.jpg
+```
+
+### Article Structure
+Each article consists of:
+1. **Folder**: Named using pattern `{slug}-{YYYY-MM}`
+2. **Content File**: `content.md` - Contains the full article text in markdown
+3. **Description File**: `description.md` - Contains the article preview/excerpt
+4. **Image**: Stored in `/public/images/blog/`
+5. **Metadata**: Entry in `articles.json`
+
+The separation of content and description files allows:
+- Efficient loading of article previews without loading full content
+- Clear separation between preview and full article content
+- Easy management of article excerpts for SEO and previews
+
+### Article JSON Structure
+```json
+{
+  "articles": [
+    {
+      "id": "unique-id",           // Required: Unique identifier for the article
+      "title": "Article Title",    // Required: Full title of the article
+      "slug": "article-title",     // Required: URL-friendly version of title
+      "folder": "article-title-2023-12", // Required: Folder name containing article content
+      "category": "Category",      // Optional: Primary category
+      "publishedAt": "2023-12-12", // Required: Publication date (YYYY-MM-DD)
+      "featured": true,            // Optional: Featured article flag (default: false)
+      "seo": {                     // Optional: SEO configuration
+        "metaTitle": "Custom Title",         // Optional: Custom meta title
+        "metaDescription": "Description",    // Optional: Search engine description
+        "keywords": ["key1", "key2"],        // Optional: SEO keywords
+        "canonicalUrl": "https://..."        // Optional: Canonical URL
+      }
+    }
+  ],
+  "schema": {
+    "version": "1.0",
+    "description": "Self-documenting schema for Derivative Insights articles",
+    "fields": {
+      // Field descriptions as shown above
+    }
+  }
+}
+```
+
+### Article Management
+- Articles are managed through the admin panel under "Blog" section
+- Each article requires:
+  1. Content markdown file (`content.md`)
+  2. Description markdown file (`description.md`)
+  3. Header image in `/public/images/blog/`
+  4. Complete metadata in `articles.json`
+
 ## Tech Stack
 
 - **Backend Framework**: FastAPI 0.85.0
