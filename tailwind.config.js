@@ -1,51 +1,77 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: [
-    "./public/index.html",
-    "./src/**/*.{vue,js,ts,jsx,tsx}",
-  ],
   darkMode: 'class',
+  content: [
+    './src/pages/**/*.{js,ts,jsx,tsx,mdx}',
+    './src/components/**/*.{js,ts,jsx,tsx,mdx}',
+    './src/app/**/*.{js,ts,jsx,tsx,mdx}',
+  ],
   theme: {
+    container: {
+      center: true,
+      padding: "2rem",
+      screens: {
+        "2xl": "1400px",
+      },
+    },
     extend: {
+      fontFamily: {
+        display: ['Inter', 'sans-serif'],
+      },
       colors: {
+        border: "hsl(var(--border))",
+        input: "hsl(var(--input))",
+        ring: "hsl(var(--ring))",
+        background: "hsl(var(--background))",
+        foreground: "hsl(var(--foreground))",
         primary: {
-          50: '#e6f9ff',
-          100: '#ccf3ff',
-          200: '#99e6ff',
-          300: '#66daff',
-          400: '#33cdff',
-          500: '#00c0ff',
-          600: '#009aff',
-          700: '#0077ff',
-          800: '#0055ff',
-          900: '#0033ff',
-        },
-        accent: {
-          50: '#f9f0ff',
-          100: '#f3e0ff',
-          200: '#e7c2ff',
-          300: '#da94ff',
-          400: '#ce66ff',
-          500: '#c238ff',
-          600: '#b60aff',
-          700: '#9900e6',
-          800: '#7700b3',
-          900: '#550080',
+          DEFAULT: "hsl(var(--primary))",
+          foreground: "hsl(var(--primary-foreground))",
         },
         secondary: {
-          50: '#fff0f0',
-          100: '#ffe0e0',
-          200: '#ffc2c2',
-          300: '#ff9494',
-          400: '#ff6666',
-          500: '#ff3838',
-          600: '#ff0a0a',
-          700: '#e60000',
-          800: '#b30000',
-          900: '#800000',
+          DEFAULT: "hsl(var(--secondary))",
+          foreground: "hsl(var(--secondary-foreground))",
         },
+        destructive: {
+          DEFAULT: "hsl(var(--destructive))",
+          foreground: "hsl(var(--destructive-foreground))",
+        },
+        muted: {
+          DEFAULT: "hsl(var(--muted))",
+          foreground: "hsl(var(--muted-foreground))",
+        },
+        accent: {
+          DEFAULT: "hsl(var(--accent))",
+          foreground: "hsl(var(--accent-foreground))",
+        },
+        popover: {
+          DEFAULT: "hsl(var(--popover))",
+          foreground: "hsl(var(--popover-foreground))",
+        },
+        card: {
+          DEFAULT: "hsl(var(--card))",
+          foreground: "hsl(var(--card-foreground))",
+        },
+      },
+      animation: {
+        'fade-in': 'fadeIn 0.8s ease-out',
+        'fade-in-delay': 'fadeIn 0.8s ease-out 0.3s both',
+      },
+      keyframes: {
+        fadeIn: {
+          '0%': { opacity: '0', transform: 'translateY(12px)' },
+          '100%': { opacity: '1', transform: 'translateY(0)' },
+        },
+      },
+      borderRadius: {
+        lg: "var(--radius)",
+        md: "calc(var(--radius) - 2px)",
+        sm: "calc(var(--radius) - 4px)",
       },
     },
   },
-  plugins: []
+  plugins: [],
+  future: {
+    hoverOnlyWhenSupported: true,
+  },
 }

@@ -1,8 +1,21 @@
-# Vue.js
-.DS_Store
-node_modules
+# Next.js & Node
+.next/
+.swc/
+node_modules/
 /dist
 /coverage
+.DS_Store
+
+# Virtual environments
+venv/
+.venv/
+myenv/
+
+# Backup & Secret files
+*.bak
+*.json.bak
+api/firebase-credentials.json
+dg-website-firebase-adminsdk*.json
 
 # local env files
 .env
@@ -59,72 +72,7 @@ wheels/
 *.egg-info/
 .installed.cfg
 *.egg
-MANIFEST
-.python-version
-.env
-.venv
-env/
-venv/
-ENV/
-env.bak/
-venv.bak/
-.pytest_cache/
-.coverage
-htmlcov/
-.tox/
-.nox/
 
-# Python bytecode
-*.pyc
-__pycache__/
-*.pyo
-*.pyd
-.Python
-
-# Django
-local_settings.py
-db.sqlite3
-db.sqlite3-journal
-media/
-static/
-staticfiles/
-
-# Firebase
-firebase-debug.log
+# Firebase & Vercel
 .firebase/
-firebase-admin-key.json
-*firebase*adminsdk*.json
-
-# Firebase credentials
-/api/firebase-credentials.json
-*firebase*adminsdk*.json
-
-# Tailwind CSS
-.tailwind-cache/
-.temp/
-
-# System Files
-.DS_Store
-Thumbs.db
-
-# IDE specific files
-.idea/
-.vscode/
-*.swp
-*.swo
-*~
-
-# Temporary files
-*.bak
-*.tmp
-*.temp
-
-# Git commit message temp file
-.git-commit-message
-
-# Log directories
-/logs_dev_old/
-
-# Vercel
 .vercel/
-.vercel

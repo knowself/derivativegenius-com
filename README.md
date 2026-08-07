@@ -1,1047 +1,173 @@
 # Derivative Genius
 
-Derivative Genius is an AI Automation Agency (AAA) that transforms businesses through intelligent automation. We harness cutting-edge AI tools to automate workflows, streamline operations, and create scalable solutions that drive efficiency and growth.
+**Derivative Genius** is the premier **AI-First Web Development Agency**. We build high-speed, intelligent web applications, custom SaaS portals, and AI feature integrations by pairing cutting-edge AI technologies with full-stack engineering discipline.
 
-## Our Services
+---
 
-- **Custom AI Automation Solutions**: Tailored automation systems designed for your specific business needs
-- **Workflow Optimization & Integration**: Streamline operations with intelligent process automation
-- **AI Tool Implementation & Training**: Expert implementation of cutting-edge AI tools and comprehensive training
-- **Process Automation Consulting**: Strategic guidance for your automation journey
+## 💡 In Plain English: What We Build
 
-## Core Architecture
+Under the hood, the tech sounds complex, but for a business owner or client, **it’s actually very simple**. Here is what it means in plain English:
 
-## Architecture Overview
+1. **AI-Native Web Application (*Your Smart Digital Employee*)**
+   * **In simple terms:** Instead of a static brochure website where users just read text, your website acts like a smart digital employee that interacts with visitors in real time.
 
-### Hybrid Serverless Architecture
+2. **Embedded LLM Inference (*24/7 Digital Assistant*)**
+   * **In simple terms:** Having a 24/7 assistant sitting inside your app. When a client submits a question or uploads a document, the app instantly understands it, summarizes it, or writes a response.
+
+3. **Smart Semantic Search (*Search by Meaning, Not Exact Words*)**
+   * **In simple terms:** Like asking a human librarian *"Find me something on starting a small business"* instead of having to type the exact book title. The search bar understands what the user *means*, even if they misspell or use different words.
+
+4. **Autonomous Workflow Features (*Digital Dominoes*)**
+   * **In simple terms:** Digital dominoes. When a customer fills out a form on your site, the app automatically emails them a custom estimate, creates their client record, and alerts your team—without anyone having to copy and paste data manually.
+
+### 🔑 Why This Matters to Clients
+
+You don't need to manage any of the technical machinery (vectors, servers, API keys). **Derivative Genius handles all the heavy lifting behind the scenes.** The end result for our clients is simply:
+- A **lightning-fast website** that looks stunning.
+- A site that **saves dozens of hours** of manual work every week.
+- A platform that **turns website visitors into qualified, paying clients** automatically.
+
+---
+
+## 🚀 Our Web Development Services
+
+- **AI-Native Custom Web Applications**: Full-stack web apps engineered with embedded LLM inference, smart semantic search, and autonomous workflow features.
+- **Intelligent Client Portals**: High-performance SaaS portals featuring real-time analytics, automated client onboarding, and role-based permissions.
+- **AI Feature Integration & API Orchestration**: Seamlessly embedding AI models (OpenAI, Claude, custom fine-tuned endpoints) and automated webhooks into existing web systems.
+- **Full-Stack Redesign & Modernization**: Upgrading legacy web applications to high-speed Next.js 16 App Router, React 19, TypeScript, and Tailwind CSS v3 with sub-second page load speeds.
+
+---
+
+## 🏗️ Architecture Overview
+
+### Modern Hybrid Web Architecture
 
 ```
-┌─────────────┐     ┌─────────────┐     ┌─────────────┐
-│   Vue.js    │     │   Vercel    │     │  Firebase   │
-│  Frontend   │ ──> │  Functions  │ ──> │  Database   │
-└─────────────┘     └─────────────┘     └─────────────┘
-                          │
-                    ┌─────┴─────┐
-                    │Cloud Pub/Sub│
-                    └─────┬─────┘
-                          │
-                    ┌─────┴─────┐
-                    │Cloud Run   │
-                    │LLM Workers │
-                    └───────────┘
+┌─────────────────────────────────────────────────────────────┐
+│                 Next.js 16 App Router                       │
+│      React 19 • TypeScript • Tailwind CSS v3 • Radix UI      │
+└──────────────────────────────┬──────────────────────────────┘
+                               │
+               ┌───────────────┴───────────────┐
+               ▼                               ▼
+┌──────────────────────────────┐┌──────────────────────────────┐
+│  Server-Side Zod Validation ││      Nodemailer Dispatch     │
+│   Intake Route (/api/contact)││   & Resilient Notifications  │
+└──────────────┬───────────────┘└──────────────┬───────────────┘
+               │                               │
+               └───────────────┬───────────────┘
+                               ▼
+┌─────────────────────────────────────────────────────────────┐
+│              Durable Firestore Lead Storage                 │
+└─────────────────────────────────────────────────────────────┘
 ```
 
-1. **Frontend**
-   - Static Vue.js build
-   - Modern SPA architecture
-   - Deployed to CDN
-   - Optimized for performance
+1. **Frontend Presentation (React 19 & Next.js 16)**
+   - Single-Page & Server-Rendered App Router architecture (`src/app/`).
+   - Responsive Tailwind CSS v3 styling with custom glassmorphism panels (`glass-panel`) and dark/light dynamic theme provider (`next-themes`).
+   - Interactive particle canvas background (`DynamicBackground.tsx`).
+   - Accessibility compliance (WCAG 2.1 AA) using Radix UI primitives (`@radix-ui/react-label`, `@radix-ui/react-slider`).
 
-2. **Backend**
-   - Vercel Functions for API endpoints
-     - Fast response times
-     - Automatic scaling
-     - Edge deployment
-   - Google Cloud Run for compute-intensive tasks
-     - LLM processing
-     - Long-running jobs
-     - Custom runtime environment
+2. **API & Serverless Infrastructure**
+   - Next.js Route Handlers (`src/app/api/contact/route.ts`) for secure intake and project scoping.
+   - Strict server-side Zod schema validation to ensure input sanitization and abuse prevention.
+   - Resilient notification dispatch using Nodemailer.
 
-3. **Database & Backend Services**
-   - Firebase for data persistence
-     - Real-time capabilities
-     - Built-in authentication
-     - Secure data access
-   - Firebase Functions v2 for serverless operations
-     - Enhanced secrets management with `defineSecret`
-     - Type-safe configuration
-     - Function-level resource settings
-     - Secure environment variable handling
-     - Used for contact form and email services
-     - See [FIREBASE_SETUP.md](./FIREBASE_SETUP.md) for detailed setup instructions and lessons learned
+3. **Agentic Development Engine**
+   - Integrated `.agent/` skill repository containing developer guidelines, testing frameworks, and architectural principles.
+   - Custom CLI Dev Kit (`dg-cli`) for rapid local development and automated ngrok tunneling.
 
-4. **Job Queue System**
-   - Cloud Pub/Sub for LLM workloads
-   - Benefits:
-     - Optimized for LLM processing
-     - Flexible scaling capabilities
-     - Full control over long-running jobs
-   - Trade-offs:
-     - Additional service complexity
-     - More infrastructure to manage
+---
 
-### Key Benefits
+## 🛠️ The `dg` Dev Kit CLI
 
-1. **Performance**
-   - Fast API responses through Vercel's edge network
-   - Efficient processing of LLM tasks on Cloud Run
-   - Real-time updates via Firebase
+Derivative Genius includes a dedicated developer CLI (`dg`) to streamline local development, system auditing, and public tunneling.
 
-2. **Scalability**
-   - Independent scaling of each component
-   - Auto-scaling based on demand
-   - Cost-effective resource utilization
+### Available CLI Commands
 
-3. **Maintainability**
-   - Clear separation of concerns
-   - Independent deployment of components
-   - Simplified monitoring and debugging
+| Command             | Description                                                                              |
+| ------------------- | ---------------------------------------------------------------------------------------- |
+| `dg dev`            | Start Next.js development server with auto-tunneling (`ngrok`) or graceful local mode.   |
+| `dg dev --no-tunnel`| Start Next.js development server explicitly on localhost without attempting ngrok.     |
+| `dg doctor`         | Run full system diagnosis checking environment variables, files, and CLI dependencies.  |
+| `dg help`           | Display CLI usage and command reference.                                                 |
 
-## Key Features
+You can run `dg` commands directly in your shell terminal:
 
-- **Robust Authentication**: Firebase-based authentication with FastAPI integration
-- **Health Monitoring**: Comprehensive health checks for all system components (FastAPI, Redis, Celery)
-- **Task Queue System**: Celery-based asynchronous processing with Redis broker
-- **Secure Communication**: CSRF protection and proper session management
-- **Developer Experience**: Streamlined development workflow with automatic server detection
-
-## Key Responsibilities
-
-1. **Vue.js Frontend (Presentation)**
-   - Automation workflow designer
-   - Process monitoring dashboard
-   - Task management interface
-   - Real-time automation status
-   - User interaction via REST API
-
-2. **FastAPI Backend (Application)**
-   - API Gateway for all Firebase operations
-   - Authentication via Firebase Admin SDK
-   - Workflow orchestration
-   - Task scheduling and execution
-   - Process automation engine
-   - Automation monitoring
-   - Security enforcement
-
-3. **Firebase Admin (Cloud)**
-   - Secure cloud services access
-   - Admin SDK integration
-   - Data persistence
-   - Access control
-   - Backup management
-
-### Data Flow
-
-1. Client Request Flow:
-   ```
-   Vue.js → FastAPI (Firebase Admin SDK) → Firebase Cloud
-   ```
-   - User initiates action via REST API
-   - FastAPI authenticates and processes request
-   - Firebase Admin SDK handles cloud operations
-
-2. Server Response Flow:
-   ```
-   Firebase Cloud → FastAPI (Firebase Admin SDK) → Vue.js
-   ```
-   - Firebase returns data to Admin SDK
-   - FastAPI applies business logic and security
-   - Vue.js updates UI based on REST response
-
-## System Resilience and Fault Tolerance
-
-### Design Principles for Handling System Failures
-
-Our application is designed to maintain data integrity and user experience even when facing multiple system failures. Here's how we implement this resilient architecture:
-
-1. **Data Persistence First**
-   - Always save core data before triggering dependent systems
-   - Example from Contact Form:
-     ```javascript
-     // Save contact to Firestore first
-     const saveContact = async (contactData) => {
-       try {
-         return await db.collection('contacts').add({
-           ...contactData,
-           timestamp: admin.firestore.Timestamp.now(),
-           status: 'pending',
-           emailSent: !!transporter  // Track email capability
-         });
-       } catch (error) {
-         logger.error('Error saving to Firestore:', error);
-         throw new Error('Failed to save contact information');
-       }
-     };
-     ```
-
-2. **Graceful Degradation**
-   - Systems should continue functioning with reduced capabilities rather than failing completely
-   - Example: Contact form continues working even when email system is down:
-     ```javascript
-     // Email sending is attempted only after data is saved
-     try {
-       await sendEmails(contactData, notificationEmail, confirmationEmail);
-     } catch (emailError) {
-       logger.warn('Failed to send emails, but contact was saved:', emailError);
-       // Continue execution - don't throw error
-     }
-     ```
-
-3. **Transparent User Feedback**
-   - Clearly communicate system status to users
-   - Provide appropriate feedback based on available functionality
-   ```javascript
-   res.status(200).json({
-     success: true,
-     message: 'Thank you for your message! ' + 
-       (transporter ? 'We will get back to you soon.' : 
-       'Your message has been received, but email notifications are currently unavailable.')
-   });
-   ```
-
-4. **System Status Tracking**
-   - Track the status of each system component
-   - Store metadata about system capabilities with each transaction
-   ```javascript
-   const contactRef = await db.collection('contacts').add({
-     ...contactData,
-     status: 'pending',
-     emailSent: !!transporter,  // Track email system status
-     timestamp: admin.firestore.Timestamp.now()
-   });
-   ```
-
-5. **Comprehensive Logging**
-   - Log all system states and failures for debugging
-   - Include relevant context in error logs
-   ```javascript
-   logger.error('Error in contact form:', {
-     error: error.message,
-     stack: error.stack,
-     systemState: {
-       emailSystem: !!transporter,
-       timestamp: new Date().toISOString()
-     }
-   });
-   ```
-
-### Implementation Guidelines
-
-When implementing new features, follow these guidelines to ensure system resilience:
-
-1. **Data Flow**
-   - Always save core data to the primary database first
-   - Only proceed with auxiliary operations (email, notifications) after data is secured
-   - Track the status of each operation in the database
-
-2. **Error Handling**
-   - Implement proper error boundaries
-   - Catch and handle errors at appropriate levels
-   - Provide meaningful error messages to users
-   - Log detailed error information for debugging
-
-3. **Status Tracking**
-   - Maintain status flags for all system components
-   - Store operation results with timestamps
-   - Enable easy auditing of system state
-
-4. **User Communication**
-   - Provide clear feedback about system status
-   - Explain any reduced functionality
-   - Offer alternative actions when possible
-
-### Example: Contact Form Implementation
-
-The contact form demonstrates these principles:
-
-1. **Primary Operation**: Save contact data to Firestore
-2. **Secondary Operation**: Send notification emails
-3. **Fallback Behavior**: Continue without email if SMTP is unavailable
-4. **User Feedback**: Clear messages about submission status
-5. **Monitoring**: Comprehensive logging of all operations
-
-This architecture ensures that:
-- No user data is lost, even if multiple systems fail
-- Users always receive appropriate feedback
-- System status is tracked and logged
-- Operations degrade gracefully
-- Recovery paths are clear and well-documented
-
-## Blog System
-
-### Directory Structure
-```
-/content
-  /blog
-    articles.json          # Central JSON file containing metadata for ALL articles
-    /articles
-      /article-1-2023-12   # Individual article folder
-        content.md         # Full article content in markdown
-        description.md     # Article excerpt/preview in markdown
-      /article-2-2023-12   # Another article folder
-        content.md         # Article 2 content
-        description.md     # Article 2 description
-/public
-  /images
-    /blog                  # Centralized image storage for all articles
-      article-1-header.jpg
-      article-2-header.jpg
-```
-
-### Article Structure
-Each article consists of:
-1. **Folder**: Named using pattern `{slug}-{YYYY-MM}`
-2. **Content File**: `content.md` - Contains the full article text in markdown
-3. **Description File**: `description.md` - Contains the article preview/excerpt
-4. **Image**: Stored in `/public/images/blog/`
-5. **Metadata**: Entry in `articles.json`
-
-The separation of content and description files allows:
-- Efficient loading of article previews without loading full content
-- Clear separation between preview and full article content
-- Easy management of article excerpts for SEO and previews
-
-### Article JSON Structure
-```json
-{
-  "articles": [
-    {
-      "id": "unique-id",           // Required: Unique identifier for the article
-      "title": "Article Title",    // Required: Full title of the article
-      "slug": "article-title",     // Required: URL-friendly version of title
-      "folder": "article-title-2023-12", // Required: Folder name containing article content
-      "category": "Category",      // Optional: Primary category
-      "publishedAt": "2023-12-12", // Required: Publication date (YYYY-MM-DD)
-      "featured": true,            // Optional: Featured article flag (default: false)
-      "seo": {                     // Optional: SEO configuration
-        "metaTitle": "Custom Title",         // Optional: Custom meta title
-        "metaDescription": "Description",    // Optional: Search engine description
-        "keywords": ["key1", "key2"],        // Optional: SEO keywords
-        "canonicalUrl": "https://..."        // Optional: Canonical URL
-      }
-    }
-  ],
-  "schema": {
-    "version": "1.0",
-    "description": "Self-documenting schema for Derivative Insights articles",
-    "fields": {
-      // Field descriptions as shown above
-    }
-  }
-}
-```
-
-### Article Management
-- Articles are managed through the admin panel under "Blog" section
-- Each article requires:
-  1. Content markdown file (`content.md`)
-  2. Description markdown file (`description.md`)
-  3. Header image in `/public/images/blog/`
-  4. Complete metadata in `articles.json`
-
-## Tech Stack
-
-- **Backend Framework**: FastAPI 0.85.0
-- **Python Version**: 3.8
-- **Job Processing**: Google Cloud Run + Cloud Tasks
-- **Authentication**: Firebase Admin SDK
-- **Monitoring**: Prometheus FastAPI Instrumentator
-
-### Key Components
-
-1. **API Layer** (`/api`)
-   - FastAPI application handling HTTP requests
-   - Firebase authentication integration
-   - Job submission and management endpoints
-   - Health monitoring and metrics
-
-2. **Worker Layer** (`/worker`)
-   - Cloud Run service for processing long-running jobs
-   - Asynchronous job execution
-   - Automatic scaling based on workload
-   - Callback system for job completion notifications
-
-### Architectural Benefits
-
-1. **Simplified Infrastructure**
-   - Serverless architecture eliminates need for server management
-   - No Redis or Celery infrastructure to maintain
-   - Reduced operational complexity and overhead
-   - Streamlined deployment process
-
-2. **Enhanced Performance**
-   - Native async/await support with FastAPI
-   - Lower latency due to reduced middleware layers
-   - Efficient request handling with ASGI server
-   - Optimized memory usage
-
-3. **Cost Efficiency**
-   - Pay-per-use pricing with Cloud Run
-   - Automatic scaling prevents over-provisioning
-   - No costs for idle resources
-   - Efficient resource utilization
-
-4. **Improved Reliability**
-   - Google Cloud's enterprise-grade infrastructure
-   - Built-in retry mechanisms for failed jobs
-   - Automatic dead-letter queues
-   - Robust error handling and monitoring
-
-5. **Developer Experience**
-   - Modern async Python syntax
-   - Automatic API documentation with OpenAPI
-   - Type hints for better code quality
-   - Simplified codebase maintenance
-
-### Environment Setup
-
-Required environment variables:
 ```bash
-GOOGLE_CLOUD_PROJECT=your-project-id
-CLOUD_TASKS_QUEUE=your-queue-name
-CLOUD_TASKS_LOCATION=your-location
-CLOUD_RUN_SERVICE_URL=your-service-url
+# Run system diagnostic check
+dg doctor
+
+# Start local dev server
+dg dev
+
+# Start local dev server directly on localhost:3000
+dg dev --no-tunnel
 ```
 
-### Development Workflow
+---
 
-1. **Local Development**
-   ```bash
-   # Start FastAPI server
-   uvicorn api.main:app --reload --port 8000
+## 🧪 Quality Gates & Development Commands
 
-   # Start worker locally
-   functions-framework --target=process_job --port=8085
-   ```
+Derivative Genius enforces strict quality gates across linting, unit testing, and production builds.
 
-2. **Deployment**
-   - API deploys to Vercel
-   - Worker deploys to Google Cloud Run
-   - Queue configuration in Google Cloud Tasks
-
-### Monitoring
-
-- Prometheus metrics available at `/metrics`
-- Health check endpoint at `/health`
-- Cloud Run provides built-in logging and monitoring
-
-## Local Development
-
-### Prerequisites
-- Python 3.8 (LTS)
-- Node.js 18.x LTS
-- Redis Server (for Celery task queue)
-- Firebase project credentials
-- Git
-
-### Initial Setup
 ```bash
-# Clone repository
-git clone [repository-url]
-cd derivativegenius-com
-
-# Create Python virtual environment
-python3 -m venv venv
-source venv/bin/activate
-
-# Install Python dependencies (development)
-pip3 install -r requirements-dev.txt
-
-# Install Node dependencies
+# Install dependencies
 npm install
 
-# Set up local environment
-cp .env.example .env.local
-```
+# Run local development server
+npm run dev
 
-### Development Workflow
+# Run automated Jest unit tests
+npm test
 
-1. Start all services:
-```bash
-./devs.sh start
-```
+# Run ESLint check
+npm run lint
 
-2. Monitor system health:
-```bash
-./devs.sh health
-```
-
-The health check will verify:
-- FastAPI server status
-- Vue development server
-- Redis connection
-- Celery worker status
-- Celery beat scheduler
-
-3. View task queue status:
-```bash
-# Check Celery worker status
-./devs.sh celery status
-
-# View active tasks
-./devs.sh celery inspect active
-
-# View scheduled tasks
-./devs.sh celery inspect scheduled
-```
-
-4. Stop all services:
-```bash
-./devs.sh stop
-```
-
-### 1. Install Redis Server
-```bash
-# Ubuntu/Debian
-sudo apt-get update
-sudo apt-get install redis-server
-
-# Start Redis service
-sudo service redis-server start
-
-# Verify Redis is running
-redis-cli ping  # Should return PONG
-```
-
-### 2. Clone and Setup
-```bash
-# Clone repository
-git clone [repository-url]
-cd derivativegenius-com
-
-# Create Python virtual environment
-python3 -m venv venv
-source venv/bin/activate
-
-# Install Python dependencies (development)
-pip3 install -r requirements-dev.txt
-
-# Install Node dependencies
-npm install
-
-# Set up local environment
-cp .env.example .env.local
-```
-
-### Firebase Local Setup
-```bash
-# Install Firebase tools
-npm install -g firebase-tools
-
-# Login to Firebase
-firebase login
-
-# Start Firebase emulators
-firebase emulators:start
-```
-
-### Development Server
-```bash
-# Terminal 1: Start FastAPI development server
-uvicorn main:app --reload
-
-# Terminal 2: Start Vue development server
-npm run serve
-```
-
-### Local Testing
-```bash
-# Run Python tests
-python3 -m pytest
-
-# Run Vue tests
-npm run test:unit
-
-# Run all tests with coverage
-npm run test:coverage
-```
-
-### Development Tools
-- FastAPI Debug: `http://localhost:8000/docs`
-- Vue DevTools: Install browser extension
-- Firebase Emulator: `http://localhost:4000`
-
-## Environment Setup
-
-### Firebase Configuration
-1. Download your Firebase service account JSON file from the Firebase Console
-2. Save it as `/api/firebase-credentials.json`
-3. This file contains all necessary Firebase Admin SDK credentials and is excluded from version control
-4. Do NOT store Firebase credentials in .env files
-
-## Task Queue Setup
-
-### Celery Setup
-```bash
-# Install requirements
-pip install -r requirements.txt
-
-# Start Celery worker
-celery -A api worker -l INFO
-
-# Start Celery beat (for scheduled tasks)
-celery -A api beat -l INFO
-```
-
-### Using Celery Tasks
-```python
-from core.tasks import process_ai_request, send_notification
-
-# Async AI processing
-result = process_ai_request.delay({
-    'model': 'gpt-4',
-    'inputs': {'prompt': 'Hello, AI!'},
-    'options': {'temperature': 0.7}
-})
-
-# Send notification
-send_notification.delay(
-    user_email='user@example.com',
-    subject='Task Completed',
-    message='Your AI processing is complete!'
-)
-```
-
-### Monitoring Tasks
-- Check task status: `result.status`
-- Get task result: `result.get()`
-- Monitor workers: `celery -A api status`
-- View task events: `celery -A api events`
-
-## Production Deployment
-
-### Prerequisites
-- Vercel CLI
-- Firebase project
-- Production environment variables
-
-### Build Process
-```bash
-# Install production dependencies
-pip3 install -r requirements.txt
-npm install --production
-
-# Build frontend
+# Execute production Next.js build
 npm run build
-
-# Deploy to Vercel
-vercel --prod
 ```
 
-### Size Limits
-- Lambda Functions: 50MB max
-- Total Deployment: 100MB max
-- Individual Chunks: 500KB warning
+---
 
-### Code Splitting
-```javascript
-// Route-level splitting
-const UserDashboard = () => import('./views/UserDashboard.vue')
+## 📁 Repository Structure
 
-// Component-level splitting
-const HeavyComponent = () => import('./components/HeavyComponent.vue')
+```text
+dg-web/
+├── bin/
+│   └── dg.js                 # Executable CLI wrapper for dg command
+├── scripts/
+│   └── dg.ts                 # Derivative Genius Dev Kit (dg-cli) implementation
+├── doc/
+│   └── current-development-targets.md  # Source of truth for development targets
+├── src/
+│   ├── app/
+│   │   ├── layout.tsx        # Next.js 16 Root Layout & Theme Provider
+│   │   ├── page.tsx          # AI-First Web Development Agency Home Page
+│   │   ├── services/         # Web Development Service Offerings
+│   │   ├── about/            # Agency Methodology & Engineering Standards
+│   │   ├── contact/          # Client Intake & Scoping Form
+│   │   └── api/
+│   │       └── contact/      # Intake API Route Handler with Zod validation
+│   ├── components/
+│   │   ├── Header.tsx        # Main navigation header
+│   │   ├── Footer.tsx        # Agency footer
+│   │   ├── DynamicBackground.tsx # Interactive particle background animation
+│   │   └── ui/               # Radix UI & Tailwind primitive components
+│   ├── lib/
+│   │   └── utils.ts          # Utility functions (clsx, tailwind-merge)
+│   └── styles/
+│       └── globals.css       # Global CSS directives & theme variables
+├── jest.config.js            # Jest testing configuration
+├── tailwind.config.js        # Tailwind CSS configuration
+├── tsconfig.json             # TypeScript compiler options
+└── package.json              # Project manifest and scripts
 ```
 
-### Deployment Monitoring
-```bash
-# Check bundle size
-npm run build -- --report
+---
 
-# Monitor production
-vercel logs
-```
+## 🛡️ System Resilience Principles
 
-### Production Caching
-- Static Assets: 1-year cache (immutable)
-- API Responses: Contextual headers
-- Dynamic Routes: Custom cache rules
-
-## Marketing Resources & Documentation
-
-### PDF Generation System
-
-Our marketing materials and documentation are automatically generated using a combination of technologies:
-
-```
-┌───────────────┐     ┌───────────────┐     ┌───────────────┐
-│   Templates   │     │   PDFKit.js   │     │   Firebase    │
-│   (Vue.js)    │ --> │   Generator   │ --> │   Storage     │
-└───────────────┘     └───────────────┘     └───────────────┘
-```
-
-#### PDF Document Types
-
-1. **Executive Overview** (`/public/resources/executive-overview.pdf`)
-   - Company introduction and vision
-   - AI automation capabilities
-   - SMB-focused benefits
-   - ROI case studies
-
-2. **Service Catalog** (`/public/resources/service-catalog.pdf`)
-   - Detailed service descriptions
-   - Technical capabilities
-   - Integration options
-   - Pricing models
-
-3. **Implementation Guide** (`/public/resources/implementation-guide.pdf`)
-   - Step-by-step process
-   - Timeline expectations
-   - Technical requirements
-   - Success metrics
-
-#### PDF Generation Process
-
-1. **Template Management**
-   ```bash
-   /src/
-     templates/
-       pdf/
-         executive/
-           template.vue
-           sections/
-         catalog/
-           template.vue
-           sections/
-         implementation/
-           template.vue
-           sections/
-   ```
-
-2. **Asset Management**
-   ```bash
-   /public/
-     resources/
-       images/
-         logos/
-         diagrams/
-       pdfs/
-   ```
-
-3. **Generation Scripts**
-   ```javascript
-   // scripts/generate-pdfs.js
-   const PDFDocument = require('pdfkit');
-   const { Storage } = require('@google-cloud/storage');
-
-   async function generatePDF(template, data) {
-     const doc = new PDFDocument();
-     // Template processing
-     return doc;
-   }
-   ```
-
-#### Website Integration
-
-The resources section is implemented in Vue.js:
-
-```vue
-// src/components/ResourcesSection.vue
-<template>
-  <section id="resources" class="py-12 bg-white">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <h2 class="text-3xl font-bold text-gray-900">
-        Resources & Guides
-      </h2>
-      <div class="mt-8 grid grid-cols-1 gap-6 md:grid-cols-3">
-        <ResourceCard 
-          v-for="resource in resources" 
-          :key="resource.id"
-          :resource="resource"
-        />
-      </div>
-    </div>
-  </section>
-</template>
-```
-
-#### Automated Updates
-
-PDF resources are automatically regenerated when:
-1. Content templates are updated
-2. New case studies are added
-3. Service offerings change
-4. Pricing models are updated
-
-#### Development Workflow
-
-1. **Setup PDF Generation**
-   ```bash
-   # Install dependencies
-   npm install pdfkit @google-cloud/storage
-
-   # Setup templates
-   mkdir -p src/templates/pdf
-   ```
-
-2. **Local Development**
-   ```bash
-   # Generate PDFs locally
-   npm run generate-pdfs
-
-   # Test PDF viewer component
-   npm run serve
-   ```
-
-3. **Deployment**
-   ```bash
-   # Build and deploy
-   npm run build
-   vercel deploy
-   ```
-
-### Firebase Storage Configuration
-
-1. **Setup Storage Rules**
-   ```javascript
-   // storage.rules
-   rules_version = '2';
-   service firebase.storage {
-     match /b/{bucket}/o {
-       match /public/resources/{allPaths=**} {
-         allow read;
-         allow write: if false;
-       }
-     }
-   }
-   ```
-
-2. **Upload Configuration**
-   ```javascript
-   // scripts/upload-pdfs.js
-   const storage = new Storage();
-   const bucket = storage.bucket('your-bucket-name');
-
-   async function uploadPDF(filePath, destination) {
-     await bucket.upload(filePath, {
-       destination,
-       metadata: {
-         cacheControl: 'public, max-age=3600',
-       },
-     });
-   }
-   ```
-
-### Maintenance and Updates
-
-1. **Regular Updates**
-   - Monthly content reviews
-   - Quarterly design updates
-   - Annual comprehensive revision
-
-2. **Version Control**
-   - PDF versions tracked in Git
-   - Template changes reviewed
-   - Automated generation on merge
-
-3. **Quality Assurance**
-   - Automated PDF validation
-   - Mobile responsiveness checks
-   - Cross-browser testing
-
-## System Requirements
-
-Before starting development, ensure you have:
-
-1. **Python 3.8**
-   ```bash
-   sudo apt update
-   sudo apt install python3.8 python3.8-venv
-   ```
-
-2. **Google Cloud SDK**
-   ```bash
-   # Add Google Cloud SDK distribution URI as a package source
-   echo "deb [signed-by=/usr/share/keyrings/cloud.google.gpg] https://packages.cloud.google.com/apt cloud-sdk main" | sudo tee -a /etc/apt/sources.list.d/google-cloud-sdk.list
-
-   # Import the Google Cloud public key
-   curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key --keyring /usr/share/keyrings/cloud.google.gpg add -
-
-   # Update and install the SDK
-   sudo apt-get update && sudo apt-get install google-cloud-sdk
-   ```
-
-3. **Node.js and npm** (for Vue.js development)
-   ```bash
-   curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash -
-   sudo apt-get install -y nodejs
-   ```
-
-The `devs.sh` script will handle:
-- Python virtual environment creation
-- Python package installation
-- Development server startup
-
-## Dependencies Management
-
-Our project uses a structured approach to managing Python dependencies:
-
-```
-requirements/
-├── requirements-base.txt    # Base dependencies for all environments
-├── requirements-dev.txt     # Development-specific dependencies
-└── requirements.txt         # Production dependencies
-```
-
-### Requirements Structure
-
-1. **Base Requirements** (`requirements-base.txt`)
-   - Core dependencies needed in all environments
-   - Includes:
-     - FastAPI 0.85.0 (Last stable version for Python 3.8)
-     - Firebase and Google Cloud packages
-     - Core security packages
-     - Basic monitoring tools
-     - Performance utilities
-
-2. **Development Requirements** (`requirements-dev.txt`)
-   - Extends base requirements (`-r requirements-base.txt`)
-   - Development and testing tools:
-     - Testing: pytest, pytest-asyncio, coverage
-     - Code Quality: black, flake8, mypy, pylint
-     - Type Checking: types-python-jose, types-passlib
-     - FastAPI development extras
-     - Auto-reloading capabilities
-
-3. **Production Requirements** (`requirements.txt`)
-   - Extends base requirements (`-r requirements-base.txt`)
-   - Production-specific tools:
-     - WSGI/ASGI servers: gunicorn, uvicorn[standard]
-     - Monitoring: psutil, prometheus-client
-     - Error tracking: sentry-sdk
-     - Performance optimizations: orjson, ujson
-     - Additional security features
-
-### Version Control
-
-- Python version: 3.8 (LTS)
-- FastAPI version: 0.85.0 (Last stable version fully supporting Python 3.8)
-- All dependencies are pinned to specific versions for reproducibility
-
-### Local Development
-
-The `devs.sh` script automatically:
-1. Creates a Python 3.8 virtual environment
-2. Installs base dependencies
-3. Adds development tools and testing packages
-
-To manually install dependencies:
-```bash
-# Create and activate virtual environment
-python3.8 -m venv venv
-source venv/bin/activate
-
-# Install all dependencies (including development)
-pip install -r requirements.txt
-pip install -r requirements-dev.txt
-```
-
-## Environment Variables
-
-### Local Development
-Required in `.env.local`:
-```plaintext
-FIREBASE_API_KEY=xxx
-FIREBASE_PROJECT_ID=xxx
-DJANGO_SECRET_KEY=xxx
-DEBUG=True
-```
-
-### Production (Vercel)
-Required in Vercel dashboard:
-```plaintext
-FIREBASE_ADMIN_CREDENTIALS=xxx
-DJANGO_SECRET_KEY=xxx
-FIREBASE_PROJECT_ID=xxx
-DEBUG=False
-```
-
-## Testing
-
-### Local Tests
-```bash
-# Full test suite
-npm run test:all
-
-# Individual components
-python3 -m pytest tests/api/
-npm run test:unit components/
-```
-
-### Production Tests
-```bash
-# Health checks
-curl https://[your-domain]/health/
-
-# Smoke tests
-npm run test:e2e:prod
-```
-
-## Deployment Architecture
-
-Our application uses a hybrid deployment strategy on Vercel:
-
-```
-┌─────────────┐     ┌─────────────┐     ┌─────────────┐
-│   Vue.js    │     │   Vercel    │     │  Firebase   │
-│  Frontend   │ ──> │  Functions  │ ──> │  Database   │
-└─────────────┘     └─────────────┘     └─────────────┘
-                          │
-                    ┌─────┴─────┐
-                    │Cloud Pub/Sub│
-                    └─────┬─────┘
-                          │
-                    ┌─────┴─────┐
-                    │Cloud Run   │
-                    │LLM Workers │
-                    └───────────┘
-```
-
-### Local Development
-Local development remains unchanged and independent of deployment:
-- Use `devs.sh` for local development server
-- All Firebase services work locally through `.env` configuration
-- FastAPI development server runs normally
-
-### Deployment Process
-1. Vercel builds both Vue.js frontend and FastAPI backend
-2. Frontend is served as static files
-3. Backend runs as serverless functions
-4. Firebase integration works identically in both environments
-
-### Firebase Integration
-Firebase services are available in both local and deployed environments:
-- Authentication flows remain consistent
-- Firestore access is maintained
-- Admin SDK configuration is preserved
-- Environment variables are properly handled
-
-## API Documentation
-
-### Health Check Endpoints
-
-- `/health/`: General system health status
-- `/vue-status/`: Vue.js server status
-- Both endpoints return CSRF tokens and don't require authentication
-
-### Authentication Flow
-
-1. Client initiates authentication via Firebase
-2. Server validates Firebase token
-3. FastAPI session is established
-4. CSRF token is provided for subsequent requests
-
-## Security Features
-
-- **CSRF Protection**: Automatic token management
-- **Session Security**: Secure session handling
-- **Error Recovery**: Automatic retry mechanisms
-- **Health Monitoring**: Proactive system checks
-
-## Development Guidelines
-
-See our comprehensive development standards in `_ai_dev_principles_standards.md`
-
-## Contributing
-
-1. Fork the repository
-2. Create your feature branch
-3. Follow our coding standards
-4. Submit a pull request
-
-## License
-
-Proprietary - All Rights Reserved
-
-## Support
-
-For support, email support@derivativegenius.com
+1. **Data Persistence First**: Form payloads are validated and stored durably in Firestore prior to triggering external notifications.
+2. **Graceful Fallback**: If third-party services (such as ngrok or mailers) are unavailable, system components degrade gracefully to local mode without failing the user session.
+3. **Transparent User Feedback**: Form submissions communicate exact intake status to clients with real-time feedback using Sonner toast notifications.
