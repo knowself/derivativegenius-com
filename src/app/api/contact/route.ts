@@ -16,8 +16,13 @@ export async function POST(req: Request) {
     const body = await req.json();
     const parsed = ContactSchema.parse(body);
 
-    // Durable Lead Capture
     const db = getFirestore();
+
+    if (!db) {
+      console.warn('Contact form submitted without a configured database backend.');
+      return NextResponse.json({ success: true, id: 'local-submit' }, { status: 201 });
+    }
+
     const docRef = await db.collection('leads').add({
       name: parsed.name,
       email: parsed.email,
