@@ -36,6 +36,17 @@ You don't need to manage any of the technical machinery (vectors, servers, API k
 - **AI Feature Integration & API Orchestration**: Seamlessly embedding AI models (OpenAI, Claude, custom fine-tuned endpoints) and automated webhooks into existing web systems.
 - **Full-Stack Redesign & Modernization**: Upgrading legacy web applications to high-speed Next.js 16 App Router, React 19, TypeScript, and Tailwind CSS v3 with sub-second page load speeds.
 
+## 🎯 Featured Work — Centurions Portfolio
+
+We showcase a curated selection of Centurions' best web projects directly on the home page and in the dedicated Portfolio section. Live examples include:
+
+- https://www.spacejanitor.pro/
+- https://www.voicegeni.us/
+- https://www.kerryterry.com/
+- https://www.microgreensla.live/
+
+Visit the Portfolio page or click featured projects in the hero to view project details and live sites.
+
 ---
 
 ## 🏗️ Architecture Overview

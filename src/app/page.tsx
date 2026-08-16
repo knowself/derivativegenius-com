@@ -1,5 +1,8 @@
 import React from "react";
 import Link from "next/link";
+import Image from "next/image";
+import { CENTURIONS_PROJECTS } from "../data/portfolio";
+import FeaturedCarousel from "../components/FeaturedCarousel";
 import { Sparkles, Code2, Cpu, ArrowRight, CheckCircle2, MessageSquareText, Search, Workflow, UserCheck } from "lucide-react";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
 import { DemosShowcase } from "@/components/DemosShowcase";
@@ -88,6 +91,9 @@ export default function HomePage() {
           <span>AI-First Web Development Agency</span>
         </div>
 
+        {/* Featured projects carousel */}
+        <FeaturedCarousel />
+
         <h1 className="mt-6 font-extrabold text-4xl tracking-tight text-white sm:text-6xl lg:text-7xl">
           Build Intelligent Web Apps <br />
           <span className="bg-gradient-to-r from-blue-400 via-indigo-400 to-purple-400 bg-clip-text text-transparent">
@@ -97,6 +103,11 @@ export default function HomePage() {
 
         <p className="mx-auto mt-6 max-w-3xl text-lg text-slate-300 sm:text-xl leading-relaxed">
           <em className="text-white italic">"We are all standing on the shoulders of giants."</em> Living in a time when each of us can utilize the intellectual tools ever conceived by humankind to revolutionize our businesses. Derivative Genius builds the AI-first web applications and knowledge bases that power your growth.
+        </p>
+
+        <h2 className="mt-6 text-xl font-semibold text-white">What can we do for you?</h2>
+        <p className="mx-auto mt-2 max-w-2xl text-sm text-slate-300">
+          Tell us your project challenge or goal and we'll propose a tailored plan to bring it to production — faster and smarter with AI-powered automation.
         </p>
 
         <div className="mt-10 flex flex-wrap items-center justify-center gap-4">

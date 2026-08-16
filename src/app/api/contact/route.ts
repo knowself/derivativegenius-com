@@ -1,53 +1,39 @@
-import { NextResponse } from "next/server";
-import { z } from "zod";
+import { z } from 'zod';
+import { NextResponse } from 'next/server';
+import { getFirestore } from '../../../lib/firebase';
 
 const ContactSchema = z.object({
-  name: z.string().min(2, "Name must be at least 2 characters"),
-  email: z.string().email("Invalid email address"),
+  name: z.string().min(2, 'Name must be at least 2 characters'),
+  email: z.string().email('Invalid email address'),
   company: z.string().optional(),
-  service: z.string().min(1, "Please select a service"),
-  budget: z.string().optional(),
-  message: z.string().min(10, "Project description must be at least 10 characters"),
+  service: z.string().optional(),
+  budget: z.union([z.number(), z.string()]).optional(),
+  message: z.string().min(10, 'Project description must be at least 10 characters'),
 });
 
-export async function POST(request: Request) {
+export async function POST(req: Request) {
   try {
-    const body = await request.json();
-    const validatedData = ContactSchema.parse(body);
+    const body = await req.json();
+    const parsed = ContactSchema.parse(body);
 
-    // Durable Lead Capture Logging / Provider Integration
-    console.log("[DG-WEB INTAKE] New Project Inquiry Received:", {
-      timestamp: new Date().toISOString(),
-      name: validatedData.name,
-      email: validatedData.email,
-      company: validatedData.company || "N/A",
-      service: validatedData.service,
-      budget: validatedData.budget || "Unspecified",
+    // Durable Lead Capture
+    const db = getFirestore();
+    const docRef = await db.collection('leads').add({
+      name: parsed.name,
+      email: parsed.email,
+      message: parsed.message,
+      company: parsed.company || null,
+      service: parsed.service || null,
+      budget: parsed.budget || null,
+      createdAt: new Date().toISOString(),
     });
 
-    return NextResponse.json(
-      {
-        success: true,
-        message: "Project scope received successfully",
-        data: {
-          name: validatedData.name,
-          email: validatedData.email,
-          service: validatedData.service,
-        },
-      },
-      { status: 200 }
-    );
-  } catch (error: any) {
-    if (error instanceof z.ZodError) {
-      return NextResponse.json(
-        { error: "Validation failed", details: error.errors },
-        { status: 400 }
-      );
+    return NextResponse.json({ success: true, id: docRef.id }, { status: 201 });
+  } catch (err: any) {
+    if (err instanceof z.ZodError || err?._isZod) {
+      return NextResponse.json({ success: false, error: err.errors || err.message }, { status: 400 });
     }
-
-    return NextResponse.json(
-      { error: "Internal server error processing intake form" },
-      { status: 500 }
-    );
+    console.error('Contact route error:', err);
+    return NextResponse.json({ success: false, error: String(err) }, { status: 500 });
   }
 }

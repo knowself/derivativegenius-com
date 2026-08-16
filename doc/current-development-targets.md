@@ -202,3 +202,50 @@ Add evidence here whenever a target status changes to `In review` or `Complete`.
 | 2026-08-07 | Plain Language Copy    | Web & Target Update       | Added "In Plain English" explainer section & business benefits to Home page, Services page, README.md, and current-development-targets.md.                  |
 | 2026-08-07 | Stack Migration        | Repository Upgrade        | Replaced Vue 3 CLI with Next.js 16 App Router, TypeScript, Tailwind CSS, Zod, and Jest matching MicrogreensLA stack.                                        |
 | 2026-08-07 | Quality Gates          | `npm test` & `npm build`  | Pass; Jest tests pass 100%, `npx eslint .` reports 0 errors, and Next.js production build (`next build`) compiles 7 static/dynamic routes in 2.8s.        |
+
+## Migration plan: Align stack with MicrogreensLA (remove Python/Django)
+
+**Goal:** Replace the Django/Python backend with a Node/Next.js-only stack matching `microgreensla` (Next.js + TypeScript + Tailwind), remove runtime Python dependencies, and migrate backend responsibilities to serverless functions or lightweight Node services.
+
+**Why:** Simplify deployment, unify runtime (Node.js), reduce maintenance overhead, and make the repo consistent with the MicrogreensLA reference implementation.
+
+**High-level steps (ordered):**
+
+1. Audit `api/`, `admin_panel/`, `firebase_app/`, and other Python/Django code to catalog features and dependencies.
+2. Map each server-side feature to its Node/Next.js replacement:
+    - API route handlers -> Next.js Route Handlers (`src/app/api/*`) or Vercel Serverless Functions
+    - Firebase Admin operations -> `firebase-admin` Node package inside serverless handlers
+    - Authentication -> Firebase client + NextAuth or custom JWT endpoints
+    - Background tasks (Celery) -> Serverless cron (Vercel/Edge cron), or a Node worker using Redis/BullMQ / third-party job runners
+    - Admin UI -> Convert Django admin views to Next.js Admin pages or integrate a headless CMS
+3. Create Node implementations for critical endpoints (contact intake, lead persistence, notification dispatch) and test end-to-end locally against Firestore or a staging Firebase project.
+4. Migrate environment and secret handling to `.env` and Vercel environment variables; add `.env.example` as template.
+5. Remove Python runtime artifacts once parity is verified:
+    - Delete `api/` Django project or move to `/archive/python-api/` for reference
+    - Remove `manage.py`, `requirements*.txt`, `runtime.txt`, and `Procfile` (if present)
+    - Disable or remove Celery configuration and related files
+6. Update `package.json` scripts, CI pipelines, and `README.md` to reflect the unified Node stack.
+7. Run full verification: `npm run lint`, `npm test`, `npm run build`, end-to-end contact intake demo, and deployment to staging (Vercel).
+
+**Checklist (deliverable-oriented)**
+- [ ] Audit feature inventory with mapping doc `doc/migration-audit.md` (list endpoints, cron jobs, admin features)
+- [ ] Implement `src/app/api/contact/route.ts` replacement for Django contact intake (Zod validation + Firestore persistence)
+- [ ] Implement server-side Firebase admin bootstrapping in Node (reusable helper in `src/lib/firebase.ts`)
+- [ ] Replace notification dispatch with a Node mailer service and test with staging SMTP
+- [ ] Port important background tasks to Node workers or serverless cron
+- [ ] Add `.env.example` and update deployment environment settings for Vercel
+- [ ] Remove or archive `api/`, `manage.py`, and Python requirements after verification
+- [ ] Update docs: `README.md`, `doc/current-development-targets.md`, and any setup guides
+- [ ] CI passes and staging deployment verifies all critical flows
+
+**Done criteria / verification**
+- All public user flows (contact intake → persistence → notification) run end-to-end on Node-only stack.
+- `npm run lint`, `npm test`, and `npm run build` pass in CI and locally.
+- No Python runtime required to start any service in the repo; `requirements*.txt` removed or archived.
+- Updated documentation records the migration and any remaining technical debt.
+
+**Risks & notes**
+- Some Django-only features (custom admin integrations, complex Celery workflows) may require interim architecture (small Node worker) before safe removal.
+- Preserve a read-only archive of the Django source for audit and historical traceability until migration is verified.
+
+**Estimated effort:** 2–6 engineer-days depending on background job complexity and admin UI scope.
