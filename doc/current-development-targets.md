@@ -128,7 +128,9 @@ Work these in sequence. DT-05 quality work may continue in parallel.
 2. **DT-02 — Secure Public APIs and Environment Secrets.** Protect endpoints, sanitize input schemas via Zod, and verify credential security.
 3. **DT-03 — Make AI Web Dev Project Lead Capture & Scoping Resilient.** Enforce data-persistence-first pattern with detailed project requirements and notification handling.
 4. **DT-04 — Transform Frontend for AI Web Dev Agency Positioning & Portfolio.** Refine UI components, plain-English explainer sections, interactive project intake tools, and service pages.
-5. **DT-09 — Launch Paid Pilot AI Web Dev Project Onboarding & Payment Link Flow.** Qualify real client leads and process deposit/project payments via approved hosted payment links or invoices.
+5. **DT-10 — Recreate the Legacy Derivative Genius Homepage Conversion Elements.** Bring over the proven conversion content from derivativegenius.com while adapting it to the new AI-first agency positioning and current frontend architecture.
+6. **DT-11 — Rebuild the Full Legacy Site Page Architecture.** Recreate the non-homepage pages from derivativegenius.com — About, Articles, Contact, and supporting conversion/content pages — in the new Next.js site without losing the AI-first agency narrative.
+7. **DT-09 — Launch Paid Pilot AI Web Dev Project Onboarding & Payment Link Flow.** Qualify real client leads and process deposit/project payments via approved hosted payment links or invoices.
 
 ## Target summary
 
@@ -138,6 +140,8 @@ Work these in sequence. DT-05 quality work may continue in parallel.
 | DT-02 | P0       | Secure Public APIs and Configuration                                    | Not started | DT-01 for endpoint scope             | 2026-08-07   |
 | DT-03 | P0       | Make AI Web Dev Project Lead Capture & Scoping Resilient                | In progress | Lead storage and notification setup  | 2026-08-07   |
 | DT-04 | P0       | Transform Frontend for AI Web Dev Agency Positioning & Portfolio        | In progress | DT-01 for copy and service structure | 2026-08-07   |
+| DT-10 | P1       | Recreate the Legacy Derivative Genius Homepage Conversion Elements       | Not started | DT-01 and DT-04                      | 2026-08-15   |
+| DT-11 | P1       | Rebuild the Full Legacy Site Page Architecture                           | Not started | DT-10, DT-01, DT-04                 | 2026-08-15   |
 | DT-09 | P0       | Launch Paid Pilot AI Web Dev Project Onboarding & Payment Link Flow     | Blocked     | DT-01 through DT-04                  | 2026-08-07   |
 | DT-05 | P1       | Establish Automated Quality, Testing, and CI Gates                      | Complete    | None                                 | 2026-08-07   |
 | DT-06 | P1       | Complete Accessibility and Responsive UX Verification                   | Not started | DT-04                                | 2026-08-07   |
@@ -166,6 +170,110 @@ Work these in sequence. DT-05 quality work may continue in parallel.
 - [ ] Create a claims register covering build velocity, code quality benchmarks, accessibility compliance, and performance guarantees.
 
 **Done when:** All material claims map to an approved web dev claims register, and public pages reflect active web development capabilities with plain-language clarity.
+
+### DT-10. Recreate the Legacy Derivative Genius Homepage Conversion Elements
+
+**Priority:** P1
+
+**Status:** Not started
+
+**Outcome:** The current Derivative Genius website includes the strongest legacy conversion elements from derivativegenius.com while preserving the new AI-first agency positioning, modern Next.js layout, and responsive conversion flow.
+
+- [ ] Audit the live homepage and extract all proven conversion sections and patterns.
+- [ ] Recreate the brand/hero framing: logo treatment, headline, subhead, and primary CTA flow.
+- [ ] Port the core value proposition narrative: AI automation agency positioning, business impact, and plain-English explanations.
+- [ ] Add the MicrogreensLA demo bot callout and CTA to the AI training / lead-generation story.
+- [ ] Add the newsletter signup block with safe validation and consent language.
+- [ ] Add the customer examples / testimonial section and proof-based social trust content.
+- [ ] Restore the article, contact, and about navigation structure and link flow.
+- [ ] Add the footer with social links, legal/footer branding, and site-level navigation.
+- [ ] Validate responsive layout, clear CTA hierarchy, and conversion-focused copy against the live reference.
+
+**Done when:** The homepage includes the legacy site’s core trust and conversion elements while fitting the new messaging, design system, and performance constraints.
+
+**Verification:** Design review against the live homepage, responsive QA, CTA path checks, and confirmation that all major sections render without broken links or missing form validation.
+
+### DT-11. Rebuild the Full Legacy Site Page Architecture
+
+**Priority:** P1
+
+**Status:** Not started
+
+**Outcome:** The non-homepage pages from derivativegenius.com are recreated in the modern Next.js product so the full site carries the same legacy content architecture and conversion intent as the original, while aligning each page to the new AI-first agency brand.
+
+- [ ] Map the legacy site navigation and page structure: Home, Articles, Contact, and About.
+- [ ] Recreate the About page with the original founder/agency story, mission language, and trust-building business narrative.
+- [ ] Recreate the Contact page with a conversion-first intake form, proof messaging, and clear service CTAs.
+- [ ] Recreate the Articles page with article cards, editorial hierarchy, and CTA paths to deeper content.
+- [ ] Ensure each page preserves a consistent CTA funnel to project scoping and inquiry capture.
+- [ ] Validate footer links, social links, and page-to-page navigation patterns against the live site.
+- [ ] Confirm the overall experience remains clean, conversion-led, and mobile-responsive after the migration.
+
+**Done when:** All key legacy pages are present in the new site and match the original information architecture and conversion flow while using the current branding and technical stack.
+
+**Verification:** Page-by-page content parity review, navigation QA, CTA flow checks, and responsive review against the live reference site.
+
+### Page-by-page implementation checklist
+
+This checklist covers the full site conversion rebuild. Each page should be checked against both the live legacy site and the new AI-first messaging framework before it is marked complete.
+
+#### Home page
+- [ ] Restore the legacy hero framing and value proposition while keeping the AI-first agency positioning.
+- [ ] Retain the headline, subheadline, and CTA hierarchy for project inquiry and consultation.
+- [ ] Add the “we are all standing on the shoulders of giants” brand narrative and plain-English value proposition.
+- [ ] Include the MicrogreensLA demo bot story and CTA in a way that supports lead capture.
+- [ ] Re-add trust-building proof blocks: customer examples, newsletter signup, and business value statements.
+- [ ] Verify the page fully matches the conversion flow: headline -> CTA -> contact form -> project inquiry.
+- [ ] Confirm mobile responsiveness and strong visual hierarchy across hero, value props, and CTAs.
+
+#### About page
+- [ ] Restore founder/agency story and mission-driven narrative from the legacy site.
+- [ ] Add AI-first positioning, engineering methodology, and security/quality framing.
+- [ ] Include three to five proof pillars that explain what the agency does and why it is credible.
+- [ ] Add a strong CTA to project scoping or consultation.
+- [ ] Ensure branding tone is confident, educational, and conversion-minded without becoming generic.
+
+#### Services page
+- [ ] Recreate the service catalog in plain English and technician-friendly language.
+- [ ] Keep the four key conversion narratives: smart digital employee, 24/7 digital assistant, search by meaning, and digital dominoes.
+- [ ] Add price or scope framing that invites inquiry rather than creating friction.
+- [ ] Link each service to a project inquiry path or scoping CTA.
+- [ ] Salesforce/CRM style service clarity is not required for the first pass, but decision clarity is.
+
+#### Solutions / industry pages
+- [ ] Recreate the industry-specific solution positioning from the legacy business story.
+- [ ] Map each industry to a real use case, value proposition, and example AI workflow.
+- [ ] Keep solution cards concise, high-clarity, and visually scannable.
+- [ ] Add CTAs that push the user toward a consultation or project inquiry.
+
+#### Articles page
+- [ ] Restore the editorial layout and article card hierarchy.
+- [ ] Recreate article metadata: title, author, date, and category.
+- [ ] Preserve the educational tone and trust-building positioning of the brand.
+- [ ] Ensure every article card leads into an article detail page with a clean reading experience.
+- [ ] Include a newsletter or subscription capture that matches the conversion flow.
+
+#### Article detail page
+- [ ] Preserve article readability with strong typography and scannable sections.
+- [ ] Keep author/date metadata and sticky or prominent navigation back to the articles index.
+- [ ] Add a CTA to project scoping or contact after the article content.
+- [ ] Ensure article content and layout feel editorial, not like a generic blog template.
+
+#### Contact page
+- [ ] Preserve the conversion-first design and clear inquiry CTA.
+- [ ] Keep the service selection, budget range, and message fields that drive project scoping.
+- [ ] Confirm the form uses server-side validation and safe, durable lead capture.
+- [ ] Include proof language that reassures the visitor the request is real and reviewed.
+- [ ] Add post-submit success messaging with next-step clarity.
+- [ ] Validate the form path to the API, notification pipeline, and project inquiry flow.
+
+#### Footer and shared navigation
+- [ ] Recreate the navigation links and trust cues across all pages.
+- [ ] Restore social links and site-level callouts in the footer.
+- [ ] Ensure nav and footer are consistent across Home, About, Services, Solutions, Articles, and Contact.
+- [ ] Confirm all links point to valid routes and do not dead-end or break the conversion funnel.
+
+**Completion rule:** A page is complete only when the copy, CTA flow, design hierarchy, technical implementation, and user path match the legacy site’s intent while reflecting the current AI-first positioning.
 
 ### DT-05. Establish Automated Quality, Testing, and CI Gates
 

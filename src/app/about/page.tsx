@@ -27,12 +27,18 @@ export default function AboutPage() {
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 space-y-16">
-      <div className="max-w-3xl space-y-4">
+      <div className="max-w-4xl space-y-5">
+        <div className="inline-flex items-center rounded-full border border-blue-500/30 bg-blue-500/10 px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.2em] text-blue-400">
+          AI Automation Agency
+        </div>
         <h1 className="text-4xl font-extrabold tracking-tight text-white sm:text-5xl">
           About Derivative Genius
         </h1>
-        <p className="text-lg text-slate-300">
-          Derivative Genius is an AI-first web development agency that bridges autonomous AI capabilities with enterprise web engineering.
+        <p className="text-lg text-slate-300 leading-relaxed">
+          We are an AI-first web development agency helping businesses turn manual work into automated systems, stale websites into growth engines, and hard-to-navigate experiences into clear digital journeys.
+        </p>
+        <p className="text-slate-300 leading-relaxed">
+          We believe the most important advantage in business today is not just having tools—it is knowing how to apply them with clarity, speed, and real operational outcomes. Derivative Genius brings that advantage to modern brands, service businesses, and ambitious teams.
         </p>
       </div>
 
@@ -58,9 +64,12 @@ export default function AboutPage() {
       </div>
 
       <div className="rounded-2xl border border-slate-800 bg-slate-900/60 p-8 sm:p-12 space-y-6">
-        <h2 className="text-2xl font-bold text-white">Engineering Quality Guarantee</h2>
+        <h2 className="text-2xl font-bold text-white">We stand on the shoulders of giants.</h2>
         <p className="text-slate-300 leading-relaxed">
-          Unlike traditional agencies that build monolithic legacy codebases, Derivative Genius creates modular, well-tested, type-safe web applications designed for infinite scale. All code is owned by the client with zero vendor lock-in.
+          Living in an era where every person can access powerful intellectual tools once reserved for large institutions, we build technology that helps businesses make better decisions, respond faster, and serve customers with more clarity.
+        </p>
+        <p className="text-slate-300 leading-relaxed">
+          Our job is to turn that possibility into a practical advantage: from AI workflow automation to custom web applications, search experiences, and intelligent business systems that actually reduce friction and increase revenue.
         </p>
         <div>
           <Link

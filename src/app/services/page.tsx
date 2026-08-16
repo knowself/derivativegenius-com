@@ -69,12 +69,15 @@ export default function ServicesPage() {
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 space-y-16">
-      <div className="text-center max-w-3xl mx-auto space-y-4">
+      <div className="text-center max-w-4xl mx-auto space-y-4">
+        <div className="mx-auto inline-flex items-center rounded-full border border-blue-500/30 bg-blue-500/10 px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.2em] text-blue-400">
+          AI Automation Agency
+        </div>
         <h1 className="text-4xl font-extrabold tracking-tight text-white sm:text-5xl">
           AI-First Web Development Services
         </h1>
         <p className="text-lg text-slate-300">
-          Under the hood, the technology is sophisticated—but the goal is simple: save hours of work and convert visitors into paying clients.
+          We build the digital systems that help small businesses and growth-stage teams streamline operations, improve customer experience, and convert more opportunity into action.
         </p>
       </div>
 

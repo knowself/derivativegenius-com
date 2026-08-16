@@ -180,6 +180,40 @@ export default function HomePage() {
         </div>
       </section>
 
+      <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className="rounded-2xl border border-slate-800 bg-slate-900/80 p-8 sm:p-12">
+          <div className="mx-auto max-w-3xl text-center">
+            <h2 className="text-3xl font-extrabold text-white sm:text-4xl">
+              Customer Examples & Proof
+            </h2>
+            <p className="mt-3 text-slate-300">
+              From local service businesses to growth-stage teams, we build digital experiences that make the work easier to understand, easier to trust, and easier to act on.
+            </p>
+          </div>
+
+          <div className="mt-8 grid gap-6 md:grid-cols-3">
+            <div className="rounded-xl border border-slate-800 bg-slate-950/60 p-6">
+              <div className="text-sm font-semibold text-blue-400">Latoya Jones-McDonald</div>
+              <p className="mt-3 text-sm text-slate-300 leading-relaxed">
+                “I help customers understand their coverage and make smarter decisions with clarity, confidence, and a more personal experience.”
+              </p>
+            </div>
+            <div className="rounded-xl border border-slate-800 bg-slate-950/60 p-6">
+              <div className="text-sm font-semibold text-blue-400">Local Businesses</div>
+              <p className="mt-3 text-sm text-slate-300 leading-relaxed">
+                AI-powered FAQs, intake workflows, and website automation create faster answers and better customer experiences without extra overhead.
+              </p>
+            </div>
+            <div className="rounded-xl border border-slate-800 bg-slate-950/60 p-6">
+              <div className="text-sm font-semibold text-blue-400">Growth Teams</div>
+              <p className="mt-3 text-sm text-slate-300 leading-relaxed">
+                Modern web systems reduce repetitive work and help teams focus on the conversations that actually grow the business.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Demos Showcase from live website */}
       <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <DemosShowcase />

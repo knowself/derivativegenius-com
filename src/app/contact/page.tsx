@@ -63,8 +63,26 @@ export default function ContactPage() {
           Scope Your Web Project
         </h1>
         <p className="text-slate-300 max-w-xl mx-auto">
-          Fill out the project intake details below to receive a custom technical proposal and development timeline.
+          Tell us what you want to improve, automate, or build. We will turn it into a practical plan and a scoped proposal that fits your business goals.
         </p>
+      </div>
+
+      <div className="grid gap-4 md:grid-cols-3">
+        <div className="rounded-2xl border border-slate-800 bg-slate-900/70 p-5">
+          <div className="text-xs font-semibold uppercase tracking-[0.18em] text-blue-400">01</div>
+          <h2 className="mt-3 text-lg font-semibold text-white">Discovery</h2>
+          <p className="mt-2 text-sm text-slate-300">We learn how leads, customers, and daily operations actually work in your business.</p>
+        </div>
+        <div className="rounded-2xl border border-slate-800 bg-slate-900/70 p-5">
+          <div className="text-xs font-semibold uppercase tracking-[0.18em] text-blue-400">02</div>
+          <h2 className="mt-3 text-lg font-semibold text-white">Design</h2>
+          <p className="mt-2 text-sm text-slate-300">We map the user journey and the systems needed to convert attention into action.</p>
+        </div>
+        <div className="rounded-2xl border border-slate-800 bg-slate-900/70 p-5">
+          <div className="text-xs font-semibold uppercase tracking-[0.18em] text-blue-400">03</div>
+          <h2 className="mt-3 text-lg font-semibold text-white">Build</h2>
+          <p className="mt-2 text-sm text-slate-300">We produce a modern web app or automation tool backed by clear technical documentation and scope.</p>
+        </div>
       </div>
 
       <Card className="border-slate-800 bg-slate-900/90 shadow-2xl backdrop-blur-xl">
@@ -156,10 +174,10 @@ export default function ContactPage() {
                   onChange={handleChange}
                   className="flex h-11 w-full rounded-md border border-slate-700 bg-slate-950/70 px-3 py-2 text-sm text-slate-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
                 >
-                  <option value="< $5,000">&lt; $5,000 (Scoping & Advisory)</option>
-                  <option value="$5,000 - $15,000">$5,000 - $15,000 (Standard Web App Sprint)</option>
-                  <option value="$15,000 - $50,000">$15,000 - $50,000 (Enterprise AI Platform)</option>
-                  <option value="$50,000+">$50,000+ (Full Custom Enterprise System)</option>
+                  <option value="&lt; $2,000">&lt; $2,000 (Scoping &amp; Advisory)</option>
+                  <option value="$2,000 - $3,000">$2,000 - $3,000 (Standard Web App)</option>
+                  <option value="$3,000 - $5,000">$3,000 - $5,000 (Company Wide AI Platform)</option>
+                  <option value="$5,000+">$5,000+ (Full Custom System)</option>
                 </select>
               </div>
 

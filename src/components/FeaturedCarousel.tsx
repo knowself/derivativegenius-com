@@ -4,7 +4,24 @@ import React, { useCallback, useEffect } from 'react';
 import useEmblaCarousel from 'embla-carousel-react';
 import { CENTURIONS_PROJECTS } from '../data/portfolio';
 
+function ensureMatchMedia() {
+  if (typeof window === 'undefined') return;
+  if (!window.matchMedia) {
+    window.matchMedia = ((query: string) => ({
+      matches: false,
+      media: query,
+      onchange: null,
+      addListener: () => {},
+      removeListener: () => {},
+      addEventListener: () => {},
+      removeEventListener: () => {},
+      dispatchEvent: () => false,
+    })) as typeof window.matchMedia;
+  }
+}
+
 export function FeaturedCarousel() {
+  ensureMatchMedia();
   const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true, align: 'center' });
 
   useEffect(() => {
