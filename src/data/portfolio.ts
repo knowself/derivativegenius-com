@@ -27,7 +27,7 @@ export const CENTURIONS_PROJECTS = [
     id: 'microgreensla',
     title: 'MicrogreensLA',
     description: 'MicrogreensLA — sustainable urban farming site (reference project).',
-    image: '/images/portfolio/microgreensla.svg',
+    image: '/images/portfolio/microgreensla.png',
     url: 'https://www.microgreensla.live/',
     tags: ['Next.js', 'Tailwind'],
   },
