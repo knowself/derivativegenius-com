@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="720" viewBox="0 0 1200 720">
+  <rect width="1200" height="720" fill="#111827" />
+  <g fill="#fff" font-family="Inter, Arial, sans-serif">
+    <text x="60" y="140" font-size="42" font-weight="700">Kerry Terry</text>
+    <text x="60" y="200" font-size="20" opacity="0.9">Personal portfolio & services</text>
+    <rect x="60" y="260" width="1080" height="380" rx="12" fill="#111827" stroke="#374151" />
+    <text x="80" y="320" font-size="18" opacity="0.9">High-resolution placeholder screenshot — replace with actual image for best results.</text>
+  </g>
+</svg>
