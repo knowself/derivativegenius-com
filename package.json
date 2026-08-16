@@ -53,20 +53,20 @@
   "dependencies": {
     "@radix-ui/react-label": "^2.1.0",
     "@radix-ui/react-slider": "^1.2.1",
-    "@types/nodemailer": "^6.4.16",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
     "embla-carousel": "^8.6.0",
     "embla-carousel-react": "^8.0.0",
-    "firebase-admin": "^11.11.0",
     "lucide-react": "^0.460.0",
     "next": "^16.2.4",
     "next-themes": "^0.4.3",
-    "nodemailer": "^8.0.5",
     "react": "^19.2.5",
     "react-dom": "^19.2.5",
     "sonner": "^1.7.0",
     "tailwind-merge": "^2.5.4",
     "zod": "^3.23.8"
+  },
+  "overrides": {
+    "nanoid": "^3.3.18"
   }
 }
