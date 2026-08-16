@@ -1,6 +1,6 @@
 import { z } from 'zod';
 import { NextResponse } from 'next/server';
-import { getFirestore } from '../../../lib/firebase';
+import { getFirestore } from '@/lib/firebase';
 
 const ContactSchema = z.object({
   name: z.string().min(2, 'Name must be at least 2 characters'),
