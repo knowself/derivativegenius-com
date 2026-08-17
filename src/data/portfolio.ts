@@ -8,8 +8,6 @@ export const CENTURIONS_PROJECTS = [
     tags: ['Next.js', 'TypeScript'],
   },
   {
-    /* VoiceGenius removed from portfolio gallery per request */
-  {
     id: 'kerryterry',
     title: 'Kerry Terry',
     description: "Personal site and portfolio for Kerry Terry.",
