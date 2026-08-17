@@ -8,13 +8,7 @@ export const CENTURIONS_PROJECTS = [
     tags: ['Next.js', 'TypeScript'],
   },
   {
-    id: 'voicegenius',
-    title: 'VoiceGenius',
-    description: 'AI voice and audio tooling showcase.',
-    image: '/images/portfolio/voicegenius.svg',
-    url: 'https://www.voicegeni.us/',
-    tags: ['React', 'AI'],
-  },
+    /* VoiceGenius removed from portfolio gallery per request */
   {
     id: 'kerryterry',
     title: 'Kerry Terry',
