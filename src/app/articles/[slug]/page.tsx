@@ -95,17 +95,7 @@ export default async function ArticleDetailPage({ params }: PageProps) {
 
   return (
     <div className="mx-auto max-w-4xl px-4 py-16 sm:px-6 lg:px-8 space-y-12">
-      {article.image && (
-        <div className="mx-auto w-full">
-          <Image
-            src={article.image}
-            alt={article.title}
-            width={1600}
-            height={600}
-            className="w-full rounded-2xl border border-slate-800 object-cover"
-          />
-        </div>
-      )}
+      {/* Hero image removed per request to eliminate large YouTube branding */}
       <Link
         href="/articles"
         className="inline-flex items-center space-x-2 text-sm font-semibold text-blue-400 hover:text-blue-300"
