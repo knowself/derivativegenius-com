@@ -51,18 +51,23 @@ export function Newsletter() {
               <span>You are subscribed! Thank you.</span>
             </div>
           ) : (
-            <form onSubmit={handleSubscribe} className="flex flex-col sm:flex-row gap-2">
+            <form onSubmit={handleSubscribe} className="flex flex-col sm:flex-row gap-2" suppressHydrationWarning>
               <Input
                 type="email"
                 required
                 placeholder="Enter your email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
+                autoComplete="off"
+                data-lpignore="true"
+                data-1p-ignore="true"
+                suppressHydrationWarning
                 className="bg-slate-950/80 border-slate-700 text-white placeholder:text-slate-500"
               />
               <button
                 type="submit"
                 disabled={loading}
+                suppressHydrationWarning
                 className="inline-flex items-center justify-center space-x-2 rounded-lg bg-blue-600 px-5 py-2.5 text-sm font-semibold text-white hover:bg-blue-500 transition-all shrink-0"
               >
                 <span>Subscribe</span>

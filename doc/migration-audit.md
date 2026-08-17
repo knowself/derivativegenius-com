@@ -1,18 +1,8 @@
-# Migration Audit — Django/Python Inventory
+# Migration Audit — Django Removal Complete
 
-This document inventories Python/Django features in `dg-web` that must be migrated to a Node/Next.js stack.
+**Status:** Completed (2026-08-17)
 
-Generated: 2026-08-15
-
-## Summary
-
-- Location of Django project: `api/` (Django settings, urls, celery integration)
-- Admin UI: `admin_panel/` (custom Firebase admin views and URLs)
-- Firebase integrations & auth helpers: `firebase_app/` (views, firebase_admin helpers)
-- Core site & pages: `core/` (templates, views used by Django site)
-- Background tasks: `api/celery.py` + Celery config in `api/settings.py`
-- Cloud tasks/job submission: `api/routers/jobs.py` (FastAPI router using Google Cloud Tasks)
-- Health and gateway endpoints: `api/gateway.py`
+All Django components (`admin_panel/`, `core/`, `firebase_app/`, `manage.py`, `api/settings.py`, `api/wsgi.py`, `api/urls.py`) have been removed from `dg-web`. The project now runs on Next.js 16 and FastAPI.
 
 ## Discovered endpoints and features (representative)
 

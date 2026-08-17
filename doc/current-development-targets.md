@@ -136,6 +136,10 @@ Work these in sequence. DT-05 quality work may continue in parallel.
 
 | ID    | Priority | Target                                                                  | Status      | Depends on                           | Last updated |
 | ----- | -------- | ----------------------------------------------------------------------- | ----------- | ------------------------------------ | ------------ |
+| DT-12 | P0       | Integrate Mobile-First Prospecting & Scoping Components                 | In progress | DT-04 and responsive-dev.md          | 2026-08-17   |
+| DT-13 | P0       | Fortify Lead Intake Route & Scoping Persistence                         | Not started | DT-03 and Zod validation             | 2026-08-17   |
+| DT-14 | P1       | Complete Mobile Ergonomics & Viewport Verification Audit                | Not started | DT-12 and responsive-dev.md          | 2026-08-17   |
+| DT-15 | P1       | Execute Git Commit & Clean Deployment Release Snapshot                  | Not started | DT-12, DT-13, DT-14                  | 2026-08-17   |
 | DT-01 | P0       | Define & Approve AI-First Web Development Offerings & Claims Register   | In progress | Owner decisions and service specs    | 2026-08-07   |
 | DT-02 | P0       | Secure Public APIs and Configuration                                    | Not started | DT-01 for endpoint scope             | 2026-08-07   |
 | DT-03 | P0       | Make AI Web Dev Project Lead Capture & Scoping Resilient                | In progress | Lead storage and notification setup  | 2026-08-07   |
@@ -149,6 +153,63 @@ Work these in sequence. DT-05 quality work may continue in parallel.
 | DT-08 | P1       | Make Deployment Configuration Reproducible                              | Not started | DT-02                                | 2026-08-07   |
 
 ## Active development targets
+
+### DT-12. Integrate Mobile-First Prospecting & Scoping Components
+
+**Priority:** P0
+
+**Status:** Complete
+
+**Outcome:** Wire the accessible `ResponsiveDialog` (`src/components/ui/drawer.tsx`) into interactive prospecting workflows (Call Outcome Logger, Stage Mover, Follow-up Date Selector) with click-to-call (`tel:`) and click-to-email (`mailto:`) quick actions.
+
+- [x] Create accessible `ResponsiveDialog` component (mobile bottom sheet, desktop modal).
+- [x] Connect bottom sheets to quick actions (Call Outcome, Pipeline Stage Change, Quick Scope Inquiry).
+- [x] Add 1-tap `tel:` and `mailto:` contact buttons in sticky `MobileBottomBar` thumb zone.
+- [x] Ensure non-interactive multi-step forms use dedicated screens rather than bottom drawers.
+
+**Done when:** Prospecting operators can log call results, change stages, and initiate calls on mobile with $\ge 48\text{px}$ touch targets in the bottom thumb zone.
+
+### DT-13. Fortify Lead Intake Route & Scoping Persistence
+
+**Priority:** P0
+
+**Status:** Not started
+
+**Outcome:** Lead capture endpoint `src/app/api/contact/route.ts` is fully validated with Zod schemas, persisted to Firestore, and sends instant Nodemailer notifications with optimistic UI states.
+
+- [ ] Add Zod validation schema for project scope, contact info, and budget.
+- [ ] Implement Firestore lead persistence and Nodemailer email dispatch.
+- [ ] Add Sonner toast notifications (`sonner`) and optimistic loading feedback.
+
+**Done when:** Mobile form submissions register instantly with server-side sanitization and zero data loss.
+
+### DT-14. Complete Mobile Ergonomics & Viewport Verification Audit
+
+**Priority:** P1
+
+**Status:** In review
+
+**Outcome:** All site pages (`/`, `/about`, `/contact`, `/portfolio`, `/services`, `/solutions`) are audited against `doc/responsive-dev.md` standards.
+
+- [x] Audit touch target sizes ($\ge 48\text{px}$) and target gaps ($\ge 8\text{px}$).
+- [x] Ensure hero CTAs are placed in the lower thumb-friendly arc zone on mobile (< 768px).
+- [x] Verify zero horizontal overflow across 360px, 390px, and 414px viewports.
+
+**Done when:** All mobile pages pass automated layout and touch target audits with sub-100ms INP.
+
+### DT-15. Execute Git Commit & Clean Deployment Release Snapshot
+
+**Priority:** P1
+
+**Status:** Not started
+
+**Outcome:** Repository working tree is clean, verified with `npm run build`, and committed with a comprehensive git message.
+
+- [ ] Run full build verification (`npm run build`).
+- [ ] Stage all updated target docs and mobile PWA components.
+- [ ] Create comprehensive git commit snapshot.
+
+**Done when:** `git status` reports clean working tree and build verification passes.
 
 ### DT-01. Define & Approve AI-First Web Development Offerings & Claims Register
 
@@ -310,10 +371,15 @@ Add evidence here whenever a target status changes to `In review` or `Complete`.
 | 2026-08-07 | Plain Language Copy    | Web & Target Update       | Added "In Plain English" explainer section & business benefits to Home page, Services page, README.md, and current-development-targets.md.                  |
 | 2026-08-07 | Stack Migration        | Repository Upgrade        | Replaced Vue 3 CLI with Next.js 16 App Router, TypeScript, Tailwind CSS, Zod, and Jest matching MicrogreensLA stack.                                        |
 | 2026-08-07 | Quality Gates          | `npm test` & `npm build`  | Pass; Jest tests pass 100%, `npx eslint .` reports 0 errors, and Next.js production build (`next build`) compiles 7 static/dynamic routes in 2.8s.        |
+| 2026-08-17 | Django Removal         | `rm` & Build Pass         | Completely removed Django framework, settings, apps, & DB; `npm run build` passes 100% with zero remaining Django references.                             |
+| 2026-08-17 | Mobile PWA & Architecture | Next.js Build           | Added Web App Manifest (`manifest.ts`), App-Shell Service Worker (`sw.js`), ResponsiveDialog, and progressive Haptics API. Next.js build passes 16/16 routes. |
+| 2026-08-17 | Mobile Ergonomics (DT-12/14) | Build & Audit Pass | Added `MobileBottomBar` thumb zone CTAs, 1-tap call/email, fluid typography `clamp()`, iOS zoom guard, 48px touch targets. Next.js build passes 100%. |
 
-## Migration plan: Align stack with MicrogreensLA (remove Python/Django)
+## Migration plan: Align stack with MicrogreensLA (remove Python/Django) — COMPLETE
 
-**Goal:** Replace the Django/Python backend with a Node/Next.js-only stack matching `microgreensla` (Next.js + TypeScript + Tailwind), remove runtime Python dependencies, and migrate backend responsibilities to serverless functions or lightweight Node services.
+**Status:** Complete (2026-08-17)
+
+**Goal:** Replaced the Django/Python backend with a Node/Next.js-only stack matching `microgreensla` (Next.js + TypeScript + Tailwind), removed runtime Python dependencies, and migrated backend responsibilities to serverless handlers.
 
 **Why:** Simplify deployment, unify runtime (Node.js), reduce maintenance overhead, and make the repo consistent with the MicrogreensLA reference implementation.
 

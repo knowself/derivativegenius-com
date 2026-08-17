@@ -1,7 +1,7 @@
 {
   "builds": [
     {
-      "src": "index.py",
+      "src": "main.py",
       "use": "@vercel/python",
       "config": {
         "maxLambdaSize": "15mb",
@@ -12,11 +12,11 @@
   "routes": [
     {
       "src": "/(.*)",
-      "dest": "index.py"
+      "dest": "main.py"
     }
   ],
   "env": {
-    "PYTHONPATH": ".",
-    "DJANGO_SETTINGS_MODULE": "api.settings"
+    "PYTHONPATH": "."
   }
 }
+

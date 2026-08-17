@@ -16,7 +16,6 @@ required_files=(
     "deployment/vercel.json"
     "package.json"
     "requirements.txt"
-    "api/wsgi.py"
 )
 
 echo "Checking required files..."
@@ -35,8 +34,6 @@ required_env=(
     "FIREBASE_ADMIN_PROJECT_ID"
     "FIREBASE_ADMIN_PRIVATE_KEY"
     "FIREBASE_ADMIN_CLIENT_EMAIL"
-    "DJANGO_SECRET_KEY"
-    "DJANGO_SETTINGS_MODULE"
 )
 
 echo "Checking environment variables..."

@@ -15,6 +15,6 @@
     "**/staticfiles/**",
     "**/.env"
   ],
-  "exec": "./run-django.sh",
+  "exec": "uvicorn api.main:app --reload --port 8000",
   "signal": "SIGTERM"
 }

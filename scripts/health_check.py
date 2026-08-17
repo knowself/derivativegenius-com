@@ -11,7 +11,7 @@ def get_process_info(process_name):
     for proc in psutil.process_iter(['pid', 'name', 'cmdline', 'cpu_percent', 'memory_percent', 'create_time']):
         try:
             cmdline = ' '.join(proc.info['cmdline'] or []).lower()
-            if process_name.lower() in cmdline and 'python' in cmdline:  # Only match Python processes for Django
+            if process_name.lower() in cmdline and 'python' in cmdline:  # Match Python processes
                 # Get process info
                 uptime = datetime.now().timestamp() - proc.info['create_time']
                 info = {
@@ -70,7 +70,7 @@ def format_uptime(seconds):
 
 def main():
     # Get process info
-    django_processes = get_process_info('runserver')
+    uvicorn_processes = get_process_info('uvicorn')
     vue_processes = []
     
     # Check for Vue CLI process
@@ -98,7 +98,7 @@ def main():
         'timestamp': datetime.now().isoformat(),
         'system': system_metrics,
         'processes': {
-            'django': django_processes,
+            'uvicorn': uvicorn_processes,
             'vue': vue_processes
         }
     }

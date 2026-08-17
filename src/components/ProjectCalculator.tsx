@@ -126,7 +126,7 @@ export function ProjectCalculator() {
                 <div
                   key={feat.id}
                   onClick={() => toggleFeature(feat.id)}
-                  className={`cursor-pointer rounded-xl border p-4 transition-all ${
+                  className={`cursor-pointer min-h-[52px] rounded-xl border p-4 transition-all active:scale-[0.98] ${
                     isSelected
                       ? "border-blue-500 bg-blue-950/40 shadow-lg shadow-blue-500/10"
                       : "border-slate-800 bg-slate-950/60 hover:border-slate-700"
@@ -167,7 +167,7 @@ export function ProjectCalculator() {
 
           <a
             href="/contact"
-            className="inline-flex items-center space-x-2 rounded-xl bg-blue-600 px-5 py-2.5 text-sm font-semibold text-white hover:bg-blue-500 transition-all shadow-md"
+            className="inline-flex items-center justify-center space-x-2 min-h-[48px] rounded-xl bg-blue-600 px-6 text-sm font-semibold text-white hover:bg-blue-500 active:scale-95 transition-all shadow-md"
           >
             <span>Submit Scope</span>
           </a>

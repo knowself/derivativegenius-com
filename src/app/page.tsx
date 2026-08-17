@@ -102,12 +102,12 @@ export default function HomePage() {
         </h1>
 
         <p className="mx-auto mt-6 max-w-3xl text-lg text-slate-300 sm:text-xl leading-relaxed">
-          <em className="text-white italic">"We are all standing on the shoulders of giants."</em> Living in a time when each of us can utilize the intellectual tools ever conceived by humankind to revolutionize our businesses. Derivative Genius builds the AI-first web applications and knowledge bases that power your growth.
+          <em className="text-white italic">&quot;We are all standing on the shoulders of giants.&quot;</em> Living in a time when each of us can utilize the intellectual tools ever conceived by humankind to revolutionize our businesses. Derivative Genius builds the AI-first web applications and knowledge bases that power your growth.
         </p>
 
         <h2 className="mt-6 text-xl font-semibold text-white">What can we do for you?</h2>
         <p className="mx-auto mt-2 max-w-2xl text-sm text-slate-300">
-          Tell us your project challenge or goal and we'll propose a tailored plan to bring it to production — faster and smarter with AI-powered automation.
+          Tell us your project challenge or goal and we&apos;ll propose a tailored plan to bring it to production — faster and smarter with AI-powered automation.
         </p>
 
         <div className="mt-10 flex flex-wrap items-center justify-center gap-4">

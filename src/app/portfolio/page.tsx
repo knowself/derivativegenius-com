@@ -13,7 +13,7 @@ export default function PortfolioPage() {
       <header className="mb-8">
         <h1 className="text-3xl font-extrabold text-slate-100">Centurions Portfolio</h1>
         <p className="mt-2 text-lg text-slate-300">
-          A curated showcase of the Centurions' best web projects — high-performance,
+          A curated showcase of the Centurions&apos; best web projects — high-performance,
           production-proven applications that demonstrate our design, engineering,
           and AI-integration capabilities.
         </p>

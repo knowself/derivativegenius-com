@@ -62,10 +62,10 @@ export function Header() {
           </Link>
         </nav>
 
-        {/* Mobile Hamburger */}
+        {/* Mobile Hamburger Button */}
         <button
           onClick={() => setIsOpen(!isOpen)}
-          className="rounded-xl p-2.5 text-slate-400 hover:bg-slate-800 hover:text-slate-100 md:hidden"
+          className="min-h-[48px] min-w-[48px] inline-flex items-center justify-center rounded-xl p-2.5 text-slate-400 hover:bg-slate-800 hover:text-slate-100 active:scale-95 transition-all md:hidden"
           aria-label="Toggle menu"
         >
           {isOpen ? <X className="h-7 w-7" /> : <Menu className="h-7 w-7" />}
@@ -75,13 +75,13 @@ export function Header() {
       {/* Mobile Nav Dropdown */}
       {isOpen && (
         <div className="border-b border-slate-800 bg-slate-950/95 px-4 pb-6 pt-3 md:hidden backdrop-blur-2xl">
-          <nav className="flex flex-col space-y-4">
+          <nav className="flex flex-col space-y-2">
             {navLinks.map((link) => (
               <Link
                 key={link.href}
                 href={link.href}
                 onClick={() => setIsOpen(false)}
-                className="text-lg font-medium text-slate-200 hover:text-blue-400 py-1"
+                className="flex items-center min-h-[48px] text-lg font-medium text-slate-200 hover:text-blue-400 active:bg-slate-900/60 px-3 rounded-xl transition-all"
               >
                 {link.label}
               </Link>
@@ -89,7 +89,7 @@ export function Header() {
             <Link
               href="/contact"
               onClick={() => setIsOpen(false)}
-              className="inline-flex justify-center rounded-xl bg-blue-600 py-3 text-center text-base font-semibold text-white shadow-lg"
+              className="flex items-center justify-center min-h-[48px] rounded-xl bg-blue-600 px-4 text-center text-base font-semibold text-white shadow-lg active:scale-95 transition-all mt-2"
             >
               Build Project
             </Link>

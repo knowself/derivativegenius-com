@@ -6,7 +6,7 @@
         Last updated: {{ performanceStore.formattedLastUpdate }}
       </span>
     </h2>
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
       <!-- System Resources -->
       <div class="bg-white p-6 rounded-lg shadow-sm">
         <h3 class="text-lg font-medium text-gray-900 mb-4">System Resources</h3>
@@ -17,23 +17,6 @@
             <span :class="getMetricStatusColor(key, value)" class="font-medium">
               {{ formatMetricValue(key, value) }}
             </span>
-          </div>
-        </div>
-      </div>
-
-      <!-- Django Performance -->
-      <div class="bg-white p-6 rounded-lg shadow-sm">
-        <h3 class="text-lg font-medium text-gray-900 mb-4">Django Performance</h3>
-        <div class="space-y-4">
-          <div v-for="(metrics, category) in performanceStore.djangoMetrics" :key="category">
-            <h4 class="font-medium text-gray-700 mb-2">{{ formatMetricName(category) }}</h4>
-            <div v-for="(value, key) in metrics" :key="key" 
-                 class="flex justify-between items-center mt-2">
-              <span class="text-gray-600">{{ formatMetricName(key) }}</span>
-              <span :class="getMetricStatusColor(key, value)" class="font-medium">
-                {{ formatMetricValue(key, value) }}
-              </span>
-            </div>
           </div>
         </div>
       </div>

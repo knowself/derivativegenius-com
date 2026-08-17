@@ -4,6 +4,7 @@ import { Inter } from "next/font/google";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { DynamicBackground } from "@/components/DynamicBackground";
+import { MobileBottomBar } from "@/components/MobileBottomBar";
 import { Providers } from "@/app/providers";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -24,13 +25,15 @@ export default function RootLayout({
       <body className={`${inter.className} min-h-screen bg-slate-950 text-slate-100`}>
         <Providers>
           <DynamicBackground />
-          <div className="relative z-10 flex min-h-screen flex-col justify-between">
+          <div className="relative z-10 flex min-h-screen flex-col justify-between pb-16 md:pb-0">
             <Header />
             <main className="flex-1">{children}</main>
             <Footer />
+            <MobileBottomBar />
           </div>
         </Providers>
       </body>
     </html>
   );
 }
+

@@ -24,6 +24,17 @@
     --input: 217.2 32.6% 17.5%;
     --ring: 224.3 76.3% 48%;
     --radius: 0.75rem;
+
+    /* Mobile-First Fluid Typography Scale (responsive-dev.md) */
+    --font-size-sm: clamp(0.875rem, 0.8rem + 0.375vw, 1rem);        /* 14px -> 16px */
+    --font-size-base: clamp(1rem, 0.92rem + 0.4vw, 1.125rem);       /* 16px -> 18px */
+    --font-size-lg: clamp(1.25rem, 1.1rem + 0.75vw, 1.5rem);        /* 20px -> 24px */
+    --font-size-xl: clamp(1.75rem, 1.4rem + 1.75vw, 2.5rem);        /* 28px -> 40px */
+    --font-size-display: clamp(2.25rem, 1.5rem + 3.75vw, 4.5rem);    /* 36px -> 72px */
+
+    /* Fluid Spacing Scale */
+    --space-gutter: clamp(1rem, 4vw, 3rem);
+    --space-card-padding: clamp(1rem, 3vw, 2rem);
   }
 }
 
@@ -31,9 +42,21 @@
   * {
     @apply border-border;
   }
+  html, body {
+    overflow-x: hidden;
+    touch-action: manipulation;
+  }
   body {
     @apply bg-background text-foreground antialiased selection:bg-primary selection:text-primary-foreground;
     font-feature-settings: "rlig" 1, "calt" 1;
+  }
+  /* Prevent iOS Safari auto-zooming on focused form inputs */
+  input, select, textarea {
+    font-size: max(16px, 1rem) !important;
+  }
+  /* Tap Highlight & Tactile Response Safeguards */
+  a, button, input, select, textarea {
+    -webkit-tap-highlight-color: transparent;
   }
 }
 
@@ -47,3 +70,12 @@
 .glow-blue {
   box-shadow: 0 0 40px -10px rgba(59, 130, 246, 0.3);
 }
+
+/* Safe Area Inset Helpers */
+.safe-area-bottom {
+  padding-bottom: max(0.75rem, env(safe-area-inset-bottom));
+}
+.safe-area-top {
+  padding-top: max(1rem, env(safe-area-inset-top));
+}
+
