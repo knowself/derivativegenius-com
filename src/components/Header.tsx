@@ -16,7 +16,7 @@ export function Header() {
     { href: "/portfolio", label: "Centurions Portfolio" },
     { href: "/solutions", label: "Solutions" },
     { href: "/articles", label: "Articles" },
-    { href: "/about", label: "About Us" },
+    { href: "/about", label: "About" },
     { href: "/contact", label: "Get Scoped" },
   ];
 

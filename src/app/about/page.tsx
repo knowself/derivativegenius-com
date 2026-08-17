@@ -3,6 +3,11 @@ import Link from "next/link";
 import { Code2, Terminal, Shield, Cpu, ArrowRight } from "lucide-react";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 
+// Edit these to add your photo and personal message
+const AUTHOR_IMAGE = "/images/author.jpg"; // place your photo at /public/images/author.jpg
+const AUTHOR_NAME = "Joe Terry";
+const AUTHOR_MESSAGE = `Hi — I'm the founder of Derivative Genius. I help teams apply AI to real business problems, build reliable automation, and ship high-velocity web products.`;
+
 export default function AboutPage() {
   const pillars = [
     {
@@ -40,6 +45,17 @@ export default function AboutPage() {
         <p className="text-slate-300 leading-relaxed">
           We believe the most important advantage in business today is not just having tools—it is knowing how to apply them with clarity, speed, and real operational outcomes. Derivative Genius brings that advantage to modern brands, service businesses, and ambitious teams.
         </p>
+        <div className="mt-6 flex items-center space-x-6">
+          <img
+            src={AUTHOR_IMAGE}
+            alt={AUTHOR_NAME}
+            className="h-64 w-64 rounded-full object-cover border border-slate-700 bg-slate-800"
+          />
+          <div>
+            <h3 className="text-xl font-semibold text-white">{AUTHOR_NAME}</h3>
+            <p className="mt-2 text-slate-300 leading-relaxed max-w-2xl">{AUTHOR_MESSAGE}</p>
+          </div>
+        </div>
       </div>
 
       <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
@@ -70,6 +86,15 @@ export default function AboutPage() {
         </p>
         <p className="text-slate-300 leading-relaxed">
           Our job is to turn that possibility into a practical advantage: from AI workflow automation to custom web applications, search experiences, and intelligent business systems that actually reduce friction and increase revenue.
+        </p>
+        <p className="text-slate-300 leading-relaxed">
+          There is so much about why, Derivative Genius. The original idea was TMOTI, the millennium of the individual, many years ago. But that only captures the impact of digital communications on the world. Digital value transfer, cryptocurrency and now digital intelligence amplification — “AI everywhere” — mark a new and transformative age and require a new Zeitgeist.
+        </p>
+        <p className="text-slate-300 leading-relaxed">
+          That evolution means individuals and small teams can access tooling and infrastructure that used to require vast organizations. We design pragmatic systems that translate these capabilities into dependable products: predictable data pipelines, auditable model integrations, and UX that makes AI useful rather than mysterious.
+        </p>
+        <p className="text-slate-300 leading-relaxed">
+          At Derivative Genius we focus on practical adoption — helping you move from experiments to reliable, measurable outcomes: automations that save time, search and recommendation systems that increase engagement, and bespoke apps that unlock new business models.
         </p>
         <div>
           <Link
