@@ -3,6 +3,7 @@
 import React, { useCallback, useEffect } from 'react';
 import useEmblaCarousel from 'embla-carousel-react';
 import { CENTURIONS_PROJECTS } from '../data/portfolio';
+import FallbackImage from './FallbackImage';
 
 function ensureMatchMedia() {
   if (typeof window === 'undefined') return;
@@ -43,8 +44,7 @@ export function FeaturedCarousel() {
           {CENTURIONS_PROJECTS.map((p) => (
             <div key={p.id} className="embla__slide min-w-72 w-72 flex-shrink-0">
               <a href={p.url} target="_blank" rel="noreferrer" onClick={() => handleClick(p.id)} className="block overflow-hidden rounded-lg">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={p.image ?? `/images/portfolio/${p.id}.png`} alt={p.title} className="h-44 w-full object-cover" />
+                <FallbackImage src={p.image ?? `/images/portfolio/${p.id}.png`} alt={p.title} className="h-44 w-full object-cover" />
                 <div className="p-2 text-xs text-white">{p.title}</div>
               </a>
             </div>

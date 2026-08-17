@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import React from 'react';
 import { CENTURIONS_PROJECTS } from '../data/portfolio';
+import FallbackImage from './FallbackImage';
 
 function localImagePath(id: string) {
   return `/images/portfolio/${id}.png`;
@@ -27,8 +28,7 @@ export function PortfolioGrid() {
           <Link href={`/portfolio/${p.id}`} className="relative block overflow-hidden rounded-md">
             <div className="relative h-44 w-full overflow-hidden rounded-md bg-slate-800">
               {/* prefer local screenshot or project-provided image */}
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={p.image ?? localImagePath(p.id)} alt={p.title} className="h-full w-full object-cover" />
+              <FallbackImage src={p.image ?? localImagePath(p.id)} alt={p.title} className="h-full w-full object-cover" />
             </div>
             <div className="mt-3">
               <h3 className="text-lg font-semibold text-slate-100">{p.title}</h3>
