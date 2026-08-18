@@ -209,20 +209,6 @@ async function generateImplementationGuide() {
   return output;
 }
 
-async function uploadToFirebase(filePath, destination) {
-  const storage = new Storage();
-  const bucket = storage.bucket(process.env.FIREBASE_STORAGE_BUCKET);
-
-  await bucket.upload(filePath, {
-    destination,
-    metadata: {
-      cacheControl: 'public, max-age=3600',
-    },
-  });
-
-  console.log(`Uploaded ${filePath} to ${destination}`);
-}
-
 async function main() {
   try {
     // Generate PDFs
@@ -230,14 +216,7 @@ async function main() {
     const serviceCatalog = await generateServiceCatalog();
     const implementationGuide = await generateImplementationGuide();
 
-    // Upload to Firebase Storage
-    if (process.env.FIREBASE_STORAGE_BUCKET) {
-      await uploadToFirebase(executiveOverview, 'public/resources/pdfs/executive-overview.pdf');
-      await uploadToFirebase(serviceCatalog, 'public/resources/pdfs/service-catalog.pdf');
-      await uploadToFirebase(implementationGuide, 'public/resources/pdfs/implementation-guide.pdf');
-    }
-
-    console.log('PDF generation and upload complete!');
+    console.log('PDF generation complete!');
   } catch (error) {
     console.error('Error generating or uploading PDFs:', error);
     process.exit(1);

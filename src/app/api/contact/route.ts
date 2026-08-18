@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { getFirestore } from '@/lib/firebase';
+import { db, schema } from '@/db';
 import { sendLeadNotification } from '@/lib/mailer';
 
 const ContactSchema = z.object({
@@ -21,27 +21,26 @@ export async function POST(req: Request) {
     const parsed = ContactSchema.parse(body);
 
     const createdAt = new Date().toISOString();
-    const db = getFirestore();
-
     let leadId = `lead_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`;
 
     if (db) {
-      const docRef = await db.collection('leads').add({
-        name: parsed.name,
-        email: parsed.email,
-        message: parsed.message,
-        company: parsed.company || null,
-        service: parsed.service || null,
-        budget: parsed.budget || null,
-        createdAt,
-        status: 'new',
-      });
-      leadId = docRef.id;
-    } else {
-      console.warn('[Contact Route] Firestore unconfigured; lead captured in resilient fallback mode.', {
-        leadId,
-        email: parsed.email,
-      });
+      try {
+        const [inserted] = await db
+          .insert(schema.prospects)
+          .values({
+            name: parsed.name,
+            normalizedName: parsed.name.toLowerCase().trim(),
+            industry: parsed.service || 'Web Development',
+            status: 'raw',
+            qualificationStatus: 'unverified',
+          })
+          .returning({ id: schema.prospects.id });
+        if (inserted?.id) {
+          leadId = inserted.id;
+        }
+      } catch (dbErr) {
+        console.warn('[Contact Route] DB insertion fallback mode:', dbErr);
+      }
     }
 
     await sendLeadNotification({

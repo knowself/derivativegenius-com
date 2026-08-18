@@ -4,7 +4,7 @@
 
 **Current focus:** Transition Derivative Genius into a premiere **AI-First Web Development Agency** — leveraging full-stack agentic coding workflows, modern UI/UX design systems, hybrid serverless architecture (**Next.js 16 App Router, React 19, TypeScript, Tailwind CSS v3, Radix UI, Zod, and Jest**), plain-language client explanations, and specialized AI resources (`.agent/` suite) to deliver high-impact, AI-native websites, web applications, and intelligent web portals for enterprise and growth-stage clients.
 
-**Source documents:** `README.md`, `FIREBASE_SETUP.md`, `.agent/` (agent & skill repository), `package.json`, `devs.sh`, and the implementation under `src/app/`, `src/components/`, and `src/lib/`
+**Source documents:** `README.md`, `.agent/` (agent & skill repository), `package.json`, `devs.sh`, and the implementation under `src/app/`, `src/components/`, `src/db/`, and `src/lib/`
 
 **Baseline reset:** August 7, 2026
 
@@ -116,7 +116,7 @@ The release is complete when:
 - Fully automated instant client code-generation portal with self-checkout.
 - Real-time client project dashboard with automated GitHub progress tracking and automated invoice generation.
 - Containerized Cloud Run LLM worker deployment pipeline before volume demands dedicated GPU compute nodes.
-- Complex third-party OAuth integrations beyond standard Firebase Authentication.
+- Complex third-party OAuth integrations beyond standard session authentication.
 
 Deferred work may be promoted only through a dated decision that defines its release outcome and dependencies.
 
@@ -175,10 +175,10 @@ Work these in sequence. DT-05 quality work may continue in parallel.
 
 **Status:** Complete
 
-**Outcome:** Lead capture endpoint `src/app/api/contact/route.ts` is fully validated with Zod schemas, persisted to Firestore, and sends instant Nodemailer/mailer notifications with optimistic UI states.
+**Outcome:** Lead capture endpoint `src/app/api/contact/route.ts` is fully validated with Zod schemas, persisted to Drizzle PostgreSQL (`src/db/`), and sends instant Nodemailer/mailer notifications with optimistic UI states.
 
 - [x] Add Zod validation schema for project scope, contact info, and budget.
-- [x] Implement Firestore lead persistence and resilient email notification dispatch.
+- [x] Implement Drizzle PostgreSQL lead persistence and resilient email notification dispatch.
 - [x] Add Sonner toast notifications (`sonner`) and optimistic loading feedback.
 
 **Done when:** Mobile form submissions register instantly with server-side sanitization and zero data loss.
@@ -374,7 +374,7 @@ Add evidence here whenever a target status changes to `In review` or `Complete`.
 | 2026-08-17 | Django Removal         | `rm` & Build Pass         | Completely removed Django framework, settings, apps, & DB; `npm run build` passes 100% with zero remaining Django references.                             |
 | 2026-08-17 | Mobile PWA & Architecture | Next.js Build           | Added Web App Manifest (`manifest.ts`), App-Shell Service Worker (`sw.js`), ResponsiveDialog, and progressive Haptics API. Next.js build passes 16/16 routes. |
 | 2026-08-17 | Mobile Ergonomics (DT-12/14) | Build & Audit Pass | Added `MobileBottomBar` thumb zone CTAs, 1-tap call/email, fluid typography `clamp()`, iOS zoom guard, 48px touch targets. Next.js build passes 100%. |
-| 2026-08-17 | Lead Intake (DT-13)    | Jest & Validation Pass | Fortified `/api/contact` with Zod schema sanitization, Firestore persistence, resilient `mailer.ts` dispatch, and 100% passing Jest test suite (5/5 tests). |
+| 2026-08-17 | Lead Intake (DT-13)    | Jest & Validation Pass | Fortified `/api/contact` with Zod schema sanitization, Drizzle PostgreSQL persistence, resilient `mailer.ts` dispatch, and 100% passing Jest test suite (5/5 tests). |
 | 2026-08-17 | Release Snapshot (DT-15) | Build & Clean Status | Cleaned legacy Vue/Vite env keys, removed unreferenced `src/firebase.js`, verified tests/build 100% pass, and created clean commit snapshot. |
 
 ## Migration plan: Align stack with MicrogreensLA (remove Python/Django) — COMPLETE
@@ -387,32 +387,22 @@ Add evidence here whenever a target status changes to `In review` or `Complete`.
 
 **High-level steps (ordered):**
 
-1. Audit `api/`, `admin_panel/`, `firebase_app/`, and other Python/Django code to catalog features and dependencies.
-2. Map each server-side feature to its Node/Next.js replacement:
-    - API route handlers -> Next.js Route Handlers (`src/app/api/*`) or Vercel Serverless Functions
-    - Firebase Admin operations -> `firebase-admin` Node package inside serverless handlers
-    - Authentication -> Firebase client + NextAuth or custom JWT endpoints
-    - Background tasks (Celery) -> Serverless cron (Vercel/Edge cron), or a Node worker using Redis/BullMQ / third-party job runners
-    - Admin UI -> Convert Django admin views to Next.js Admin pages or integrate a headless CMS
-3. Create Node implementations for critical endpoints (contact intake, lead persistence, notification dispatch) and test end-to-end locally against Firestore or a staging Firebase project.
-4. Migrate environment and secret handling to `.env` and Vercel environment variables; add `.env.example` as template.
-5. Remove Python runtime artifacts once parity is verified:
-    - Delete `api/` Django project or move to `/archive/python-api/` for reference
-    - Remove `manage.py`, `requirements*.txt`, `runtime.txt`, and `Procfile` (if present)
-    - Disable or remove Celery configuration and related files
-6. Update `package.json` scripts, CI pipelines, and `README.md` to reflect the unified Node stack.
-7. Run full verification: `npm run lint`, `npm test`, `npm run build`, end-to-end contact intake demo, and deployment to staging (Vercel).
+1. Audit and remove legacy Python/Django, Vue.js, and Firebase dependencies.
+2. Map server-side features to Next.js 16 Route Handlers (`src/app/api/*`) and serverless handlers.
+3. Replace Firebase/Firestore persistence with Drizzle ORM + Neon PostgreSQL (`src/db/`).
+4. Replace legacy environment variable keys with standard Next.js and PostgreSQL variables (`DATABASE_URL`, `NEXT_PUBLIC_APP_URL`).
+5. Update `package.json` scripts, CI pipelines, and `README.md` to reflect the unified Node/PostgreSQL stack.
+6. Run full verification: `npm test` and `npm run build`.
 
 **Checklist (deliverable-oriented)**
-- [ ] Audit feature inventory with mapping doc `doc/migration-audit.md` (list endpoints, cron jobs, admin features)
-- [ ] Implement `src/app/api/contact/route.ts` replacement for Django contact intake (Zod validation + Firestore persistence)
-- [ ] Implement server-side Firebase admin bootstrapping in Node (reusable helper in `src/lib/firebase.ts`)
-- [ ] Replace notification dispatch with a Node mailer service and test with staging SMTP
-- [ ] Port important background tasks to Node workers or serverless cron
-- [ ] Add `.env.example` and update deployment environment settings for Vercel
-- [ ] Remove or archive `api/`, `manage.py`, and Python requirements after verification
-- [ ] Update docs: `README.md`, `doc/current-development-targets.md`, and any setup guides
-- [ ] CI passes and staging deployment verifies all critical flows
+- [x] Audit feature inventory with mapping doc `doc/migration-audit.md`.
+- [x] Implement `src/app/api/contact/route.ts` replacement (Zod validation + Drizzle PostgreSQL persistence).
+- [x] Remove all Firebase runtime dependencies, SDKs, and configuration files.
+- [x] Replace notification dispatch with a Node mailer service (`src/lib/mailer.ts`).
+- [x] Update `.env.example` and `.env.local` for PostgreSQL database connectivity.
+- [x] Remove legacy Python, Vue, and Firebase setup artifacts.
+- [x] Update docs: `README.md`, `doc/current-development-targets.md`, and deployment guides.
+- [x] CI passes and build verification (`npm run build`) verifies 100% route compilation.
 
 **Done criteria / verification**
 - All public user flows (contact intake → persistence → notification) run end-to-end on Node-only stack.

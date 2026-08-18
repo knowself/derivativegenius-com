@@ -52,7 +52,7 @@ export function ProjectCalculator() {
     {
       id: "client-portal",
       name: "Role-Based Client Portal & Auth",
-      desc: "Firebase authentication & multi-tenant permissions",
+      desc: "Role-based authentication & multi-tenant permissions",
       baseWeeks: 2,
       baseCost: 3500,
     },
