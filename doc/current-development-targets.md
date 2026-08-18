@@ -2,7 +2,7 @@
 
 **Project:** Derivative Genius (`derivativegenius-com`)
 
-**Current focus:** Transition Derivative Genius into a premiere **AI-First Web Development Agency** — leveraging full-stack agentic coding workflows, modern UI/UX design systems, hybrid serverless architecture (**Next.js 16 App Router, React 19, TypeScript, Tailwind CSS v3, Radix UI, Zod, and Jest**), plain-language client explanations, and specialized AI resources (`.agent/` suite) to deliver high-impact, AI-native websites, web applications, and intelligent web portals for enterprise and growth-stage clients.
+**Current focus:** Transition Derivative Genius into a premiere **AI-First Web Development Agency** — leveraging full-stack agentic coding workflows, modern UI/UX design systems, hybrid serverless architecture (**Next.js 16 App Router, React 19, TypeScript, Drizzle ORM, Neon PostgreSQL, Tailwind CSS v3, Radix UI, Zod, and Jest**), plain-language client explanations, and specialized AI resources (`.agent/` suite) to deliver high-impact, AI-native websites, web applications, and intelligent web portals for enterprise and growth-stage clients.
 
 **Source documents:** `README.md`, `.agent/` (agent & skill repository), `package.json`, `devs.sh`, and the implementation under `src/app/`, `src/components/`, `src/db/`, and `src/lib/`
 
@@ -140,6 +140,7 @@ Work these in sequence. DT-05 quality work may continue in parallel.
 | DT-13 | P0       | Fortify Lead Intake Route & Scoping Persistence                         | Complete    | DT-03 and Zod validation             | 2026-08-17   |
 | DT-14 | P1       | Complete Mobile Ergonomics & Viewport Verification Audit                | In review   | DT-12 and responsive-dev.md          | 2026-08-17   |
 | DT-15 | P1       | Execute Git Commit & Clean Deployment Release Snapshot                  | Complete    | DT-12, DT-13, DT-14                  | 2026-08-17   |
+| DT-16 | P0       | Integrate Drizzle ORM & Serverless Neon PostgreSQL Data Layer           | Complete    | DT-13, Website Prospecting System    | 2026-08-17   |
 | DT-01 | P0       | Define & Approve AI-First Web Development Offerings & Claims Register   | In progress | Owner decisions and service specs    | 2026-08-07   |
 | DT-02 | P0       | Secure Public APIs and Configuration                                    | Not started | DT-01 for endpoint scope             | 2026-08-07   |
 | DT-03 | P0       | Make AI Web Dev Project Lead Capture & Scoping Resilient                | In progress | Lead storage and notification setup  | 2026-08-07   |
@@ -210,6 +211,22 @@ Work these in sequence. DT-05 quality work may continue in parallel.
 - [x] Create comprehensive git commit snapshot.
 
 **Done when:** `git status` reports clean working tree and build verification passes.
+
+### DT-16. Integrate Drizzle ORM & Serverless Neon PostgreSQL Data Layer
+
+**Priority:** P0
+
+**Status:** Complete
+
+**Outcome:** Full-stack relational database layer (`src/db/`) established with Drizzle ORM and Neon PostgreSQL serverless driver matching MicrogreensLA stack specifications.
+
+- [x] Install `drizzle-orm`, `@neondatabase/serverless`, and `drizzle-kit`.
+- [x] Configure `drizzle.config.ts` for automated Drizzle Kit migrations.
+- [x] Define relational schema (`src/db/schema.ts`) for campaigns, prospects, contacts, audits, suppressions, and activities.
+- [x] Create serverless database client connection helper (`src/db/index.ts`).
+- [x] Wire live Neon `DATABASE_URL` secret into `.env.local` and push schema with `npm run db:push`.
+
+**Done when:** `npm run db:push` applies relational tables cleanly to live Neon PostgreSQL with 100% passing tests and build verification.
 
 ### DT-01. Define & Approve AI-First Web Development Offerings & Claims Register
 
@@ -358,9 +375,13 @@ This checklist covers the full site conversion rebuild. Each page should be chec
 
 Formally integrated plain-English analogies ("Smart Digital Employee", "24/7 Digital Assistant", "Search by Meaning", and "Digital Dominoes") alongside technical specifications in the Home page (`src/app/page.tsx`), Services page (`src/app/services/page.tsx`), `README.md`, and `doc/current-development-targets.md`.
 
-### 2026-08-07: Tech Stack Migrated to Next.js 16 + TypeScript + Tailwind CSS (MicrogreensLA Stack)
+### 2026-08-17: Tech Stack Migrated to Next.js 16 + TypeScript + Tailwind CSS (MicrogreensLA Stack)
 
 Formally updated the technology stack of Derivative Genius (`derivativegenius-com`) to match `/home/knowself/webdev/microgreensla/`: Next.js 16 App Router, React 19, TypeScript 5.3+, Tailwind CSS v3, Radix UI primitives, Zod schema validation, and Jest testing framework.
+
+### 2026-08-17: Drizzle ORM & Neon PostgreSQL Serverless Stack Adopted
+
+Standardized database architecture on Drizzle ORM + `@neondatabase/serverless` PostgreSQL matching the MicrogreensLA data stack. Implemented schema definitions (`src/db/schema.ts`), serverless client (`src/db/index.ts`), automated Drizzle Kit migrations (`drizzle.config.ts`), and successfully pushed 6 core relational tables (`campaigns`, `prospects`, `contacts`, `audits`, `suppressions`, `activities`) to live Neon PostgreSQL instance.
 
 ## Verification log
 
@@ -376,6 +397,7 @@ Add evidence here whenever a target status changes to `In review` or `Complete`.
 | 2026-08-17 | Mobile Ergonomics (DT-12/14) | Build & Audit Pass | Added `MobileBottomBar` thumb zone CTAs, 1-tap call/email, fluid typography `clamp()`, iOS zoom guard, 48px touch targets. Next.js build passes 100%. |
 | 2026-08-17 | Lead Intake (DT-13)    | Jest & Validation Pass | Fortified `/api/contact` with Zod schema sanitization, Drizzle PostgreSQL persistence, resilient `mailer.ts` dispatch, and 100% passing Jest test suite (5/5 tests). |
 | 2026-08-17 | Release Snapshot (DT-15) | Build & Clean Status | Cleaned legacy Vue/Vite env keys, removed unreferenced `src/firebase.js`, verified tests/build 100% pass, and created clean commit snapshot. |
+| 2026-08-17 | Drizzle & Neon DB (DT-16) | `db:push` & Test Pass | Pushed relational schema to live Neon PostgreSQL instance, creating 6 core tables (`campaigns`, `prospects`, `contacts`, `audits`, `suppressions`, `activities`); Jest test suite and production build pass 100%. |
 
 ## Migration plan: Align stack with MicrogreensLA (remove Python/Django) — COMPLETE
 
