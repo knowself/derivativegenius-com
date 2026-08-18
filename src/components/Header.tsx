@@ -5,6 +5,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { Menu, X, Sparkles } from "lucide-react";
+import { SignInButton, SignUpButton, Show, UserButton } from "@clerk/nextjs";
 
 export function Header() {
   const [isOpen, setIsOpen] = useState(false);
@@ -53,6 +54,23 @@ export function Header() {
               </Link>
             );
           })}
+
+          <Show when="signed-out">
+            <SignInButton mode="modal">
+              <button className="text-sm sm:text-base font-medium text-slate-300 transition-colors hover:text-blue-400">
+                Sign In
+              </button>
+            </SignInButton>
+            <SignUpButton mode="modal">
+              <button className="rounded-xl border border-slate-700 bg-slate-900/90 px-4 py-2 text-sm font-semibold text-slate-200 transition-all hover:bg-slate-800 hover:border-slate-600">
+                Sign Up
+              </button>
+            </SignUpButton>
+          </Show>
+          <Show when="signed-in">
+            <UserButton />
+          </Show>
+
           <Link
             href="/contact"
             className="inline-flex items-center space-x-2 rounded-xl bg-blue-600 px-5 py-2.5 text-sm font-semibold text-white shadow-md shadow-blue-600/30 transition-all hover:bg-blue-500 hover:shadow-blue-500/50"
@@ -86,6 +104,34 @@ export function Header() {
                 {link.label}
               </Link>
             ))}
+
+            <Show when="signed-out">
+              <div className="flex items-center space-x-3 pt-2">
+                <SignInButton mode="modal">
+                  <button
+                    onClick={() => setIsOpen(false)}
+                    className="flex-1 inline-flex items-center justify-center min-h-[48px] rounded-xl border border-slate-700 bg-slate-900 px-4 text-base font-semibold text-slate-200"
+                  >
+                    Sign In
+                  </button>
+                </SignInButton>
+                <SignUpButton mode="modal">
+                  <button
+                    onClick={() => setIsOpen(false)}
+                    className="flex-1 inline-flex items-center justify-center min-h-[48px] rounded-xl bg-blue-600 px-4 text-base font-semibold text-white"
+                  >
+                    Sign Up
+                  </button>
+                </SignUpButton>
+              </div>
+            </Show>
+            <Show when="signed-in">
+              <div className="flex items-center space-x-3 py-3 px-3">
+                <UserButton />
+                <span className="text-base font-medium text-slate-200">Account</span>
+              </div>
+            </Show>
+
             <Link
               href="/contact"
               onClick={() => setIsOpen(false)}

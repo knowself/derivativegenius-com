@@ -1,3 +1,4 @@
+import { ClerkProvider } from "@clerk/nextjs";
 import "@/styles/globals.css";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
@@ -23,17 +24,18 @@ export default function RootLayout({
   return (
     <html lang="en" className="dark" suppressHydrationWarning>
       <body className={`${inter.className} min-h-screen bg-slate-950 text-slate-100`}>
-        <Providers>
+        <ClerkProvider>
+          <Providers>
           <DynamicBackground />
           <div className="relative z-10 flex min-h-screen flex-col justify-between pb-16 md:pb-0">
-            <Header />
-            <main className="flex-1">{children}</main>
-            <Footer />
-            <MobileBottomBar />
+          <Header />
+          <main className="flex-1">{children}</main>
+          <Footer />
+          <MobileBottomBar />
           </div>
-        </Providers>
+          </Providers>
+        </ClerkProvider>
       </body>
     </html>
   );
 }
-
