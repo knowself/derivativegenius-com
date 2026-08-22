@@ -122,11 +122,21 @@ When user's prompt is NOT in English:
 
 ### 📁 File Dependency Awareness
 
-**Before modifying ANY file:**
+Before modifying ANY file:
 
 1. Check `CODEBASE.md` → File Dependencies
 2. Identify dependent files
 3. Update ALL affected files together
+
+### 🖼️ Portfolio Entry Standard (Mandatory for Portfolio Items)
+
+**Where to store portfolio data**: [`src/data/portfolio.ts`](file:///home/knowself/webdev/dg-web/src/data/portfolio.ts)
+
+Every project entry in `CENTURIONS_PROJECTS` MUST include a complete `synopsis` object implementing `ProjectSynopsis`:
+- **`overview`**: Thorough strategic & architectural synopsis of the purpose of the portfolio site and its conversion/UX goals.
+- **`targetAudience`**: Primary businesses, teams, or clients targeted by this application design.
+- **`keyCapabilities`**: List of 4-6 key features, capabilities, or architectural highlights.
+- **`potentialBusinessCategories`**: Array of at least 4 business categories detailing concrete use cases for how this design model can be adapted across industries.
 
 ### 🗺️ System Map Read
 

@@ -66,3 +66,5 @@ dist/
 # Firebase & Vercel
 .firebase/
 .vercel/
+*.tsbuildinfo
+

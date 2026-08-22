@@ -69,18 +69,37 @@ export default function ServicesPage() {
         </p>
         <div className="flex flex-col items-center justify-center gap-3 sm:flex-row">
           <Link
+            href="/services/websites"
+            className="inline-flex items-center justify-center gap-2 rounded-xl bg-emerald-600 px-5 py-3 text-sm font-semibold text-white shadow-lg hover:bg-emerald-500 transition"
+          >
+            <Globe className="w-4 h-4" /> View Fixed-Scope Website Packages ($2k–$5k)
+          </Link>
+          <Link
             href="/contact"
-            className="inline-flex items-center justify-center rounded-xl bg-blue-600 px-5 py-3 text-sm font-semibold text-white shadow-lg hover:bg-blue-500"
+            className="inline-flex items-center justify-center rounded-xl bg-blue-600 px-5 py-3 text-sm font-semibold text-white shadow-lg hover:bg-blue-500 transition"
           >
             Start Your Project
           </Link>
-          <Link
-            href="/portfolio"
-            className="inline-flex items-center justify-center rounded-xl border border-slate-700 bg-slate-950/60 px-5 py-3 text-sm font-semibold text-slate-200 hover:border-slate-500"
-          >
-            See Our Work
-          </Link>
         </div>
+      </div>
+
+      {/* Featured Website Engagements Callout Banner */}
+      <div className="rounded-2xl border border-emerald-500/30 bg-gradient-to-r from-emerald-950/40 via-slate-900 to-slate-950 p-6 sm:p-8 flex flex-col md:flex-row items-center justify-between gap-6 shadow-xl">
+        <div className="space-y-2 max-w-2xl">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 text-emerald-400 text-xs font-bold uppercase tracking-wider border border-emerald-500/20">
+            <Globe className="w-3.5 h-3.5" /> Featured Service
+          </div>
+          <h2 className="text-2xl font-bold text-white">Fixed-Scope Website Packages ($2,000 – $5,000)</h2>
+          <p className="text-sm text-slate-300">
+            Engineered specifically for established businesses (HVAC, Roofing, Plumbing, Legal, Medical) where 1 or 2 new clients justify the entire investment. Delivered in 2–3 weeks.
+          </p>
+        </div>
+        <Link
+          href="/services/websites"
+          className="inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-semibold text-sm transition shadow-lg shrink-0"
+        >
+          Explore Website Packages <ArrowRight className="w-4 h-4" />
+        </Link>
       </div>
 
       <div className="grid grid-cols-1 gap-8 md:grid-cols-2">

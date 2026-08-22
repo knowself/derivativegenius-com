@@ -4,8 +4,10 @@ import React, { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
-import { Menu, X, Sparkles } from "lucide-react";
+import { LogIn, Menu, UserPlus, X } from "lucide-react";
 import { SignInButton, SignUpButton, Show, UserButton } from "@clerk/nextjs";
+import { CenturionIcon } from "@/components/CenturionIcon";
+
 
 export function Header() {
   const [isOpen, setIsOpen] = useState(false);
@@ -57,13 +59,23 @@ export function Header() {
 
           <Show when="signed-out">
             <SignInButton mode="modal">
-              <button className="text-sm sm:text-base font-medium text-slate-300 transition-colors hover:text-blue-400">
-                Sign In
+              <button
+                type="button"
+                title="Sign in"
+                aria-label="Sign in"
+                className="inline-flex min-h-[44px] min-w-[44px] items-center justify-center rounded-xl border border-transparent text-slate-300 transition-all hover:border-slate-700 hover:bg-slate-900 hover:text-blue-400"
+              >
+                <LogIn className="h-5 w-5" aria-hidden="true" />
               </button>
             </SignInButton>
             <SignUpButton mode="modal">
-              <button className="rounded-xl border border-slate-700 bg-slate-900/90 px-4 py-2 text-sm font-semibold text-slate-200 transition-all hover:bg-slate-800 hover:border-slate-600">
-                Sign Up
+              <button
+                type="button"
+                title="Sign up"
+                aria-label="Sign up"
+                className="inline-flex min-h-[44px] min-w-[44px] items-center justify-center rounded-xl border border-slate-700 bg-slate-900/90 text-slate-200 transition-all hover:border-slate-600 hover:bg-slate-800 hover:text-blue-400"
+              >
+                <UserPlus className="h-5 w-5" aria-hidden="true" />
               </button>
             </SignUpButton>
           </Show>
@@ -71,12 +83,14 @@ export function Header() {
             <UserButton />
           </Show>
 
+          {/* Single Icon-only link to Centurion Console */}
           <Link
-            href="/contact"
-            className="inline-flex items-center space-x-2 rounded-xl bg-blue-600 px-5 py-2.5 text-sm font-semibold text-white shadow-md shadow-blue-600/30 transition-all hover:bg-blue-500 hover:shadow-blue-500/50"
+            href="/centurion"
+            title="Centurion Operator Console"
+            aria-label="Centurion Operator Console"
+            className="p-2 rounded-xl text-slate-400 hover:text-emerald-400 hover:bg-slate-900 transition-all border border-transparent hover:border-emerald-500/20 shrink-0"
           >
-            <Sparkles className="h-4 w-4" />
-            <span>Build Project</span>
+            <CenturionIcon className="h-6 w-6" />
           </Link>
         </nav>
 
@@ -105,22 +119,39 @@ export function Header() {
               </Link>
             ))}
 
+            <Link
+              href="/centurion"
+              onClick={() => setIsOpen(false)}
+              title="Centurion Operator Console"
+              aria-label="Centurion Operator Console"
+              className="flex items-center min-h-[48px] px-3 text-emerald-400 hover:text-emerald-300 transition-all"
+            >
+              <CenturionIcon className="h-7 w-7" />
+            </Link>
+
+
             <Show when="signed-out">
               <div className="flex items-center space-x-3 pt-2">
                 <SignInButton mode="modal">
                   <button
+                    type="button"
                     onClick={() => setIsOpen(false)}
-                    className="flex-1 inline-flex items-center justify-center min-h-[48px] rounded-xl border border-slate-700 bg-slate-900 px-4 text-base font-semibold text-slate-200"
+                    title="Sign in"
+                    aria-label="Sign in"
+                    className="inline-flex min-h-[48px] min-w-[48px] items-center justify-center rounded-xl border border-slate-700 bg-slate-900 text-slate-200 transition-colors hover:border-slate-600 hover:text-blue-400"
                   >
-                    Sign In
+                    <LogIn className="h-6 w-6" aria-hidden="true" />
                   </button>
                 </SignInButton>
                 <SignUpButton mode="modal">
                   <button
+                    type="button"
                     onClick={() => setIsOpen(false)}
-                    className="flex-1 inline-flex items-center justify-center min-h-[48px] rounded-xl bg-blue-600 px-4 text-base font-semibold text-white"
+                    title="Sign up"
+                    aria-label="Sign up"
+                    className="inline-flex min-h-[48px] min-w-[48px] items-center justify-center rounded-xl bg-blue-600 text-white transition-colors hover:bg-blue-500"
                   >
-                    Sign Up
+                    <UserPlus className="h-6 w-6" aria-hidden="true" />
                   </button>
                 </SignUpButton>
               </div>
@@ -131,14 +162,6 @@ export function Header() {
                 <span className="text-base font-medium text-slate-200">Account</span>
               </div>
             </Show>
-
-            <Link
-              href="/contact"
-              onClick={() => setIsOpen(false)}
-              className="flex items-center justify-center min-h-[48px] rounded-xl bg-blue-600 px-4 text-center text-base font-semibold text-white shadow-lg active:scale-95 transition-all mt-2"
-            >
-              Build Project
-            </Link>
           </nav>
         </div>
       )}

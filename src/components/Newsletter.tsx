@@ -1,7 +1,8 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useSyncExternalStore } from "react";
 import { toast } from "sonner";
+
 import { Mail, CheckCircle2, ShieldCheck } from "lucide-react";
 import { Input } from "@/components/ui/input";
 
@@ -9,6 +10,11 @@ export function Newsletter() {
   const [email, setEmail] = useState("");
   const [subscribed, setSubscribed] = useState(false);
   const [loading, setLoading] = useState(false);
+  const mounted = useSyncExternalStore(
+    () => () => undefined,
+    () => true,
+    () => false,
+  );
 
   const handleSubscribe = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -44,11 +50,16 @@ export function Newsletter() {
           </div>
         </div>
 
-        <div className="w-full md:w-auto min-w-[300px]">
+        <div className="w-full md:w-auto min-w-[300px]" suppressHydrationWarning>
           {subscribed ? (
             <div className="flex items-center space-x-2 rounded-xl bg-emerald-500/10 border border-emerald-500/30 p-4 text-emerald-400 text-sm font-semibold">
               <CheckCircle2 className="h-5 w-5 shrink-0" />
               <span>You are subscribed! Thank you.</span>
+            </div>
+          ) : !mounted ? (
+            <div className="flex flex-col sm:flex-row gap-2">
+              <div className="h-10 w-full rounded-lg bg-slate-950/80 border border-slate-700 animate-pulse" />
+              <div className="h-10 w-28 rounded-lg bg-blue-600/80 animate-pulse shrink-0" />
             </div>
           ) : (
             <form onSubmit={handleSubscribe} className="flex flex-col sm:flex-row gap-2" suppressHydrationWarning>
@@ -61,6 +72,7 @@ export function Newsletter() {
                 autoComplete="off"
                 data-lpignore="true"
                 data-1p-ignore="true"
+                data-bwignore="true"
                 suppressHydrationWarning
                 className="bg-slate-950/80 border-slate-700 text-white placeholder:text-slate-500"
               />

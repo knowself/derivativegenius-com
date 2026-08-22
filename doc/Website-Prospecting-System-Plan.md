@@ -963,6 +963,24 @@ This boundary gets the revenue workflow operating while limiting compliance, cos
 
 ## 14. Phased implementation
 
+### Current implementation status: pilot-readiness review
+
+The initial Centurion foundation failed the Phase 1 exit criterion during an August 19, 2026 code review. DT-19 has now implemented the required manual-workflow remediation and pushed its additive schema to live Neon.
+
+Centurion now provides:
+
+- explicit Clerk roles inside every private data action and administrator-only exports;
+- keyed suppression hashing and transactional opt-outs;
+- campaign-assigned, source-aware imports with human-confirmed qualification evidence;
+- due-first manual call queues with complete outcomes, notes, owners, and dates;
+- approved audit review, opportunities, proposals, and project handoffs;
+- work-session, funnel, and weighted-pipeline reporting from real records; and
+- a reviewable additive migration in `drizzle/manual/centurion_pilot_readiness.sql`.
+
+The sole remaining Phase 1A exit check is Joe Terry's signed-in end-to-end readiness test with disposable test data. DT-18 remains blocked until that checklist passes.
+
+This is manual-workflow remediation, not an expansion into automated outreach.
+
 ### Phase 0: Decisions and safeguards
 
 **Duration:** 2-4 working days
@@ -988,6 +1006,19 @@ This boundary gets the revenue workflow operating while limiting compliance, cos
 - Add audit logging and basic reports.
 
 **Exit criterion:** an operator can manage 100 prospects end-to-end without external spreadsheets.
+
+### Phase 1A: Centurion pilot readiness
+
+**Duration:** complete before live outreach
+
+- Reconcile implemented schema and screens with the Phase 1 contract.
+- Complete server-side role checks and administrator-only exports.
+- Add campaign-aware qualification, findings, contacts, tasks, and durable next actions.
+- Replace score-only queue ordering with safe action priority.
+- Complete manual audit, opportunity, proposal, and pilot-reporting workflows.
+- Verify a 25-prospect test campaign end to end.
+
+**Exit criterion:** every readiness check in `doc/the-first-priority.md` passes and DT-18 can begin without external tracking.
 
 ### Phase 2: Website audit and sales pipeline
 

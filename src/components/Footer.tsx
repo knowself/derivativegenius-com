@@ -2,6 +2,8 @@ import React from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { Terminal, Shield, Cpu } from "lucide-react";
+import { CenturionIcon } from "@/components/CenturionIcon";
+
 
 export function Footer() {
   return (
@@ -60,6 +62,16 @@ export function Footer() {
               <li>
                 <Link href="/contact" className="hover:text-blue-400 transition-colors">
                   Project Scoping Intake
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/centurion"
+                  title="Centurion Operator Console"
+                  aria-label="Centurion Operator Console"
+                  className="inline-flex p-1.5 rounded-lg text-emerald-400 hover:text-emerald-300 hover:bg-slate-900 transition-colors"
+                >
+                  <CenturionIcon className="h-5 w-5" />
                 </Link>
               </li>
             </ul>

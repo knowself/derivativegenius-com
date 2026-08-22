@@ -2,15 +2,17 @@
 
 **Project:** Derivative Genius (`derivativegenius-com`)
 
-**Current focus:** Transition Derivative Genius into a premiere **AI-First Web Development Agency** — leveraging full-stack agentic coding workflows, modern UI/UX design systems, hybrid serverless architecture (**Next.js 16 App Router, React 19, TypeScript, Drizzle ORM, Neon PostgreSQL, Tailwind CSS v3, Radix UI, Zod, and Jest**), plain-language client explanations, and specialized AI resources (`.agent/` suite) to deliver high-impact, AI-native websites, web applications, and intelligent web portals for enterprise and growth-stage clients.
+**Current focus:** Validate a repeatable, founder-led **manual outreach and sales motion** for Derivative Genius website engagements before investing in additional prospecting automation. Use the existing `/centurion` operator application to prioritize prospects, support respectful calls, record outcomes, schedule follow-ups, and measure qualified conversations, proposals, and closed revenue. The public website remains the credibility and conversion layer prospects inspect after contact.
 
-**Source documents:** `README.md`, `.agent/` (agent & skill repository), `package.json`, `devs.sh`, and the implementation under `src/app/`, `src/components/`, `src/db/`, and `src/lib/`
+**Source documents:** `doc/Website-Prospecting-System-Plan.md`, `README.md`, `.agent/` (agent & skill repository), `package.json`, `devs.sh`, and the implementation under `src/app/`, `src/components/`, `src/db/`, and `src/lib/`
 
 **Baseline reset:** August 7, 2026
 
 **Review cadence:** Update when a target changes and review the full document every Friday.
 
 **Document owner:** Repository maintainer
+
+**Last updated:** August 19, 2026
 
 ## Purpose
 
@@ -71,45 +73,47 @@ At the end of a development session:
 
 ## Current release objective
 
-Ship a secure, high-converting production web platform for Derivative Genius as an **AI-First Web Development Agency**. The platform highlights our AI-native web development offerings (AI-Driven Web Apps, Intelligent Frontend/Backend Systems, AI Workflow & LLM Integration, Custom Web Portals), features clear plain-English explanations for non-technical clients, captures detailed project requirements safely via server-side Zod validation, and offloads payment collection to hosted Stripe/invoice links.
+Run a 25-company, founder-led manual outreach pilot for one vertical across approximately five cities. The objective is to validate which prospect attributes, website observations, call openers, follow-up actions, and offer framing consistently produce qualified commercial conversations before expanding the prospecting system or paying for scaled discovery and enrichment.
 
 ```text
-Client Visitor on DerivativeGenius.com
-    -> Explores Plain-English AI Web Dev Services & Scoping Intake Form
-        -> Submits Web Development Project Inquiry / Consultation Request
-            -> Validated Server-Side via Zod (Route Handler: /api/contact)
-                -> Durable Lead Storage with Detailed Project Scope (Primary)
-                    -> Asynchronous Notification Dispatch (Secondary)
-                        -> Developer Discovery & Plain-English Technical Project Proposal
-                            -> Hosted Deposit / Milestone Payment Link
-                                -> Captured Production Payment & AI-Driven Project Kickoff
+Choose one vertical and five cities
+    -> Hand-qualify 25 companies
+        -> Record one specific, credible website observation per company
+            -> Prioritize the daily queue in /centurion
+                -> Place respectful manual calls
+                    -> Record every outcome and follow-up commitment
+                        -> Create an audit only after interest or a promising conversation
+                            -> Hold discovery and issue a proposal
+                                -> Capture an approved deposit and project handoff
 ```
 
-The current release is an agency platform and client portal interface designed for maximum conversion. It leverages our full frontend design asset library, dynamic background animations (`DynamicBackground.tsx`), plain-language business analogies, and Next.js 16 App Router infrastructure.
+The current release is an operating validation cycle, not an automation project. `/centurion` should reduce preparation and record-keeping friction while preserving human judgment. The public website should give contacted prospects enough proof, offer clarity, and trust to continue the conversation.
 
-**First-dollar definition:** At least one real external client completes a captured production payment of at least $1 for an approved Derivative Genius AI-first web development or consulting package. The transaction, project specification, receipt, and development milestone kickoff must be verified without committing client PII or sensitive credentials to this repository.
+**First-dollar definition:** At least one company reached through the manual pilot accepts a real Derivative Genius engagement and pays the required deposit through an approved hosted payment link or invoice. The transaction, project specification, receipt, outreach source, and development milestone kickoff must be verifiable without committing client PII or sensitive credentials to this repository.
 
 The release is complete when:
 
-- Visitors can clearly evaluate Derivative Genius AI-First Web Development services with both plain-English analogies and technical specifications.
-- Every primary call to action (CTA) routes to a validated project inquiry path.
-- Inquiries are validated on the server via Zod, saved durably, and backed by resilient notifications.
-- Public API endpoints do not expose administrative functions or unauthenticated triggers.
-- Material tech stack claims, performance statistics, and case study demos are verified or qualified.
-- The repository passes linting (`npm run lint`), unit/integration tests (`npm test`), production build (`npm run build`), and deployment verification.
-- Search Engine & Generative Engine Optimization (SEO/GEO) and Core Web Vitals monitor user experience cleanly.
+- One vertical, approximately five cities, and 25 hand-qualified companies are documented.
+- Every active prospect has a specific observed website issue, a next action, source provenance, and suppression status.
+- Manual calls and their outcomes are recorded consistently without a parallel private spreadsheet.
+- The pilot produces qualified conversations and at least one proposal, or records enough outcome evidence to revise the offer or targeting deliberately.
+- Audits are created only after interest or a promising conversation and receive human approval before delivery.
+- The public website clearly explains the offer and provides a validated inquiry path for prospects who research Derivative Genius after contact.
+- Public and private APIs preserve authentication, authorization, validation, and suppression controls.
+- The repository continues to pass linting (`npm run lint`), tests (`npm test`), production build (`npm run build`), and deployment verification after any supporting changes.
 
 ## Release boundaries
 
 ### Included in this release
 
+- A 25-company manual pilot in one vertical across approximately five cities.
+- Founder-led research, manual calls, outcome logging, scheduled follow-ups, discovery, proposal, and project handoff.
+- Existing `/centurion` campaign, prospect, daily queue, activity, scoring, and suppression workflows used as operator support.
+- One concise, evidence-based website observation and call opener for each active prospect.
+- Funnel reporting centered on qualified conversations per operator hour, discovery calls, proposals, closed revenue, and loss reasons.
 - Production Next.js 16 App Router frontend positioned for AI-First Web Development (Home, Services, About, Contact, API Route Handlers) with plain-English analogies ("Digital Employee", "24/7 Digital Assistant", "Search by Meaning", "Digital Dominoes").
 - Interactive web project scope & intake form incorporating Radix UI primitives, dynamic animations (`DynamicBackground.tsx`), and Tailwind CSS v3 styling.
-- Full-stack AI-first developer resources and workflows integrated via `.agent/` skills and guidelines.
 - Secure server-side form validation via Zod schemas (`/api/contact`).
-- Resilient email dispatch capability via Nodemailer.
-- Comprehensive automated linting (ESLint Next.js config), testing (Jest + Testing Library), and production build verification (`next build`).
-- SEO, GEO (Generative Engine Optimization), JSON-LD structured data for `WebDevelopment` services, and sitemap generation.
 
 ### Deferred until demand and operating readiness are proven
 
@@ -117,25 +121,35 @@ The release is complete when:
 - Real-time client project dashboard with automated GitHub progress tracking and automated invoice generation.
 - Containerized Cloud Run LLM worker deployment pipeline before volume demands dedicated GPU compute nodes.
 - Complex third-party OAuth integrations beyond standard session authentication.
+- Scaled Google Places discovery, mass CSV acquisition, and broad contact enrichment.
+- Apollo or other paid enrichment beyond individually approved, qualified prospects.
+- Automated cold email, texting, calling, AI voice, sequencing, or bulk audit delivery.
+- Additional prospect scoring sophistication that is not supported by pilot outcomes.
+- New background jobs or provider integrations intended primarily to increase outreach volume.
 
-Deferred work may be promoted only through a dated decision that defines its release outcome and dependencies.
+Deferred prospecting automation may be promoted only after the manual pilot records qualified conversations and at least one proposal. Any promotion requires a dated decision identifying the proven bottleneck the automation will remove.
 
-## Next five targets to production release
+## Next targets to production release
 
 Work these in sequence. DT-05 quality work may continue in parallel.
 
-1. **DT-01 — Define & Approve AI-First Web Development Offerings & Claims Register.** Define core service packages, plain-language business analogies, technology stacks, pricing tiers, and public copy.
-2. **DT-02 — Secure Public APIs and Environment Secrets.** Protect endpoints, sanitize input schemas via Zod, and verify credential security.
-3. **DT-03 — Make AI Web Dev Project Lead Capture & Scoping Resilient.** Enforce data-persistence-first pattern with detailed project requirements and notification handling.
-4. **DT-04 — Transform Frontend for AI Web Dev Agency Positioning & Portfolio.** Refine UI components, plain-English explainer sections, interactive project intake tools, and service pages.
-5. **DT-10 — Recreate the Legacy Derivative Genius Homepage Conversion Elements.** Bring over the proven conversion content from derivativegenius.com while adapting it to the new AI-first agency positioning and current frontend architecture.
-6. **DT-11 — Rebuild the Full Legacy Site Page Architecture.** Recreate the non-homepage pages from derivativegenius.com — About, Articles, Contact, and supporting conversion/content pages — in the new Next.js site without losing the AI-first agency narrative.
-7. **DT-09 — Launch Paid Pilot AI Web Dev Project Onboarding & Payment Link Flow.** Qualify real client leads and process deposit/project payments via approved hosted payment links or invoices.
+1. **DT-19 — Complete Centurion Pilot Readiness.** Close the verified system-of-record, authorization, queue, follow-up, audit, pipeline, and reporting gaps before live outreach.
+2. **DT-18 — Run the 25-Company Founder-Led Manual Outreach Pilot.** Validate targeting, observations, call openers, follow-ups, and offer framing through real conversations after DT-19 passes.
+3. **DT-01 — Define & Approve AI-First Web Development Offerings & Claims Register.** Finalize only the offer and proof needed to support pilot conversations and proposals.
+4. **DT-04 — Strengthen Prospect-Facing Credibility & Conversion.** Fix website copy or conversion gaps revealed when contacted prospects research Derivative Genius.
+5. **DT-02 — Secure Public APIs and Environment Secrets.** Protect the public inquiry and private operator paths used by the pilot.
+6. **DT-03 — Verify Project Lead Capture & Scoping Resilience.** Confirm interested prospects can submit and be stored without data loss.
+7. **DT-09 — Launch Paid Pilot Onboarding & Payment Flow.** Convert a qualified manual-outreach opportunity into a real proposal, deposit, and project handoff.
+
+DT-10 and DT-11 remain lower-priority website expansion work unless pilot evidence shows that missing legacy content is blocking trust or conversion.
 
 ## Target summary
 
 | ID    | Priority | Target                                                                  | Status      | Depends on                           | Last updated |
 | ----- | -------- | ----------------------------------------------------------------------- | ----------- | ------------------------------------ | ------------ |
+| DT-19 | P0       | Complete Centurion Pilot Readiness                                      | In review   | Authenticated readiness smoke test    | 2026-08-19   |
+| DT-18 | P0       | Run 25-Company Founder-Led Manual Outreach Pilot                        | Blocked     | DT-19 readiness verification         | 2026-08-19   |
+| DT-17 | P0       | Implement Private Operator Prospecting System (`/centurion`) Phase 1  | In review   | DT-16 and Clerk authentication       | 2026-08-19   |
 | DT-12 | P0       | Integrate Mobile-First Prospecting & Scoping Components                 | Complete    | DT-04 and responsive-dev.md          | 2026-08-17   |
 | DT-13 | P0       | Fortify Lead Intake Route & Scoping Persistence                         | Complete    | DT-03 and Zod validation             | 2026-08-17   |
 | DT-14 | P1       | Complete Mobile Ergonomics & Viewport Verification Audit                | In review   | DT-12 and responsive-dev.md          | 2026-08-17   |
@@ -147,13 +161,79 @@ Work these in sequence. DT-05 quality work may continue in parallel.
 | DT-04 | P0       | Transform Frontend for AI Web Dev Agency Positioning & Portfolio        | In progress | DT-01 for copy and service structure | 2026-08-07   |
 | DT-10 | P1       | Recreate the Legacy Derivative Genius Homepage Conversion Elements       | Not started | DT-01 and DT-04                      | 2026-08-15   |
 | DT-11 | P1       | Rebuild the Full Legacy Site Page Architecture                           | Not started | DT-10, DT-01, DT-04                 | 2026-08-15   |
-| DT-09 | P0       | Launch Paid Pilot AI Web Dev Project Onboarding & Payment Link Flow     | Blocked     | DT-01 through DT-04                  | 2026-08-07   |
+| DT-09 | P0       | Launch Paid Pilot AI Web Dev Project Onboarding & Payment Link Flow     | Blocked     | DT-18 qualified opportunity          | 2026-08-19   |
 | DT-05 | P1       | Establish Automated Quality, Testing, and CI Gates                      | Complete    | None                                 | 2026-08-07   |
 | DT-06 | P1       | Complete Accessibility and Responsive UX Verification                   | Not started | DT-04                                | 2026-08-07   |
 | DT-07 | P1       | Establish SEO, GEO, Analytics, Privacy, and Operational Baselines       | Not started | DT-01 and DT-04                      | 2026-08-07   |
 | DT-08 | P1       | Make Deployment Configuration Reproducible                              | Not started | DT-02                                | 2026-08-07   |
 
 ## Active development targets
+
+### DT-19. Complete Centurion Pilot Readiness
+
+**Priority:** P0
+
+**Status:** In review
+
+**Outcome:** Make `/centurion` the complete, secure system of record required for the ten-business-day manual pilot. This target fixes operator workflow gaps; it does not add scaled discovery or autonomous outreach.
+
+- [x] Enforce Clerk authentication and Centurion roles inside every private page and API action.
+- [x] Restrict exports and compliance administration to `centurion_admin`.
+- [x] Replace raw normalized suppression values with keyed hashes and transactional opt-out handling.
+- [x] Associate imports with a campaign and preserve useful source provenance.
+- [x] Add editable website observations, contacts, qualification evidence, scores, statuses, and hard disqualifiers.
+- [x] Fix the import-to-priority-queue path and require human score confirmation.
+- [x] Add every required call outcome, custom notes, next action, owner, and due date.
+- [x] Order the queue by overdue commitments, due follow-ups, engaged activity, and then qualified priority.
+- [x] Add minimal audit approval, opportunity, proposal, and project-handoff records.
+- [x] Calculate pilot metrics from real activities, work sessions, opportunities, and proposals.
+- [x] Add unit and authorization-policy regression tests.
+- [ ] Complete the signed-in Joe Terry readiness test from campaign creation through proposal retrieval.
+
+**Done when:** An authorized operator can run a 25-prospect test campaign from import through proposal, retrieve every commitment and disposition, enforce an opt-out everywhere immediately, view accurate pilot metrics, and complete the process without a parallel spreadsheet.
+
+**Verification:** Live `npm run db:push` passed; all six new workflow tables were verified through PostgreSQL `information_schema`; repository-wide `npm run lint` passes with zero errors and four existing warnings; `npx tsc --noEmit` passed; all 23 Jest tests passed; `npm run build` compiled all 31 routes; unauthenticated smoke checks redirect `/centurion` and return `401` for private APIs. Complete the authenticated readiness test in `doc/the-first-priority.md` before changing DT-19 to `Complete` or unblocking DT-18.
+
+### DT-18. Run the 25-Company Founder-Led Manual Outreach Pilot
+
+**Priority:** P0
+
+**Status:** Blocked
+
+**Blocker:** DT-19 must pass the Centurion readiness test before live calls begin.
+
+**Outcome:** Validate a repeatable sales motion for fixed-scope Derivative Genius website engagements by manually researching and contacting 25 qualified companies in one vertical across approximately five cities. Use `/centurion` to support human judgment and record the work; do not expand automation during the pilot.
+
+- [ ] Select one initial vertical and approximately five cities.
+- [ ] Define the pilot offer, project range, qualification rules, and short call opener.
+- [ ] Hand-qualify 25 operating companies with source provenance and no disqualifier.
+- [ ] Record one specific, defensible website observation and next action for every active prospect.
+- [ ] Identify the best available public business line or verified decision-maker route.
+- [ ] Place calls manually during appropriate local calling windows.
+- [ ] Record every attempt, conversation, objection, commitment, opt-out, and follow-up in `/centurion`.
+- [ ] Create a concise audit only after the prospect expresses interest or the conversation establishes a credible reason to continue.
+- [ ] Hold discovery calls and issue at least one proposal when qualification supports it.
+- [ ] Review results by city, score band, observation, opener, objection, and funnel stage.
+- [ ] Document workflow friction and promote automation only for a repeated, measured bottleneck.
+
+**Operating metrics:**
+
+- qualified conversations per operator hour;
+- decision-maker reach rate;
+- follow-up commitments;
+- discovery calls held;
+- proposals issued;
+- closed revenue and average project value;
+- loss and objection reasons; and
+- time spent researching, calling, and following up.
+
+Raw prospects, contacts found, calls attempted, and audits generated are supporting counts, not success criteria.
+
+**Automation gate:** Do not add scaled Google Places discovery, mass enrichment, autonomous sequences, automatic audit delivery, or new volume-oriented background jobs until the pilot has produced qualified conversations and at least one proposal. A later automation target must name the measured bottleneck it removes.
+
+**Done when:** All 25 prospects have a documented disposition; manual activity and follow-ups are recorded without a parallel private spreadsheet; the pilot has produced qualified conversations and at least one proposal, or enough structured evidence to revise the niche, offer, or outreach message; and the owner records a dated continue, revise, or stop decision.
+
+**Verification:** Review the `/centurion` campaign, prospect sources, activities, suppressions, follow-up tasks, funnel report, proposal evidence, and dated pilot decision. Verification artifacts must not expose prospect PII or credentials in the repository.
 
 ### DT-12. Integrate Mobile-First Prospecting & Scoping Components
 
@@ -174,7 +254,7 @@ Work these in sequence. DT-05 quality work may continue in parallel.
 
 **Priority:** P0
 
-**Status:** Complete
+**Status:** In review
 
 **Outcome:** Lead capture endpoint `src/app/api/contact/route.ts` is fully validated with Zod schemas, persisted to Drizzle PostgreSQL (`src/db/`), and sends instant Nodemailer/mailer notifications with optimistic UI states.
 
@@ -228,7 +308,27 @@ Work these in sequence. DT-05 quality work may continue in parallel.
 
 **Done when:** `npm run db:push` applies relational tables cleanly to live Neon PostgreSQL with 100% passing tests and build verification.
 
+### DT-17. Implement Private Operator Prospecting System (/centurion) Phase 1
+
+**Priority:** P0
+
+**Status:** In review
+
+**Outcome:** Private operator web application built at `/centurion` behind Clerk authentication and explicit role assignment, with campaign targeting, prospect records, evidence-aware CSV import, deduplication, transparent scoring, action-prioritized manual outreach, audits, pipeline records, reporting, and compliance controls.
+
+- [x] Protect every `/centurion` page and API data action with Clerk authentication and server-side role checks.
+- [x] Implement fail-closed Centurion role governance (`src/lib/auth/roles.ts`) with explicit Joe Terry administrator configuration.
+- [x] Build transparent v1.0 lead scoring engine (`src/lib/prospecting/scoring.ts`) and Jest unit test suite.
+- [x] Build multi-tier deduplication hierarchy engine (`src/lib/prospecting/dedup.ts`) matching Place ID, domain, phone, and address.
+- [x] Add `auditLogs` table to schema (`src/db/schema.ts`) and API endpoints for campaigns, prospects, import, export, and activities.
+- [x] Create responsive operator layout (`src/app/centurion/layout.tsx`) and screens (`/centurion`, `/centurion/campaigns`, `/centurion/prospects`, `/centurion/prospects/[id]`, `/centurion/import`, `/centurion/queue`, `/centurion/compliance`).
+- [x] Complete server-side role enforcement, campaign-aware qualification, durable follow-ups, audits, opportunities, proposals, and real pilot reporting under DT-19.
+- [ ] Pass the signed-in end-to-end readiness test under DT-19.
+
+**Done when:** Unit tests pass, `/centurion` routes compile in a Next.js production build, and the DT-19 readiness workflow proves all Phase 1 operator flows function without a parallel spreadsheet.
+
 ### DT-01. Define & Approve AI-First Web Development Offerings & Claims Register
+
 
 **Priority:** P0
 
@@ -371,6 +471,22 @@ This checklist covers the full site conversion rebuild. Each page should be chec
 
 ## Decision log
 
+### 2026-08-19: DT-17 Reopened and DT-18 Blocked Pending Pilot Readiness
+
+A code-level capability audit found that the implemented Centurion foundation does not yet satisfy its stated Phase 1 exit criterion. Normal UI imports cannot reach the score-75 priority queue, the UI lacks durable follow-up and complete disposition controls, audits have no operator workflow, opportunities and proposals are absent, pilot reporting is synthetic, and Clerk roles are defined but not enforced inside data actions.
+
+DT-17 is therefore returned to `In review`, DT-18 is blocked, and DT-19 becomes the immediate P0 remediation target. This work is limited to the manual system of record and does not authorize scaled discovery, enrichment, or autonomous outreach.
+
+### 2026-08-19: DT-19 Implementation Complete, Authenticated Review Pending
+
+Centurion now implements the manual system of record required by DT-18: explicit server-side roles, administrator-only exports and compliance, keyed DNC hashes with transactional opt-out updates, campaign-aware evidence import, human-confirmed scoring, due-first calling, complete outcomes and follow-ups, decision-maker contacts, audits, opportunities, proposals, handoffs, work sessions, and real pipeline reporting. The additive schema was pushed to live Neon and the Joe Terry Clerk account was explicitly configured as `centurion_admin` locally. DT-19 moves to `In review`; DT-18 remains blocked until Joe performs the signed-in readiness checklist with test data.
+
+### 2026-08-19: Manual Outreach Validation Precedes Further Prospecting Automation
+
+Founder-led manual outreach is now the immediate P0 operating objective. The existing `/centurion` Phase 1 application will support a 25-company pilot in one vertical across approximately five cities, while the operator manually researches prospects, places calls, records outcomes, follows up, and advances qualified opportunities.
+
+The public website remains the credibility and conversion layer for prospects who investigate Derivative Genius after contact. Additional discovery, enrichment, scoring, sequencing, and background-job automation is deferred until the pilot produces qualified conversations and at least one proposal. Future automation must address a repeated bottleneck demonstrated by pilot evidence rather than increase list size for its own sake.
+
 ### 2026-08-07: Plain-Language Analogies Incorporated Across Marketing & Docs
 
 Formally integrated plain-English analogies ("Smart Digital Employee", "24/7 Digital Assistant", "Search by Meaning", and "Digital Dominoes") alongside technical specifications in the Home page (`src/app/page.tsx`), Services page (`src/app/services/page.tsx`), `README.md`, and `doc/current-development-targets.md`.
@@ -398,6 +514,8 @@ Add evidence here whenever a target status changes to `In review` or `Complete`.
 | 2026-08-17 | Lead Intake (DT-13)    | Jest & Validation Pass | Fortified `/api/contact` with Zod schema sanitization, Drizzle PostgreSQL persistence, resilient `mailer.ts` dispatch, and 100% passing Jest test suite (5/5 tests). |
 | 2026-08-17 | Release Snapshot (DT-15) | Build & Clean Status | Cleaned legacy Vue/Vite env keys, removed unreferenced `src/firebase.js`, verified tests/build 100% pass, and created clean commit snapshot. |
 | 2026-08-17 | Drizzle & Neon DB (DT-16) | `db:push` & Test Pass | Pushed relational schema to live Neon PostgreSQL instance, creating 6 core tables (`campaigns`, `prospects`, `contacts`, `audits`, `suppressions`, `activities`); Jest test suite and production build pass 100%. |
+| 2026-08-19 | Centurion Capability Audit | Code and workflow review | DT-17 returned to `In review`; DT-18 blocked; DT-19 opened to correct queue, role, follow-up, audit, pipeline, suppression, and reporting gaps. |
+| 2026-08-19 | Centurion DT-19 implementation | Schema, tests, build, auth smoke | Live schema push passed; six new tables verified; repository lint passed with 0 errors (4 warnings); TypeScript passed; Jest 23/23 passed; Next.js compiled 31/31 routes; unsigned page redirects and private APIs return 401. Signed-in Joe workflow remains the completion gate. |
 
 ## Migration plan: Align stack with MicrogreensLA (remove Python/Django) — COMPLETE
 
