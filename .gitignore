@@ -6,11 +6,6 @@ node_modules/
 /coverage
 .DS_Store
 
-# Virtual environments
-venv/
-.venv/
-myenv/
-
 # Backup & Secret files
 *.bak
 *.json.bak
@@ -50,17 +45,6 @@ access.log
 *.sln
 *.sw?
 
-# Python/Django
-*.pyc
-__pycache__/
-*.py[cod]
-*$py.class
-*.so
-.Python
-# Python build artifacts (legacy)
-build/
-dist/
-/*.egg-info/
 !/src/lib/
 
 # Firebase & Vercel

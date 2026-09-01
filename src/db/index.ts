@@ -12,5 +12,9 @@ export function getDb() {
   return drizzle(sql, { schema });
 }
 
-export const db = getDb();
+export const db = new Proxy({} as ReturnType<typeof getDb>, {
+  get(_target, property, receiver) {
+    return Reflect.get(getDb(), property, receiver);
+  },
+});
 export { schema };

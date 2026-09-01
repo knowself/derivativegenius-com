@@ -142,12 +142,12 @@ export default async function ProjectPage({ params }: { params: Promise<{ id: st
               We specialize in custom engineering performant web applications tailored to your exact industry requirements.
             </p>
             <div className="mt-6">
-              <a
+              <Link
                 href="/#contact"
                 className="inline-flex items-center gap-2 rounded-xl bg-blue-600 px-6 py-3 text-sm font-bold text-white shadow-lg shadow-blue-600/20 transition-all hover:bg-blue-500"
               >
                 Schedule Architecture Consultation
-              </a>
+              </Link>
             </div>
           </section>
         </div>

@@ -123,6 +123,9 @@ dg dev --no-tunnel
 Derivative Genius enforces strict quality gates across linting, unit testing, and production builds.
 
 ```bash
+# Use Node.js 22.13.1 (or any supported version from package.json)
+nvm use
+
 # Install dependencies
 npm install
 

@@ -13,9 +13,8 @@ echo -e "${YELLOW}Starting deployment verification...${NC}"
 
 # 1. Check required files
 required_files=(
-    "deployment/vercel.json"
     "package.json"
-    "requirements.txt"
+    "next.config.mjs"
 )
 
 echo "Checking required files..."
@@ -29,11 +28,7 @@ done
 
 # 2. Verify environment variables
 required_env=(
-    "VERCEL_PROJECT_ID"
-    "VERCEL_ORG_ID"
-    "FIREBASE_ADMIN_PROJECT_ID"
-    "FIREBASE_ADMIN_PRIVATE_KEY"
-    "FIREBASE_ADMIN_CLIENT_EMAIL"
+    "DATABASE_URL"
 )
 
 echo "Checking environment variables..."
@@ -46,38 +41,23 @@ for env_var in "${required_env[@]}"; do
 done
 
 # 3. Verify Node.js version
-required_node="20"
-current_node=$(node -v | cut -d. -f1 | tr -d 'v')
-if [ "$current_node" != "$required_node" ]; then
-    echo -e "${RED}Error: Node.js version must be 20.x (found $(node -v))${NC}"
+required_node_major="20"
+current_node_major=$(node -v | cut -d. -f1 | tr -d 'v')
+if [ "$current_node_major" -lt "$required_node_major" ]; then
+    echo -e "${RED}Error: Node.js 20 or newer is required (found $(node -v))${NC}"
     exit 1
 fi
 echo -e "${GREEN}✓ Node.js version verified${NC}"
 
-# 4. Verify Python version
-required_python="3.8"
-current_python=$(python3 -c 'import platform; print(platform.python_version())' | cut -d. -f1,2)
-if [ "$current_python" != "$required_python" ]; then
-    echo -e "${RED}Error: Python version must be 3.8.x (found $current_python)${NC}"
-    exit 1
-fi
-echo -e "${GREEN}✓ Python version verified${NC}"
-
-# 5. Check build output structure
+# 4. Check build output structure
 echo "Verifying build output..."
 npm run build
 
-if [ ! -d "dist" ]; then
-    echo -e "${RED}Error: Build failed - dist directory not found${NC}"
+if [ ! -d ".next" ]; then
+    echo -e "${RED}Error: Build failed - .next directory not found${NC}"
     exit 1
 fi
 
-# 6. Verify API endpoints
-echo "Testing API endpoints..."
-if ! python3 deployment/scripts/test_endpoints.py; then
-    echo -e "${RED}Error: API endpoint verification failed${NC}"
-    exit 1
-fi
 
 echo -e "${GREEN}All verification checks passed!${NC}"
 exit 0
