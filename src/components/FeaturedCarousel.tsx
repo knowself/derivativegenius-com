@@ -88,6 +88,13 @@ function OrnateRightArrowIcon({ className = "w-7 h-7" }: { className?: string })
   );
 }
 
+// Triplicate slides so Embla has enough buffer to loop infinitely regardless of screen width
+const DISPLAY_PROJECTS = [
+  ...CENTURIONS_PROJECTS,
+  ...CENTURIONS_PROJECTS,
+  ...CENTURIONS_PROJECTS,
+];
+
 export function FeaturedCarousel() {
   ensureMatchMedia();
   const [emblaRef, emblaApi] = useEmblaCarousel({
@@ -96,7 +103,7 @@ export function FeaturedCarousel() {
     skipSnaps: false,
   });
 
-  const [isHovered, setIsHovered] = useState(false);
+  const isHoveredRef = useRef(false);
   const timerRef = useRef<NodeJS.Timeout | null>(null);
 
   // 10-second auto-rotation to the right
@@ -105,29 +112,51 @@ export function FeaturedCarousel() {
       clearInterval(timerRef.current);
     }
     timerRef.current = setInterval(() => {
-      if (emblaApi && !isHovered) {
-        emblaApi.scrollNext();
+      if (emblaApi && !isHoveredRef.current) {
+        if (typeof emblaApi.canScrollNext === 'function' ? emblaApi.canScrollNext() : true) {
+          emblaApi.scrollNext();
+        } else if (typeof emblaApi.scrollTo === 'function') {
+          emblaApi.scrollTo(0);
+        }
       }
     }, 10000); // 10 seconds
-  }, [emblaApi, isHovered]);
+  }, [emblaApi]);
 
   useEffect(() => {
     if (!emblaApi) return;
     resetTimer();
+
+    // Re-sync on page visibility change (e.g., user returns to tab)
+    const handleVisibilityChange = () => {
+      if (!document.hidden) {
+        resetTimer();
+      }
+    };
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+
     return () => {
       if (timerRef.current) clearInterval(timerRef.current);
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
     };
   }, [emblaApi, resetTimer]);
 
   const scrollPrev = useCallback(() => {
     if (!emblaApi) return;
-    emblaApi.scrollPrev();
+    if (typeof emblaApi.canScrollPrev === 'function' ? emblaApi.canScrollPrev() : true) {
+      emblaApi.scrollPrev();
+    } else if (typeof emblaApi.scrollTo === 'function') {
+      emblaApi.scrollTo(DISPLAY_PROJECTS.length - 1);
+    }
     resetTimer();
   }, [emblaApi, resetTimer]);
 
   const scrollNext = useCallback(() => {
     if (!emblaApi) return;
-    emblaApi.scrollNext();
+    if (typeof emblaApi.canScrollNext === 'function' ? emblaApi.canScrollNext() : true) {
+      emblaApi.scrollNext();
+    } else if (typeof emblaApi.scrollTo === 'function') {
+      emblaApi.scrollTo(0);
+    }
     resetTimer();
   }, [emblaApi, resetTimer]);
 
@@ -141,8 +170,13 @@ export function FeaturedCarousel() {
   return (
     <div
       className="relative mx-auto mt-6 max-w-5xl px-3 sm:px-14"
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
+      onMouseEnter={() => {
+        isHoveredRef.current = true;
+      }}
+      onMouseLeave={() => {
+        isHoveredRef.current = false;
+        resetTimer();
+      }}
     >
       {/* Large Ornate Left Arrow Button */}
       <button
@@ -173,9 +207,9 @@ export function FeaturedCarousel() {
       {/* Carousel Track */}
       <div className="embla overflow-hidden rounded-xl py-2" ref={emblaRef as any}>
         <div className="embla__container flex gap-5">
-          {CENTURIONS_PROJECTS.map((p) => (
+          {DISPLAY_PROJECTS.map((p, index) => (
             <div
-              key={p.id}
+              key={`${p.id}-${index}`}
               className="embla__slide min-w-[280px] w-[280px] sm:min-w-[320px] sm:w-[320px] flex-shrink-0"
             >
               <Link
