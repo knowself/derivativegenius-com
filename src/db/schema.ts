@@ -170,11 +170,12 @@ export const activities = pgTable('activities', {
 
 export const tasks = pgTable('tasks', {
   id: uuid('id').primaryKey().defaultRandom(),
-  prospectId: uuid('prospect_id').references(() => prospects.id, { onDelete: 'cascade' }).notNull(),
+  prospectId: uuid('prospect_id').references(() => prospects.id, { onDelete: 'cascade' }),
   activityId: uuid('activity_id').references(() => activities.id, { onDelete: 'set null' }),
   assignedUserId: text('assigned_user_id').notNull(),
   actionType: text('action_type').notNull(),
   title: text('title').notNull(),
+  notes: text('notes'),
   status: text('status').notNull().default('open'),
   dueAt: timestamp('due_at', { withTimezone: true }).notNull(),
   completedAt: timestamp('completed_at', { withTimezone: true }),

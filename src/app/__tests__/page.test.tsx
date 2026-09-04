@@ -8,13 +8,17 @@ describe("HomePage Component", () => {
     render(<HomePage />);
     const heading = screen.getByRole("heading", { level: 1 });
     expect(heading).toBeInTheDocument();
-    expect(heading).toHaveTextContent(/Build Intelligent Web Apps/i);
+    expect(heading).toHaveTextContent(/That Make Your Phone Ring/i);
   });
 
-  it("renders the CTA link to contact page", () => {
+  it("renders the CTA link to contact page and direct phone call", () => {
     render(<HomePage />);
-    const ctas = screen.getAllByRole("link", { name: /Start Your Web Project/i });
-    expect(ctas[0]).toBeInTheDocument();
-    expect(ctas[0]).toHaveAttribute("href", "/contact");
+    const callCta = screen.getByRole("link", { name: /Call Joe Terry/i });
+    expect(callCta).toBeInTheDocument();
+    expect(callCta).toHaveAttribute("href", "tel:+13103799822");
+
+    const auditCta = screen.getByRole("link", { name: /Request a Free Website Audit/i });
+    expect(auditCta).toBeInTheDocument();
+    expect(auditCta).toHaveAttribute("href", "/contact");
   });
 });

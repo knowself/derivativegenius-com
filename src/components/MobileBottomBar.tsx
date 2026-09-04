@@ -37,13 +37,13 @@ export function MobileBottomBar() {
         <div className="flex items-center justify-between gap-2 max-w-md mx-auto">
           {/* 1-Tap Quick Call */}
           <a
-            href="tel:+18005550199"
+            href="tel:+13103799822"
             onClick={() => Haptics.confirm()}
-            className="flex-1 inline-flex items-center justify-center space-x-1.5 min-h-[48px] rounded-xl bg-slate-900 border border-slate-800 text-slate-200 text-xs font-medium active:scale-95 transition-all"
-            aria-label="Call Agency"
+            className="flex-1 inline-flex items-center justify-center space-x-1.5 min-h-[48px] rounded-xl bg-emerald-950/40 border border-emerald-500/40 text-emerald-300 text-xs font-semibold active:scale-95 transition-all"
+            aria-label="Call Joe Terry directly"
           >
             <Phone className="h-4 w-4 text-emerald-400" />
-            <span>Call</span>
+            <span>Call (310) 379-9822</span>
           </a>
 
           {/* 1-Tap Quick Email */}

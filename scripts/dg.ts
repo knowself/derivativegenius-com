@@ -250,7 +250,7 @@ async function runDoctor() {
     let failures = 0;
 
     console.log('1️⃣  Environment Variables');
-    const optionalVars = ['NEXT_PUBLIC_APP_URL', 'NODEMAILER_EMAIL'];
+    const optionalVars = ['NEXT_PUBLIC_APP_URL', 'DATABASE_URL', 'NODEMAILER_EMAIL'];
     for (const v of optionalVars) {
         if (process.env[v]) {
             console.log(`   ✅ ${v}`);

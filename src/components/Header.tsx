@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
-import { LogIn, Menu, UserPlus, X } from "lucide-react";
+import { LogIn, Menu, Phone, UserPlus, X } from "lucide-react";
 import { SignInButton, SignUpButton, Show, UserButton } from "@clerk/nextjs";
 import { CenturionIcon } from "@/components/CenturionIcon";
 
@@ -41,7 +41,7 @@ export function Header() {
         </Link>
 
         {/* Desktop Nav */}
-        <nav className="hidden items-center space-x-6 lg:space-x-8 md:flex">
+        <nav className="hidden items-center space-x-5 lg:space-x-6 md:flex">
           {navLinks.map((link) => {
             const isActive = pathname === link.href;
             return (
@@ -56,6 +56,16 @@ export function Header() {
               </Link>
             );
           })}
+
+          {/* Direct Call Button (The Mike Stewart direct-response anchor) */}
+          <a
+            href="tel:+13103799822"
+            title="Call Joe Terry directly"
+            className="inline-flex items-center space-x-1.5 rounded-xl bg-emerald-500/10 border border-emerald-500/30 px-3.5 py-2 text-sm font-semibold text-emerald-400 hover:bg-emerald-500/20 hover:border-emerald-500/50 transition-all shadow-sm"
+          >
+            <Phone className="h-4 w-4" />
+            <span>(310) 379-9822</span>
+          </a>
 
           <Show when="signed-out">
             <SignInButton mode="modal">
@@ -118,6 +128,15 @@ export function Header() {
                 {link.label}
               </Link>
             ))}
+
+            <a
+              href="tel:+13103799822"
+              onClick={() => setIsOpen(false)}
+              className="flex items-center space-x-2 min-h-[48px] px-3 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 font-semibold"
+            >
+              <Phone className="h-5 w-5" />
+              <span>Call: (310) 379-9822</span>
+            </a>
 
             <Link
               href="/centurion"

@@ -3,7 +3,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { CENTURIONS_PROJECTS } from "../data/portfolio";
 import FeaturedCarousel from "../components/FeaturedCarousel";
-import { Sparkles, Code2, Cpu, ArrowRight, CheckCircle2, MessageSquareText, Search, Workflow, UserCheck } from "lucide-react";
+import { Sparkles, Code2, Cpu, ArrowRight, CheckCircle2, MessageSquareText, Search, Workflow, UserCheck, Phone } from "lucide-react";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
 import { DemosShowcase } from "@/components/DemosShowcase";
 import { ProjectCalculator } from "@/components/ProjectCalculator";
@@ -86,43 +86,44 @@ export default function HomePage() {
     <div className="space-y-24 pb-20 pt-12">
       {/* Hero Section */}
       <section className="relative mx-auto max-w-7xl px-4 text-center sm:px-6 lg:px-8">
-        <div className="mx-auto inline-flex items-center space-x-2 rounded-full border border-blue-500/30 bg-blue-500/10 px-4 py-1.5 text-xs font-semibold text-blue-400 backdrop-blur-md">
+        <div className="mx-auto inline-flex items-center space-x-2 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-4 py-1.5 text-xs font-semibold text-emerald-400 backdrop-blur-md">
           <Sparkles className="h-3.5 w-3.5" />
-          <span>AI-First Web Development Agency</span>
+          <span>High-Converting Websites & Local Lead Engines</span>
         </div>
 
         {/* Featured projects carousel */}
         <FeaturedCarousel />
 
         <h1 className="mt-6 font-extrabold text-4xl tracking-tight text-white sm:text-6xl lg:text-7xl">
-          Build Intelligent Web Apps <br />
-          <span className="bg-gradient-to-r from-blue-400 via-indigo-400 to-purple-400 bg-clip-text text-transparent">
-            Powered by Autonomous AI
+          Websites & Local Search Engines <br />
+          <span className="bg-gradient-to-r from-blue-400 via-indigo-400 to-emerald-400 bg-clip-text text-transparent">
+            That Make Your Phone Ring
           </span>
         </h1>
 
         <p className="mx-auto mt-6 max-w-3xl text-lg text-slate-300 sm:text-xl leading-relaxed">
-          <em className="text-white italic">&quot;We are all standing on the shoulders of giants.&quot;</em> Living in a time when each of us can utilize the intellectual tools ever conceived by humankind to revolutionize our businesses. Derivative Genius builds the AI-first web applications and knowledge bases that power your growth.
+          We replace bloated agency websites with blazing-fast, single-problem landing pages and automated local presence engines engineered to turn search traffic into booked service calls.
         </p>
 
-        <h2 className="mt-6 text-xl font-semibold text-white">What can we do for you?</h2>
+        <h2 className="mt-6 text-xl font-semibold text-white">Need more calls for your service business?</h2>
         <p className="mx-auto mt-2 max-w-2xl text-sm text-slate-300">
-          Tell us your project challenge or goal and we&apos;ll propose a tailored plan to bring it to production — faster and smarter with AI-powered automation.
+          Call directly or request a zero-obligation 5-minute website and ad audit to see where you are leaking high-intent local customers.
         </p>
 
         <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
+          <a
+            href="tel:+13103799822"
+            className="inline-flex items-center space-x-2.5 rounded-xl bg-emerald-600 px-7 py-3.5 font-semibold text-white shadow-lg shadow-emerald-600/30 transition-all hover:bg-emerald-500 hover:shadow-emerald-500/50 text-base"
+          >
+            <Phone className="h-5 w-5" />
+            <span>Call Joe Terry: (310) 379-9822</span>
+          </a>
           <Link
             href="/contact"
-            className="inline-flex items-center space-x-2 rounded-xl bg-blue-600 px-7 py-3.5 font-semibold text-white shadow-lg shadow-blue-600/30 transition-all hover:bg-blue-500 hover:shadow-blue-500/50"
+            className="inline-flex items-center space-x-2 rounded-xl border border-slate-700 bg-slate-900/80 px-7 py-3.5 font-semibold text-slate-200 backdrop-blur-md transition-all hover:border-slate-600 hover:bg-slate-800 text-base"
           >
-            <span>Start Your Web Project</span>
+            <span>Request a Free Website Audit</span>
             <ArrowRight className="h-4 w-4" />
-          </Link>
-          <Link
-            href="/solutions"
-            className="inline-flex items-center space-x-2 rounded-xl border border-slate-700 bg-slate-900/80 px-7 py-3.5 font-semibold text-slate-200 backdrop-blur-md transition-all hover:border-slate-600 hover:bg-slate-800"
-          >
-            <span>Explore Industry Demos</span>
           </Link>
         </div>
       </section>

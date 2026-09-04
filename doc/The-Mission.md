@@ -6,8 +6,8 @@
 **Founder and human Centurion:** Joe Terry  
 **Operating instrument:** `/centurion`  
 **Document type:** Repository mission charter  
-**Version:** 1.0  
-**Date:** August 19, 2026
+**Version:** 1.1  
+**Date:** September 3, 2026
 
 ---
 
@@ -134,8 +134,9 @@ Derivative Genius serves people who want practical progress rather than technolo
 
 They may be:
 
-- an established service business whose website no longer reflects the quality of its work;
+- an established service business or local trade whose website no longer reflects the quality of its work or fails to convert mobile searchers into phone calls;
 - a founder trying to turn an idea into a credible product;
+- a local operator trapped in the "social media trap" or burned by bloated design agencies that prioritized design awards over ringing phones;
 - a team buried in repetitive processes;
 - an organization whose knowledge is difficult to find or apply;
 - a business ready to add intelligent capabilities without surrendering control; or
@@ -149,10 +150,11 @@ Technical sophistication belongs behind the promise. Clear outcomes belong in fr
 
 We build:
 
-- focused, high-converting business websites;
-- modern full-stack web applications;
-- intelligent client and operator portals;
-- useful AI features integrated into real workflows;
+- focused, high-converting business websites and problem-specific video landing pages;
+- modern full-stack web applications and intelligent client/operator portals;
+- "Done-For-You" Generative Engine Optimization (GEO) pipelines that turn spoken owner insights into indexable transcripts, podcasts, and AI-cited web authority;
+- memorable auditory brand assets and SERP-term audio anchors that lodge in customer memory;
+- predictable, low-friction monthly local presence engines ($300–$500/mo) where clients do zero heavy lifting;
 - search and knowledge experiences that understand meaning;
 - automations that remove repeated administrative work; and
 - durable systems that a business can trust and operate.
@@ -201,6 +203,18 @@ Complete promised follow-ups before generating more leads, features, or tasks.
 
 Measure useful conversations, completed work, client value, revenue, reliability, and learning—not activity for its own sake.
 
+### 11. Utility and conversion before aesthetic vanity (The Anti-Agency Rule)
+
+A blazing-fast, benefit-driven page with immediate proof and a zero-friction tap-to-call button will outperform an award-winning artistic agency portfolio piece every single time. We reject slow video backgrounds, vague slogans, and giant hero sliders that push the phone number below the fold.
+
+### 12. Owned open web before rented social land
+
+Urgent customer needs surface on search engines, maps, and AI assistants, not social feeds. Content belongs on open web protocols—indexed blogs, semantic transcripts, and syndicated RSS feeds—building permanent domain equity and LLM citations rather than vanishing into walled social gardens.
+
+### 13. Auditory brand memory and search-term clarity
+
+Plain-spoken, memorable clarity beats convoluted corporate slogans. When a business pairs its exact search term with an undeniable earworm and frictionless phone link, customer recall and conversion become involuntary.
+
 ## The current mission in action
 
 The immediate priority is DT-18: the 25-company founder-led manual outreach pilot.
@@ -209,12 +223,12 @@ Joe Terry will:
 
 1. choose one vertical and approximately five cities;
 2. hand-qualify 25 businesses;
-3. identify one real website opportunity for each;
-4. call through public business channels;
+3. audit each prospect for high-leverage friction: "The Homepage Mistake" (paid ads dumping traffic on generic homepages), mobile call friction, neglected Google Business Profiles, or zero indexable open-web GEO content;
+4. call through public business channels with a specific, helpful observation;
 5. listen for needs, objections, and timing;
 6. record every outcome and follow-up in Centurion;
 7. prepare audits only after interest is established;
-8. advance qualified conversations toward discovery and a proposal; and
+8. advance qualified conversations toward discovery and a proposal (single-problem landing pages, local presence retainers, or web apps); and
 9. decide from evidence whether to continue, revise, or stop.
 
 Further prospecting automation waits until this work reveals a repeated and measured bottleneck.

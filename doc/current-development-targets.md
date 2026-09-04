@@ -4,7 +4,7 @@
 
 **Current focus:** Validate a repeatable, founder-led **manual outreach and sales motion** for Derivative Genius website engagements before investing in additional prospecting automation. Use the existing `/centurion` operator application to prioritize prospects, support respectful calls, record outcomes, schedule follow-ups, and measure qualified conversations, proposals, and closed revenue. The public website remains the credibility and conversion layer prospects inspect after contact.
 
-**Source documents:** `doc/Website-Prospecting-System-Plan.md`, `README.md`, `.agent/` (agent & skill repository), `package.json`, `devs.sh`, and the implementation under `src/app/`, `src/components/`, `src/db/`, and `src/lib/`
+**Source documents:** `doc/lessons-of-localinternetpresence.md`, `doc/Website-Prospecting-System-Plan.md`, `doc/The-Mission.md`, `README.md`, `.agent/` (agent & skill repository), `package.json`, `devs.sh`, and the implementation under `src/app/`, `src/components/`, `src/db/`, and `src/lib/`
 
 **Baseline reset:** August 7, 2026
 
@@ -12,7 +12,7 @@
 
 **Document owner:** Repository maintainer
 
-**Last updated:** August 19, 2026
+**Last updated:** September 3, 2026
 
 ## Purpose
 
@@ -135,37 +135,38 @@ Work these in sequence. DT-05 quality work may continue in parallel.
 
 1. **DT-19 — Complete Centurion Pilot Readiness.** Close the verified system-of-record, authorization, queue, follow-up, audit, pipeline, and reporting gaps before live outreach.
 2. **DT-18 — Run the 25-Company Founder-Led Manual Outreach Pilot.** Validate targeting, observations, call openers, follow-ups, and offer framing through real conversations after DT-19 passes.
-3. **DT-01 — Define & Approve AI-First Web Development Offerings & Claims Register.** Finalize only the offer and proof needed to support pilot conversations and proposals.
-4. **DT-04 — Strengthen Prospect-Facing Credibility & Conversion.** Fix website copy or conversion gaps revealed when contacted prospects research Derivative Genius.
-5. **DT-02 — Secure Public APIs and Environment Secrets.** Protect the public inquiry and private operator paths used by the pilot.
-6. **DT-03 — Verify Project Lead Capture & Scoping Resilience.** Confirm interested prospects can submit and be stored without data loss.
-7. **DT-09 — Launch Paid Pilot Onboarding & Payment Flow.** Convert a qualified manual-outreach opportunity into a real proposal, deposit, and project handoff.
+3. **DT-01 — Define & Approve AI-First Web Development & Local Presence Offerings.** Finalize the offer, retainer packaging ($300–$500/mo), and proof needed to support pilot conversations and proposals.
+4. **DT-04 — Strengthen Prospect-Facing Credibility & Anti-Agency Conversion.** Fix website copy or conversion gaps revealed when contacted prospects research Derivative Genius.
+5. **DT-07 — Establish SEO, GEO, and Open-Web Syndication Baselines.** Operationalize the Audio-to-Text GEO pipeline and schema architecture.
+6. **DT-02 — Secure Public APIs and Environment Secrets.** Protect the public inquiry and private operator paths used by the pilot.
+7. **DT-03 — Verify Project Lead Capture & Scoping Resilience.** Confirm interested prospects can submit and be stored without data loss.
+8. **DT-09 — Launch Paid Pilot Onboarding & Payment Flow.** Convert a qualified manual-outreach opportunity into a real proposal, deposit, and project handoff.
 
 DT-10 and DT-11 remain lower-priority website expansion work unless pilot evidence shows that missing legacy content is blocking trust or conversion.
 
 ## Target summary
 
-| ID    | Priority | Target                                                                  | Status      | Depends on                           | Last updated |
-| ----- | -------- | ----------------------------------------------------------------------- | ----------- | ------------------------------------ | ------------ |
-| DT-19 | P0       | Complete Centurion Pilot Readiness                                      | In review   | Authenticated readiness smoke test    | 2026-08-19   |
-| DT-18 | P0       | Run 25-Company Founder-Led Manual Outreach Pilot                        | Blocked     | DT-19 readiness verification         | 2026-08-19   |
-| DT-17 | P0       | Implement Private Operator Prospecting System (`/centurion`) Phase 1  | In review   | DT-16 and Clerk authentication       | 2026-08-19   |
-| DT-12 | P0       | Integrate Mobile-First Prospecting & Scoping Components                 | Complete    | DT-04 and responsive-dev.md          | 2026-08-17   |
-| DT-13 | P0       | Fortify Lead Intake Route & Scoping Persistence                         | Complete    | DT-03 and Zod validation             | 2026-08-17   |
-| DT-14 | P1       | Complete Mobile Ergonomics & Viewport Verification Audit                | In review   | DT-12 and responsive-dev.md          | 2026-08-17   |
-| DT-15 | P1       | Execute Git Commit & Clean Deployment Release Snapshot                  | Complete    | DT-12, DT-13, DT-14                  | 2026-08-17   |
-| DT-16 | P0       | Integrate Drizzle ORM & Serverless Neon PostgreSQL Data Layer           | Complete    | DT-13, Website Prospecting System    | 2026-08-17   |
-| DT-01 | P0       | Define & Approve AI-First Web Development Offerings & Claims Register   | In progress | Owner decisions and service specs    | 2026-08-07   |
-| DT-02 | P0       | Secure Public APIs and Configuration                                    | Not started | DT-01 for endpoint scope             | 2026-08-07   |
-| DT-03 | P0       | Make AI Web Dev Project Lead Capture & Scoping Resilient                | In progress | Lead storage and notification setup  | 2026-08-07   |
-| DT-04 | P0       | Transform Frontend for AI Web Dev Agency Positioning & Portfolio        | In progress | DT-01 for copy and service structure | 2026-08-07   |
-| DT-10 | P1       | Recreate the Legacy Derivative Genius Homepage Conversion Elements       | Not started | DT-01 and DT-04                      | 2026-08-15   |
-| DT-11 | P1       | Rebuild the Full Legacy Site Page Architecture                           | Not started | DT-10, DT-01, DT-04                 | 2026-08-15   |
-| DT-09 | P0       | Launch Paid Pilot AI Web Dev Project Onboarding & Payment Link Flow     | Blocked     | DT-18 qualified opportunity          | 2026-08-19   |
-| DT-05 | P1       | Establish Automated Quality, Testing, and CI Gates                      | Complete    | None                                 | 2026-08-07   |
-| DT-06 | P1       | Complete Accessibility and Responsive UX Verification                   | Not started | DT-04                                | 2026-08-07   |
-| DT-07 | P1       | Establish SEO, GEO, Analytics, Privacy, and Operational Baselines       | Not started | DT-01 and DT-04                      | 2026-08-07   |
-| DT-08 | P1       | Make Deployment Configuration Reproducible                              | Not started | DT-02                                | 2026-08-07   |
+| ID    | Priority | Target                                                                            | Status      | Depends on                           | Last updated |
+| ----- | -------- | --------------------------------------------------------------------------------- | ----------- | ------------------------------------ | ------------ |
+| DT-19 | P0       | Complete Centurion Pilot Readiness                                                | In review   | Authenticated readiness smoke test    | 2026-08-19   |
+| DT-18 | P0       | Run 25-Company Founder-Led Manual Outreach Pilot                                  | In progress | DT-19 readiness verification         | 2026-09-03   |
+| DT-17 | P0       | Implement Private Operator Prospecting System (`/centurion`) Phase 1            | In review   | DT-16 and Clerk authentication       | 2026-08-19   |
+| DT-12 | P0       | Integrate Mobile-First Prospecting & Scoping Components                           | Complete    | DT-04 and responsive-dev.md          | 2026-08-17   |
+| DT-13 | P0       | Fortify Lead Intake Route & Scoping Persistence                                   | Complete    | DT-03 and Zod validation             | 2026-08-17   |
+| DT-14 | P1       | Complete Mobile Ergonomics & Viewport Verification Audit                          | In review   | DT-12 and responsive-dev.md          | 2026-08-17   |
+| DT-15 | P1       | Execute Git Commit & Clean Deployment Release Snapshot                            | Complete    | DT-12, DT-13, DT-14                  | 2026-08-17   |
+| DT-16 | P0       | Integrate Drizzle ORM & Serverless Neon PostgreSQL Data Layer                     | Complete    | DT-13, Website Prospecting System    | 2026-08-17   |
+| DT-01 | P0       | Define & Approve AI-First Web Development & Local Presence Offerings & Claims Reg | In progress | Owner decisions and service specs    | 2026-09-03   |
+| DT-02 | P0       | Secure Public APIs and Configuration                                              | Not started | DT-01 for endpoint scope             | 2026-08-07   |
+| DT-03 | P0       | Make AI Web Dev Project Lead Capture & Scoping Resilient                          | In progress | Lead storage and notification setup  | 2026-08-07   |
+| DT-04 | P0       | Transform Frontend for AI Web Dev Agency Positioning & Portfolio                  | In progress | DT-01 for copy and service structure | 2026-09-03   |
+| DT-10 | P1       | Recreate the Legacy Derivative Genius Homepage Conversion Elements                 | Not started | DT-01 and DT-04                      | 2026-08-15   |
+| DT-11 | P1       | Rebuild the Full Legacy Site Page Architecture                                     | Not started | DT-10, DT-01, DT-04                 | 2026-08-15   |
+| DT-09 | P0       | Launch Paid Pilot AI Web Dev Project Onboarding & Payment Link Flow               | Blocked     | DT-18 qualified opportunity          | 2026-08-19   |
+| DT-05 | P1       | Establish Automated Quality, Testing, and CI Gates                                | Complete    | None                                 | 2026-08-07   |
+| DT-06 | P1       | Complete Accessibility and Responsive UX Verification                             | Not started | DT-04                                | 2026-08-07   |
+| DT-07 | P1       | Establish SEO, GEO, Analytics, Privacy, and Operational Baselines                 | In progress | DT-01 and DT-04                      | 2026-09-03   |
+| DT-08 | P1       | Make Deployment Configuration Reproducible                                        | Not started | DT-02                                | 2026-08-07   |
 
 ## Active development targets
 
@@ -198,16 +199,26 @@ DT-10 and DT-11 remain lower-priority website expansion work unless pilot eviden
 
 **Priority:** P0
 
-**Status:** Blocked
+**Status:** In progress
 
-**Blocker:** DT-19 must pass the Centurion readiness test before live calls begin.
+**Operating rule:** Software never delays market contact. Manual research, prospect qualification, high-leverage audits, and direct founder phone calls proceed immediately; `/centurion` serves as the durable record as its authenticated readiness test (DT-19) is completed.
 
-**Outcome:** Validate a repeatable sales motion for fixed-scope Derivative Genius website engagements by manually researching and contacting 25 qualified companies in one vertical across approximately five cities. Use `/centurion` to support human judgment and record the work; do not expand automation during the pilot.
+**Outcome:** Validate a repeatable sales motion for fixed-scope Derivative Genius website engagements and recurring local presence retainers by manually researching and contacting 25 qualified companies in one vertical across approximately five cities. Ground outreach in Mike Stewart's direct-response audit methodology (`doc/lessons-of-localinternetpresence.md`). Use `/centurion` to support human judgment and record the work; do not expand automation during the pilot.
 
-- [ ] Select one initial vertical and approximately five cities.
-- [ ] Define the pilot offer, project range, qualification rules, and short call opener.
-- [ ] Hand-qualify 25 operating companies with source provenance and no disqualifier.
-- [ ] Record one specific, defensible website observation and next action for every active prospect.
+- [x] Select initial vertical and geographic market:
+  - **Vertical:** HVAC (Heating, Ventilation & Air Conditioning) — high-ticket emergency replacements, AC repair, heat pumps, and ductwork.
+  - **Geographic Market:** Lake County, California (Clearlake, Lakeport, Kelseyville, Middletown, Lower Lake, Nice, Lucerne).
+- [ ] Define the dual pilot offer structure:
+  - **Option A (Fixed Sprint):** Dedicated High-Converting HVAC Video Landing Page build ($1,500–$2,500) designed to convert paid/organic search traffic into booked emergency and replacement calls.
+  - **Option B (Recurring Growth Retainer):** $300–$500/month "Done-For-You" Local Authority & GEO Retainer (weekly AI owner-voice podcast, open-web blog transcripts, GBP maintenance, and included Suno SERP term jingle).
+- [ ] Hand-qualify 25 operating HVAC companies in/serving Lake County with verified source provenance and no disqualifier.
+- [ ] Audit each prospect using the Mike Stewart High-Leverage Audit checklist:
+  - **The Homepage Mistake:** Does the business run paid search/PPC ads that send visitors to a cluttered homepage instead of a dedicated, single-problem landing page?
+  - **The Acoustic & GEO Blind Spot:** Is the business trapped on rented social media land with zero indexable open-web audio/transcripts cited by AI assistants (Gemini, ChatGPT, Perplexity)?
+  - **Google Business Profile (GBP) Neglect:** Is the profile unverified, lacking owner review responses, or missing geo-tagged work photos?
+  - **Mobile Call Friction:** Does the site take $>3$ seconds to load on mobile, or force users to pinch/search for a phone number rather than providing a sticky 1-tap `tel:` button?
+- [ ] Record one specific, undeniable website or conversion observation and next action for every active prospect.
+- [ ] Craft short, plain-language call openers focused on direct economic relief (e.g., stopping wasted ad spend on bouncing mobile clicks).
 - [ ] Identify the best available public business line or verified decision-maker route.
 - [ ] Place calls manually during appropriate local calling windows.
 - [ ] Record every attempt, conversation, objection, commitment, opt-out, and follow-up in `/centurion`.
@@ -222,8 +233,8 @@ DT-10 and DT-11 remain lower-priority website expansion work unless pilot eviden
 - decision-maker reach rate;
 - follow-up commitments;
 - discovery calls held;
-- proposals issued;
-- closed revenue and average project value;
+- proposals issued (sprint vs. monthly retainer);
+- closed revenue and average project value / MRR;
 - loss and objection reasons; and
 - time spent researching, calling, and following up.
 
@@ -327,27 +338,36 @@ Raw prospects, contacts found, calls attempted, and audits generated are support
 
 **Done when:** Unit tests pass, `/centurion` routes compile in a Next.js production build, and the DT-19 readiness workflow proves all Phase 1 operator flows function without a parallel spreadsheet.
 
-### DT-01. Define & Approve AI-First Web Development Offerings & Claims Register
-
+### DT-01. Define & Approve AI-First Web Development & Local Presence Offerings & Claims Register
 
 **Priority:** P0
 
 **Status:** In progress
 
-**Outcome:** Public copy accurately describes Derivative Genius AI-first web development services using both plain-English analogies and technical specs (Next.js 16, React 19, TypeScript, Tailwind CSS, Zod, Jest).
+**Outcome:** Public copy accurately describes Derivative Genius AI-first web development and local presence services using both plain-English analogies and technical specs (Next.js 16, React 19, TypeScript, Tailwind CSS, Zod, Jest), incorporating the high-converting methodologies of Mike Stewart (`doc/lessons-of-localinternetpresence.md`).
 
-- [x] Align agency focus explicitly around AI-First Web Development & Web Applications.
+- [x] Align agency focus explicitly around AI-First Web Development, Web Applications, and High-Converting Local Presence Systems.
 - [x] Migrate core stack to Next.js 16 App Router, React 19, TypeScript, and Tailwind CSS matching MicrogreensLA.
 - [x] Incorporate plain-language analogies ("Smart Digital Employee", "24/7 Digital Assistant", "Search by Meaning", "Digital Dominoes") into home, service, and README documentation.
-- [ ] Define core service offerings:
-  - **AI-Native Web Applications**: Custom web apps built with embedded AI capabilities (chat, search, automated workflows).
-  - **Modern Full-Stack Web Development**: High-performance Next.js 16 single-page & server-rendered applications.
-  - **AI Feature Integration & API Orchestration**: Embedding LLM APIs, fine-tuned models, and smart automation into existing web apps.
-  - **Web Application Redesign & Modernization**: Upgrading legacy web systems to high-speed, modern serverless stacks.
-- [ ] Establish transparent project tiers (e.g. MVP Web App Sprint, Enterprise Web Portal, AI Integration Package).
-- [ ] Create a claims register covering build velocity, code quality benchmarks, accessibility compliance, and performance guarantees.
+- [ ] Define core service offerings across two high-impact pillars:
+  - **Pillar 1: Modern Full-Stack & AI Web Applications**
+    - **AI-Native Web Applications**: Custom web apps built with embedded AI capabilities (chat, search, automated workflows).
+    - **Modern Full-Stack Web Development**: High-performance Next.js 16 single-page & server-rendered applications.
+    - **AI Feature Integration & API Orchestration**: Embedding LLM APIs, fine-tuned models, and smart automation into existing web apps.
+    - **Web Application Modernization**: Upgrading legacy, slow web systems to high-speed serverless architectures.
+  - **Pillar 2: Local Presence, GEO & Direct-Response Engines (The LIP Model)**
+    - **Single-Problem Video Landing Pages**: Blazing-fast, mobile-first landing pages built without menu distractions, featuring problem-specific explainer video containers, instant trust proof, and sticky 1-tap mobile phone dialers.
+    - **Local Authority & GEO Retainer ($300/mo Core, $500/mo Growth)**: "Done-For-You" weekly audio podcasts recorded via ElevenLabs voice clone of the owner, transcribed into rich SEO/GEO blog articles on the client's primary domain, and syndicated to Apple/Spotify/Amazon/YouTube for authoritative backlinks. Includes continuous Google Business Profile (GBP) optimization and free AI SERP-term jingle.
+    - **Auditory Brand Retention (SERP Term Earworms)**: Suno AI-generated musical signatures embedding the exact high-ranking SERP term and phone anchor, exploiting involuntary musical imagery (INMI) to guarantee local recall.
+    - **Hyper-Local Video Ad Arbitrage**: 5-second skippable YouTube pre-roll ad architectures broadcasting television-grade branding into local living rooms on smart TVs for $0 when skipped.
+- [ ] Establish transparent project and retainer tiers:
+  - **MVP Web App Sprint** ($2,500–$5,000+ fixed sprint)
+  - **High-Converting Video Landing Page Package** ($1,500 fixed setup)
+  - **Core Local Presence & GEO Retainer** ($300/month recurring)
+  - **Full-Service Growth Retainer** ($500/month recurring + client ad spend)
+- [ ] Create a claims register covering build velocity, code quality benchmarks, accessibility compliance, sub-1-second mobile load speeds, and verified review integration.
 
-**Done when:** All material claims map to an approved web dev claims register, and public pages reflect active web development capabilities with plain-language clarity.
+**Done when:** All material claims map to an approved web dev claims register, and public pages reflect active capabilities, retainer pricing, and direct-response clarity.
 
 ### DT-10. Recreate the Legacy Derivative Genius Homepage Conversion Elements
 
@@ -401,8 +421,12 @@ This checklist covers the full site conversion rebuild. Each page should be chec
 - [ ] Add the “we are all standing on the shoulders of giants” brand narrative and plain-English value proposition.
 - [ ] Include the MicrogreensLA demo bot story and CTA in a way that supports lead capture.
 - [ ] Re-add trust-building proof blocks: customer examples, newsletter signup, and business value statements.
-- [ ] Verify the page fully matches the conversion flow: headline -> CTA -> contact form -> project inquiry.
-- [ ] Confirm mobile responsiveness and strong visual hierarchy across hero, value props, and CTAs.
+- [ ] Implement the "Eat Your Own Cooking" conversion elements:
+  - Personal 60-to-90 second explainer video of founder Joe Terry addressing local business owners directly.
+  - Persistent, sticky 1-tap call button (`tel:`) in the mobile bottom thumb zone and desktop header.
+  - Interactive audio demonstration playing the Derivative Genius 15-second Suno SERP earworm jingle.
+- [ ] Verify the page fully matches the conversion flow: headline -> video / jingle -> CTA -> contact / 1-tap call.
+- [ ] Confirm mobile responsiveness, sub-1-second mobile load speed, and zero distracting background animations that delay calling.
 
 #### About page
 - [ ] Restore founder/agency story and mission-driven narrative from the legacy site.
@@ -413,14 +437,16 @@ This checklist covers the full site conversion rebuild. Each page should be chec
 
 #### Services page
 - [ ] Recreate the service catalog in plain English and technician-friendly language.
-- [ ] Keep the four key conversion narratives: smart digital employee, 24/7 digital assistant, search by meaning, and digital dominoes.
-- [ ] Add price or scope framing that invites inquiry rather than creating friction.
+- [ ] Keep the four core analogies: smart digital employee, 24/7 digital assistant, search by meaning, and digital dominoes.
+- [ ] Introduce the Local Presence & GEO Engine offerings: single-problem video landing pages, automated audio/podcast transcription pipelines, and AI-generated SERP-term earworms.
+- [ ] Add transparent pricing and retainer framing ($300 Core / $500 Growth retainers; fixed-scope sprints) that invites inquiry rather than creating friction.
 - [ ] Link each service to a project inquiry path or scoping CTA.
 - [ ] Salesforce/CRM style service clarity is not required for the first pass, but decision clarity is.
 
 #### Solutions / industry pages
 - [ ] Recreate the industry-specific solution positioning from the legacy business story.
 - [ ] Map each industry to a real use case, value proposition, and example AI workflow.
+- [ ] Showcase high-ticket local service blueprints (pest control, roofing, plumbing, niche rental operators) demonstrating how video landing pages and GEO capture high-intent local demand.
 - [ ] Keep solution cards concise, high-clarity, and visually scannable.
 - [ ] Add CTAs that push the user toward a consultation or project inquiry.
 
@@ -453,6 +479,27 @@ This checklist covers the full site conversion rebuild. Each page should be chec
 
 **Completion rule:** A page is complete only when the copy, CTA flow, design hierarchy, technical implementation, and user path match the legacy site’s intent while reflecting the current AI-first positioning.
 
+### DT-07. Establish SEO, GEO, Analytics, Privacy, and Operational Baselines
+
+**Priority:** P1
+
+**Status:** In progress
+
+**Outcome:** Establish a dual-engine discovery architecture (traditional SERP SEO + LLM Generative Engine Optimization) powered by automated audio-to-text transcript pipelines, podcast RSS backlink syndication, complete JSON-LD structured data, privacy-preserving analytics, and operational baselines matching Mike Stewart's playbooks (`doc/lessons-of-localinternetpresence.md`).
+
+- [ ] Implement the Dual-Engine Discovery Pipeline:
+  - **Traditional SERP SEO**: Meta title tags, descriptions, Open Graph cards, sitemaps (`sitemap.ts`), and canonical links for all public routes.
+  - **Generative Engine Optimization (GEO)**: Semantic question-and-answer sections answering hyper-local service inquiries, formatted for direct citation in ChatGPT, Google Gemini, Claude, and Perplexity.
+- [ ] Implement Open-Web Audio & Transcript Pipeline:
+  - Publish rich text transcripts directly on primary domain URLs alongside multimedia/audio players.
+  - Establish podcast RSS feed endpoint (`/feed/podcast.xml`) syndicateable to Apple Podcasts, Spotify, Amazon Music, and YouTube to build authoritative domain backlinks.
+- [ ] Inject complete JSON-LD structured data schema across all public routes:
+  - `LocalBusiness`, `ProfessionalService`, `Service`, `FAQPage`, and `Review` schemas.
+- [ ] Configure lightweight, privacy-respecting client analytics without third-party surveillance scripts.
+- [ ] Add Google Search Console & Bing Webmaster verification tokens to environment configuration.
+
+**Done when:** All public routes generate validated JSON-LD schema, podcast RSS feed validates cleanly, and GEO semantic structure passes automated accessibility and SEO audit checks.
+
 ### DT-05. Establish Automated Quality, Testing, and CI Gates
 
 **Priority:** P1
@@ -470,6 +517,14 @@ This checklist covers the full site conversion rebuild. Each page should be chec
 **Verification:** Passed Jest test suite (2/2 tests pass), ESLint run (0 errors), and Next.js production build (7 static/dynamic pages compiled in 2.8s).
 
 ## Decision log
+
+### 2026-09-03: Integrating Local Internet Presence (LIP) Principles into Agency Strategy and Pilot Targets
+
+Adopted core principles from Mike Stewart's 30-year local marketing playbook (`doc/lessons-of-localinternetpresence.md`) to refine agency positioning, pilot outreach, and product offerings:
+1. **Offer Architecture (DT-01)**: Expanded service catalog to incorporate a high-margin, predictable recurring revenue model ($300–$500/mo Local Authority & GEO Retainer) alongside custom web application sprints. Added single-problem Video Landing Pages, AI SERP Term Jingles (Suno), and 5-second YouTube pre-roll ad arbitrage.
+2. **Founder-Led Pilot (DT-18)**: Grounded prospect qualification in high-leverage friction audits: identifying "The Homepage Mistake" (spending money on Google Ads that route paid clicks to general homepages), mobile phone friction, GBP neglect, and missing GEO indexing. Opener scripts focus on concrete, money-saving fixes.
+3. **Anti-Agency Web Standard (DT-04)**: Codified conversion-centered hero essentials (direct headline, problem subhead, zero-friction 1-tap call CTA, verified trust badges) and eliminated vanity agency bloat (slow video backgrounds, sliders) across public pages.
+4. **GEO Infrastructure (DT-07)**: Formalized the Audio-to-Text GEO pipeline on the open web, including syndicated podcast feeds (Apple, Spotify, Amazon, YouTube) for authoritative backlinks and LLM citation dominance.
 
 ### 2026-08-19: DT-17 Reopened and DT-18 Blocked Pending Pilot Readiness
 

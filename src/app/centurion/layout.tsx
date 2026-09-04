@@ -1,6 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
-import { ShieldCheck, LayoutDashboard, Target, Users, PhoneCall, FileUp, Lock, Terminal, ClipboardCheck, Handshake, BarChart3 } from 'lucide-react';
+import { ShieldCheck, LayoutDashboard, Target, Users, PhoneCall, FileUp, Lock, Terminal, ClipboardCheck, Handshake, BarChart3, CheckSquare } from 'lucide-react';
 import { requireCenturionPageAction } from '@/lib/auth/centurion';
 
 export const metadata = {
@@ -34,6 +34,9 @@ export default async function CenturionLayout({ children }: { children: React.Re
             </Link>
             <Link href="/centurion/prospects" className="px-3 py-2 rounded-lg text-sm font-medium text-slate-300 hover:text-white hover:bg-slate-800 transition">
               <Users className="w-4 h-4 inline mr-1.5" /> Prospects
+            </Link>
+            <Link href="/centurion/tasks" className="px-3 py-2 rounded-lg text-sm font-medium text-slate-300 hover:text-white hover:bg-slate-800 transition">
+              <CheckSquare className="w-4 h-4 inline mr-1.5 text-emerald-400" /> Tasks
             </Link>
             <Link href="/centurion/queue" className="px-3 py-2 rounded-lg text-sm font-medium text-slate-300 hover:text-white hover:bg-slate-800 transition">
               <PhoneCall className="w-4 h-4 inline mr-1.5" /> Daily Queue
@@ -70,10 +73,10 @@ export default async function CenturionLayout({ children }: { children: React.Re
         {/* Mobile Navigation Sub-bar */}
         <div className="md:hidden flex items-center justify-around border-t border-slate-800 py-2 bg-slate-900 text-xs text-slate-400">
           <Link href="/centurion" className="hover:text-emerald-400">Dashboard</Link>
+          <Link href="/centurion/tasks" className="hover:text-emerald-400 font-medium text-emerald-400">Tasks</Link>
           <Link href="/centurion/prospects" className="hover:text-emerald-400">Prospects</Link>
           <Link href="/centurion/queue" className="hover:text-emerald-400">Queue</Link>
           <Link href="/centurion/pipeline" className="hover:text-emerald-400">Pipeline</Link>
-          <Link href="/centurion/reports" className="hover:text-emerald-400">Reports</Link>
         </div>
       </header>
 
