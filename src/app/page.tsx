@@ -88,9 +88,9 @@ export default function HomePage() {
       <section className="relative mx-auto max-w-7xl px-4 text-center sm:px-6 lg:px-8">
         {/* Featured projects carousel moved below hero — see portfolio section before Plain English */}
         <h1 className="mt-6 font-extrabold text-4xl tracking-tight text-white sm:text-6xl lg:text-7xl">
-          Websites & Local Search Engines <br />
+          We Build Websites & Prime Local Search Engines <br />
           <span className="bg-gradient-to-r from-blue-400 via-indigo-400 to-emerald-400 bg-clip-text text-transparent">
-            That Make Your Phone Ring
+            To Make Your Phone Ring
           </span>
         </h1>
 
