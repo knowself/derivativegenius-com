@@ -52,3 +52,5 @@ access.log
 .vercel/
 *.tsbuildinfo
 
+.vercel
+.env*

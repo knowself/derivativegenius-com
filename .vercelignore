@@ -8,13 +8,12 @@ __pycache__/
 *$py.class
 
 # Backend services not part of the Next.js deployment
-api/
-admin_panel/
-backend/
-firebase_app/
-core/
-marketing/
-worker/
+/admin_panel/
+/backend/
+/firebase_app/
+/core/
+/marketing/
+/worker/
 
 # Stale local content links and dev-only paths
 public/content

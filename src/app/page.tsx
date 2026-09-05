@@ -3,7 +3,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { CENTURIONS_PROJECTS } from "../data/portfolio";
 import FeaturedCarousel from "../components/FeaturedCarousel";
-import { Sparkles, Code2, Cpu, ArrowRight, CheckCircle2, MessageSquareText, Search, Workflow, UserCheck, Phone } from "lucide-react";
+import { Code2, Cpu, ArrowRight, CheckCircle2, MessageSquareText, Search, Workflow, UserCheck, Phone, BookOpen } from "lucide-react";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
 import { DemosShowcase } from "@/components/DemosShowcase";
 import { ProjectCalculator } from "@/components/ProjectCalculator";
@@ -86,14 +86,7 @@ export default function HomePage() {
     <div className="space-y-24 pb-20 pt-12">
       {/* Hero Section */}
       <section className="relative mx-auto max-w-7xl px-4 text-center sm:px-6 lg:px-8">
-        <div className="mx-auto inline-flex items-center space-x-2 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-4 py-1.5 text-xs font-semibold text-emerald-400 backdrop-blur-md">
-          <Sparkles className="h-3.5 w-3.5" />
-          <span>High-Converting Websites & Local Lead Engines</span>
-        </div>
-
-        {/* Featured projects carousel */}
-        <FeaturedCarousel />
-
+        {/* Featured projects carousel moved below hero — see portfolio section before Plain English */}
         <h1 className="mt-6 font-extrabold text-4xl tracking-tight text-white sm:text-6xl lg:text-7xl">
           Websites & Local Search Engines <br />
           <span className="bg-gradient-to-r from-blue-400 via-indigo-400 to-emerald-400 bg-clip-text text-transparent">
@@ -126,6 +119,30 @@ export default function HomePage() {
             <ArrowRight className="h-4 w-4" />
           </Link>
         </div>
+        <div className="mx-auto mt-6 flex max-w-2xl justify-center">
+          <Link
+            href="/book"
+            className="group inline-flex w-full items-center justify-center gap-3 rounded-2xl border border-emerald-500/40 bg-emerald-500/10 px-6 py-4 text-center shadow-lg shadow-emerald-950/30 backdrop-blur-md transition-all hover:border-emerald-400/60 hover:bg-emerald-500/20 sm:gap-4 sm:px-8"
+          >
+            <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-emerald-500/30 bg-emerald-600/20">
+              <BookOpen className="h-6 w-6 text-emerald-400" />
+            </span>
+            <span className="text-left">
+              <span className="mb-0.5 inline-flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.18em] text-emerald-400">
+                New · Free Book
+              </span>
+              <span className="block text-base font-semibold leading-snug text-white sm:text-lg">
+                Read Local Internet Presence — the Mike Stewart playbook that powers our audits
+              </span>
+            </span>
+            <ArrowRight className="h-5 w-5 shrink-0 text-emerald-400 transition-transform group-hover:translate-x-1" />
+          </Link>
+        </div>
+      </section>
+
+      {/* Portfolio slider — just before Plain English */}
+      <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <FeaturedCarousel />
       </section>
 
       {/* In Plain English Section */}

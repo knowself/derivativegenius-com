@@ -1,0 +1,303 @@
+<!doctype html>
+<!-- ============================================================================
+  STALE ARCHIVE — DO NOT EDIT
+  This file is superseded by the live book at src/app/book/page.tsx (route /book).
+  It is kept for historical reference only. All book edits happen in
+  src/app/book/page.tsx. This file is outside Next.js routing (doc/ is never
+  built or served) and cannot affect the live site.
+  Archived: 2026-09-05
+============================================================================= -->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Local Internet Presence: How Local Businesses Get Found, Remembered, and Called</title>
+<meta name="description" content="The Mike Stewart playbook retold for local business owners: 5 pillars, SERP-term jingles, YouTube pre-roll arbitrage, and high-converting video pages.">
+<style>
+  :root{
+    --ink:#1a1a1a; --muted:#5b5b5b; --paper:#fffdf7; --card:#ffffff;
+    --accent:#0f766e; --accent-ink:#ffffff; --warn:#b45309; --line:#e7e0d0;
+    --max:72ch;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--paper);color:var(--ink);
+    font-family:Georgia,'Times New Roman',serif;line-height:1.65;font-size:18px}
+  .wrap{max-width:calc(var(--max) + 320px);margin:0 auto;padding:0 20px}
+  header.cover{background:#0b1f1d;color:#fff;padding:56px 0 36px;border-bottom:6px solid var(--accent)}
+  header.cover h1{font-size:clamp(30px,4.5vw,52px);line-height:1.1;margin:0 0 12px;max-width:20ch}
+  header.cover p.sub{font-size:clamp(18px,2.2vw,23px);color:#d7efe9;margin:0 0 18px;max-width:52ch;font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
+  .badge{display:inline-block;font-family:system-ui,sans-serif;font-size:13px;letter-spacing:.08em;text-transform:uppercase;
+    background:var(--accent);color:var(--accent-ink);padding:6px 12px;border-radius:999px;margin-bottom:16px}
+  .meta{font-family:system-ui,sans-serif;font-size:14px;color:#bcd9d3}
+  .layout{display:grid;grid-template-columns:280px 1fr;gap:32px;padding:28px 0 80px}
+  @media (max-width:900px){.layout{grid-template-columns:1fr}}
+  nav.toc{position:sticky;top:16px;align-self:start;background:var(--card);border:1px solid var(--line);
+    border-radius:12px;padding:18px;font-family:system-ui,sans-serif;font-size:15px}
+  @media (max-width:900px){nav.toc{position:static}}
+  nav.toc h2{font-size:13px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin:0 0 10px}
+  nav.toc ol{margin:0;padding-left:20px}
+  nav.toc li{margin:6px 0}
+  nav.toc a{color:var(--ink);text-decoration:none;border-bottom:1px dotted #999}
+  main{min-width:0}
+  main section{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:28px;margin:0 0 22px}
+  main h2{font-size:28px;line-height:1.25;margin:0 0 8px}
+  main h3{font-size:21px;margin:26px 0 8px}
+  .kicker{font-family:system-ui,sans-serif;font-size:13px;text-transform:uppercase;letter-spacing:.08em;color:var(--accent);margin:0 0 6px}
+  p{margin:12px 0}
+  blockquote{margin:18px 0;padding:14px 18px;border-left:5px solid var(--accent);background:#f0faf8;font-style:italic}
+  ul,ol{padding-left:24px}
+  li{margin:6px 0}
+  .box{border:1px solid var(--line);border-radius:10px;padding:16px 18px;margin:18px 0;font-family:system-ui,sans-serif;font-size:16px}
+  .lesson{background:#eef7ff;border-color:#b6d9f5}
+  .trap{background:#fef6e7;border-color:#f0d49a}
+  .proof{background:#f0fdf4;border-color:#a7d8b5}
+  .action{background:#0f766e;color:#fff;border-color:#0f766e}
+  .action a{color:#fff;font-weight:700}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  @media (max-width:700px){.grid2{grid-template-columns:1fr}}
+  table{width:100%;border-collapse:collapse;font-family:system-ui,sans-serif;font-size:15px;margin:14px 0}
+  th,td{border:1px solid var(--line);padding:10px;text-align:left;vertical-align:top}
+  th{background:#f5f1e4}
+  .pill{display:inline-block;font-family:system-ui,sans-serif;font-size:13px;background:#f5f1e4;border:1px solid var(--line);
+    border-radius:999px;padding:3px 10px;margin:2px 4px 2px 0}
+  footer{font-family:system-ui,sans-serif;font-size:14px;color:var(--muted);padding:0 0 60px}
+  .stub{opacity:.92;border-style:dashed}
+  @media print{
+    header.cover{background:#fff;color:#000;padding:0 0 12px;border:none}
+    header.cover p.sub,.meta{color:#000}
+    nav.toc{display:none}
+    .layout{display:block}
+    main section{break-inside:avoid;box-shadow:none}
+  }
+</style>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"Book","name":"Local Internet Presence: How Local Businesses Get Found, Remembered, and Called","author":{"@type":"Person","name":"Mike Stewart playbook, retold for owners"},"about":["Local SEO","Google Business Profile","Video Sales Letter","YouTube Ads","Lead generation"]}
+</script>
+</head>
+<body>
+<div style="background:#7c2d12;color:#fff;font-family:system-ui,sans-serif;font-size:15px;padding:14px 20px;text-align:center;font-weight:700">STALE ARCHIVE — DO NOT EDIT · Live version: <span style="text-decoration:underline">src/app/book/page.tsx (/book)</span> · This copy is frozen for reference only.</div>
+<header class="cover">
+  <div class="wrap">
+    <span class="badge">Living doc · v0.2 · for local owners</span>
+    <h1>Local Internet Presence: How Local Businesses Get Found, Remembered, and Called</h1>
+    <p class="sub">The Mike Stewart playbook — 35 years of direct response, retold in plain English. No jargon. Just phone calls.</p>
+    <div class="meta">Source: <em>Lessons of Local Internet Presence</em> · LocalInternetPresence.com · Nashville, TN · Last updated 2026-09-05</div>
+  </div>
+</header>
+
+<div class="wrap layout">
+<nav class="toc" aria-label="Table of contents">
+  <h2>Contents</h2>
+  <ol>
+    <li><a href="#promise">The promise</a></li>
+    <li><a href="#intro">Introduction · Who is Mike</a></li>
+    <li><a href="#ch-1">1 · The philosophy</a></li>
+    <li><a href="#ch-2">2 · The 5 pillars</a></li>
+    <li><a href="#ch-3">3 · The jingle that sticks</a></li>
+    <li><a href="#ch-4">4 · The YouTube loophole</a></li>
+    <li><a href="#ch-5">5 · The page that rings</a></li>
+    <li><a href="#ch-6">6 · Two traps to avoid</a></li>
+    <li><a href="#ch-7">7 · Proof from real towns</a></li>
+    <li><a href="#ch-8">8 · Your next step</a></li>
+    <li><a href="#ch-9">9 · How content gets made</a></li>
+    <li><a href="#ch-10">10 · The AI factory</a></li>
+    <li><a href="#audit">Appendix · 5-minute self-audit</a></li>
+    <li><a href="#glossary">Appendix · Plain-English glossary</a></li>
+  </ol>
+</nav>
+
+<main>
+<section id="promise">
+  <p class="kicker">Start here · 60 seconds</p>
+  <h2>If they can't find you, remember you, and call you in seconds — you don't have a presence.</h2>
+  <p>Mike Stewart simplifies the whole internet to two jobs:</p>
+  <ol>
+    <li><strong>Traffic:</strong> get qualified locals to find you on the device they actually use — <strong>over 90% are on mobile phones</strong> for home services.</li>
+    <li><strong>Conversion:</strong> within <strong>3 seconds</strong> of landing, convince them you're the trustworthy local fix for their urgent problem. If not, they bounce.</li>
+  </ol>
+  <div class="box lesson"><strong>Owner takeaway:</strong> You don't need "brand awareness." You need <span class="pill">found</span> <span class="pill">remembered</span> <span class="pill">called</span>. Everything in this book serves those three.</div>
+  <p>Traffic comes from only three places: <strong>paid</strong> (Google / YouTube — fastest), <strong>organic</strong> (reviews, map, content — compounds), <strong>borrowed</strong> (partners, networking — trust).</p>
+</section>
+
+<section id="intro">
+  <p class="kicker">Introduction · Who this is and what this is</p>
+  <h2>Who is Mike Stewart — and what is LocalInternetPresence.com?</h2>
+  <h3>Who is Mike Stewart</h3>
+  <p>Mike Stewart is a 35-year veteran of radio, television, music production, audio engineering, and direct marketing, based in Nashville, Tennessee. Former member of <em>The Box Tops</em>, co-producer of <em>Pac-Man Fever</em>, producer of every Waffle House jukebox record (Golden Waffle for "Raisin Toast") — and one of the original pioneers of internet multimedia.</p>
+  <p>Over 20 years ago, with copywriter Jim Edwards and direct-response legend Dan Kennedy, Mike <strong>co-invented the Video Sales Letter (VSL)</strong> when Flash video arrived — proving plain human video with direct-response psychology beats million-dollar agency websites.</p>
+  <h3>What is LocalInternetPresence.com</h3>
+  <p>His company, <strong>LocalInternetPresence.com</strong>, is not a "brand awareness" agency. It is a done-for-you local presence system for service businesses — plumbers, HVAC, roofers, pest control, boat rentals, shops — built on <strong>high-intent lead capture, earworms you can't forget, and zero-friction funnels</strong>.</p>
+  <div class="grid2">
+    <div class="box lesson"><strong>What it does:</strong> Google profile + map, your-domain content that AI quotes, one-problem video pages, 15-sec jingle + YouTube pre-rolls, in-person audits. You talk 3 minutes; it does the rest.</div>
+    <div class="box lesson"><strong>How you buy it:</strong> flat monthly retainer (~$300 core, ~$500 with ads managed + ad spend), no $2,000 studio bill, no writing, no dashboards. You reply YES to 4 topics a month.</div>
+  </div>
+  <blockquote>"Rather than posting a lot of jargon on this website that means nothing to most business owners… To GROW your business today, you must have a local internet presence. What I do for businesses, no one else is doing."</blockquote>
+</section>
+
+<section id="ch-1">
+  <p class="kicker">Chapter 1 · The creed</p>
+  <h2>The philosophy: leads, not laurels</h2>
+  <p>Mike Stewart is a 35-year veteran of radio, TV, music, and direct marketing in Nashville — former Box Top, co-producer of <em>Pac-Man Fever</em>, producer of every Waffle House jukebox record. Twenty years ago, with copywriter Jim Edwards and Dan Kennedy, he <strong>co-invented the Video Sales Letter (VSL)</strong> when Flash video arrived — proving human video with direct-response psychology beats million-dollar agency sites.</p>
+  <blockquote>"Rather than posting a lot of jargon on this website that means nothing to most business owners… To GROW your business today, you must have a local internet presence. What I do for businesses, no one else is doing."</blockquote>
+  <p>Conventional agencies sell vanity: pretty sliders, vague slogans, random social posts. Mike sells <strong>high-intent lead capture, earworms people can't forget, and funnels with zero friction</strong> — built for plumbers, HVAC, roofers, pest control, rentals, and shops.</p>
+</section>
+
+<section id="ch-2">
+  <p class="kicker">Chapter 2 · The map</p>
+  <h2>The 5 pillars of local dominance</h2>
+  <p>Think of these as five legs on one stool. Miss one and you wobble.</p>
+  <table>
+    <tr><th>Pillar</th><th>What you do</th><th>Why it pays</th></tr>
+    <tr><td><strong>1 · Map &amp; reviews</strong></td><td>Claim Google Business Profile, fix name/address/phone, ask every happy customer for 5 stars, reply to all, post real job photos</td><td>Most valuable asset you own; activity signals push you into the Map Pack</td></tr>
+    <tr><td><strong>2 · Your website + word-spreading</strong></td><td>Publish answers on <em>your</em> domain, with transcripts; share audio to Apple/Spotify/YouTube</td><td>Ranks on Google and gets quoted by AI answers; social-only posts don't</td></tr>
+    <tr><td><strong>3 · Page + ads that match</strong></td><td>One problem = one page with video + reviews + tap-to-call; ads say the pain + "Watch my video"</td><td>Paid clicks stop leaking; calls quadruple</td></tr>
+    <tr><td><strong>4 · Jingle + YouTube</strong></td><td>15-second search-term song, front-loaded into skippable pre-rolls</td><td>Millions hear you; Google often charges $0</td></tr>
+    <tr><td><strong>5 · Handshakes</strong></td><td>Show up (BNI, chamber), run a 20-minute audit 1-on-1</td><td>Owners buy from people who show the flaw, not pitch decks</td></tr>
+  </table>
+  <div class="box lesson"><strong>Pillar 1 is first for a reason:</strong> if your reviews are thin, your hours wrong, and your photos stale, ads just send people to distrust you faster.</div>
+</section>
+
+<section id="ch-3">
+  <p class="kicker">Chapter 3 · Weapon A</p>
+  <h2>The jingle that sticks in their head</h2>
+  <p>Every business has a 2–4 word phrase that puts them #1 — e.g. <em>"Nashville Party Boat Rental," "Pink Plumber," "Mount Lawley Pest Control."</em> Problem: locals don't know to type it. Solution: plant it with melody.</p>
+  <h3>The 21-time rule</h3>
+  <blockquote>"When you hear marketing information set to melody 20 times, on the 21st time you will never get it out of your subconscious for the rest of your life."</blockquote>
+  <p>Proof: 30 years ago in Smyrna, Georgia, <em>The Pink Plumber</em> ran: <strong>"Google Pink, click the link, or call 404-222-PINK."</strong> Listeners still recite it decades later. Same mechanism as <em>800-588-2300 Empire Today</em>.</p>
+  <h3>The 15-second recipe</h3>
+  <ol>
+    <li><strong>0–5s · The anchor:</strong> sing the exact search term + who you are. Must land before "Skip" appears.</li>
+    <li><strong>5–12s · The benefit:</strong> plain-spoken promise in owner voice.</li>
+    <li><strong>12–15s · The nudge:</strong> "Search [term] today!" or phone.</li>
+  </ol>
+  <div class="box trap"><strong>Golden rule — don't "help" with lyrics.</strong> Owners love slogans and rhymes that kill the earworm. Mike's line: <em>"We write the lyrics, we pick the music, we follow the formula. If you don't like the free AI version, we'll do a $2,000 studio version however you want."</em> Nobody ever pays the $2,000.</div>
+</section>
+
+<section id="ch-4">
+  <p class="kicker">Chapter 4 · Weapon B</p>
+  <h2>The YouTube loophole (legal, built into Google's billing)</h2>
+  <p>Over half of local YouTube now plays on <strong>living-room Smart TVs</strong>. Skippable ads force 5 seconds of watching — and Google <strong>charges $0 if they skip before 30 seconds</strong>.</p>
+  <table>
+    <tr><th>0–5s (mandatory, free)</th><th>6–30s (skippable)</th></tr>
+    <tr><td>Jingle starts instantly. Brand + search term sung. 100% hear it.</td><td>Problem, proof, offer. Pay only if watched to 30s or clicked.</td></tr>
+  </table>
+  <p><strong>The living-room effect:</strong> kids watching <em>Bluey</em>, remote on the coffee table — nobody dives to skip. Even at 70–80% skip rates, everyone heard you.</p>
+  <div class="box proof"><strong>Abilene, Texas pest control:</strong> 8 million skips (free saturation) + 3 million full views on ~$200–$400/mo ad spend. Revenue tripled and quadrupled. Families hummed it daily.</div>
+  <h3>Targeting: geography beats guesswork</h3>
+  <p>Don't micro-filter age, interests, parental status. Draw a tight <strong>15–20 mile radius / zip cluster</strong> and let Google's machine find buyers.</p>
+</section>
+
+<section id="ch-5">
+  <p class="kicker">Chapter 5 · Weapon C</p>
+  <h2>The page that rings: one problem, one video, one button</h2>
+  <p>Mike's founding discovery: <strong>"People will watch before they read."</strong> Replace bloated 20-page sites with one focused Video Sales Letter per urgent problem.</p>
+  <h3>The 5-part page</h3>
+  <ol>
+    <li><strong>Headline with risk reversal</strong> — see formula below</li>
+    <li><strong>45–60 sec video + jingle</strong> — solve the exact search, human face</li>
+    <li><strong>Proof strip</strong> — Google 5-stars / badges right under video</li>
+    <li><strong>Plain-spoken copy</strong> — agitate the pain, answer FAQs</li>
+    <li><strong>Sticky tap-to-call</strong> — always in the mobile thumb zone</li>
+  </ol>
+  <h3>The headline that has worked 15 years</h3>
+  <blockquote>"We will give you the most thorough, amazing, unbelievable [service] guaranteed or it's free."</blockquote>
+  <p>HVAC: <em>"We will make your house ice cold or it's free."</em> Plumbing: <em>"We will fix your leaky toilet today guaranteed or it's free."</em> Roofing: <em>"Your roof will not leak, guaranteed or it's free."</em> Anxious homeowners just want safety. Almost nobody claims — they just call.</p>
+  <h3>Ads that feed it: Problem → Agitate → "Watch my video"</h3>
+  <p>Dan Kennedy style: <em>"Tired of termites? Scared they're eating your home? Want them gone today? Watch my video."</em> Adding <strong>"Watch my video"</strong> quadrupled click-through — it promises clarity, not homework.</p>
+</section>
+
+<section id="ch-6">
+  <p class="kicker">Chapter 6 · Save your money</p>
+  <h2>Two traps that eat local budgets</h2>
+  <div class="box trap"><strong>Trap 1 · The award-winning website.</strong> Giant sliders, stock video, clever slogans ("Excellence in Every Pipe") push your number below the fold. Result: ~90% bounce in 10 seconds. An award is often a <em>negative</em> indicator of calls. And never hide "call" behind a hamburger menu — Mike: <em>"Ask a baby boomer what a hamburger menu is — they think of In-N-Out."</em></div>
+  <div class="box trap"><strong>Trap 2 · The social-media walled garden.</strong> Dopamine scrolling isn't emergency intent — nobody with a burst pipe opens Instagram. Worse, Facebook/Instagram hide posts from Google and AI crawlers. Posts on <em>your</em> domain compound for years; social posts evaporate.</div>
+</section>
+
+<section id="ch-7">
+  <p class="kicker">Chapter 7 · It works in real towns</p>
+  <h2>Proof, not promises</h2>
+  <div class="box proof"><strong>West Texas Pest Patrol — Abilene, TX.</strong> 15-sec jingle + geo-only pre-rolls. 8M skips + 3M views. Revenue 3–4x. Kids' TV did the selling.</div>
+  <div class="box proof"><strong>Nashville Party Boat — Nashville, TN.</strong> Season wiped out in May. Exact-match domain + 1-page VSL ("Book Your Boat") + jingle + $250/mo ads. $0 → $80,000 first summer, 40 charters, sold-out weekends, #1 Map Pack.</div>
+  <div class="box proof"><strong>Local Nashville Honey — Nashville, TN.</strong> No shipping, just booth traffic. Local content + jingle. #1 for "local honey near me," biggest months ever, $0 ad spend.</div>
+  <div class="box proof"><strong>Mount Lawley Pest Control — Perth, Australia (Glenn Mott, solo operator).</strong> 5-year goal: $500k/yr. Deployed problem-specific video pages + SERP jingle + Dan Kennedy agitation ads. Hit the goal in <strong>year 2</strong> — 3 years early.
+    <table><tr><th>Before</th><th>After</th></tr><tr><td>Generic site, no video, no jingle</td><td>One page per pest + video + reviews + tap-to-call</td></tr><tr><td>Owner invisible on Google/AI answers</td><td>Transcribed answers rank + get quoted</td></tr></table></div>
+  <div class="box proof"><strong>Haynes Pest Control — Avon Park, FL.</strong> Full VSL + jingle + skippable pre-rolls (50% on living-room TVs). <strong>+23% (+$172,500) in 7 months</strong>, +7 hires in 2025, 1M+ video views.
+    <table><tr><th>Before</th><th>After</th></tr><tr><td>Homepage caught all ad clicks, 90% bounce</td><td>Problem pages with "guaranteed or it's free" + sticky call</td></tr><tr><td>Zero TV presence</td><td>Ubiquitous $0-skip saturation in service radius</td></tr></table></div>
+  <div class="box proof"><strong>Ted Yates — Tampa, FL (agency proof).</strong> No audio/coding background. After <strong>two 1-hour Zooms</strong>, launched a full-time retainer practice purely via BNI/chamber 1-on-1 audits — signing monthly clients and hosting podcasts for local groups. Proves the playbook transfers.</div>
+</section>
+
+<section id="ch-8">
+  <p class="kicker">Chapter 8 · What to do Monday</p>
+  <h2>Your next step: a 20-minute audit</h2>
+  <p>Small owners "don't know what they don't know" — and get spammed by faceless agencies. The fix is a short, in-person diagnostic:</p>
+  <ol>
+    <li>Google your money term — are you in the Map Pack?</li>
+    <li>Open your site on your phone — can you call in one tap without scrolling or menus?</li>
+    <li>Count reviews — under 20, unanswered 1-stars, no owner replies?</li>
+    <li>Search your blog — zero indexed answers on your own domain?</li>
+  </ol>
+  <div class="box action">If you failed 2 or more: get the audit. Bring one problem ("termites," "leaky roof," "slow season"). Leave with one page, one video outline, and one jingle lyric to test. <a href="#audit">Run the 5-minute self-audit ↓</a></div>
+</section>
+
+<!-- v0.2: full chapters — no restructuring -->
+<section id="ch-9">
+  <p class="kicker">Chapter 9 · Weapon D</p>
+  <h2>How content gets made (without you writing)</h2>
+  <p><em>"It's a shorter distance from your brain to your tongue than to your hands."</em> Owners freeze at keyboards but can't stop talking when asked the right technical question. So never start with "write a blog." Start with talk, then transcribe.</p>
+  <h3>The 5-step extraction</h3>
+  <ol>
+    <li><strong>Name 50 problems you solve.</strong> Not "we kill bugs" — list them: subterranean termites, drywood termites, bedbugs, German roaches, brown recluse, roof rats…</li>
+    <li><strong>Pick one diagnostic question:</strong> <em>"What are subterranean termites, and why are they dangerous to a foundation?"</em></li>
+    <li><strong>Record 3 minutes.</strong> Phone voice memo is fine — explain it like to a neighbor.</li>
+    <li><strong>Transcribe to your domain.</strong> Full text = blog post + FAQ schema. Audio stays embedded.</li>
+    <li><strong>Syndicate the audio.</strong> One RSS feed → Apple, Spotify, Amazon, YouTube = free authoritative backlinks.</li>
+  </ol>
+  <div class="box lesson"><strong>50-problems worksheet (15 min):</strong> draw 5 columns × 10 rows. Columns: Pests / Complaints / Seasons / Prices asked / Jobs you love. Fill 50 cells. Circle the 4 most-asked — that's this month's content.</div>
+  <div class="box lesson"><strong>Recorder checklist:</strong> quiet truck/office · phone 6 inches away · 3 min max · state name + town + problem first · end with "Search [SERP term] or tap to call."</div>
+  <div class="box lesson"><strong>Transcript template:</strong> Title = customer question ("How much… in [Town]?") · 150-word answer · 3 bullets · FAQ (3 Qs) · Call box. Publish weekly — compounds in Google + AI answers.</div>
+</section>
+
+<section id="ch-10">
+  <p class="kicker">Chapter 10 · Owner terms</p>
+  <h2>The AI factory: you approve, we produce</h2>
+  <p>What used to cost $2,000+ in studio time now runs monthly: scripts drafted for your town, voiced in your cloned voice incl. Spanish, 15-sec jingle, published + syndicated with full transcripts. Core ~$300/mo, full growth with ads management ~$500/mo + ad spend. Your heavy lifting: reply YES.</p>
+  <h3>SMS approval flow</h3>
+  <ol>
+    <li><strong>1st of month:</strong> you get text with 4 topics ("Reply YES to approve").</li>
+    <li><strong>You reply YES.</strong> We draft, voice, mix jingle intro/outro.</li>
+    <li><strong>Weekly:</strong> 1 post + episode goes live on your site, then Apple/Spotify/YouTube.</li>
+    <li><strong>End of month:</strong> 5-min Zoom: calls, rankings, next 4 topics.</li>
+  </ol>
+  <div class="box lesson"><strong>Sample month:</strong> Wk1 Donelson weeds + jingle refresh · Wk2 slab-leak cost FAQ · Wk3 termite swarm explainer (Spanish dub) · Wk4 "ice-cold or it's free" offer page. Each = blog + podcast + review push + GBP photo.</div>
+  <div class="box trap"><strong>What you never do:</strong> write, edit audio, log into dashboards, pick music. If you want custom studio lyrics, that's the $2,000 option — nobody takes it because the free AI version rings the phone.</div>
+</section>
+
+<section id="audit">
+  <p class="kicker">Appendix A · Tear-out</p>
+  <h2>5-minute self-audit</h2>
+  <ol>
+    <li>Does your Google Ad (or search result) go to your homepage instead of one problem page?</li>
+    <li>On mobile, is there a sticky tap-to-call button with no menu hunting?</li>
+    <li>Does your hero waste the screen on sliders while hiding reviews + phone?</li>
+    <li>GBP: &lt;20 reviews, unanswered 1-stars, zero owner replies, no fresh photos?</li>
+    <li>All content trapped on Facebook/Instagram, zero articles/podcasts on your domain?</li>
+  </ol>
+  <p>Score: 0 fails = defend the lead · 1–2 = fix this month · 3+ = you need the full playbook.</p>
+</section>
+
+<section id="glossary">
+  <p class="kicker">Appendix B · No jargon</p>
+  <h2>Plain-English glossary</h2>
+  <p><strong>GBP / Map Pack:</strong> your Google listing + the top-3 map box. <strong>NAP:</strong> name/address/phone must match everywhere. <strong>SERP term:</strong> the 2–4 words that put you #1. <strong>VSL:</strong> one video page that sells. <strong>GEO:</strong> writing so Google AI + ChatGPT quote you. <strong>Pre-roll arbitrage:</strong> free 5-sec listens because skips cost $0.</p>
+</section>
+</main>
+</div>
+
+<footer>
+  <div class="wrap">
+    <p>v0.2 living doc · retold from <em>Lessons of Local Internet Presence</em> · Mike Stewart / LocalInternetPresence.com · Print: File → Print → Save as PDF.</p>
+    <p><strong>STALE ARCHIVE:</strong> frozen reference only — live book is maintained at <code>src/app/book/page.tsx</code>.</p>
+  </div>
+</footer>
+</body>
+</html>
