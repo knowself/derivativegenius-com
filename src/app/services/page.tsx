@@ -59,7 +59,7 @@ export default function ServicesPage() {
     <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 space-y-16">
       <div className="mx-auto max-w-4xl space-y-6 text-center">
         <div className="mx-auto inline-flex items-center rounded-full border border-blue-500/30 bg-blue-500/10 px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.2em] text-blue-400">
-          AI Automation Agency
+          Web Systems That Save Time
         </div>
         <h1 className="text-4xl font-extrabold tracking-tight text-white sm:text-5xl">
           Build the systems that save time and win more business.

@@ -8,41 +8,41 @@ export default function SolutionsPage() {
     {
       title: "Retail & E-Commerce",
       icon: ShoppingBag,
-      summary: "AI-native shopping assistants, personalized product recommendations, and real-time inventory synchronization.",
+      summary: "Shopping assistants that answer from your catalog, tailored suggestions, and stock alerts staff can trust.",
       useCases: [
-        "Semantic product catalog search",
-        "Automated order status & return chatbots",
+        "Product search that understands plain words",
+        "Automated order-status & returns answers",
         "Dynamic pricing & inventory alerts",
       ],
     },
     {
       title: "Healthcare & Medical",
       icon: Stethoscope,
-      summary: "HIPAA-compliant client intake forms, automated appointment triage, and patient query summaries.",
+      summary: "Client intake forms with access controls, automated appointment triage, and visit summaries. Built for clinics that need audit trails — compliance scope confirmed per project, not assumed.",
       useCases: [
-        "Zod-validated patient intake forms",
+        "Validated patient intake forms",
         "Automated appointment scheduling workflows",
-        "Secure document indexing & clinical Q&A",
+        "Secure document search & visit Q&A",
       ],
     },
     {
       title: "Financial Services & Banking",
       icon: Landmark,
-      summary: "Secure client portals, automated risk reporting, and intelligent document extraction for loan/investment pipelines.",
+      summary: "Client portals with per-client access, loan and investment document summaries, and reporting your staff can read.",
       useCases: [
-        "Encrypted multi-tenant client portals",
-        "Automated financial document parsing",
-        "Real-time analytics & compliance dashboards",
+        "Client portals with per-client access controls",
+        "Automated financial document summaries",
+        "Reporting dashboards your staff can read",
       ],
     },
     {
       title: "Real Estate & Property Management",
       icon: Building2,
-      summary: "Smart property search by natural language, automated tenant inquiry triage, and lease contract summarization.",
+      summary: "Property search in plain words, automated tenant inquiry triage, and lease summaries.",
       useCases: [
-        "Semantic listing search (neighborhood, amenities, budget)",
+        "Listing search by neighborhood, amenities, and budget",
         "24/7 automated lead qualification",
-        "Contract parsing & tenant onboarding",
+        "Contract summaries & tenant onboarding",
       ],
     },
     {
@@ -51,7 +51,7 @@ export default function SolutionsPage() {
       summary: "Client intake automation, smart legal/case document search, and instant scope proposal generators.",
       useCases: [
         "Instant scoping & proposal calculators",
-        "Case file vector search & semantic indexing",
+        "Case file search across your documents",
         "Client portal milestone tracking",
       ],
     },
@@ -62,7 +62,7 @@ export default function SolutionsPage() {
       useCases: [
         "Instant job estimate calculators",
         "Automated booking & calendar sync",
-        "Durable Firestore lead retention",
+        "Lead records you keep if you leave",
       ],
     },
   ];
@@ -75,10 +75,10 @@ export default function SolutionsPage() {
           <span>Industry Solutions</span>
         </div>
         <h1 className="text-4xl font-extrabold tracking-tight text-white sm:text-5xl">
-          AI Web Solutions by Industry
+          Websites That Fit Your Industry
         </h1>
         <p className="text-lg text-slate-300">
-          Tailored AI-native web architectures engineered for your specific industry requirements.
+          One problem per page, tap-to-call above the fold, and plain words — shaped for how your customers actually buy.
         </p>
       </div>
 

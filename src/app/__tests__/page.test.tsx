@@ -8,7 +8,7 @@ describe("HomePage Component", () => {
     render(<HomePage />);
     const heading = screen.getByRole("heading", { level: 1 });
     expect(heading).toBeInTheDocument();
-    expect(heading).toHaveTextContent(/That Make Your Phone Ring/i);
+    expect(heading).toHaveTextContent(/To Make Your Phone Ring/i);
   });
 
   it("renders the CTA link to contact page and direct phone call", () => {

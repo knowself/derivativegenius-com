@@ -27,7 +27,7 @@ export function Newsletter() {
     await new Promise((res) => setTimeout(res, 600));
     setSubscribed(true);
     setLoading(false);
-    toast.success("Subscribed! No spam ever, we AI promise!");
+    toast.success("You're on the list on this device. Full email delivery is being wired up.");
   };
 
   return (
@@ -42,11 +42,11 @@ export function Newsletter() {
           </div>
           <h3 className="text-2xl font-bold text-white">Join Our Occasional Newsletter</h3>
           <p className="text-sm text-slate-300">
-            Get the latest AI web development techniques, case studies, and tools delivered to your inbox.
+            Occasional notes on websites that ring phones: before/after teardowns, booking-flow fixes, and local search wins.
           </p>
           <div className="flex items-center justify-center sm:justify-start space-x-1.5 text-xs text-slate-400">
             <ShieldCheck className="h-4 w-4 text-emerald-400" />
-            <span>No spam ever, we AI promise!</span>
+            <span>Occasional emails. Unsubscribe anytime.</span>
           </div>
         </div>
 

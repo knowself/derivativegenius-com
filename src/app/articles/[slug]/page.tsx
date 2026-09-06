@@ -8,7 +8,7 @@ import LazyYouTube from "@/components/LazyYouTube";
 
 const articleDataRaw: Record<string, any> = {
   "ai-avatars-and-email": {
-    title: "AI Avatars and Email, the Killer App of the AI Age is Here",
+    title: "AI Avatars and Email Follow-Up: What Worked, What Didn't",
     author: "Joe Terry, Head DG",
     date: "2024-12-09",
     category: "AI Avatars & Email Integration",
@@ -26,10 +26,10 @@ const articleDataRaw: Record<string, any> = {
       },
     ],
     content: [
-      "We are all standing on the shoulders of giants. Living in a time when we, each of us, can utilize all the intellectual tools ever conceived by humankind. All of us are revolutionizing our businesses and industries with cutting-edge AI tools and techniques, and Derivative Genius is here to help.",
-      "AI Avatars and Email represent the killer app of the AI Age. But what can they really do for your business?",
-      "Imagine an interactive avatar trained on your specific business knowledge base, product offerings, and customer service protocols. When a customer reaches out via your website or email, the AI avatar delivers personalized, human-like engagement instantly—qualifying leads, answering technical questions, and scheduling follow-ups.",
-      "At Derivative Genius, we integrate these AI Avatar and Email automation workflows directly into your web applications, ensuring high conversion, sub-second response times, and 24/7 client availability.",
+      "We are all standing on the shoulders of giants. This is a practical test: can an avatar trained on one business answer real customer questions well enough to earn a follow-up? Here is what we measured.",
+      "Avatars plus email follow-up are useful when the avatar answers from the business's own documented knowledge — hours, prices, service area. They fail when asked anything outside that file. The fix is a short, owned Q&A page per question.",
+      "Imagine an interactive avatar trained on your specific business knowledge base, product offerings, and customer service protocols. When a customer reaches out via your website or email, the avatar answers from that file instantly — qualifying leads, answering documented questions, and scheduling follow-ups for the rest.",
+      "At Derivative Genius, we wire these avatar and email follow-up workflows into your site, then measure answered-vs-escalated inquiries weekly. No sub-second or uptime promises here — we report what the logs show.",
     ],
   },
   "ai-powered-workflow": {
@@ -38,9 +38,9 @@ const articleDataRaw: Record<string, any> = {
     date: "2023-12-12",
     category: "AI Web Development",
     content: [
-      "In today's rapidly evolving tech landscape, artificial intelligence has become an indispensable tool for enhancing developer productivity and code quality. This article explores how to create an effective AI-powered development workflow that can transform your software engineering process.",
-      "Key components of an AI development workflow include code generation, automated testing, server-side Zod validation, and AI agentic assistance.",
-      "By utilizing specialized agentic workflows, software engineering teams can compress delivery timelines while maintaining 100% test coverage and strict type safety.",
+      "In today's tech landscape, AI tools are useful for specific development chores — drafting, summarizing, and first-pass tests. This article shows where they fit in our pipeline and where a human still reviews every line.",
+      "Key components of our workflow include code generation for drafts, automated testing, server-side validation, and AI-assisted review. Nothing ships on AI output alone.",
+      "Specialized workflows compress some delivery timelines. We report test coverage per project from the actual suite — never 100% unless the report says so — and keep strict type checks on.",
     ],
   },
 };

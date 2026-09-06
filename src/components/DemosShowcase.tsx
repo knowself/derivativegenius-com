@@ -17,20 +17,20 @@ export function DemosShowcase() {
     },
     {
       title: "Beach Cities Real Estate Assistants",
-      client: "Hermosa, Redondo & Manhattan Beach Demos",
+      client: "Hermosa, Redondo & Manhattan Beach — scoped, not yet live",
       category: "Real Estate Vertical",
       description:
-        "Interactive property search chatbots for Hermosa Beach (90254), Redondo Beach (90277/90278), and Manhattan Beach (90266/90267). Helping home buyers explore listings naturally.",
+        "Scoped property-search chatbots for Hermosa Beach (90254), Redondo Beach (90277/90278), and Manhattan Beach (90266/90267). No live demo yet — ask for the scope walkthrough.",
       icon: Home,
       link: "/contact",
-      linkLabel: "Explore Real Estate Bot Demo",
+      linkLabel: "Request the Real Estate Scope Walkthrough",
     },
     {
       title: "AI Avatars & Email Marketing Systems",
-      client: "Featured Analysis by Joe Terry, Head DG",
+      client: "Analysis by Joe Terry, Head DG",
       category: "Marketing & Outreach",
       description:
-        "Explore how AI Avatars and automated email workflows transform customer engagement. 'The killer app of the AI age is here.'",
+        "How AI avatars paired with automated email follow-up change customer engagement — what worked, what didn't, and what it costs to run.",
       icon: Mail,
       link: "/articles/ai-avatars-and-email",
       linkLabel: "Read AI Avatars Article",
@@ -40,10 +40,10 @@ export function DemosShowcase() {
       client: "Latoya Jones-McDonald — Farmers® Agent",
       category: "Professional Services",
       description:
-        "Personalized client intake and policy assistance helping customers identify auto, home, and business insurance coverage across Illinois and Indiana.",
+        "Personalized client intake and policy assistance helping customers identify auto, home, and business insurance coverage across Illinois and Indiana. Full write-up in progress — scope available on request.",
       icon: UserCheck,
       link: "/contact",
-      linkLabel: "View Case Study Scope",
+      linkLabel: "Request the Case Study Scope",
     },
   ];
 
@@ -52,13 +52,13 @@ export function DemosShowcase() {
       <div className="text-center max-w-3xl mx-auto space-y-3">
         <div className="mx-auto inline-flex items-center space-x-2 rounded-full border border-blue-500/30 bg-blue-500/10 px-4 py-1.5 text-xs font-semibold text-blue-400">
           <Sparkles className="h-3.5 w-3.5" />
-          <span>Real-World Demos & Client Showcase</span>
+          <span>Live Demo & Client Work</span>
         </div>
         <h2 className="text-3xl font-extrabold text-white sm:text-4xl">
-          Live AI Demos & Customer Examples
+          One Live Demo, More in Progress
         </h2>
         <p className="text-slate-300">
-          Explore actual AI web applications, chatbot integrations, and client showcases built by Derivative Genius.
+          One chatbot you can test right now, plus scoped work you can review on a call. Anything not live is labeled as such.
         </p>
       </div>
 

@@ -21,7 +21,7 @@ export function Footer() {
               />
             </Link>
             <p className="text-sm text-slate-400 leading-relaxed">
-              The premier AI-First Web Development Agency. We build intelligent, high-speed, AI-native web applications and custom software platforms.
+              Websites and web apps for service businesses — built to turn search traffic into phone calls. Fixed scope, fixed price.
             </p>
           </div>
 
@@ -44,8 +44,8 @@ export function Footer() {
                 </Link>
               </li>
               <li>
-                <Link href="/contact" className="hover:text-blue-400 transition-colors">
-                  Interactive Scope Calculator
+                <Link href="/services/websites" className="hover:text-blue-400 transition-colors">
+                  Fixed-Scope Website Packages
                 </Link>
               </li>
             </ul>
@@ -97,7 +97,7 @@ export function Footer() {
         </div>
 
         <div className="mt-12 border-t border-slate-800/60 pt-6 text-center text-xs text-slate-500">
-          © {new Date().getFullYear()} Derivative Genius. All rights reserved. Built with AI-first precision.
+          © {new Date().getFullYear()} Derivative Genius. All rights reserved.
         </div>
       </div>
     </footer>

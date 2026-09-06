@@ -20,7 +20,7 @@ export default function WebsiteServicesPage() {
         "Mobile-first ergonomic design & touch zones",
         "Zod-validated lead intake form",
         "Google Maps & local SEO foundation",
-        "Sub-100ms Core Web Vitals optimization",
+        "Fast-loading pages measured against Core Web Vitals at launch",
       ],
       notIncluded: ["Custom web app portals", "E-commerce inventory engine"],
     },

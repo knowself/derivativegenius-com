@@ -12,8 +12,8 @@ export default function ContactPage() {
     name: "",
     email: "",
     company: "",
-    service: "AI-Native Web Application",
-    budget: "$5,000 - $15,000",
+    service: "Website That Rings the Phone",
+    budget: "$2,000 - $3,000",
     message: "",
   });
 
@@ -157,10 +157,10 @@ export default function ContactPage() {
                     onChange={handleChange}
                     className="flex h-11 w-full rounded-md border border-slate-700 bg-slate-950/70 px-3 py-2 text-sm text-slate-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
                   >
-                    <option value="AI-Native Web Application">AI-Native Web Application</option>
-                    <option value="Intelligent Client Portal">Intelligent Client Portal</option>
-                    <option value="AI Feature & API Integration">AI Feature & API Integration</option>
-                    <option value="Full-Stack Web Redesign">Full-Stack Web Redesign</option>
+                    <option value="Website That Rings the Phone">Website That Rings the Phone ($2k–$5k)</option>
+                    <option value="Customer Login Area">Customer Login Area</option>
+                    <option value="Q&A Assistant & Integrations">Q&A Assistant & Integrations</option>
+                    <option value="Website Redesign">Website Redesign</option>
                   </select>
                 </div>
               </div>

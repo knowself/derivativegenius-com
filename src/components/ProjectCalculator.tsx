@@ -16,43 +16,43 @@ export function ProjectCalculator() {
   const featureOptions = [
     {
       id: "ai-native-ui",
-      name: "AI-Native Responsive UI",
-      desc: "React 19 & Next.js 16 App Router interface",
+      name: "Custom Responsive Pages",
+      desc: "Designed pages that read well on phones first",
       baseWeeks: 1,
       baseCost: 2500,
     },
     {
       id: "zod-api-validation",
-      name: "Serverless Route Handlers & Zod Validation",
-      desc: "Strict schema validation & safe API routes",
+      name: "Safe Forms & Intake Routes",
+      desc: "Validated forms that store inquiries reliably",
       baseWeeks: 1,
       baseCost: 2000,
     },
     {
       id: "llm-streaming",
-      name: "Embedded LLM Inference & Streaming",
-      desc: "OpenAI / Claude streaming integration",
+      name: "On-Site Q&A Assistant",
+      desc: "Answers visitors from your own documented Q&A",
       baseWeeks: 2,
       baseCost: 3500,
     },
     {
       id: "semantic-search",
-      name: "Smart Semantic Vector Search",
-      desc: "Vector embeddings (text-embedding-3) & concept search",
+      name: "Plain-Words Site Search",
+      desc: "Search that understands meaning, not exact keywords",
       baseWeeks: 2,
       baseCost: 3000,
     },
     {
       id: "autonomous-workflows",
-      name: "Autonomous Webhook & Queue Workflows",
-      desc: "Background jobs & automated task execution",
+      name: "Automatic Follow-Ups",
+      desc: "Quotes, records, and team alerts without copy-paste",
       baseWeeks: 2,
       baseCost: 4000,
     },
     {
       id: "client-portal",
-      name: "Role-Based Client Portal & Auth",
-      desc: "Role-based authentication & multi-tenant permissions",
+      name: "Customer Login Area",
+      desc: "Per-customer access to requests, files, and status",
       baseWeeks: 2,
       baseCost: 3500,
     },
@@ -92,10 +92,10 @@ export function ProjectCalculator() {
           </span>
         </div>
         <CardTitle className="text-2xl font-bold text-white">
-          AI Web Development Scope Calculator
+          Project Scope Estimator
         </CardTitle>
         <CardDescription className="text-slate-300">
-          Select target features to estimate project sprint duration and budget.
+          Pick what you need for a rough starting range. Final price and timeline are confirmed on a call, in writing, before work begins.
         </CardDescription>
       </CardHeader>
 
@@ -118,7 +118,7 @@ export function ProjectCalculator() {
 
         {/* Feature Toggles Grid */}
         <div className="space-y-3">
-          <Label className="font-semibold text-slate-200">Select Architecture Features:</Label>
+          <Label className="font-semibold text-slate-200">What should the site include?</Label>
           <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
             {featureOptions.map((feat) => {
               const isSelected = selectedFeatures.includes(feat.id);
@@ -150,7 +150,7 @@ export function ProjectCalculator() {
         {/* Output Estimate Summary */}
         <div className="rounded-xl border border-slate-800 bg-slate-950 p-6 flex flex-col sm:flex-row justify-between items-center gap-4">
           <div className="space-y-1 text-center sm:text-left">
-            <div className="text-xs text-slate-400 uppercase font-mono">Estimated Sprint Scope</div>
+            <div className="text-xs text-slate-400 uppercase font-mono">Rough Starting Range — confirmed on a call</div>
             <div className="flex items-center space-x-6">
               <div className="flex items-center space-x-1.5 text-slate-200">
                 <Clock className="h-4 w-4 text-emerald-400" />

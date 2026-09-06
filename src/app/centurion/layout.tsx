@@ -44,6 +44,9 @@ export default async function CenturionLayout({ children }: { children: React.Re
             <Link href="/centurion/audits" className="px-3 py-2 rounded-lg text-sm font-medium text-slate-300 hover:text-white hover:bg-slate-800 transition">
               <ClipboardCheck className="w-4 h-4 inline mr-1.5" /> Audits
             </Link>
+            <Link href="/centurion/audit-tools" className="px-3 py-2 rounded-lg text-sm font-medium text-slate-300 hover:text-white hover:bg-slate-800 transition">
+              <Terminal className="w-4 h-4 inline mr-1.5" /> Audit Tools
+            </Link>
             <Link href="/centurion/pipeline" className="px-3 py-2 rounded-lg text-sm font-medium text-slate-300 hover:text-white hover:bg-slate-800 transition">
               <Handshake className="w-4 h-4 inline mr-1.5" /> Pipeline
             </Link>
@@ -75,6 +78,7 @@ export default async function CenturionLayout({ children }: { children: React.Re
           <Link href="/centurion" className="hover:text-emerald-400">Dashboard</Link>
           <Link href="/centurion/tasks" className="hover:text-emerald-400 font-medium text-emerald-400">Tasks</Link>
           <Link href="/centurion/prospects" className="hover:text-emerald-400">Prospects</Link>
+          <Link href="/centurion/audit-tools" className="hover:text-emerald-400">Audit</Link>
           <Link href="/centurion/queue" className="hover:text-emerald-400">Queue</Link>
           <Link href="/centurion/pipeline" className="hover:text-emerald-400">Pipeline</Link>
         </div>

@@ -2,7 +2,7 @@ import React from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { CENTURIONS_PROJECTS } from "../data/portfolio";
-import FeaturedCarousel from "../components/FeaturedCarousel";
+import FallbackImage from "../components/FallbackImage";
 import { Code2, Cpu, ArrowRight, CheckCircle2, MessageSquareText, Search, Workflow, UserCheck, Phone, BookOpen } from "lucide-react";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
 import { DemosShowcase } from "@/components/DemosShowcase";
@@ -77,9 +77,9 @@ export default function HomePage() {
   ];
 
   const clientBenefits = [
-    "A lightning-fast website that looks stunning and modern.",
-    "Saves dozens of hours of manual administrative work every week.",
-    "Turns casual website visitors into qualified, paying clients automatically.",
+    "A fast website that states what you do, who it's for, and how to call — above the fold on phones.",
+    "Fewer repetitive inquiries: answers, intake, and booking handled on the site instead of by phone tag.",
+    "A quote and booking path you can measure — calls, forms, and booked jobs, not pageviews.",
   ];
 
   return (
@@ -140,9 +140,29 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Portfolio slider — just before Plain English */}
+      {/* Selected work — static grid, no auto-rotation */}
       <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <FeaturedCarousel />
+        <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+          {CENTURIONS_PROJECTS.map((p) => (
+            <Link
+              key={p.id}
+              href={`/portfolio/${p.id}`}
+              className="block overflow-hidden rounded-xl border border-slate-800/90 bg-slate-900/70 p-2.5 transition-all hover:border-slate-600 hover:-translate-y-1"
+            >
+              <div className="relative overflow-hidden rounded-lg">
+                <FallbackImage
+                  src={p.image ?? `/images/portfolio/${p.id}.png`}
+                  alt={p.title}
+                  className="h-44 w-full object-cover"
+                />
+              </div>
+              <div className="mt-2.5 px-1 pb-1">
+                <div className="font-semibold text-sm text-slate-100 truncate">{p.title}</div>
+                <p className="mt-1 text-xs text-slate-400 leading-relaxed">{p.description}</p>
+              </div>
+            </Link>
+          ))}
+        </div>
       </section>
 
       {/* In Plain English Section */}
@@ -217,15 +237,15 @@ export default function HomePage() {
               </p>
             </div>
             <div className="rounded-xl border border-slate-800 bg-slate-950/60 p-6">
-              <div className="text-sm font-semibold text-blue-400">Local Businesses</div>
+              <div className="text-sm font-semibold text-blue-400">Insurance intake, live</div>
               <p className="mt-3 text-sm text-slate-300 leading-relaxed">
-                AI-powered FAQs, intake workflows, and website automation create faster answers and better customer experiences without extra overhead.
+                Test the MicrogreensLA bot below, or read how an intake form cut phone tag for an Illinois/Indiana agency. Write-ups in progress — ask on a call.
               </p>
             </div>
             <div className="rounded-xl border border-slate-800 bg-slate-950/60 p-6">
-              <div className="text-sm font-semibold text-blue-400">Growth Teams</div>
+              <div className="text-sm font-semibold text-blue-400">Home services</div>
               <p className="mt-3 text-sm text-slate-300 leading-relaxed">
-                Modern web systems reduce repetitive work and help teams focus on the conversations that actually grow the business.
+                Single-problem pages with tap-to-call above the fold — the same fix our free 5-minute audit checks on your site.
               </p>
             </div>
           </div>

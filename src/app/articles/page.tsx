@@ -8,21 +8,21 @@ export default function ArticlesPage() {
   const articles = [
     {
       slug: "ai-avatars-and-email",
-      title: "AI Avatars and Email, the Killer App of the AI Age is Here",
+      title: "AI Avatars and Email Follow-Up: What Worked, What Didn't",
       author: "Joe Terry, Head DG",
       date: "2024-12-09",
       category: "AI Engineering & Email Avatars",
       description:
-        "AI Avatars paired with automated email workflows transform client engagement and follow-up. But what can they really do for your business?",
+        "AI avatars paired with automated email follow-up — measured results, failure points, and running costs for a service business.",
     },
     {
       slug: "ai-powered-workflow",
-      title: "Building an AI-Powered Development Workflow",
+      title: "An AI-Assisted Development Workflow: Setup and Trade-offs",
       author: "Derivative Genius Engineering Team",
       date: "2023-12-12",
       category: "AI Web Development",
       description:
-        "Learn how to integrate modern AI tools, agentic workflows, and Next.js 16 into your development pipeline for enhanced productivity and code quality.",
+        "How AI tools fit into our Next.js pipeline — where they save time, where they need human review, and what we check before shipping.",
     },
   ];
 
