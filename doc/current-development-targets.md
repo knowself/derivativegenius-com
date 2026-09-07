@@ -12,7 +12,7 @@
 
 **Document owner:** Repository maintainer
 
-**Last updated:** September 3, 2026
+**Last updated:** September 7, 2026
 
 ## Purpose
 
@@ -89,7 +89,7 @@ Choose one vertical and five cities
 
 The current release is an operating validation cycle, not an automation project. `/centurion` should reduce preparation and record-keeping friction while preserving human judgment. The public website should give contacted prospects enough proof, offer clarity, and trust to continue the conversation.
 
-**First-dollar definition:** At least one company reached through the manual pilot accepts a real Derivative Genius engagement and pays the required deposit through an approved hosted payment link or invoice. The transaction, project specification, receipt, outreach source, and development milestone kickoff must be verifiable without committing client PII or sensitive credentials to this repository.
+**First-dollar definition:** At least one company reached through the manual pilot accepts a real Derivative Genius engagement and pays the required deposit through an approved hosted payment link or invoice. The transaction, project specification, receipt, outreach source, and development milestone kickoff must be recorded in the database (prospect → opportunity → proposal → project handoff chain) and verifiable without committing client PII or sensitive credentials to this repository.
 
 The release is complete when:
 
@@ -134,13 +134,15 @@ Deferred prospecting automation may be promoted only after the manual pilot reco
 Work these in sequence. DT-05 quality work may continue in parallel.
 
 1. **DT-19 — Complete Centurion Pilot Readiness.** Close the verified system-of-record, authorization, queue, follow-up, audit, pipeline, and reporting gaps before live outreach.
-2. **DT-18 — Run the 25-Company Founder-Led Manual Outreach Pilot.** Validate targeting, observations, call openers, follow-ups, and offer framing through real conversations after DT-19 passes.
-3. **DT-01 — Define & Approve AI-First Web Development & Local Presence Offerings.** Finalize the offer, retainer packaging ($300–$500/mo), and proof needed to support pilot conversations and proposals.
-4. **DT-04 — Strengthen Prospect-Facing Credibility & Anti-Agency Conversion.** Fix website copy or conversion gaps revealed when contacted prospects research Derivative Genius.
-5. **DT-07 — Establish SEO, GEO, and Open-Web Syndication Baselines.** Operationalize the Audio-to-Text GEO pipeline and schema architecture.
-6. **DT-02 — Secure Public APIs and Environment Secrets.** Protect the public inquiry and private operator paths used by the pilot.
-7. **DT-03 — Verify Project Lead Capture & Scoping Resilience.** Confirm interested prospects can submit and be stored without data loss.
-8. **DT-09 — Launch Paid Pilot Onboarding & Payment Flow.** Convert a qualified manual-outreach opportunity into a real proposal, deposit, and project handoff.
+2. **DT-20 — Add Permission-Tracked Followup Queue.** Make targeted audits the primary lead source with sophisticated internal followup (surfacing, drafting, escalation) and permission-gated external touches only — no cold automation.
+3. **DT-18 — Run the 25-Company Founder-Led Manual Outreach Pilot.** Validate targeting, observations, call openers, follow-ups, and offer framing through real conversations after DT-19 passes, using the DT-20 followup queue.
+4. **DT-21 — Build VSL Demo Assembler (Slice 1, no keys).** Assemble a demo-able 5-part VSL page from existing prospect data with phone-video/YouTube slot, browser-native voiceover preview, and lyric-card jingle slot — no paid tools, no trial keys, no new dependencies.
+5. **DT-01 — Define & Approve AI-First Web Development & Local Presence Offerings.** Finalize the offer, retainer packaging ($300–$500/mo), and proof needed to support pilot conversations and proposals.
+6. **DT-04 — Strengthen Prospect-Facing Credibility & Anti-Agency Conversion.** Fix website copy or conversion gaps revealed when contacted prospects research Derivative Genius.
+7. **DT-07 — Establish SEO, GEO, and Open-Web Syndication Baselines.** Operationalize the Audio-to-Text GEO pipeline and schema architecture.
+8. **DT-02 — Secure Public APIs and Environment Secrets.** Protect the public inquiry and private operator paths used by the pilot.
+9. **DT-03 — Verify Project Lead Capture & Scoping Resilience.** Confirm interested prospects can submit and be stored without data loss.
+10. **DT-09 — Launch Paid Pilot Onboarding & Payment Flow.** Convert a qualified manual-outreach opportunity into a real proposal, deposit, and project handoff.
 
 DT-10 and DT-11 remain lower-priority website expansion work unless pilot evidence shows that missing legacy content is blocking trust or conversion.
 
@@ -149,6 +151,8 @@ DT-10 and DT-11 remain lower-priority website expansion work unless pilot eviden
 | ID    | Priority | Target                                                                            | Status      | Depends on                           | Last updated |
 | ----- | -------- | --------------------------------------------------------------------------------- | ----------- | ------------------------------------ | ------------ |
 | DT-19 | P0       | Complete Centurion Pilot Readiness                                                | In review   | Authenticated readiness smoke test    | 2026-08-19   |
+| DT-20 | P0       | Add Permission-Tracked Followup Queue (audit-led, no cold automation)             | Not started | DT-19 readiness verification         | 2026-09-07   |
+| DT-21 | P1       | Build VSL Demo Assembler (Slice 1: no keys, no new deps)                          | Not started | DT-20 permission basis defined       | 2026-09-07   |
 | DT-18 | P0       | Run 25-Company Founder-Led Manual Outreach Pilot                                  | In progress | DT-19 readiness verification         | 2026-09-03   |
 | DT-17 | P0       | Implement Private Operator Prospecting System (`/centurion`) Phase 1            | In review   | DT-16 and Clerk authentication       | 2026-08-19   |
 | DT-12 | P0       | Integrate Mobile-First Prospecting & Scoping Components                           | Complete    | DT-04 and responsive-dev.md          | 2026-08-17   |
@@ -245,6 +249,54 @@ Raw prospects, contacts found, calls attempted, and audits generated are support
 **Done when:** All 25 prospects have a documented disposition; manual activity and follow-ups are recorded without a parallel private spreadsheet; the pilot has produced qualified conversations and at least one proposal, or enough structured evidence to revise the niche, offer, or outreach message; and the owner records a dated continue, revise, or stop decision.
 
 **Verification:** Review the `/centurion` campaign, prospect sources, activities, suppressions, follow-up tasks, funnel report, proposal evidence, and dated pilot decision. Verification artifacts must not expose prospect PII or credentials in the repository.
+
+### DT-20. Add Permission-Tracked Followup Queue (audit-led, no cold automation)
+
+**Priority:** P0
+
+**Status:** Not started
+
+**Outcome:** Make targeted audits the primary source of new leads with a followup queue that gets more sophisticated internally while staying permission-gated externally. Every external touch carries a permission basis, passes a send-time suppression re-check, requires human approval, and is fully logged. Cold automation is explicitly out of scope and stays blocked by the DT-18 automation gate.
+
+**Background:** `doc/The-Mission.md` v1.3 (§16) names targeted audits as the primary lead source and permission-based followup as the compounder. Current code gaps: `audits` PATCH to `sent` records no permission basis, recipient, or channel (`src/app/api/centurion/audits/route.ts`); `activities` accepts `email` / `audit_sent` types with no permission field and no send-time suppression check (`src/app/api/centurion/activities/route.ts`); queue/tasks UIs capture due dates but no permission basis. DT-20 closes exactly these gaps and nothing more.
+
+- [ ] Add minimal additive permission tracking (preferred: small additive migration under `drizzle/manual/`, e.g. `followup_permission` enum `requested_info | granted_permission | established_conversation` plus approver, channel/recipient, and suppression-check result on the followup activity/audit-send record — no widening of prospect PII storage).
+- [ ] Require permission basis + due date for `follow_up_requested` server-side (Zod rejection otherwise); block `email` / `audit_sent` activity creation and audit `sent` transitions without a recorded permission basis.
+- [ ] Add send-time suppression re-check in the audit-send and external-followup API paths (keyed-hash lookup; blocked send returns a suppression error and logs the attempt without exposing raw contact values).
+- [ ] Require human approval before any external send (audit `approved` → `sent` records approver + timestamp; external followup activity records approver; no timers, workers, or background jobs that send).
+- [ ] Upgrade internal sophistication only: due-first ordering already exists — add overdue escalation surfacing and a read-only auto-draft of the next touch from call notes + audit findings that the founder edits and sends (drafts never send themselves).
+- [ ] Surface permission basis + suppression clearance + approval state in the queue, tasks, prospect detail, and audits UIs so the founder sees *why this touch is allowed* before acting.
+- [ ] Add Jest + authorization-policy regression tests: permissionless external send rejected; suppressed prospect send blocked at send time; approval attribution recorded; cold-sequence/bulk-send paths absent.
+- [ ] Record verification without prospect PII in the repo.
+
+**Explicit non-goals (stay blocked):** cold sequences, cold auto-texts, cold auto-calls, AI-voice calls, automatic audit blasts, bulk send, scaled Places discovery, mass enrichment, or any timer/worker that sends externally. Any of these needs a new dated decision after DT-18 produces qualified conversations and at least one proposal.
+
+**Done when:** an authorized operator can (1) see overdue/permissioned followups surfaced first with an editable draft, (2) record a permission basis once per thread, (3) send an approved audit or requested followup only after a passing suppression re-check, (4) retrieve permission basis + approver + suppression result for every external touch, and (5) watch a permissionless or suppressed send get rejected server-side — all without a parallel spreadsheet and without any cold automation existing in the codebase.
+
+**Verification:** run `npm run lint`, `npm test`, `npm run build`; exercise the signed-in queue → prospect → audits path with disposable test data (permissioned send succeeds and logs; permissionless/suppressed send rejected); confirm `/centurion` still redirects unsigned users and private APIs still return `401`; record dated evidence in the verification log without PII.
+
+### DT-21. Build VSL Demo Assembler (Slice 1: no keys, no new deps)
+
+**Priority:** P1
+
+**Status:** Not started
+
+**Outcome:** Let the founder demo "the page that rings" live on a call from data already in `/centurion` — a private, prospect-specific assembly of the book Ch. 5 five-part VSL (risk-reversal headline, 45–60s script + video slot, proof strip, agitation + FAQ-schema draft, sticky `tel:` button) with zero paid tools, zero trial keys, and zero new dependencies.
+
+**Background:** `doc/The-Mission.md` v1.3 makes VSL pages + $300/$500 retainers the primary offer. The repo can display video (`src/components/LazyYouTube.tsx`) and diagnose missing VSL elements (`/centurion/audit-tools`) but cannot assemble a demo VSL. Trial-backed voiceover (TTS) and jingle synthesis are explicitly later slices — DT-21 must run fully with no keys set.
+
+- [ ] Add a private Centurion demo route (e.g. `/centurion/demos/new?prospect=<id>`) behind the existing `requireCenturionPageAction` gate that assembles the 5-part page from the prospect record: SERP term + `websiteObservation` + `commercialConsequence` + review count → risk-reversal headline, 45–60s script draft from a book-grounded template (Problem → Agitate → "Watch my video"), proof strip from recorded review evidence, FAQ-schema draft, sticky `tel:` button reusing the prospect's public business phone.
+- [ ] Video slot supports two no-cost inputs only: phone-video file reference/URL and unlisted-YouTube embed via the existing `LazyYouTube` component; empty state shows a shot-list card (what to film in 60 seconds) instead of failing.
+- [ ] Voiceover preview uses browser-native Web Speech API synthesis only (client-side, no key, no account, no audio stored); jingle slot is a lyric + timing card (0–5s anchor / 5–12s benefit / 12–15s nudge) with no synthesis.
+- [ ] Every demo is watermarked DEMO, private to `/centurion` (no public route, no indexing, no prospect PII committed to the repo), and links back to the prospect workspace; demo views/sends go through the DT-20 permission-tracked followup path once it lands (until then: show live on calls only, no external send).
+- [ ] Add Jest + authorization-policy regression tests: unsigned users redirected / private APIs `401`; demo route requires a real prospect id and renders all five parts from disposable test data; no network calls to paid/trial providers exist in the Slice 1 code path.
+- [ ] Record verification without prospect PII in the repo.
+
+**Explicit non-goals (later slices):** server-side TTS/voice-clone, Suno/Udio jingle synthesis, avatar video, stock-media pipelines, podcast RSS publishing, any new dependency, any env key, any background job. Slice 2 (trial TTS) and Slice 3 (trial jingle) each get their own dated decision after Slice 1 demos on live calls.
+
+**Done when:** an authorized operator can open a prospect, assemble the five-part demo page with an editable script, preview voiceover in-browser with no keys configured, see the shot-list empty state when no video exists, and show it live on a call — all passing `npm run lint`, `npm test`, and `npm run build` with no new dependencies and no trial accounts.
+
+**Verification:** run `npm run lint`, `npm test`, `npm run build`; exercise the signed-in prospect → demo path with disposable test data; confirm unsigned redirect + private-API `401`; confirm no outbound provider calls and correct behavior with zero media keys set; record dated evidence in the verification log without PII.
 
 ### DT-12. Integrate Mobile-First Prospecting & Scoping Components
 
@@ -349,22 +401,23 @@ Raw prospects, contacts found, calls attempted, and audits generated are support
 - [x] Align agency focus explicitly around AI-First Web Development, Web Applications, and High-Converting Local Presence Systems.
 - [x] Migrate core stack to Next.js 16 App Router, React 19, TypeScript, and Tailwind CSS matching MicrogreensLA.
 - [x] Incorporate plain-language analogies ("Smart Digital Employee", "24/7 Digital Assistant", "Search by Meaning", "Digital Dominoes") into home, service, and README documentation.
-- [ ] Define core service offerings across two high-impact pillars:
-  - **Pillar 1: Modern Full-Stack & AI Web Applications**
-    - **AI-Native Web Applications**: Custom web apps built with embedded AI capabilities (chat, search, automated workflows).
-    - **Modern Full-Stack Web Development**: High-performance Next.js 16 single-page & server-rendered applications.
-    - **AI Feature Integration & API Orchestration**: Embedding LLM APIs, fine-tuned models, and smart automation into existing web apps.
-    - **Web Application Modernization**: Upgrading legacy, slow web systems to high-speed serverless architectures.
-  - **Pillar 2: Local Presence, GEO & Direct-Response Engines (The LIP Model)**
+- [ ] Define core service offerings with primary focus first:
+  - **Primary: Local Presence, GEO & Direct-Response Engines (The LIP Model)**
     - **Single-Problem Video Landing Pages**: Blazing-fast, mobile-first landing pages built without menu distractions, featuring problem-specific explainer video containers, instant trust proof, and sticky 1-tap mobile phone dialers.
     - **Local Authority & GEO Retainer ($300/mo Core, $500/mo Growth)**: "Done-For-You" weekly audio podcasts recorded via ElevenLabs voice clone of the owner, transcribed into rich SEO/GEO blog articles on the client's primary domain, and syndicated to Apple/Spotify/Amazon/YouTube for authoritative backlinks. Includes continuous Google Business Profile (GBP) optimization and free AI SERP-term jingle.
     - **Auditory Brand Retention (SERP Term Earworms)**: Suno AI-generated musical signatures embedding the exact high-ranking SERP term and phone anchor, exploiting involuntary musical imagery (INMI) to guarantee local recall.
     - **Hyper-Local Video Ad Arbitrage**: 5-second skippable YouTube pre-roll ad architectures broadcasting television-grade branding into local living rooms on smart TVs for $0 when skipped.
-- [ ] Establish transparent project and retainer tiers:
-  - **MVP Web App Sprint** ($2,500–$5,000+ fixed sprint)
+  - **Secondary: Modern Full-Stack & AI Web Applications (sold secondarily, on readiness)**
+    - **AI-Native Web Applications**: Custom web apps built with embedded AI capabilities (chat, search, automated workflows).
+    - **Modern Full-Stack Web Development**: High-performance Next.js 16 single-page & server-rendered applications.
+    - **AI Feature Integration & API Orchestration**: Embedding LLM APIs, fine-tuned models, and smart automation into existing web apps.
+    - **Web Application Modernization**: Upgrading legacy, slow web systems to high-speed serverless architectures.
+- [ ] Establish transparent project and retainer tiers (primary first):
   - **High-Converting Video Landing Page Package** ($1,500 fixed setup)
   - **Core Local Presence & GEO Retainer** ($300/month recurring)
   - **Full-Service Growth Retainer** ($500/month recurring + client ad spend)
+  - **Fixed-Scope Website Package** ($2,000–$5,000, sold secondarily)
+  - **MVP Web App Sprint** ($2,500–$5,000+ fixed sprint, sold secondarily)
 - [ ] Create a claims register covering build velocity, code quality benchmarks, accessibility compliance, sub-1-second mobile load speeds, and verified review integration.
 
 **Done when:** All material claims map to an approved web dev claims register, and public pages reflect active capabilities, retainer pricing, and direct-response clarity.
@@ -517,6 +570,14 @@ This checklist covers the full site conversion rebuild. Each page should be chec
 **Verification:** Passed Jest test suite (2/2 tests pass), ESLint run (0 errors), and Next.js production build (7 static/dynamic pages compiled in 2.8s).
 
 ## Decision log
+
+### 2026-09-07: DT-21 VSL Demo Assembler Slice 1 (no paid tools, free trials later)
+
+Primary offer per `doc/The-Mission.md` v1.3 is VSL pages + $300/$500 retainers, but the repo can only display video, not assemble a demo VSL. DT-21 Slice 1 closes that with zero cost and zero trial risk: private Centurion demo route from existing prospect data, phone-video/YouTube slot via `LazyYouTube`, browser-native speech preview, lyric-card jingle slot, DEMO watermark, no new deps, no keys, no jobs. Trial-backed TTS (Slice 2) and jingle synthesis (Slice 3) are deferred to their own dated decisions after Slice 1 demos on live calls. Demo distribution follows the DT-20 permission-tracked path.
+
+### 2026-09-07: DT-20 Permission-Tracked Followup Queue (audit-led, no cold automation)
+
+Per `doc/The-Mission.md` v1.3 §16, targeted audits become the primary source of new leads and followup gets more sophisticated within permission bounds. DT-20 is the smallest implementation of that charter change: additive permission basis + approver + suppression-check result on followup/audit-send records, server-side permission + send-time suppression gates, human-approval-before-send, overdue surfacing + read-only auto-drafts internally. It explicitly does not authorize cold sequences, auto-texts/calls, audit blasts, bulk send, or send-timers — those stay blocked under the DT-18 automation gate until the pilot produces qualified conversations and at least one proposal.
 
 ### 2026-09-03: Integrating Local Internet Presence (LIP) Principles into Agency Strategy and Pilot Targets
 

@@ -286,6 +286,30 @@ async function runDoctor() {
         console.log('   ℹ️  ngrok is missing from PATH (Optional; `dg dev` will operate in local mode)');
     }
 
+    console.log('\n4️⃣  Centurion Auth (private operator access)');
+    const adminIds = (process.env.CENTURION_ADMIN_USER_IDS ?? '')
+        .split(',')
+        .map((s) => s.trim())
+        .filter(Boolean);
+    const validAdminIds = adminIds.filter((id) => /^user_[A-Za-z0-9]+$/.test(id));
+    if (validAdminIds.length > 0) {
+        console.log(`   ✅ CENTURION_ADMIN_USER_IDS has ${validAdminIds.length} admin entr${validAdminIds.length === 1 ? 'y' : 'ies'}`);
+    } else {
+        console.log('   ❌ CENTURION_ADMIN_USER_IDS is empty — every signed-in user resolves to read-only viewer and all writes return 403 (Insufficient Centurion privileges)');
+        console.log('      Fix: copy your User ID from Clerk Dashboard → Users, append it to CENTURION_ADMIN_USER_IDS in .env.local, restart dev server');
+        failures++;
+    }
+    if (adminIds.length !== validAdminIds.length) {
+        console.log(`   ⚠️  ${adminIds.length - validAdminIds.length} entr${adminIds.length - validAdminIds.length === 1 ? 'y' : 'ies'} in CENTURION_ADMIN_USER_IDS do not look like Clerk user IDs (expected user_...)`);
+    }
+    const suppressionSecret = process.env.CENTURION_SUPPRESSION_SECRET ?? '';
+    if (suppressionSecret && suppressionSecret !== 'replace-with-a-long-random-secret') {
+        console.log('   ✅ CENTURION_SUPPRESSION_SECRET is set');
+    } else {
+        console.log('   ❌ CENTURION_SUPPRESSION_SECRET is missing or placeholder — DNC suppression hashing returns 503');
+        failures++;
+    }
+
     console.log('\n' + '-'.repeat(30));
     if (failures === 0) {
         console.log('🎉 System is HEALTHY. Derivative Genius Dev Kit is ready.');
