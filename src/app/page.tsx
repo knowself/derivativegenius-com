@@ -3,8 +3,11 @@ import Link from "next/link";
 import { Cpu, ArrowRight, CheckCircle2, MessageSquareText, Search, Workflow, UserCheck, Phone, BookOpen } from "lucide-react";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
 import { Newsletter } from "@/components/Newsletter";
+import { BookQuoteRotator } from "@/components/BookQuoteRotator";
+import { getStewartQuotes } from "@/lib/stewart-quotes";
 
 export default function HomePage() {
+  const stewartQuotes = getStewartQuotes();
   const services = [
     {
       title: "AI-Native Custom Web Apps",
@@ -113,21 +116,19 @@ export default function HomePage() {
             <ArrowRight className="h-4 w-4" />
           </Link>
         </div>
-        <div className="mx-auto mt-6 flex max-w-2xl justify-center">
+        <div className="mx-auto mt-6 w-full">
           <Link
             href="/book"
-            className="group inline-flex w-full items-center justify-center gap-3 rounded-2xl border border-emerald-500/40 bg-emerald-500/10 px-6 py-4 text-center shadow-lg shadow-emerald-950/30 backdrop-blur-md transition-all hover:border-emerald-400/60 hover:bg-emerald-500/20 sm:gap-4 sm:px-8"
+            className="group flex w-full flex-col gap-4 rounded-2xl border border-emerald-500/40 bg-emerald-500/10 px-6 py-5 text-left shadow-lg shadow-emerald-950/30 backdrop-blur-md transition-all hover:border-emerald-400/60 hover:bg-emerald-500/20 sm:flex-row sm:items-center sm:gap-5 sm:px-8"
           >
             <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-emerald-500/30 bg-emerald-600/20">
               <BookOpen className="h-6 w-6 text-emerald-400" />
             </span>
-            <span className="text-left">
-              <span className="mb-0.5 inline-flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.18em] text-emerald-400">
-                New · Free Book
+            <span className="min-w-0 flex-1">
+              <span className="mb-1.5 inline-flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.18em] text-emerald-400">
+                New · Free Book — Local Internet Presence
               </span>
-              <span className="block text-base font-semibold leading-snug text-white sm:text-lg">
-                Read Local Internet Presence — the Mike Stewart playbook that powers our audits
-              </span>
+              <BookQuoteRotator quotes={stewartQuotes} />
             </span>
             <ArrowRight className="h-5 w-5 shrink-0 text-emerald-400 transition-transform group-hover:translate-x-1" />
           </Link>
