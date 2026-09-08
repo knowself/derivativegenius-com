@@ -1,7 +1,8 @@
 import React from 'react';
 import Link from 'next/link';
-import { ShieldCheck, LayoutDashboard, Target, Users, PhoneCall, FileUp, Lock, Terminal, ClipboardCheck, Handshake, BarChart3, CheckSquare } from 'lucide-react';
-import { requireCenturionPageAction } from '@/lib/auth/centurion';
+import { ShieldCheck, Terminal } from 'lucide-react';
+import { requireDashboardRole } from '@/lib/auth/centurion';
+import { CenturionDesktopNav, CenturionMobileNav } from './_components/CenturionNav';
 
 export const metadata = {
   title: 'Centurion Operator Console | Derivative Genius',
@@ -9,7 +10,8 @@ export const metadata = {
 };
 
 export default async function CenturionLayout({ children }: { children: React.ReactNode }) {
-  const actor = await requireCenturionPageAction('read');
+  // Root-only console: operators and customers are redirected to their own dashboards.
+  const actor = await requireDashboardRole(['centurion_admin']);
   return (
     <div className="min-h-screen bg-slate-950 text-slate-100 flex flex-col font-sans">
       {/* Header Bar */}
@@ -25,41 +27,7 @@ export default async function CenturionLayout({ children }: { children: React.Re
             </span>
           </div>
 
-          <nav className="hidden md:flex items-center gap-1">
-            <Link href="/centurion" className="px-3 py-2 rounded-lg text-sm font-medium text-slate-300 hover:text-white hover:bg-slate-800 transition">
-              <LayoutDashboard className="w-4 h-4 inline mr-1.5" /> Dashboard
-            </Link>
-            <Link href="/centurion/campaigns" className="px-3 py-2 rounded-lg text-sm font-medium text-slate-300 hover:text-white hover:bg-slate-800 transition">
-              <Target className="w-4 h-4 inline mr-1.5" /> Campaigns
-            </Link>
-            <Link href="/centurion/prospects" className="px-3 py-2 rounded-lg text-sm font-medium text-slate-300 hover:text-white hover:bg-slate-800 transition">
-              <Users className="w-4 h-4 inline mr-1.5" /> Prospects
-            </Link>
-            <Link href="/centurion/tasks" className="px-3 py-2 rounded-lg text-sm font-medium text-slate-300 hover:text-white hover:bg-slate-800 transition">
-              <CheckSquare className="w-4 h-4 inline mr-1.5 text-emerald-400" /> Tasks
-            </Link>
-            <Link href="/centurion/queue" className="px-3 py-2 rounded-lg text-sm font-medium text-slate-300 hover:text-white hover:bg-slate-800 transition">
-              <PhoneCall className="w-4 h-4 inline mr-1.5" /> Daily Queue
-            </Link>
-            <Link href="/centurion/audits" className="px-3 py-2 rounded-lg text-sm font-medium text-slate-300 hover:text-white hover:bg-slate-800 transition">
-              <ClipboardCheck className="w-4 h-4 inline mr-1.5" /> Audits
-            </Link>
-            <Link href="/centurion/audit-tools" className="px-3 py-2 rounded-lg text-sm font-medium text-slate-300 hover:text-white hover:bg-slate-800 transition">
-              <Terminal className="w-4 h-4 inline mr-1.5" /> Audit Tools
-            </Link>
-            <Link href="/centurion/pipeline" className="px-3 py-2 rounded-lg text-sm font-medium text-slate-300 hover:text-white hover:bg-slate-800 transition">
-              <Handshake className="w-4 h-4 inline mr-1.5" /> Pipeline
-            </Link>
-            <Link href="/centurion/reports" className="px-3 py-2 rounded-lg text-sm font-medium text-slate-300 hover:text-white hover:bg-slate-800 transition">
-              <BarChart3 className="w-4 h-4 inline mr-1.5" /> Reports
-            </Link>
-            <Link href="/centurion/import" className="px-3 py-2 rounded-lg text-sm font-medium text-slate-300 hover:text-white hover:bg-slate-800 transition">
-              <FileUp className="w-4 h-4 inline mr-1.5" /> Import CSV
-            </Link>
-            {actor.role === 'centurion_admin' && <Link href="/centurion/compliance" className="px-3 py-2 rounded-lg text-sm font-medium text-slate-300 hover:text-white hover:bg-slate-800 transition">
-              <Lock className="w-4 h-4 inline mr-1.5" /> Compliance
-            </Link>}
-          </nav>
+          <CenturionDesktopNav isAdmin={actor.role === 'centurion_admin'} />
 
           <div className="flex items-center gap-2">
             {actor.role === 'centurion_admin' && <a
@@ -73,15 +41,8 @@ export default async function CenturionLayout({ children }: { children: React.Re
           </div>
         </div>
 
-        {/* Mobile Navigation Sub-bar */}
-        <div className="md:hidden flex items-center justify-around border-t border-slate-800 py-2 bg-slate-900 text-xs text-slate-400">
-          <Link href="/centurion" className="hover:text-emerald-400">Dashboard</Link>
-          <Link href="/centurion/tasks" className="hover:text-emerald-400 font-medium text-emerald-400">Tasks</Link>
-          <Link href="/centurion/prospects" className="hover:text-emerald-400">Prospects</Link>
-          <Link href="/centurion/audit-tools" className="hover:text-emerald-400">Audit</Link>
-          <Link href="/centurion/queue" className="hover:text-emerald-400">Queue</Link>
-          <Link href="/centurion/pipeline" className="hover:text-emerald-400">Pipeline</Link>
-        </div>
+        {/* Mobile Navigation Sub-bar (active section highlighted) */}
+        <CenturionMobileNav isAdmin={actor.role === 'centurion_admin'} />
       </header>
 
       {/* Body Content */}

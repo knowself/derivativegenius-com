@@ -1,11 +1,19 @@
 /**
- * Role & Privilege Governance for the Centurion Prospecting System.
- * 
- * Centurion (`centurion_admin`) is the least-common role and must be granted
- * explicitly through trusted Clerk metadata or server configuration.
+ * Role & Privilege Governance for the Derivative Genius dashboards.
+ *
+ * Three audiences, three dashboards:
+ * - Centurion (`centurion_admin`, root) ............ /centurion
+ * - Lower admins doing work for the Centurion
+ *   (`prospector`: research + calls + closing) ..... /operator
+ * - Customers (client businesses) ................... /portal
+ * - Everyone else (`viewer`, the default) ........... /no-access
+ *
+ * Founder decision (2026-09-08): the former `sales_operator` role is
+ * eliminated and folded into `prospector` — one operator role does
+ * research, outreach, and closing. Stale `sales_operator` metadata
+ * resolves to `prospector` (see `resolveUserRole`).
  */
-
-export type UserRole = 'centurion_admin' | 'prospector' | 'sales_operator' | 'viewer';
+export type UserRole = 'centurion_admin' | 'prospector' | 'customer' | 'viewer';
 export type CenturionAction =
   | 'read'
   | 'manage_campaigns'
@@ -14,6 +22,7 @@ export type CenturionAction =
   | 'manage_audits'
   | 'manage_pipeline'
   | 'manage_compliance'
+  | 'manage_team'
   | 'export';
 
 export interface UserSession {
@@ -36,19 +45,19 @@ export function isCenturionRole(role: UserRole): boolean {
 export function hasRequiredRole(userRole: UserRole, requiredRole: UserRole): boolean {
   if (userRole === 'centurion_admin') return true; // Centurion root has all permissions
   if (requiredRole === 'viewer') return true;
-  if (requiredRole === 'sales_operator') return userRole === 'sales_operator' || userRole === 'prospector';
   if (requiredRole === 'prospector') return userRole === 'prospector';
   return false;
 }
 
 const actionRoles: Record<CenturionAction, readonly UserRole[]> = {
-  read: ['centurion_admin', 'prospector', 'sales_operator', 'viewer'],
+  read: ['centurion_admin', 'prospector', 'viewer'],
   manage_campaigns: ['centurion_admin', 'prospector'],
   qualify: ['centurion_admin', 'prospector'],
-  log_outreach: ['centurion_admin', 'prospector', 'sales_operator'],
-  manage_audits: ['centurion_admin', 'prospector', 'sales_operator'],
-  manage_pipeline: ['centurion_admin', 'sales_operator'],
+  log_outreach: ['centurion_admin', 'prospector'],
+  manage_audits: ['centurion_admin', 'prospector'],
+  manage_pipeline: ['centurion_admin', 'prospector'],
   manage_compliance: ['centurion_admin'],
+  manage_team: ['centurion_admin'],
   export: ['centurion_admin'],
 };
 
@@ -62,6 +71,32 @@ export function canPerformCenturionAction(
 export function resolveUserRole(metadataRole?: string): UserRole {
   if (metadataRole === 'centurion_admin') return 'centurion_admin';
   if (metadataRole === 'prospector') return 'prospector';
-  if (metadataRole === 'sales_operator') return 'sales_operator';
+  // Legacy mapping: eliminated role folds into prospector (2026-09-08).
+  if (metadataRole === 'sales_operator') return 'prospector';
+  if (metadataRole === 'customer') return 'customer';
   return 'viewer';
 }
+
+/**
+ * Home dashboard for a role. Used to redirect users who land on a
+ * dashboard that is not theirs (`/centurion` is root-only).
+ */
+export function dashboardForRole(role: UserRole): string {
+  switch (role) {
+    case 'centurion_admin':
+      return '/centurion';
+    case 'prospector':
+      return '/operator';
+    case 'customer':
+      return '/portal';
+    case 'viewer':
+    default:
+      return '/no-access';
+  }
+}
+
+/** Roles permitted inside the operator console (`/operator`). */
+export const OPERATOR_ROLES: readonly UserRole[] = ['centurion_admin', 'prospector'];
+
+/** Roles permitted inside the customer portal (`/portal`). */
+export const PORTAL_ROLES: readonly UserRole[] = ['centurion_admin', 'customer'];

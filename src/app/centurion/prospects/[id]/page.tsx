@@ -11,7 +11,7 @@ import ProspectActions from './_components/ProspectActions';
 
 export const revalidate = 0;
 
-export default async function ProspectDetailPage({ params }: { params: Promise<{ id: string }> }) {
+export default async function ProspectDetailPage({ params, base = '/centurion' }: { params: Promise<{ id: string }>; base?: string }) {
   await requireCenturionPageAction('read');
   const { id } = await params;
   const [prospect] = await db.select().from(prospects).where(eq(prospects.id, id));
@@ -29,7 +29,7 @@ export default async function ProspectDetailPage({ params }: { params: Promise<{
   }));
 
   return <div className="space-y-6">
-    <Link href="/centurion/prospects" className="inline-flex items-center gap-1 text-xs text-slate-400"><ArrowLeft className="w-4 h-4" /> Prospects</Link>
+    <Link href={`${base}/prospects`} className="inline-flex items-center gap-1 text-xs text-slate-400"><ArrowLeft className="w-4 h-4" /> Prospects</Link>
     <header className="bg-slate-900 border border-slate-800 rounded-xl p-6 flex flex-col md:flex-row justify-between gap-4">
       <div><div className="flex gap-3 items-center"><h1 className="text-2xl font-bold text-white">{prospect.name}</h1><span className="text-emerald-400 font-bold">{prospect.score} pts</span></div><p className="text-xs text-slate-400 mt-2">{prospect.industry || 'Unclassified'} · {prospect.city || 'Unknown'}, {prospect.state || '—'} · {prospect.qualificationStatus}</p></div>
       <div className="flex gap-2">{prospect.phone && <a href={`tel:${prospect.phone}`} className="primary-link"><Phone className="w-4 h-4" /> {prospect.phone}</a>}{prospect.websiteUrl && <a href={prospect.websiteUrl.startsWith('http') ? prospect.websiteUrl : `https://${prospect.websiteUrl}`} target="_blank" rel="noreferrer" className="secondary-link">Website <ExternalLink className="w-4 h-4" /></a>}</div>

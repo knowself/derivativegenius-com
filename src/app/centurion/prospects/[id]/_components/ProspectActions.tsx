@@ -33,7 +33,12 @@ export default function ProspectActions({ prospect, opportunityId }: { prospect:
     try {
       const response = await fetch(url, { method, headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
       const data = await response.json();
-      if (!response.ok || !data.success) throw new Error(data.error || `Unable to save ${key}`);
+      if (!response.ok || !data.success) {
+        const detail = Array.isArray(data.errors) && data.errors.length > 0
+          ? `: ${data.errors.map((e: { path?: Array<string | number>; message?: string }) => `${(e.path ?? []).join('.') || 'input'} ${e.message ?? 'invalid'}`).join('; ')}`
+          : '';
+        throw new Error(`${data.error || `Unable to save ${key}`}${detail}`);
+      }
       toast.success(`${key} saved`); router.refresh(); return true;
     } catch (error) { toast.error(error instanceof Error ? error.message : `Unable to save ${key}`); return false; }
     finally { setSaving(''); }
@@ -58,11 +63,20 @@ export default function ProspectActions({ prospect, opportunityId }: { prospect:
     </section>
 
     <section className="bg-slate-900 border border-slate-800 rounded-xl p-5 space-y-3">
-      <div><h2 className="font-semibold text-white">Website audit</h2><p className="text-xs text-slate-400">Findings are stored as a reviewable draft before anything is sent.</p></div>
+      <div><h2 className="font-semibold text-white">Website audit</h2><p className="text-xs text-slate-400">Machine-run checks save as a reviewable draft; hand-typed findings save the same way. Nothing is ever sent from here.</p></div>
+      <button disabled={saving === 'agent audit'} onClick={() => void send('agent audit', `/api/centurion/prospects/${prospect.id}/agent-audit`, {})} className="primary w-full">Run audit (live Eve agent when configured, else static checks)</button>
       <input value={audit.targetOutcome} onChange={(event) => setAudit({ ...audit, targetOutcome: event.target.value })} className="field w-full" />
-      <textarea value={audit.findings} onChange={(event) => setAudit({ ...audit, findings: event.target.value })} placeholder="One finding per line" className="field w-full" />
+      <textarea value={audit.findings} onChange={(event) => setAudit({ ...audit, findings: event.target.value })} placeholder="One finding per line (leave empty to auto-run machine checks)" className="field w-full" />
       <div className="grid sm:grid-cols-2 gap-2"><input value={audit.scoreSummary} onChange={(event) => setAudit({ ...audit, scoreSummary: event.target.value })} placeholder="Audit summary" className="field" /><input value={audit.proposalRange} onChange={(event) => setAudit({ ...audit, proposalRange: event.target.value })} className="field" /></div>
-      <button disabled={saving === 'audit'} onClick={() => void send('audit', '/api/centurion/audits', { prospectId: prospect.id, ...audit, findings: audit.findings.split('\n').filter(Boolean) })} className="primary">Create audit draft</button>
+      <button disabled={saving === 'audit' || saving === 'agent audit'} onClick={() => {
+        const typed = audit.findings.split('\n').map((line) => line.trim()).filter(Boolean);
+        if (typed.length === 0) {
+          // No hand-typed findings — run the deterministic machine checks instead,
+          // which always produce at least one evidence-cited draft finding.
+          return void send('agent audit', `/api/centurion/prospects/${prospect.id}/agent-audit`, {});
+        }
+        return void send('audit', '/api/centurion/audits', { prospectId: prospect.id, ...audit, findings: typed });
+      }} className="primary">Create audit draft</button>
     </section>
 
     <section className="bg-slate-900 border border-slate-800 rounded-xl p-5 space-y-3">

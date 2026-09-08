@@ -154,9 +154,9 @@ Start with a small, strict role model.
 | Role | Permissions |
 |---|---|
 | `centurion_admin` | Full configuration, exports, user management, compliance, deletion |
-| `prospector` | Discover, import, research, score, and assign prospects |
-| `sales_operator` | View assigned prospects, log calls, create audits, manage opportunities |
-| `viewer` | Read-only dashboards and reports |
+| `prospector` | Discover, import, research, score, assign prospects, log calls, create audits, manage opportunities (research + calls + closing; former `sales_operator` folded in 2026-09-08) |
+| `customer` | Own business portal only (`/portal`): shared audits, proposals, delivery |
+| `viewer` | No dashboard (`/no-access`) until a role is granted |
 
 ### Required controls
 

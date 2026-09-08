@@ -69,7 +69,7 @@ Visit the Portfolio page or click featured projects in the hero to view project 
                └───────────────┬───────────────┘
                                ▼
 ┌─────────────────────────────────────────────────────────────┐
-│              Durable Firestore Lead Storage                 │
+│            Durable Neon PostgreSQL Lead Storage              │
 └─────────────────────────────────────────────────────────────┘
 ```
 
@@ -123,7 +123,7 @@ dg dev --no-tunnel
 Derivative Genius enforces strict quality gates across linting, unit testing, and production builds.
 
 ```bash
-# Use Node.js 22.13.1 (or any supported version from package.json)
+# Use Node.js 24.20.0 (per .nvmrc)
 nvm use
 
 # Install dependencies
@@ -141,6 +141,17 @@ npm run lint
 # Execute production Next.js build
 npm run build
 ```
+
+---
+
+## 🤖 Eve Agents
+
+Two eve agents live in `agents/` (Node 24, `engines: 24.x`):
+
+- **`audit-agent`** — read-only website auditor. Local: `cd agents/audit-agent && npx eve dev` / `npx eve eval`. **Production:** `https://dg-audit-agent.vercel.app` (Vercel project `dg-audit-agent`) — deploy with `npx eve deploy --project dg-audit-agent --team derivativegenius --non-interactive --yes`. The Centurion prospect audit button calls it server-to-server when `AUDIT_AGENT_URL` is set, else deterministic static checks.
+- **`optio-centuriae`** — operator router/dispatcher (local only, not deployed).
+
+All model inference is $0 (Groq → Cerebras → OpenRouter `:free` → Zen fallback). Docs: `agents/audit-agent/README.md` (config + ops runbook), `doc/agent-dev.md` (fleet plan + decision log), `doc/free-llm-inference.md` (providers, limits, privacy rules).
 
 ---
 
@@ -182,6 +193,6 @@ dg-web/
 
 ## 🛡️ System Resilience Principles
 
-1. **Data Persistence First**: Form payloads are validated and stored durably in Firestore prior to triggering external notifications.
+1. **Data Persistence First**: Form payloads are validated and stored durably in Neon PostgreSQL (Drizzle ORM) prior to triggering external notifications.
 2. **Graceful Fallback**: If third-party services (such as ngrok or mailers) are unavailable, system components degrade gracefully to local mode without failing the user session.
 3. **Transparent User Feedback**: Form submissions communicate exact intake status to clients with real-time feedback using Sonner toast notifications.

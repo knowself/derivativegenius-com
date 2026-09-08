@@ -1,8 +1,10 @@
 import 'server-only';
 
 import { auth, currentUser } from '@clerk/nextjs/server';
+import { redirect } from 'next/navigation';
 import {
   canPerformCenturionAction,
+  dashboardForRole,
   resolveUserRole,
   type CenturionAction,
   type UserRole,
@@ -58,6 +60,29 @@ export async function requireCenturionPageAction(
 ): Promise<CenturionActor> {
   await auth.protect();
   return requireCenturionAction(action);
+}
+
+/**
+ * Require the signed-in user to hold one of `allowed` roles.
+ * Anyone else is redirected to their own dashboard (`/centurion` is
+ * root-only; operators go to `/operator`, customers to `/portal`,
+ * everyone else to `/no-access`). Uses the same role resolution as
+ * `requireCenturionAction` (env admin IDs, then Clerk public metadata).
+ */
+export async function requireDashboardRole(
+  allowed: readonly UserRole[],
+): Promise<CenturionActor> {
+  await auth.protect();
+  const { userId } = await auth();
+  const clerkUser = await currentUser();
+  const metadataRole = clerkUser?.publicMetadata?.role;
+  const role = userId && configuredAdminIds().has(userId)
+    ? 'centurion_admin'
+    : resolveUserRole(typeof metadataRole === 'string' ? metadataRole : undefined);
+  if (!(allowed as readonly string[]).includes(role)) {
+    redirect(dashboardForRole(role));
+  }
+  return { userId: userId ?? 'unknown', role };
 }
 
 export function centurionAuthorizationResponse(error: unknown): Response | null {

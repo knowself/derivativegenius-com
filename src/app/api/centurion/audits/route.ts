@@ -5,7 +5,7 @@ import { db } from '@/db';
 import { audits } from '@/db/schema';
 import { centurionAuthorizationResponse, requireCenturionAction } from '@/lib/auth/centurion';
 
-const createSchema = z.object({ prospectId: z.string().uuid(), targetOutcome: z.string().min(2), findings: z.array(z.string().min(2)).min(1), scoreSummary: z.string().optional(), proposalRange: z.string().optional() });
+const createSchema = z.object({ prospectId: z.string().uuid(), targetOutcome: z.string().trim().min(2), findings: z.array(z.string().trim().min(2)).min(1), scoreSummary: z.string().optional(), proposalRange: z.string().optional() });
 const updateSchema = z.object({ id: z.string().uuid(), status: z.enum(['draft', 'internal_review', 'approved', 'sent', 'viewed']), targetOutcome: z.string().optional(), findings: z.array(z.string()).optional(), scoreSummary: z.string().optional(), proposalRange: z.string().optional() });
 
 export async function GET() {

@@ -63,7 +63,6 @@ describe('Centurion Role Hierarchy', () => {
 
   it('grants centurion_admin full privileges', () => {
     expect(hasRequiredRole('centurion_admin', 'prospector')).toBe(true);
-    expect(hasRequiredRole('centurion_admin', 'sales_operator')).toBe(true);
     expect(hasRequiredRole('prospector', 'centurion_admin')).toBe(false);
   });
 });

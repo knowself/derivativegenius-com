@@ -645,7 +645,7 @@ Add evidence here whenever a target status changes to `In review` or `Complete`.
 
 1. Audit and remove legacy Python/Django, Vue.js, and Firebase dependencies.
 2. Map server-side features to Next.js 16 Route Handlers (`src/app/api/*`) and serverless handlers.
-3. Replace Firebase/Firestore persistence with Drizzle ORM + Neon PostgreSQL (`src/db/`).
+3. Replace legacy NoSQL persistence with Drizzle ORM + Neon PostgreSQL (`src/db/`).
 4. Replace legacy environment variable keys with standard Next.js and PostgreSQL variables (`DATABASE_URL`, `NEXT_PUBLIC_APP_URL`).
 5. Update `package.json` scripts, CI pipelines, and `README.md` to reflect the unified Node/PostgreSQL stack.
 6. Run full verification: `npm test` and `npm run build`.

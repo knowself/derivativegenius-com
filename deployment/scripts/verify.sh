@@ -41,10 +41,10 @@ for env_var in "${required_env[@]}"; do
 done
 
 # 3. Verify Node.js version
-required_node_major="20"
+required_node_major="24"
 current_node_major=$(node -v | cut -d. -f1 | tr -d 'v')
 if [ "$current_node_major" -lt "$required_node_major" ]; then
-    echo -e "${RED}Error: Node.js 20 or newer is required (found $(node -v))${NC}"
+    echo -e "${RED}Error: Node.js 24 or newer is required (found $(node -v))${NC}"
     exit 1
 fi
 echo -e "${GREEN}✓ Node.js version verified${NC}"

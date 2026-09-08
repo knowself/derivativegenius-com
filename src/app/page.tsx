@@ -1,12 +1,7 @@
 import React from "react";
 import Link from "next/link";
-import Image from "next/image";
-import { CENTURIONS_PROJECTS } from "../data/portfolio";
-import FallbackImage from "../components/FallbackImage";
-import { Code2, Cpu, ArrowRight, CheckCircle2, MessageSquareText, Search, Workflow, UserCheck, Phone, BookOpen } from "lucide-react";
+import { Cpu, ArrowRight, CheckCircle2, MessageSquareText, Search, Workflow, UserCheck, Phone, BookOpen } from "lucide-react";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
-import { DemosShowcase } from "@/components/DemosShowcase";
-import { ProjectCalculator } from "@/components/ProjectCalculator";
 import { Newsletter } from "@/components/Newsletter";
 
 export default function HomePage() {
@@ -86,7 +81,6 @@ export default function HomePage() {
     <div className="space-y-24 pb-20 pt-12">
       {/* Hero Section */}
       <section className="relative mx-auto max-w-7xl px-4 text-center sm:px-6 lg:px-8">
-        {/* Featured projects carousel moved below hero — see portfolio section before Plain English */}
         <h1 className="mt-6 text-balance font-extrabold leading-[1.08] tracking-tight text-white text-3xl sm:text-6xl lg:text-7xl">
           We Build Websites & Prime Local Search Engines <br className="hidden sm:block" />
           <span className="bg-gradient-to-r from-blue-400 via-indigo-400 to-emerald-400 bg-clip-text text-transparent">
@@ -137,31 +131,6 @@ export default function HomePage() {
             </span>
             <ArrowRight className="h-5 w-5 shrink-0 text-emerald-400 transition-transform group-hover:translate-x-1" />
           </Link>
-        </div>
-      </section>
-
-      {/* Selected work — static grid, no auto-rotation */}
-      <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
-          {CENTURIONS_PROJECTS.map((p) => (
-            <Link
-              key={p.id}
-              href={`/portfolio/${p.id}`}
-              className="block overflow-hidden rounded-xl border border-slate-800/90 bg-slate-900/70 p-2.5 transition-all hover:border-slate-600 hover:-translate-y-1"
-            >
-              <div className="relative overflow-hidden rounded-lg">
-                <FallbackImage
-                  src={p.image ?? `/images/portfolio/${p.id}.png`}
-                  alt={p.title}
-                  className="h-44 w-full object-cover"
-                />
-              </div>
-              <div className="mt-2.5 px-1 pb-1">
-                <div className="font-semibold text-sm text-slate-100 truncate">{p.title}</div>
-                <p className="mt-1 text-xs text-slate-400 leading-relaxed">{p.description}</p>
-              </div>
-            </Link>
-          ))}
         </div>
       </section>
 
@@ -216,50 +185,6 @@ export default function HomePage() {
             </div>
           </div>
         </div>
-      </section>
-
-      <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="rounded-2xl border border-slate-800 bg-slate-900/80 p-8 sm:p-12">
-          <div className="mx-auto max-w-3xl text-center">
-            <h2 className="text-3xl font-extrabold text-white sm:text-4xl">
-              Customer Examples & Proof
-            </h2>
-            <p className="mt-3 text-slate-300">
-              From local service businesses to growth-stage teams, we build digital experiences that make the work easier to understand, easier to trust, and easier to act on.
-            </p>
-          </div>
-
-          <div className="mt-8 grid gap-6 md:grid-cols-3">
-            <div className="rounded-xl border border-slate-800 bg-slate-950/60 p-6">
-              <div className="text-sm font-semibold text-blue-400">Latoya Jones-McDonald</div>
-              <p className="mt-3 text-sm text-slate-300 leading-relaxed">
-                “I help customers understand their coverage and make smarter decisions with clarity, confidence, and a more personal experience.”
-              </p>
-            </div>
-            <div className="rounded-xl border border-slate-800 bg-slate-950/60 p-6">
-              <div className="text-sm font-semibold text-blue-400">Insurance intake, live</div>
-              <p className="mt-3 text-sm text-slate-300 leading-relaxed">
-                Test the MicrogreensLA bot below, or read how an intake form cut phone tag for an Illinois/Indiana agency. Write-ups in progress — ask on a call.
-              </p>
-            </div>
-            <div className="rounded-xl border border-slate-800 bg-slate-950/60 p-6">
-              <div className="text-sm font-semibold text-blue-400">Home services</div>
-              <p className="mt-3 text-sm text-slate-300 leading-relaxed">
-                Single-problem pages with tap-to-call above the fold — the same fix our free 5-minute audit checks on your site.
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Demos Showcase from live website */}
-      <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <DemosShowcase />
-      </section>
-
-      {/* Interactive Project Calculator */}
-      <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <ProjectCalculator />
       </section>
 
       {/* Services Grid */}

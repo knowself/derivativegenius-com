@@ -10,7 +10,7 @@ describe('Centurion authorization policy', () => {
   it('allows only administrators to export prospect data', () => {
     expect(canPerformCenturionAction('centurion_admin', 'export')).toBe(true);
     expect(canPerformCenturionAction('prospector', 'export')).toBe(false);
-    expect(canPerformCenturionAction('sales_operator', 'export')).toBe(false);
+    expect(canPerformCenturionAction('customer', 'export')).toBe(false);
     expect(canPerformCenturionAction('viewer', 'export')).toBe(false);
   });
 

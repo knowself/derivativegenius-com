@@ -21,7 +21,7 @@ interface Prospect {
   createdAt: string;
 }
 
-export default function ProspectsPage() {
+export default function ProspectsPage({ base = '/centurion', showImportCta = true }: { base?: string; showImportCta?: boolean }) {
   const [prospects, setProspects] = useState<Prospect[]>([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState('');
@@ -74,12 +74,14 @@ export default function ProspectsPage() {
             Search and inspect discovered businesses, transparent v1.0 lead scores, and call availability.
           </p>
         </div>
+        {showImportCta && (
         <Link
           href="/centurion/import"
           className="inline-flex items-center gap-2 px-4 py-2 bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg text-sm font-medium transition"
         >
           + Import New Prospects
         </Link>
+        )}
       </div>
 
       {/* Filter Bar */}
@@ -129,14 +131,16 @@ export default function ProspectsPage() {
           <Users className="w-12 h-12 text-slate-600 mx-auto mb-3" />
           <h3 className="text-lg font-semibold text-white">No Prospects Found</h3>
           <p className="text-sm text-slate-500 max-w-md mx-auto mt-1 mb-4">
-            Try adjusting your search query or qualification filter, or import new prospects via CSV.
+            Try adjusting your search query or qualification filter{showImportCta ? ', or import new prospects via CSV.' : '.'}
           </p>
+          {showImportCta && (
           <Link
             href="/centurion/import"
             className="px-4 py-2 bg-emerald-600 hover:bg-emerald-500 text-white text-sm font-medium rounded-lg transition"
           >
             Import CSV File
           </Link>
+          )}
         </div>
       ) : (
         <div className="bg-slate-900 border border-slate-800 rounded-xl overflow-x-auto">
@@ -208,7 +212,7 @@ export default function ProspectsPage() {
 
                     <td className="p-3.5 text-right">
                       <Link
-                        href={`/centurion/prospects/${p.id}`}
+                        href={`${base}/prospects/${p.id}`}
                         className="inline-flex items-center gap-1 px-3 py-1 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded font-medium text-xs transition"
                       >
                         Inspect

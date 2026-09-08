@@ -1,4 +1,5 @@
 import path from 'path';
+import { withEve } from 'eve/next';
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
@@ -20,4 +21,10 @@ const nextConfig = {
 nextConfig.images = nextConfig.images || {};
 nextConfig.images.domains = Array.from(new Set([...(nextConfig.images.domains || []), "i.ytimg.com"]));
 
-export default nextConfig;
+export default withEve(nextConfig, {
+  // Mount the Eve audit-agent alongside the Next.js app (same origin,
+  // no CORS). Served at /eve/agents/audit/eve/v1/* in dev and on Vercel.
+  agents: {
+    audit: './agents/audit-agent',
+  },
+});

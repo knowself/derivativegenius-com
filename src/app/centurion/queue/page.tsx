@@ -19,7 +19,7 @@ const outcomes = [
   ['do_not_contact', 'Do not contact'], ['disqualified', 'Disqualified'],
 ] as const;
 
-export default function QueuePage() {
+export default function QueuePage({ base = '/centurion' }: { base?: string }) {
   const [prospects, setProspects] = useState<Prospect[]>([]);
   const [loading, setLoading] = useState(true);
   const [loggingId, setLoggingId] = useState<string | null>(null);
@@ -92,7 +92,7 @@ export default function QueuePage() {
           const draft = drafts[prospect.id] ?? { outcome: 'no_answer', notes: '', nextActionAt: '' };
           return <article key={prospect.id} className="bg-slate-900 border border-slate-800 rounded-xl p-5 space-y-4">
             <div className="flex flex-col md:flex-row md:items-start justify-between gap-3">
-              <div><div className="flex items-center gap-3"><Link href={`/centurion/prospects/${prospect.id}`} className="font-bold text-white hover:text-emerald-400">{prospect.name}</Link><span className="text-xs font-bold text-emerald-400">{prospect.score} pts</span></div>
+              <div><div className="flex items-center gap-3"><Link href={`${base}/prospects/${prospect.id}`} className="font-bold text-white hover:text-emerald-400">{prospect.name}</Link><span className="text-xs font-bold text-emerald-400">{prospect.score} pts</span></div>
                 <p className="text-xs text-slate-400 mt-1">{prospect.industry || 'Service business'} · {prospect.city || 'Unknown city'}, {prospect.state || '—'} · {prospect.status}</p>
                 {prospect.websiteObservation && <p className="text-sm text-slate-300 mt-2">Observed: {prospect.websiteObservation}</p>}
                 {prospect.commercialConsequence && <p className="text-sm text-amber-300/80">Why it matters: {prospect.commercialConsequence}</p>}</div>

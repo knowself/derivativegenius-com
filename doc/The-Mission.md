@@ -1,424 +1,468 @@
-# The Mission
+# The Mission — Chamber-to-City Game Plan to $150,000,000 ARR
 
-> Build useful intelligence into the fabric of real businesses—and do it with human judgment, technical discipline, and respect for the people the technology serves.
+> Build useful intelligence into the fabric of real businesses — and do it with human judgment, technical discipline, and respect for the people the technology serves.
 
-**Organization:** Derivative Genius  
-**Founder and human Centurion:** Joe Terry  
-**Operating instrument:** `/centurion`  
-**Canonical sales and fulfillment knowledge:** [`/book — Local Internet Presence`](https://www.derivativegenius.com/book) (Mike Stewart playbook, retold; living doc v0.2) + `doc/lessons-of-localinternetpresence.md`  
-**Document type:** Repository mission charter  
-**Version:** 1.3  
-**Date:** September 7, 2026
+**Organization:** Derivative Genius
+**Founder / Centurion:** Joe Terry
+**Operating instrument:** `/centurion`
+**Canonical sales doctrine:** [`/book — Local Internet Presence`](https://www.derivativegenius.com/book) (Mike Stewart playbook, retold) + `doc/lessons-of-localinternetpresence.md`
+**Document type:** Mission + go-to-market game plan + Eve agent build plan
+**Version:** 3.2 — Eve-first deployment, ICP agents later
+**Date:** September 8, 2026
+**North Star:** $150,000,000 ARR from book-grounded local-presence systems
+**Stack exception:** EX-2026-09-08-01 ACTIVE (see §10.1) — ICP canisters authorized on revenue path alongside Next.js + Neon
+**Deployment posture (decided 2026-09-08):** Eve-first. All agents ship on Eve (Vercel) until promotion criteria in §9.6 are met. ICP agent hosting is reserved for named candidates only.
 
 ---
 
-## Why Derivative Genius exists
+## 0. The mission in one paragraph
 
-We are all standing on the shoulders of giants.
+Derivative Genius exists to make local businesses **found, remembered, called.** We do it with single-problem VSL pages, owner-voice content factories, SERP-term jingles, GBP rescue, and hyper-local YouTube — sold via respectful, audit-led conversations, delivered with engineering discipline, and compounded city by city until we serve tens of thousands of paying locations at $150M ARR.
 
-The intellectual tools accumulated across human history are becoming available in new forms: digital communication, digital value transfer, global software infrastructure, and now broadly accessible machine intelligence. The opportunity is not merely to possess these tools. It is to apply them with clarity, responsibility, and imagination to work that matters.
+This file is the game plan for getting there starting with the single highest-leverage wedge available to a founder: **your local chamber of commerce.**
 
-Derivative Genius exists to help people and businesses turn that opportunity into practical capability.
+---
 
-We build websites, intelligent applications, client portals, knowledge systems, and automated workflows that make a business easier to understand, easier to trust, and easier to operate. The technology may be advanced, but its purpose must remain plain:
+## 1. The math to $150M ARR — what has to be true
 
-- help a customer take the next useful step;
-- help a team recover time and attention;
-- make knowledge easier to reach and use;
-- reduce avoidable friction and repetition;
-- create durable commercial value; and
-- give individuals and organizations greater agency.
+Primary engine is recurring, not one-time builds:
 
-The mission is not to add AI everywhere because it is fashionable. The mission is to identify where software and intelligence can genuinely improve an outcome, then build that improvement well.
+| Offer | Price | $/yr per account | Accounts needed alone for $150M |
+|---|---|---|---|
+| Core Retainer | $300/mo | $3,600 | 41,667 |
+| Growth Retainer | $500/mo + ad spend | $6,000 | 25,000 |
+| VSL Setup (one-time) | $1,500 | — (cash + wedge) | — |
+| Fixed site (one-time, secondary) | $2,000–$5,000 | — | — |
 
-For local service businesses, that outcome is brutally simple — the promise of the book: **found, remembered, called.** If a business cannot be found on the phone in its customer's moment of urgent need, remembered when it matters, and called in one tap, it does not have a presence. Everything we find, sell, and build serves those three.
+**Blended target model that hits $150M:**
 
-## What this repository is
+- 20,000 Growth @ $500/mo = $120M ARR
+- 7,000 Core @ $300/mo = $25.2M ARR
+- ~$4.8M ARR-equivalent from VSL setups ($1,500 × ~3,200/yr run-rate), care plans, and expansion web systems
 
-This repository is more than the source code for a company website. It is the working foundation of Derivative Genius — **the machine that finds businesses, earns the right to help them, and delivers the promised work.**
+**Total: ~27,000 active retainer locations.**
 
-It contains five connected systems:
+Why this is believable: the U.S. has ~4,000+ chambers and ~30M small businesses. 27,000 = <0.1% of SMBs = ~270 cities × 100 retainer clients per city. One chamber (150–600 members) converts to 15–60 retainers. One metro (5–10 chambers + non-members) converts to 100–300 retainers. Repeat 270 times with team + AI factory.
 
-1. **The public promise** — the website through which people understand the company, evaluate its work, and begin a relationship. This includes the book itself (`/book`), the offer pages, and the inquiry path.
-2. **The delivery workshop** — the application code, design system, data layer, tests, and engineering practices used to create reliable digital products.
-3. **The Centurion console** — the private operator system that turns careful market research into respectful conversations, opportunities, and client work.
-4. **The institutional memory** — the plans, decisions, evidence, and operating manuals that prevent learning from disappearing.
-5. **The intelligence amplifier** — the agent skills and AI-assisted workflows that expand what one disciplined builder can research, design, implement, verify, and maintain.
+One-time cash funds growth but ARR is the scoreboard. Every audit is scored on: **did it create a retainer conversation?**
 
-Each part serves the same mission. The public site earns trust. The operator system creates disciplined action. The engineering system delivers on the promise. The documentation preserves direction. AI increases reach and velocity.
+---
 
-None of them replaces responsibility.
+## 2. Strategic sequence — chamber → city → cities
 
-## Who the Centurion is
-
-Joe Terry is the human Centurion.
-
-The title does not mean ruler, automaton, or distant administrator. It names the person who stands watch over the mission and accepts responsibility for what is done in its name.
-
-The Centurion:
-
-- chooses the objective;
-- decides what deserves to be built;
-- speaks directly with the people the work may serve;
-- separates real needs from imagined ones;
-- makes promises carefully;
-- protects private information;
-- tests claims against evidence;
-- keeps commitments;
-- makes the final judgment when tools disagree;
-- accepts responsibility for quality and consequences; and
-- ensures that automation remains subordinate to purpose.
-
-Joe's role is not to press a button and wait for technology to produce a business. His role is to remain present at the points where judgment, courage, empathy, and accountability matter most.
-
-That includes making the call.
-
-Manual outreach is not a temporary embarrassment to automate away. It is direct contact with reality. It reveals how business owners describe their problems, what they value, what they distrust, what they can afford, and whether Derivative Genius has earned the right to propose a solution.
-
-The Centurion listens before he builds.
-
-## What `/centurion` is
-
-`/centurion` is Joe Terry's private operating instrument — **the tool that finds businesses worth helping and sells them only what serves them.**
-
-It exists to strengthen discipline, memory, and follow-through. It helps the Centurion:
-
-- define a narrow market (one vertical, ~five cities);
-- import candidates with source provenance and deduplicate by Place ID, domain, phone, and address;
-- score transparently (v1.0 rules) and require human confirmation;
-- record specific website observations grounded in the book's audit vectors;
-- prioritize the next safe and valuable action in a due-first queue;
-- place calls manually with a book-grounded opener;
-- record outcomes, objections, and commitments;
-- honor suppressions and opt-outs immediately and permanently;
-- make targeted audits the primary source of new leads — every audit is a diagnostic demonstration, not a pitch deck;
-- follow up with ever more sophisticated automation: unlimited internal followup (surfacing, drafting, scheduling, overdue escalation) plus permission-based external followup only after the prospect requested info or granted permission, always with suppression re-check and human approval before anything sends;
-- advance legitimate opportunities through pipeline to proposal and paid handoff; and
-- measure conversations, proposals, revenue, and learning.
-
-The system is not the Centurion. It does not own the relationship, make moral judgments, invent claims, or decide that volume is more important than respect.
-
-Its purpose is to make good human judgment more consistent.
-
-```text
-Joe Terry, the human Centurion
-    -> sets purpose and exercises judgment
-        -> uses /centurion to find businesses and organize action and memory
-            -> uses /book knowledge to diagnose real friction and sell real relief
-                -> creates respectful commercial conversations
-                    -> uses this repository to deliver the promised work
-                        -> returns evidence and learning to the system
+```
+Phase A: Dominate ONE chamber (Days 0-90)
+  -> Phase B: Own your CITY — all chambers + verticals (Months 4-9)
+    -> Phase C: Clone to 5 cities in your region (Months 10-18)
+      -> Phase D: 30-city operator network (Years 2-3)
+        -> Phase E: 270-city AI-factory network to $150M (Years 3-7)
 ```
 
-## The relationship between human and machine
+No cold spam at any phase. Doctrine from v1.3 holds: **audits earn; followup compounds — always on permission.** Every external touch needs permission basis + suppression re-check + human approval, logged in `/centurion`.
 
-Derivative Genius is AI-first, but it is not human-last.
+---
 
-AI can help investigate, compare, draft, design, code, test, document, and discover patterns. It can compress days of mechanical work into hours and make sophisticated capabilities available to a small team.
+## 3. PHASE A — Dominate your home chamber (Days 0–90)
 
-Joe Terry remains responsible for:
+Goal: 100% of fellow members audited, 30%+ in conversation, 10–20 retainers + 5–10 VSLs closed. Become "the audit guy," not "the web guy."
 
-- selecting the goal;
-- interpreting context;
-- authorizing consequential actions;
-- verifying material claims;
-- deciding what should not be automated;
-- understanding the client;
-- approving what is delivered; and
-- owning the result.
+### 3.1 Week 0: Join right
 
-The governing relationship is:
+1. Join as an active member, not a logo. Pay, show up, volunteer for the membership / ambassadors committee — that gives you legitimate reason to meet everyone.
+2. Positioning line (memorize): *"I help local businesses get found, remembered, and called — I do free 20-minute website audits for members so wasted ad clicks stop bouncing."* No jargon, no "AI-first."
+3. Get: member directory CSV, event calendar, newsletter ad slot, new-member list access, permission to do a 10-min lunch-and-learn on "The 5-Minute Self-Audit."
+4. In `/centurion`: create campaign `chamber-[city]-[year]` — e.g. `chamber-clearlake-2026`. Import every member with source=`chamber-directory-[date]`. Dedup by domain → phone → name+postal. Tag `chamber-member`, `pillar-5-borrowed-traffic`.
 
-> AI expands capability. The Centurion supplies purpose, judgment, and accountability.
+### 3.2 The Audit Factory — one audit per member
 
-AI should make the work more thoughtful, more reliable, and more humane—not merely faster.
+You will produce a short, specific, evidence-cited audit for **every** other member. This is Pillar 5 + Book Ch. 8. The audit is the lead.
 
-## The people we serve
+**Audit SLA:** 20 minutes to produce, 1 page to read, ≤3 problems, zero invented numbers.
 
-Derivative Genius serves people who want practical progress rather than technological theater.
+Use the standard 5-check stack (from `/book#audit` + `doc/pass-the-audit-workbook.md`):
 
-They may be:
+1. **One problem, one page?** Do their Google ads / services all dump to homepage? (Ch. 5 Homepage Mistake)
+2. **Sticky tap-to-call?** On a 390px viewport, is `tel:` reachable in <3 sec without menu hunting?
+3. **Hero proof?** No slider ✅? Reviews + phone visible above fold?
+4. **GBP health?** Claimed? NAP exact? 20+ reviews? 1-stars answered? Fresh job photos <7 days?
+5. **Owned content?** Anything indexable on their domain, or trapped in Facebook/Instagram (Ch. 6 Trap 2)?
 
-- an established service business or local trade whose website no longer reflects the quality of its work or fails to convert mobile searchers into phone calls;
-- a founder trying to turn an idea into a credible product;
-- a local operator trapped in the "social media trap" or burned by bloated design agencies that prioritized design awards over ringing phones;
-- a team buried in repetitive processes;
-- an organization whose knowledge is difficult to find or apply;
-- a business ready to add intelligent capabilities without surrendering control; or
-- a customer simply trying to understand what to do next.
+**Audit template (copy/paste per member, store in `/centurion/audits`):**
 
-We meet them in plain language. We do not require clients to understand models, vectors, orchestration, serverless infrastructure, or framework conventions to understand the value of the work.
+```
+Subject: 20-min look at [Business] — 2 things I noticed [FirstName]
 
-Technical sophistication belongs behind the promise. Clear outcomes belong in front of it.
+Hi [FirstName] — fellow [Chamber] member here. I looked at [site] on my phone
+as a customer would, plus your Google listing.
 
-Ideal early clients are high-intent local operators where one or two new customers justify the whole engagement: HVAC, roofing, plumbing, electrical, pest control, tree service, restoration, remodeling, dental, med spa, legal, property management, commercial cleaning, and niche rentals. If they live on emergency calls, quote requests, bookings, or consultations — and >90% of those callers are on mobile — they fit.
+What’s working: [1 genuine strength]
 
-## The knowledge we sell from: the book
+2 friction points I can show you in 60 seconds:
+1. [Observation + screenshot] — e.g. “Services + ads land on homepage, no
+   single-problem page for ‘AC repair Clearlake’ — visitors bounce in ~3s.”
+   (Book Ch. 5)
+2. [Observation + screenshot] — e.g. “No sticky call button on mobile; phone
+   is in hamburger menu. 90%+ of your callers are on phones.”
 
-The book — **_Local Internet Presence: How Local Businesses Get Found, Remembered, and Called_** at `/book`, distilled technically in `doc/lessons-of-localinternetpresence.md` — is the canonical diagnostic, sales, and fulfillment doctrine for local work. Every finder tool, seller script, audit, offer, and build must be traceable to it. No new claim, package, or automation enters the system unless it maps to a chapter.
+What I’d do first: [one smallest fix — usually VSL page OR GBP rescue].
+Range if we did it: [$1,500 VSL] / [$300–$500/mo factory].
 
-The doctrine in brief:
+Worth a 20-min walkthrough Tue or Thu? I’ll bring the fix outline and you
+keep it either way. If not useful, I’ll close the loop and won’t chase.
 
-- **The promise (60 seconds):** Traffic × Conversion. Traffic comes from three places only — paid (Google/YouTube, fastest), organic (reviews, map, content — compounds), borrowed (partners, networking — trust). Conversion means convincing a mobile visitor within 3 seconds that you are the trustworthy local fix, or they bounce.
-- **Ch. 1 — Leads, not laurels:** We sell high-intent lead capture, earworms, and zero-friction funnels. We reject brand-awareness vanity.
-- **Ch. 2 — The 5 pillars:** (1) Map & reviews — GBP claimed, NAP exact, 5-stars asked for every time, every review answered, real job photos; (2) Your-domain content + syndication — transcripts on owned URLs, RSS to Apple/Spotify/Amazon/YouTube; (3) Page + ads that match — one problem = one page; (4) Jingle + YouTube — 15-sec SERP-term song in skippable pre-rolls; (5) Handshakes — BNI/chamber, 20-minute 1-on-1 audits. Pillar 1 first: never run ads to distrust.
-- **Ch. 3 — The jingle (Weapon A):** Every business owns a 2–4 word SERP term. Plant it with melody. 21-time rule. 15-second recipe: 0–5s anchor before Skip, 5–12s benefit, 12–15s nudge. Owners don't write lyrics — formula does.
-- **Ch. 4 — The YouTube loophole (Weapon B):** >50% of local YouTube is living-room Smart TV. Google charges $0 when skipped before 30s. Front-load the jingle into the mandatory 5s. Target tight 15–20 mile radius / zip cluster only; let Google's machine find buyers.
-- **Ch. 5 — The page that rings (Weapon C):** One problem, one 45–60s video, one button. 5-part page: risk-reversal headline ("ice cold or it's free"), video + jingle, proof strip, plain-spoken agitation + FAQ, sticky tap-to-call. Ads use Problem → Agitate → "Watch my video" (4× CTR).
-- **Ch. 6 — Two traps:** (1) Award-winning websites — sliders, slogans, hidden phones, ~90% bounce; (2) Social walled gardens — dopamine scrolling, invisible to Google/AI crawlers, evaporates; owned-web content compounds.
-- **Ch. 7 — Proof from real towns:** Abilene TX pest (8M free skips + 3M views, 3–4× revenue), Nashville Party Boat ($0→$80k first summer), Nashville Honey (#1 "local honey near me," $0 spend), Mount Lawley Perth (5-year $500k goal in year 2), Haynes FL (+$172.5k in 7 months), Ted Yates Tampa (two 1-hour Zooms → full-time retainer practice). Use proof, never promises.
-- **Ch. 8 — The 20-minute audit:** Owners don't know what they don't know. Diagnose Map Pack, one-tap call, reviews, owned content. Bring one problem; leave with one page, one video outline, one lyric.
-- **Ch. 9 — Content without writing (Weapon D):** Brain-to-tongue beats brain-to-hands. 50-problems worksheet → one diagnostic question → 3-min phone memo → transcript on domain + FAQ schema → RSS syndication. Weekly cadence compounds in Google + AI answers.
-- **Ch. 10 — The AI factory:** Gemini scripts → SMS "Reply YES" → ElevenLabs owner-voice (incl. Spanish) → Suno 15-sec jingle → publish + syndicate weekly → 5-min monthly Zoom. Owner does nothing but reply YES.
-- **Appendices:** 5-minute self-audit (0 fails = defend, 1–2 = fix this month, 3+ = full playbook) and plain-English glossary. Every jargon term maps to the chapter where it pays off.
-
-Attribution rule: the playbook is Mike Stewart's (`LocalInternetPresence.com`, Nashville, TN), retold in plain English. The book page is a living draft for review with Mike — not for independent KDP expansion without his approval.
-
-## The work we are here to do
-
-We build to make the phone ring first, then to make the business operable. Primary focus first, secondary second:
-
-**Primary — VSL pages + local-presence retainers (book-direct, recurring):**
-
-- single-problem Video Sales Letter landing pages — risk-reversal headline, 45–60s video + jingle, proof strip, agitation + FAQ schema, sticky tap-to-call ($1,500 fixed setup);
-- "Done-For-You" Local Authority & GEO retainers — weekly owner-voice podcast + transcript blog on client domain, RSS syndication, GBP maintenance, Suno SERP-term jingle included ($300/mo Core; $500/mo Growth with PPC + pre-roll management + ad spend);
-- auditory brand assets — 15-sec SERP-term earworms, front-loaded for 5-sec pre-rolls;
-- hyper-local YouTube arbitrage — geo-only skippable campaigns managed for living-room saturation;
-- GBP rescue and review engines — claim, NAP fix, reply cadence, photo pipeline.
-
-**Secondary — fixed-scope sites $2k–$5k + web systems (expansion when ready):**
-
-- focused, high-converting business websites ($2k–$5k; 2–3 weeks);
-- modern full-stack web applications and intelligent client/operator portals;
-- search and knowledge experiences that understand meaning (GEO-structured, AI-citable);
-- automations that remove repeated administrative work; and
-- durable systems that a business can trust and operate.
-
-Every engagement should connect technical work to a human or commercial outcome. A feature without a meaningful outcome is not progress. The primary wedge earns trust and recurring revenue; the secondary expansion is sold only when the business is ready to systematize. Never sell secondary to fund primary neglect.
-
-## The tools that find and sell
-
-The mission requires named tools, not aspirations. These are the tools, what each one does, and which book chapter powers it:
-
-### Find — Centurion discovery and qualification
-
-| Tool (route) | Finding job | Book grounding |
-|---|---|---|
-| Campaigns (`/centurion/campaigns`) | Lock one vertical + ~five cities, offer, price range before any list is built | Ch. 8 market lock; Ch. 10 retainer framing |
-| Import (`/centurion/import`) | CSV/manual intake with source provenance, campaign assignment, dedup (Place ID → domain → phone → name+postal) | Prospecting plan §5.2–5.3; Ch. 2 Pillar 1 |
-| Prospects (`/centurion/prospects`, `prospects/[id]`) | 25-company hand-qualification: economics, active operations, public route, no disqualifier; one undeniable observation each | Ch. 5–6 audit vectors; Ch. 8 |
-| Audit Tools (`/centurion/audit-tools`) | Read-only static-HTML heuristics: tap-to-call gap, hero waste, owned-content thinness + score preview + max-3 evidence-cited findings; rendered-viewport confirmation required before quoting | Ch. 5, Ch. 6, Ch. 2 Pillar 2 |
-| Scoring (`src/lib/prospecting/scoring.ts`, v1.0) | Transparent 100-pt rules + hard disqualifiers; score is a prompt, human confirms | Prospecting plan §5.5 |
-| Queue (`/centurion/queue`) | Due-first daily queue: overdue commitments → due follow-ups → engaged → priority score; one-question answer: next safe valuable action | Ch. 8 cadence; Ch. 5 Pillar 5 respect |
-| Compliance (`/centurion/compliance`) | Keyed-hash DNC suppressions, admin-only export, audit log; opt-out ends pursuit everywhere immediately | Doctrine §3; Ch. 8 trust |
-| Reports (`/centurion/reports`) | Real funnel from activities/opportunities/proposals: qualified convos per operator hour, reach rate, discovery, proposals, revenue, loss reasons | Ch. 1 leads-not-laurels measurement |
-
-Missing finder capabilities stay missing until DT-18 evidence names a measured bottleneck. In particular: no scaled Places discovery, no mass enrichment, no bulk sequencing — per the automation gate.
-
-### Sell — conversation, audit, proposal
-
-Targeted audits are the primary source of new leads. The audit is the diagnostic demonstration that earns the next conversation (Book Ch. 8): show the flaw plainly, teach Promise + Ch. 5, leave the self-audit behind. Followup then compounds the audit's value — and gets more sophisticated over time — within strict permission bounds.
-
-| Tool (route/page) | Selling job | Book grounding |
-|---|---|---|
-| Call scripts (`doc/the-first-priority.md` §11 + queue card) | Gatekeeper + decision-maker openers leading with one factual observation; 3-question discovery max; explicit next-step close | Ch. 5 agitation without fabrication; Ch. 8 diagnosis |
-| Permission-based followup engine (queue + tasks + activities + pipeline) | Sophisticated automatic followup in two layers: (1) internal — auto-surface due/overdue commitments, draft the next touch from call notes + audit findings, schedule, escalate; (2) external — send only after requested info or granted permission, with suppression re-check at queue and send time, human approval, and full activity logging. No cold sequences, no cold auto-texts, no auto audit blasts. Every external touch records what was sent, permission basis, and next commitment. | Ch. 8 permission; Doctrine §3, §4, §16 |
-| Audits (`/centurion/audits`) | Primary lead engine. Concise targeted review: their goal, strengths, ≤3 problems, private screenshots, cautious consequence, fix, range, invitation; human approval before delivery; approved audits feed the followup engine as the reason to return | Ch. 8 20-min audit; safeguards |
-| Pipeline (`/centurion/pipeline`) | Opportunity stages → proposal → negotiation → closed-won → project handoff record | Ch. 7 proof discipline |
-| Book (`/book`) | Pre-sell and leave-behind: Promise + Ch. 5 + self-audit; "Read Ch. 5, then request the audit" CTA | Whole book |
-| Public proof (`/`, `/services`, `/services/websites`, `/solutions`, `/portfolio`, `/articles`) | Post-call credibility layer: plain-English outcomes, fixed scope, fixed price, tap-to-call, anti-agency conversion standard | Ch. 5–6; Anti-Agency Rule |
-| Intake (`/contact` + `/api/contact`) | Zod-validated, Drizzle-persisted, Nodemailer-dispatched capture with Sonner feedback; zero data loss | Pillar B delivery promise |
-
-### The find-and-sell loop
-
-```text
-Lock market (campaigns)
-  -> Find 25 by hand (import + prospects)
-    -> Diagnose one book-grounded friction (audit-tools + viewport check)
-      -> Lead with a targeted audit observation (audits = primary lead source)
-        -> Call respectfully (queue + scripts)
-          -> Listen, log, keep commitments (activities + tasks)
-            -> Follow up with growing sophistication: auto-surface + auto-draft internally,
-               send externally only on permission with suppression re-check + human approval
-              -> Sell the smallest responsible fix (book Ch. 8–10 offer)
-                -> Deliver Pillar A then Pillar B (delivery workshop)
-                  -> Syndicate proof without exposing PII (reports -> portfolio/articles)
-                    -> Return learning to scoring, scripts, audits, and offers
+— Joe Terry, Derivative Genius | [phone] | fellow member
+P.S. Full 5-min self-check is here: [link to /book#audit]
 ```
 
-Prospect-facing tools (book, services, intake) find by teaching. Operator-facing tools (Centurion) find by remembering. Targeted audits are the bridge: the reason to call, the reason to return, and the primary source of new leads. Followup automation compounds audit value — never replaces permission, judgment, or respect.
+Rules:
+- Human viewport confirmation required before quoting any fail.
+- Never claim traffic loss, revenue loss, rankings, or compliance without evidence.
+- Screenshots stay private. Never publish a member’s negative audit publicly.
+- `draft → internal_review → approved → sent` only. Full audit sent only after interest OR credible conversation reason. Pre-interest: send only the teaser (1 observation) + book link.
 
-## Our operating doctrine
+**Production cadence:** 5 audits/day × 5 days = 25/week. A 200-member chamber = 8 weeks solo. Batch: mornings research, midday calls, afternoons followup.
 
-### 1. Reality before scale
+### 3.3 In-person + call followup engine (permission-gated)
 
-Talk to people, observe the work, and validate the need before automating the process.
+Chamber gives you implied social permission to introduce yourself once — not to blast. After that, Book Ch. 8 permission rules apply.
 
-### 2. Evidence before claims
+**Touch sequence per member (log every touch in `/centurion` with permission basis):**
 
-Do not present aspiration as achievement. Performance, accessibility, revenue, conversion, security, and client-result claims require evidence or careful qualification. Book proof points (Abilene, Nashville, Perth, Avon Park) are cited as their results under their conditions — never as the prospect's guaranteed future.
+| Day | Action | Script / asset |
+|---|---|---|
+| 0 | In-person intro at mixer / ribbon-cutting | “What’s the one job you wish the phone rang for right now? Mind if I take a 20-min look at how that page handles on a phone and send you what I find?” — captures `granted_permission` |
+| 1 | Deliver teaser (1 observation + book Ch. 5 link) | Email/text ONLY if they said yes or requested info. Otherwise call the public business line manually |
+| 3 | Manual call #1 on public business line | Opener: “Hi [Name], it’s Joe with [Chamber] — I noticed [one factual observation] on mobile, took 60 seconds to screenshot. Worth 20 minutes to show you, or should I close it out?” Max 3 discovery questions, explicit next-step close |
+| 7 | Value touch | Send their SERP-term lyric card (3 lines: 0–5s anchor / 5–12s benefit / 12–15s nudge) OR 45-sec Loom walking their mobile hero. No ask beyond “useful?” |
+| 14 | Manual call #2 | New observation, not “bumping this up” |
+| 21 | Lunch-and-learn invite / 1-on-1 audit offer | “I’m doing free 20-min audits for members this month — want one of the slots?” |
+| 30 | Breakup + leave-behind | “Closing your file — here’s the self-audit link if you ever want a second look. Who do you send referrals to for [category]? Happy to send folks your way.” |
 
-### 3. Service before extraction
+Outcomes to log: `no_answer, voicemail, gatekeeper, decision_maker_reached, audit_requested, meeting_booked, follow_up_requested, not_interested, do_not_contact, disqualified`. `do_not_contact` → keyed-hash suppression everywhere immediately.
 
-Outreach should begin with a relevant observation and respect the recipient's time. An opt-out ends the pursuit.
+**Weekly chamber operating rhythm:**
+- Mon: 2-hr audit batch (10 audits drafted)
+- Tue–Thu: mixers + call blocks (10am–12pm, 2–4pm local only) + 20-min audit deliveries
+- Fri: pipeline review in `/centurion/reports` — qualified convos/hr, discovery rate, proposals, revenue, loss reasons. No vanity counts.
 
-### 4. Judgment before automation
+### 3.4 Offer ladder — what you’re encouraging them into
 
-Automate a repeated, measured bottleneck only after the underlying work is understood. More volume is not automatically more value. Internal followup automation (surfacing, drafting, scheduling, escalation) is always welcome. External followup automation is welcome only on permission — requested info or granted consent, suppression re-checked, human approved, fully logged.
+Never pitch all at once. Sell the smallest responsible fix:
 
-### 5. Plain language before jargon
+1. **Free 20-min audit** (trust wedge)
+2. **Option A — VSL Sprint $1,500:** one problem, one 45–60s video, one sticky call button. Risk-reversal headline, proof strip, FAQ schema. Built in 2–3 weeks.
+3. **Option B — Growth Factory $300/mo Core / $500/mo Growth + ad spend:** weekly owner-voice podcast (3-min phone memo → transcript blog on THEIR domain → RSS to Apple/Spotify/YouTube) + GBP maintenance + SERP jingle included. Owner replies “YES” by SMS; we do the rest (Book Ch. 10 AI Factory).
+4. **Expansion only when ready:** $2k–$5k site rebuild, portals, automations.
 
-Explain what the system does for a person or business before explaining how it is engineered. Every jargon term must resolve to the book's glossary meaning and the chapter where it pays off.
+Close language: “Most members start with the $1,500 page so wasted clicks stop bouncing, then keep the $300/$500 factory running so Google and AI assistants cite you every week. Which problem should we fix first — [their #1 money job]?”
 
-### 6. Persistence before notification
+**Phase A exit criteria:** every member has a disposition in `/centurion`; ≥30% had a real conversation; ≥10 retainers + pipeline ≥$50k weighted; one lunch-and-learn delivered; dated continue/revise/stop logged.
 
-Protect the primary record and the user's work before relying on secondary messages or external services. Every client engagement lives in the database — prospect → opportunity → proposal → project handoff, with scope, price, receipt reference, outreach source, and milestone kickoff — never in a spreadsheet, inbox thread, or memory. No client PII, payment credentials, or secrets ever enter the repository.
+---
 
-### 7. Security and privacy by design
+## 4. PHASE B — Own the city (Months 4–9)
 
-Private prospect information, credentials, internal findings, and operational history stay private. Access is earned, limited, and auditable.
+Goal: 100+ retainers in your home city. You’ve proven the chamber; now cover the whole market.
 
-### 8. Craft before spectacle
+1. **Expand vertical by vertical, not all at once.** Repeat the DT-18 loop: 1 vertical × ~5 zip clusters at a time. Priority order: HVAC → plumbing → roofing → electrical → pest → tree → restoration → remodel → dental → med spa → legal. High-ticket emergency/quote businesses first.
+2. **Stack chambers + partners.** Join / partner with the other 2–5 chambers, BNI chapters, trade associations in the city. Offer the same lunch-and-learn + free member audits. Every talk = 15–30 permissioned audits requested.
+3. **Turn clients into borrowed traffic.** Each retainer client gets: “Who are your 3 best referral partners? I’ll audit them free and tell them you sent me.” Log referrer in `/centurion`.
+4. **Launch the AI Factory line.** By 30+ retainers, fulfillment must be systematized: Gemini scripts → SMS YES → ElevenLabs owner-voice (+Spanish) → Suno 15-sec jingle → publish + syndicate → 5-min monthly Zoom. One operator handles 50–80 retainers with this line. Track cost per episode, publish SLA, GBP reply SLA.
+5. **Hire #1:** a part-time audit producer (research + drafts) + keep founder on calls. Founder stays on calls until 100 retainers — “makes the call” is the job.
 
-The experience must be clear, fast, accessible, responsive, and reliable. Visual ambition never excuses a broken user path.
+City scoreboard: doors audited, audits accepted, discovery held, proposals (sprint vs retainer), MRR added, churn, CAC payback (<3 months on $500/mo).
 
-### 9. Commitments before new activity
+---
 
-Complete promised follow-ups before generating more leads, features, or tasks. The followup system gets more sophisticated over time — better surfacing, better drafts, better timing — so no commitment slips.
+## 5. PHASE C → E — City-by-city replication to $150M
 
-### 10. Outcomes before vanity metrics
+### Playbook per new city (copy-paste, 90 days each)
 
-Measure useful conversations, completed work, client value, revenue, reliability, and learning—not activity for its own sake. Found / remembered / called beats raw prospect counts.
+1. **Scout (Week 1):** pick city with 150+ SMBs in 2–3 emergency verticals + an active chamber. Hire or transfer one founder-type operator.
+2. **Embed (Weeks 2–3):** operator joins chamber, delivers lunch-and-learn, imports directory to a new `/centurion` campaign `chamber-[city]-[year]`.
+3. **Blitz (Weeks 4–10):** 5 audits/day, same touch sequence as §3.3. Weekly report to HQ: convos/hr, discovery, proposals, MRR.
+4. **Anchor (Weeks 11–12):** close first 10–15 retainers, recruit 2 local referral partners, hand fulfillment to central factory.
+5. **Graduate:** city is “owned” at 100+ retainers + self-sustaining referrals. Operator stays or opens next city.
 
-### 11. Utility and conversion before aesthetic vanity (The Anti-Agency Rule)
+### Scaling math
 
-A blazing-fast, benefit-driven page with immediate proof and a zero-friction tap-to-call button will outperform an award-winning artistic agency portfolio piece every single time. We reject slow video backgrounds, vague slogans, and giant hero sliders that push the phone number below the fold. (Book Ch. 6, Trap 1.)
+| Stage | Cities active | Retainers per city | Total retainers | ARR (~$463/mo blended) |
+|---|---|---|---|---|
+| Home city owned | 1 | 100 | 100 | $0.55M |
+| Regional cluster | 5 | 100 | 500 | $2.8M |
+| Operator network | 30 | 150 | 4,500 | $25M |
+| Factory network | 150 | 150 | 22,500 | $125M |
+| $150M | ~270 | ~100–150 | ~27,000 | **$150M** |
 
-### 12. Owned open web before rented social land
+### What scales vs. what doesn’t
 
-Urgent customer needs surface on search engines, maps, and AI assistants, not social feeds. Content belongs on open web protocols—indexed blogs, semantic transcripts, and syndicated RSS feeds—building permanent domain equity and LLM citations rather than vanishing into walled social gardens. (Book Ch. 6, Trap 2; Ch. 2, Pillar 2.)
+- **Scales:** audit production (templates + `/centurion/audit-tools` + VSL Demo Assembler), content factory (voice → transcript → RSS), GBP ops checklists, jingle lyric formula, lunch-and-learn deck, reports.
+- **Never scales without permission:** external sends, calls, texts. No cold sequences, no auto-blasts, no AI-voice cold calls — ever. Internal surfacing/drafting/escalation can get smarter; sending stays human-approved.
+- **Team at $150M (rough):** ~40 city operators (each owns 500–800 accounts with junior help), ~30 factory producers/editors, ~15 success/QA, ~10 sales engineers/closers for expansion sites, ~10 ops/eng/compliance. Gross margin target 60–70% on retainers because AI factory replaces studio costs.
 
-### 13. Auditory brand memory and search-term clarity
+### Moat
 
-Plain-spoken, memorable clarity beats convoluted corporate slogans. When a business pairs its exact search term with an undeniable earworm and frictionless phone link, customer recall and conversion become involuntary. Owners don't help with lyrics. (Book Ch. 3.)
+Every city compounds: transcripts + reviews + GBP photos + jingles + YouTube pre-roll history make each client harder to displace and each new audit sharper (proof from real towns, never promises — Book Ch. 7).
 
-### 14. Book before invention
+---
 
-When a local-presence question arises, answer from the book first: Promise → 5 pillars → applicable weapon (jingle, pre-roll, VSL, brain-to-tongue) → audit → retainer. Invention without a book mapping is not ready.
+## 6. Weekly founder cadence (starting tomorrow)
 
-### 15. One problem, one page, one button
+- **Daily (90 min):** call block from `/centurion/queue` — due-first, overdue first. Log outcomes immediately.
+- **Weekly:** publish 1 brain-to-tongue post on your own domain (eat your own cooking — Book Ch. 9); post 1 GBP photo/update; ask 3 happy members for reviews.
+- **Monthly:** re-run the 5-min self-audit on derivativegenius.com (`doc/pass-the-audit-workbook.md`); review funnel by vertical/city/opener; kill the worst opener, double the best.
 
-Every seller asset and every client build defaults to a single urgent problem, a single 45–60s human video, and a single sticky tap-to-call. Anything that distracts from the call must justify its existence. (Book Ch. 5.)
+---
 
-### 16. Audits earn; followup compounds — always on permission
+## 7. Guardrails (non-negotiable)
 
-Targeted audits are the primary source of new leads: a short, specific, evidence-cited diagnosis that teaches and invites return. Followup automation exists to serve the audit — increasingly sophisticated internal preparation plus external touches that fire only with permission basis, suppression clearance, human approval, and complete logging. Cold sequences, cold auto-texts, cold auto-calls, and automatic audit blasts are not followup; they are spam, and they are forbidden. (Book Ch. 8.)
+1. One vertical × one geography per campaign until dispositioned.
+2. One specific, viewport-confirmed observation before any call.
+3. Manual calls on public business lines; no auto-dialing, no prerecorded/AI cold voice, no cold auto-text.
+4. External send only on `requested_info | granted_permission | established_conversation`, with send-time suppression re-check + human approval + full logging.
+5. Opt-out ends pursuit everywhere, immediately, permanently.
+6. No invented ROI/traffic/ranking claims. Cite Abilene, Nashville, Perth, Avon Park as *their* results under *their* conditions.
+7. Prospect PII never in the repo, screenshots, analytics, or public pages.
+8. Measure revenue (MRR, proposals, closes, churn), not list size.
 
-## The current mission in action
+---
 
-The immediate priority is DT-18: the 25-company founder-led manual outreach pilot, now book-armed.
+## 8. First 14 days — do this now
 
-Joe Terry will:
+- [ ] Day 1: Join chamber, get directory, create `/centurion` campaign, import members
+- [ ] Day 2: Audit 5 highest-visibility members (roof/HVAC/plumbing first), draft teasers
+- [ ] Day 3: Attend first event, collect 10 permissions for “20-min look”
+- [ ] Days 4–10: 5 audits/day + call blocks; book 5 audit walkthroughs
+- [ ] Day 11: Deliver lunch-and-learn pitch to chamber director (“5-Minute Self-Audit”)
+- [ ] Days 12–14: First 2 proposals (1 VSL + 1 retainer); log everything; Friday funnel review
 
-1. choose one vertical and approximately five cities — **locked: HVAC across Lake County, CA** (Clearlake, Lakeport, Kelseyville, Middletown, Lower Lake / Nice / Lucerne);
-2. hand-qualify 25 businesses with source provenance and no disqualifier;
-3. audit each prospect for high-leverage friction straight from the book: "The Homepage Mistake" (paid ads dumping traffic on generic homepages — Ch. 5), mobile call friction + missing sticky `tel:` (Ch. 5), neglected GBP (Pillar 1), zero indexable open-web GEO content / walled-garden trap (Pillar 2, Ch. 6);
-4. confirm each audit-tools fail on a rendered 390px viewport before quoting it;
-5. call through public business channels with a specific, helpful observation and a Problem → Agitate → "worth a 20-minute look?" opener;
-6. pre-sell with the book: interested prospects get Promise + Ch. 5 + 5-minute self-audit, not a full audit blast;
-7. treat each targeted audit as the lead: log the observation, the permission basis for any followup, and the exact next commitment;
-8. record every outcome and follow-up in Centurion — no parallel spreadsheet;
-9. prepare full audits after interest is established, with human approval before delivery, and let the permission-based followup engine (auto-surfaced, auto-drafted, human-sent) carry the return;
-10. advance qualified conversations toward discovery and a proposal framed as the book's dual offer — **Option A (Fixed Sprint): $1,500–$2,500 single-problem VSL page** or **Option B (Recurring Growth Retainer): $300/mo Core / $500/mo Growth + ad spend** (weekly owner-voice podcast + transcript + syndication + GBP + jingle); and
-11. decide from evidence whether to continue, revise, or stop.
-
-Further cold-outreach automation waits until this work reveals a repeated and measured bottleneck. Followup sophistication (internal automation + permission-based external touches) grows freely; cold automation does not. Software never delays market contact.
-
-This is the mission at its smallest useful scale: one person, one instrument, one book, 25 companies, honest conversations, disciplined records, and a real attempt to create value.
-
-## What we refuse to become
-
-Derivative Genius will not become:
-
-- a factory for empty AI claims;
-- a machine for harvesting contacts without purpose;
-- an automated nuisance that ignores consent or opt-outs;
-- a public directory of private prospect intelligence;
-- a collection of demos disconnected from customer needs;
-- a system that hides uncertainty behind technical language;
-- an agency that promises outcomes it cannot support;
-- an award-chasing agency that trades ringing phones for design trophies;
-- a social-media landlord farming rented land instead of building owned-web equity;
-- a codebase that values novelty over reliability; or
-- a business in which the founder delegates away accountability.
-
-Growth that requires abandoning these principles is not the mission.
-
-## The test for every proposed change
-
-Before adding a feature, integration, campaign, claim, or automation, ask:
-
-1. Who does this serve?
-2. What real problem does it solve?
-3. What evidence shows the problem exists?
-4. Does it improve a meaningful outcome — found, remembered, or called?
-5. Is human judgment still present where it matters?
-6. Does it protect privacy, consent, and trust?
-7. Can it be explained plainly?
-8. Can its quality be verified?
-9. Is this the smallest responsible step?
-10. What commitment will it help us keep?
-11. Which book chapter authorizes it, and which finder/seller tool owns it?
-12. If it sends externally, what is the permission basis, suppression check, and human approval?
-
-If those questions cannot be answered, the work is not ready.
-
-## The standard
-
-Success is not simply shipping software.
-
-Success is when:
-
-- a prospect feels respected even when the answer is no;
-- a client understands what is being built and why;
-- a business is found, remembered, and called faster than before we arrived;
-- an application makes meaningful work easier;
-- the implementation survives contact with real use;
-- sensitive information remains protected;
-- claims match evidence;
-- automation increases human agency rather than diminishing it;
-- the business earns revenue by delivering genuine value — recurring where the book's factory fits; and
-- every completed project makes the next act of service wiser.
-
-## The Centurion's pledge
-
-> I am Joe Terry, founder of Derivative Genius and the human Centurion responsible for this mission.
->
-> I will use intelligence—human and artificial—to build things that are useful, truthful, and worthy of trust.
->
-> I will listen before I prescribe, verify before I claim, and understand before I automate.
->
-> I will treat the people in our systems as people, not records. I will honor their time, privacy, decisions, and right to say no.
->
-> I will keep the promises made through this company. I will not hide behind software, agents, scores, or process when judgment is required.
->
-> I will use `/centurion` to find businesses honestly and sell them only what serves them, guided by the book's doctrine of found, remembered, called.
->
-> I will lead with targeted audits and follow up with growing sophistication — never without permission, never past an opt-out.
->
-> I will use `/centurion` to strengthen discipline, not to surrender responsibility.
->
-> I will build on the work of those who came before us — including Mike Stewart's — and leave behind systems, knowledge, and opportunities that allow others to stand higher.
->
-> This is the mission: turn intelligence into practical agency, one honest conversation and one well-built system at a time.
+Success in 14 days = 60+ members imported, 25+ audits drafted, 10+ conversations, 3+ discoveries, 1+ proposal. Repeat until Phase A exits, then clone the city.
 
 ---
 
 ## Mission references
 
-- [The Book: Local Internet Presence (living doc v0.2)](https://www.derivativegenius.com/book)
+- [The Book: Local Internet Presence (living doc)](https://www.derivativegenius.com/book)
 - [Lessons of Local Internet Presence](./lessons-of-localinternetpresence.md)
-- [The First Priority](./the-first-priority.md)
+- [The First Priority — DT-18 manual](./the-first-priority.md)
 - [Current Development Targets](./current-development-targets.md)
 - [Website Prospecting System Plan](./Website-Prospecting-System-Plan.md)
+- [Pass-the-Audit Workbook](./pass-the-audit-workbook.md)
 - [Repository Overview](../README.md)
+- [Eve docs](https://eve.dev/docs) + `agents/<name>/AGENTS.md` (bounded authoring loop)
+- [ICP Ninja](https://icp.ninja/) + [Ninja + AI guide](https://medium.com/dfinity/enhancing-icp-dapp-development-using-icp-ninja-ai-11d5dad408ef)
+
+*Prior charter v1.3 doctrine (§1–§16: reality before scale, audits earn / followup compounds, anti-agency rule, owned-web-first) is preserved in git history and reaffirmed in §7 above. v2.0 added the chamber→city execution engine. v3.x adds the build engine: our own Eve agent fleet first (§9), ICP canisters + ICP-hosted agents as authorized revenue-path sidecars (§10).*
+
+---
+
+## 9. How the game plan gets built: our Eve agent fleet
+
+The chamber→city playbook in §3–§5 does not scale on founder hours alone (5 audits/day = 8 weeks per 200-member chamber). It scales when **Eve agents we own do the mechanical work** and humans keep judgment, calls, and approvals.
+
+Rule: agents prepare, draft, and surface. Humans approve and send. Same permission doctrine as §7.
+
+### 9.1 Starting inventory (already in repo)
+
+| Agent | Path | Job today | Doctrine |
+|---|---|---|---|
+| `audit-agent` | `agents/audit-agent/` | Read-only website auditor. Answers "next safe, valuable fix?" Max 3 evidence-cited findings, plain language. Tools: `check_hero_waste`, `check_mobile_call_cta`, `check_owned_content`, `score_audit_evidence`. Lib: `safe_fetch` (SSRF-safe), `model` (Muse Spark pinned, 128k window placeholder). | Never edits sites/GBP/ads/DB. Never sends, publishes, or enriches. Refuses with citation if asked. |
+| `optio-centuriae` | `agents/optio-centuriae/` | Centurion's second-in-command. Receives Joe's intent, tasks `audit-agent`, owns due-first queue surfacing. Chain: Joe → Optio → specialists. | No external send without permission basis + suppression re-check + human approval. |
+
+Both are Eve projects: an agent is a directory of files under `agent/` (`agent.ts`, `instructions.md`, `tools/`, `lib/`, `channels/`, `skills/`, `subagents/`, `schedules/`). Eve compiles and runs it. Dev via `eve dev` TUI, deploy via `eve deploy` to Vercel.
+
+### 9.2 Target fleet — one agent per bottleneck in §3–§5
+
+Build only when the manual pilot names a measured bottleneck (DT-18 automation gate). Order:
+
+1. **audit-agent (harden)** — 20-min chamber audit in <2 min draft. Input: URL + observation notes. Output: ≤3 findings + screenshots refs + fix + range. Human viewport-confirms before quoting.
+2. **followup-drafter (next)** — read-only draft of next touch from call notes + audit findings. Never sends itself. Writes `requested_info | granted_permission | established_conversation` basis onto the draft.
+3. **vsl-assembler** — assembles book Ch. 5 five-part demo from `/centurion` prospect record (headline, 45–60s script, proof strip, FAQ-schema draft, sticky `tel:`). DEMO-watermarked, private, show-live-only until DT-20 permission path lands.
+4. **content-factory** — Ch. 10 line: Gemini script → SMS YES tracker → ElevenLabs owner-voice draft ref → transcript blog draft + RSS item + GBP post draft. All drafts, human publishes.
+5. **gbp-rescue + jingle-writer** — NAP/reply/photo checklists; SERP-term lyric card (0–5s anchor / 5–12s benefit / 12–15s nudge). No synthesis keys in Slice 1.
+6. **city-cloner** — per-city campaign scaffolder: imports chamber CSV, dedups, seeds queue, clones lunch-and-learn deck. One command per new city (§5).
+
+No cold-sequence, cold-text, cold-call, AI-voice-call, or bulk-blast agents. Ever. Any such proposal needs a new dated decision after DT-18 produces qualified conversations + 1 proposal.
+
+### 9.3 Agent management infrastructure (what we must build)
+
+Repo policy is **Next.js + Neon as system of record, plus EX-2026-09-08-01 (§10.1): Motoko/Rust ICP canisters authorized on the revenue path.** Python/Django/FastAPI/Flask/Celery/Vue/Firebase ban from `doc/migration-audit.md` and `AGENTS.md` remains in full force — this exception adds ICP only, reintroduces nothing removed.
+
+```
+agents/
+  audit-agent/               # Eve app (owns its package.json, node 24.x)
+    agent/
+      agent.ts               # defineAgent({ model, modelContextWindowTokens })
+      instructions.md        # identity, doctrine, 5-min audit order, guardrails
+      tools/*.ts             # zod-validated read-only tools only
+      lib/safe_fetch.ts      # SSRF guard: block localhost/private/link-local/metadata, timeouts, size caps, no script exec
+      lib/model.ts           # pinned model, no silent swaps
+      channels/ skills/ subagents/ schedules/  # added per Eve docs page only
+    evals/                   # eve eval suites: pass/fail fixtures, no PII
+    .eve/                    # compiled output, never hand-edit
+  optio-centuriae/           # orchestrator, same layout
+  <next-agent>/              # one dir per future agent above
+src/app/api/centurion/       # system of record: campaigns, prospects, audits, activities, suppressions — agents read via allowlisted server actions, never direct DB from browser
+drizzle/manual/              # additive migrations only (e.g. permission basis, approver, suppression-check result)
+```
+
+Management rules:
+- **One agent = one folder = one `package.json` + `tsconfig`.** No cross-imports between agents except via versioned server-action APIs.
+- **Model pinning:** model lives in `agent/agent.ts` + `lib/model.ts`. Change = dated decision + eval re-run.
+- **Tools are zod tools** (`zod 4.x` in repo). Every tool: input schema, output schema, timeout, no secrets in logs, PII redacted.
+- **Secrets server-side only.** Eve env via Vercel project env; `eve link --non-interactive --project <name>` then `eve deploy --non-interactive --yes`. Never ship keys in `agent/` or client bundles.
+- **Registry first:** before building any integration (`eve registry search <query> --json` → `eve registry view <item>`), prefer `implementation: native`. Install with `eve add <item> --non-interactive`. On exit 2, run reported `next.command` (non-secret answers inline as JSON, secrets via env only).
+- **Docs-bounded loop:** `ls node_modules/eve/docs` → start at `docs/README.md` → read only the routed page before authoring tools/channels/skills/subagents/schedules/deployment. No recursive `node_modules` globs.
+
+### 9.4 Permission & safety architecture (bullet-proofing part 1)
+
+| Layer | Control | Where enforced |
+|---|---|---|
+| Read-only by default | Auditor/factory tools use GET-only `safe_fetch`; no PUT/POST to prospect sites, no GBP/ad writes | `agent/tools/*.ts` + code review |
+| No-send without basis | `email` / `audit_sent` activity + audit `sent` transition rejected server-side without `requested_info \| granted_permission \| established_conversation` | Zod in `src/app/api/centurion/activities/route.ts`, `audits/route.ts` (DT-20) |
+| Suppression re-check at send time | Keyed-hash lookup; blocked send returns suppression error, logs attempt without raw contact values | API route + queue UI |
+| Human approval | `approved → sent` records approver + timestamp; drafts never self-send; no timer/worker sends externally | `/centurion/audits` UI + API |
+| PII containment | No prospect PII in repo, evals, screenshots committed, analytics, or public pages; screenshots private; contact values encrypted + hashed | `safe_fetch`, schema, export admin-only + logged |
+| Roles | Every `/centurion` page + API action requires Clerk role; exports/compliance admin-only; re-auth for mass export/destruct | `src/lib/auth/roles.ts` |
+| SSRF/sandbox | URL allowlist, DNS/IP private-range block, redirect-to-private block, size/time caps, no script execution | `lib/safe_fetch.ts` |
+
+### 9.5 Verification & bullet-proofing (part 2 — ship gate)
+
+Every agent change must pass, in order, before `eve deploy`:
+1. `npx tsc --noEmit` (agent dir) — 0 errors.
+2. `eve eval` — all fixtures pass, including adversarial: permissionless send rejected, suppressed send blocked, invented-numbers finding rejected, PII-leak rejected, SSRF URL rejected.
+3. Root gates: `npm run lint`, `npm test` (Jest + auth-policy regression), `npm run build` (all routes compile).
+4. Signed-in disposable-data walkthrough: import → qualify → audit draft → human approve → permissioned send succeeds + logs; permissionless/suppressed send fails server-side. Record dated evidence without PII.
+5. Deploy: `eve link` (once) → `eve deploy --non-interactive --yes`. Verify prod: unsigned `/centurion` redirects, private APIs `401`, no paid/trial provider calls in Slice 1 paths.
+6. Rollback: every deploy tags git SHA; `drizzle/manual/` migrations are additive-only; model/tool change = version bump + eval snapshot so history never silently rewrites.
+
+### 9.6 Deployment posture — Eve-first, ICP agents later (decided 2026-09-08)
+
+**Initial concentration: Eve.** All §9.2 agents ship as Eve apps to Vercel (`eve deploy`). This is where velocity lives: `eve dev` TUI, registry integrations, `eve eval`, one-command deploy, Vercel env + observability. No agent is blocked waiting for ICP hosting.
+
+**Later: named candidates graduate to ICP.** Some agents will run as ICP canisters (Ninja-built, `dfx`-exported, CycleOps-funded) when they need what Eve/Vercel cannot credibly sell: tamperproof, verifiable, unstoppable execution on the revenue path.
+
+| Tier | Agents | Host (now) | Rationale |
+|---|---|---|---|
+| Eve-native (stay) | `audit-agent`, `optio-centuriae`, `followup-drafter`, `vsl-assembler`, `city-cloner` | Eve → Vercel | Human-in-loop drafting, queue surfacing, Next.js/Neon-adjacent. Low value in decentralizing; high value in iteration speed. |
+| Eve-first, ICP-candidate | `deai-assist` (onchain LLM), `proof-anchor` verifier, `deliverable-vault` gatekeeper, `pay-rail-pilot` settler, future `content-factory` publisher | Eve now → ICP canister on promotion | Client-verifiable receipts, unstoppable Q&A, encrypted vault gating, and settlement anchoring are the moat stories that justify ICP cost. |
+| Never ICP (policy) | Anything that sends email/text/call or lifts suppressions | N/A — stays behind Next.js approval gates | §9.4 + §10.1 boundary 2: no canister sends or publishes prospect audits. |
+
+**Promotion gate (Eve → ICP, per agent, dated amendment to §10.1 closed list required):**
+1. Eve version profitable in production (used on ≥25 real chamber audits with eval parity).
+2. Documented need: verifiability, tamperproofing, or unstoppability the client pays for — not novelty.
+3. Ninja prototype green (live build + canister logs + AI optimize pass), `dfx build` reproduces, `canister_ids.json` versioned, CycleOps funded, cost/cycle per call measured and priced into the $300/$500 retainer.
+4. Same §9.4 gates re-proven on ICP: hashed-only PII, suppression re-check upstream in Next.js, human approval before any downstream send, server-side keys only.
+5. Rollback proven: prior wasm retained; Neon rebuilds state; revert to Eve version in one deploy if SLA misses twice.
+
+Until promoted, ICP work in §10–§11 means the four data canisters (`proof-anchor`, `deai-assist` assist index, `deliverable-vault`, `pay-rail-pilot` anchors) called server-side from Eve/Next.js — not agents living on ICP.
+
+---
+
+## 10. ICP Ninja — accelerator + revenue-path canisters (EX-2026-09-08-01 ACTIVE)
+
+**What it is:** [ICP Ninja](https://icp.ninja/) is DFINITY's free browser IDE for Internet Computer canisters — pick a template (Motoko/Rust backend + React frontend), edit in browser, one-click deploy to mainnet (ephemeral ~20–30 min, or Publish permanently with CycleOps top-ups), share via link, export to GitHub / download zip, with an **AI learning assistant trained on ICP docs** that explains, fixes, optimizes code (e.g. query-vs-update), plus live build logs, canister logs, and new templates (LLM chatbot / DeAI, EVM explorer, Encrypted Notes with VetKeys, BTC wallet, photo gallery).
+
+### 10.1 Formal stack exception EX-2026-09-08-01 — the word is given
+
+**Status:** ACTIVE. **Decided:** September 8, 2026. **Decider:** Joe Terry, Founder / human Centurion. **Supersedes:** the "no canister in production without separate decision" gate in v3.0 §10.
+
+**Authorization:** Derivative Genius may design, deploy, and earn revenue through ICP canisters built with ICP Ninja technology (Ninja IDE + Ninja AI + `dfx`-exported repos) alongside the Next.js + Drizzle + Neon stack. The `AGENTS.md` "Node.js + Next.js only" rule is hereby amended to "Next.js + Neon as system of record, ICP canisters as authorized revenue-path sidecars per this section." The `doc/migration-audit.md` ban on Python/Django/Vue/Firebase is unchanged and remains absolute.
+
+**Why:** the chamber→city plan needs tamperproof, verifiable, unstoppable delivery artifacts and decentralized AI that Next.js alone cannot credibly sell as a moat at $150M scale. Ninja + its AI lets one disciplined builder prototype, bullet-proof (live build, canister logs, AI fix/optimize), and ship those canisters in days instead of weeks.
+
+**Authorized revenue-path canisters (v1 — closed list, anything else needs EX amendment):**
+
+| Canister | Ninja template lineage | Revenue job | Reads/writes |
+|---|---|---|---|
+| `proof-anchor` | Encrypted Notes (VetKeys) | Tamperproof hash + timestamp for every delivered audit/VSL/jingle; client-verifiable "this audit existed on this date" | Writes: SHA-256 hashes, canister timestamps, client-safe metadata only. Never raw PII/phone/email/suppression values |
+| `deai-assist` | LLM Chatbot (Ollama / onchain LLM) | Decentralized audit-draft assist + owner Q&A mock that Eve agents call during §9.2 drafting | Writes: anonymized prompts + draft outputs. No PII; all calls logged to Neon activities |
+| `deliverable-vault` | FileVault / Photo Gallery | Client-facing vault for VSL assets, lyric cards, transcript PDFs; share links for audit walkthroughs | Writes: client-approved deliverables only, VetKeys-encrypted where private |
+| `pay-rail-pilot` | Bitcoin Wallet / EVM Explorer (Chain Fusion) | Optional pilot: onchain invoice receipt anchors + transparent payment verification for $1,500 VSLs | Writes: invoice IDs + tx hashes only. Neon remains revenue ledger; no client funds custody without separate legal review |
+
+**Architecture (bullet-proof by construction):**
+
+```text
+Browser / chamber member
+  -> Next.js 16 (Clerk auth, /centurion UI, public proof pages)
+    -> Route Handlers + server actions (Zod, role checks, suppression re-check, human approval)
+      -> Drizzle + Neon (SYSTEM OF RECORD: prospects, contacts encrypted+hashed, audits, activities, opportunities, suppressions, revenue)
+      -> ICP canisters via allowlisted server-side calls only (proof-anchor, deai-assist, deliverable-vault, pay-rail-pilot)
+      -> Eve agents on Vercel now (audit-agent, optio-centuriae, fleet) call Next.js APIs, never canisters directly from browser; ICP-hosted agents only on §9.6 promotion
+```
+
+**Non-negotiable boundaries (violation = automatic rollback to Next.js-only):**
+1. Neon stays system of record for PII, consent/permission basis, suppressions, pipeline, and revenue. ICP stores hashes + client-safe artifacts only.
+2. No canister sends email/text/call or publishes a prospect audit publicly. §9.4 permission + suppression + human-approval gates apply to anything downstream of a canister output.
+3. No provider keys, raw phones/emails, or suppression raw values in Ninja IDE, Ninja AI chat, canister logs, or committed `canister_ids.json` secrets. Toy data in Ninja; real data only via server-side mainnet calls.
+4. Every canister: exported `dfx` repo (Ninja Download/Export committed to PR), pinned Motoko/Rust + React versions, `canister_ids.json` versioned, CycleOps auto-top-up configured before any permanent Publish, canister logs monitored.
+5. Python/Django/FastAPI/Flask/Celery/Vue/Firebase remain banned. This exception covers Motoko/Rust-on-ICP only.
+
+**Bullet-proofing with Ninja + its AI (required per canister):**
+- Fork template → Ask AI (explain → fix → optimize; enforce query-vs-update, cost discipline) → live-build green → canister-log clean → ephemeral deploy click-test → share link in PR → GitHub export/zip → `dfx build` locally reproduces → `eve eval` fixtures updated with Ninja failure cases → §9.5 gates (`tsc`, `eve eval`, `lint/test/build`, disposable-data walkthrough) → Publish (coupon then CycleOps) with git SHA tag.
+- Rollback: `dfx deploy --upgrade` to prior wasm; Neon rebuilds any canister state from hashes. If cost/latency/compliance misses SLA two sprints running, the affected canister reverts to Next.js-only implementation with dated note here.
+- Observability: canister logs + CycleOps balance alerts wired into `/centurion/reports` alongside convos/hr, MRR, churn.
+
+**How we use Ninja now that the exception is ACTIVE:** Ninja is both accelerator and revenue-path shipyard. Toy prototypes still start with fake data, but the four §10.1 canisters ship to mainnet and earn: hashes anchored at audit delivery, drafts assisted by `deai-assist`, deliverables served from `deliverable-vault`, receipts anchored by `pay-rail-pilot`. Next.js remains the gate (auth, suppression, approval); ICP is the verifiable backend those gates call server-side.
+
+| Track | Use | Why it makes us faster + safer |
+|---|---|---|
+| A. Prototype Eve tools 10× faster | Rebuild each `agent/tools/*.ts` idea first as a Ninja template fork (React frontend mimics our queue card; toy backend mimics scoring/dedup). Iterate in browser, no local `dfx`/cycles setup. | Live build output + canister logs catch shape errors before they touch our repo. Share link = stakeholder review in minutes. |
+| B. AI pair-programmer | Use Ninja AI to explain/fix/optimize the prototype ("Ask AI — fix this actor", "use query calls", "condense functions"). Then **port the pattern to TypeScript** in `agents/<name>/` **and** keep the Motoko/Rust canister for §10.1 workloads. | AI trained on ICP docs catches best-practice violations (query vs update, cost) that map 1:1 to our server-action cost discipline. Human reviews every AI diff. |
+| C. Revenue-path shipyard | Ephemeral deploy per PR for click-through; permanent Publish (coupon → CycleOps) for `proof-anchor`, `deai-assist`, `deliverable-vault`, `pay-rail-pilot`. | 20-min canisters force stateless, reproducible demos — no hidden state. Permanent publishes get versioned + logged like any prod deploy. |
+| D. DeAI moat | `deai-assist` (LLM-chatbot lineage) on the revenue path per §10.1 — tamperproof, verifiable draft assist, not a side experiment. | Decentralized-AI becomes a selling point (verifiable, unstoppable) inside every $300/$500 retainer. |
+
+**Concrete workflow (per agent + per canister):**
+
+```
+1. Fork template in icp.ninja (LLM Chatbot → deai-assist; Encrypted Notes → proof-anchor; FileVault → deliverable-vault; BTC/EVM → pay-rail-pilot)
+2. Prompt Ninja AI: explain → fix → optimize; keep live-build green, check canister logs
+3. Share link in PR for review; click-test ephemeral deploy
+4. Export: Download zip or one-click GitHub export from Ninja; commit dfx repo + pinned versions to PR
+5. Port UI/tool pattern to agents/<name>/agent/tools/*.ts in TypeScript + zod AND keep canister for §10.1 writes (hashes/artifacts only, never raw PII)
+6. Add eve eval fixtures from Ninja test cases (including its failure cases: PII-reject, suppression-block, SSRF-reject)
+7. Pass §9.5 gates → eve deploy to Vercel + Ninja Publish to mainnet (CycleOps armed), both tagged to same git SHA
+```
+
+**Guardrails for Ninja use (under EX-2026-09-08-01):**
+- No provider keys, prospect PII, or suppression raw values ever pasted into Ninja or its AI chat. Toy data in IDE; real data only via server-side mainnet calls carrying hashes + approved deliverables.
+- Nothing Publishes permanently until: `dfx build` reproduces locally, `tsc` + `eve eval` + `lint/test/build` green, disposable-data walkthrough logged, CycleOps top-up set, `canister_ids.json` versioned.
+- Any 5th canister beyond the §10.1 closed list needs a dated EX amendment here before it touches revenue.
+
+---
+
+## 11. Build roadmap — Eve fleet + Ninja canisters, mapped to revenue phases
+
+| Phase | Build | Revenue unblock | Exit criteria |
+|---|---|---|---|
+| 0. Harden + `proof-anchor` (now, ~1–2 wks) | Pin `audit-agent` model window, tighten `safe_fetch` SSRF tests, 10 eval fixtures. Ship `proof-anchor` first: Ninja Encrypted-Notes fork → Publish → Next.js server action anchors audit hashes at delivery. | 5 audits/day → 25/day draft capacity + verifiable audit receipts as closer | `eve eval` + `dfx build` + `lint/test/build` green; mainnet hash verifiable; CycleOps armed |
+| 1. Optio + queue + `deai-assist` (~1–2 wks, = DT-20) | Permission basis + approver + suppression-check result; send-time re-check; overdue surfacing + read-only auto-draft backed by `deai-assist` (LLM-chatbot fork). | Followup sophistication without cold automation; no commitment slips | Permissionless/suppressed sends rejected server-side; approver recorded; canister logs clean |
+| 2. VSL assembler + `deliverable-vault` (~1 wk, = DT-21) | Private `/centurion/demos` route + vault-backed share links (FileVault fork), DEMO watermark, browser speech preview, lyric-card slot. | Live vault-backed demo on audit walkthroughs → closes $1,500 sprints | Demo renders 5 parts from disposable prospect; vault link gated by Clerk role; unsigned `401` |
+| 3. Factory agents (~2–4 wks) | `content-factory`, `gbp-rescue`, `jingle-writer` drafts + publish checklists; cost/episode + cycles-burn + SLA dashboards in `/centurion/reports` | 1 operator handles 50–80 retainers; supports Phase B city ownership | Publish SLA + cost + cycles tracked; human publishes everything |
+| 4. City-cloner + `pay-rail-pilot` (~2 wks) | Campaign scaffolder + per-city canister namespace; Chain-Fusion receipt anchors for VSL invoices (Neon remains ledger). | 90-day per-city playbook (§5) runs without eng help; onchain receipts as trust signal | New city live in <1 day, first 25 audits + first anchored receipt in week 1 |
+
+Each phase ends with a dated continue/revise/stop note here + in `doc/current-development-targets.md`. Phases 0–4 ship agents on Eve; ICP agent hosting waits for §9.6 promotion. Deferred automation (scaled Places, mass enrichment, any auto-send) stays blocked until DT-18 shows qualified conversations + 1 proposal.
+
+## 12. Operator cheat sheet
+
+```bash
+# Eve daily loop (per agents/<name>/AGENTS.md)
+ls node_modules/eve/docs                    # find routed doc first
+eve dev                                     # TUI: talk to agent locally
+eve registry search "gmail|calendar|stripe" --json
+eve registry view <item>                    # prefer implementation: native
+eve add <item> --non-interactive            # exit 2 → run next.command (secrets via env only)
+
+# Bullet-proof before ship (agent dir, then root)
+npx tsc --noEmit && eve eval
+npm run lint && npm test && npm run build
+
+# Ship
+eve link --non-interactive --project <name> # once per agent
+eve deploy --non-interactive --yes
+
+# Ninja acceleration + revenue canisters (toy data in IDE; hashes/artifacts only on mainnet)
+# icp.ninja → fork template → Ask AI (explain/fix/optimize) → ephemeral Deploy →
+# Share link in PR → Export (GitHub/zip, commit dfx repo) → Publish (CycleOps armed, same git SHA as eve deploy)
+# dfx build must reproduce locally; canister logs + cycles wired into /centurion/reports
+```
