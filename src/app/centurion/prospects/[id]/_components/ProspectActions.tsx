@@ -25,7 +25,6 @@ export default function ProspectActions({ prospect, opportunityId }: { prospect:
   const [saving, setSaving] = useState('');
   const [evidence, setEvidence] = useState(prospect);
   const [contact, setContact] = useState({ fullName: '', roleTitle: '', email: '', phone: '', isVerified: true });
-  const [audit, setAudit] = useState({ targetOutcome: 'Increase qualified quote requests', findings: '', scoreSummary: '', proposalRange: '$2,000–$5,000' });
   const [deal, setDeal] = useState({ stage: 'qualified', estimatedValue: '3500', probabilityPercent: '20', packageName: 'Conversion website sprint', nextAction: 'Schedule discovery', nextActionAt: '' });
 
   const send = async (key: string, url: string, body: object, method = 'POST') => {
@@ -60,23 +59,6 @@ export default function ProspectActions({ prospect, opportunityId }: { prospect:
       <div className="grid sm:grid-cols-2 gap-2"><input value={contact.fullName} onChange={(event) => setContact({ ...contact, fullName: event.target.value })} placeholder="Full name" className="field" /><input value={contact.roleTitle} onChange={(event) => setContact({ ...contact, roleTitle: event.target.value })} placeholder="Role / title" className="field" /><input value={contact.email} onChange={(event) => setContact({ ...contact, email: event.target.value })} placeholder="Business email" className="field" /><input value={contact.phone} onChange={(event) => setContact({ ...contact, phone: event.target.value })} placeholder="Business phone" className="field" /></div>
       <label className="flex gap-2 text-xs text-slate-300"><input type="checkbox" checked={contact.isVerified} onChange={(event) => setContact({ ...contact, isVerified: event.target.checked })} /> Verified from a public business source</label>
       <button disabled={saving === 'contact'} onClick={async () => { if (await send('contact', `/api/centurion/prospects/${prospect.id}/contacts`, contact)) setContact({ fullName: '', roleTitle: '', email: '', phone: '', isVerified: true }); }} className="primary">Add contact</button>
-    </section>
-
-    <section className="bg-slate-900 border border-slate-800 rounded-xl p-5 space-y-3">
-      <div><h2 className="font-semibold text-white">Website audit</h2><p className="text-xs text-slate-400">Machine-run checks save as a reviewable draft; hand-typed findings save the same way. Nothing is ever sent from here.</p></div>
-      <button disabled={saving === 'agent audit'} onClick={() => void send('agent audit', `/api/centurion/prospects/${prospect.id}/agent-audit`, {})} className="primary w-full">Run audit (live Eve agent when configured, else static checks)</button>
-      <input value={audit.targetOutcome} onChange={(event) => setAudit({ ...audit, targetOutcome: event.target.value })} className="field w-full" />
-      <textarea value={audit.findings} onChange={(event) => setAudit({ ...audit, findings: event.target.value })} placeholder="One finding per line (leave empty to auto-run machine checks)" className="field w-full" />
-      <div className="grid sm:grid-cols-2 gap-2"><input value={audit.scoreSummary} onChange={(event) => setAudit({ ...audit, scoreSummary: event.target.value })} placeholder="Audit summary" className="field" /><input value={audit.proposalRange} onChange={(event) => setAudit({ ...audit, proposalRange: event.target.value })} className="field" /></div>
-      <button disabled={saving === 'audit' || saving === 'agent audit'} onClick={() => {
-        const typed = audit.findings.split('\n').map((line) => line.trim()).filter(Boolean);
-        if (typed.length === 0) {
-          // No hand-typed findings — run the deterministic machine checks instead,
-          // which always produce at least one evidence-cited draft finding.
-          return void send('agent audit', `/api/centurion/prospects/${prospect.id}/agent-audit`, {});
-        }
-        return void send('audit', '/api/centurion/audits', { prospectId: prospect.id, ...audit, findings: typed });
-      }} className="primary">Create audit draft</button>
     </section>
 
     <section className="bg-slate-900 border border-slate-800 rounded-xl p-5 space-y-3">

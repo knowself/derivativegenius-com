@@ -1,5 +1,10 @@
 import path from 'path';
-import { withEve } from 'eve/next';
+
+// NOTE: the Eve audit-agent is deliberately NOT mounted here. Site and
+// agents stay separate per doc/agent-dev.md: the site talks to the
+// standalone dg-audit-agent deployment over HTTP (AUDIT_AGENT_URL).
+// Mounting via withEve breaks the Vercel web build because agent-only
+// deps (e.g. @ai-sdk/openai) are not resolvable from the web project.
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
@@ -21,10 +26,4 @@ const nextConfig = {
 nextConfig.images = nextConfig.images || {};
 nextConfig.images.domains = Array.from(new Set([...(nextConfig.images.domains || []), "i.ytimg.com"]));
 
-export default withEve(nextConfig, {
-  // Mount the Eve audit-agent alongside the Next.js app (same origin,
-  // no CORS). Served at /eve/agents/audit/eve/v1/* in dev and on Vercel.
-  agents: {
-    audit: './agents/audit-agent',
-  },
-});
+export default nextConfig;

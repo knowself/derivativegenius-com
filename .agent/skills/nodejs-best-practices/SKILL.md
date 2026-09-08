@@ -67,7 +67,7 @@ What are you building?
 ### Native TypeScript
 
 ```
-Node.js 22+: --experimental-strip-types
+Node.js 24+: --experimental-strip-types
 ├── Run .ts files directly
 ├── No build step needed for simple projects
 └── Consider for: scripts, simple APIs
@@ -285,7 +285,7 @@ Trust nothing:
 3. **Error handling**: What happens when things fail?
 4. **Not worth testing**: Framework code, trivial getters
 
-### Built-in Test Runner (Node.js 22+)
+### Built-in Test Runner (Node.js 24+)
 
 ```
 node --test src/**/*.test.ts
