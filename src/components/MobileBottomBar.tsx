@@ -48,7 +48,7 @@ export function MobileBottomBar() {
 
           {/* 1-Tap Quick Email */}
           <a
-            href="mailto:hello@derivativegenius.com?subject=AI%20Web%20Dev%20Inquiry"
+            href="mailto:joe@derivativegenius.com?subject=AI%20Web%20Dev%20Inquiry"
             onClick={() => Haptics.confirm()}
             className="flex-1 inline-flex items-center justify-center space-x-1.5 min-h-[48px] rounded-xl bg-slate-900 border border-slate-800 text-slate-200 text-xs font-medium active:scale-95 transition-all"
             aria-label="Email Agency"

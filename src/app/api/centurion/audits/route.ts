@@ -3,7 +3,7 @@ import { desc, eq } from 'drizzle-orm';
 import { z } from 'zod';
 import { db } from '@/db';
 import { audits } from '@/db/schema';
-import { centurionAuthorizationResponse, requireCenturionAction } from '@/lib/auth/centurion';
+import { centurionAuthorizationResponse, requireCenturionAction, resolveActorName } from '@/lib/auth/centurion';
 
 const createSchema = z.object({ prospectId: z.string().uuid(), targetOutcome: z.string().trim().min(2), findings: z.array(z.string().trim().min(2)).min(1), scoreSummary: z.string().optional(), proposalRange: z.string().optional() });
 const updateSchema = z.object({ id: z.string().uuid(), status: z.enum(['draft', 'internal_review', 'approved', 'sent', 'viewed']), targetOutcome: z.string().optional(), findings: z.array(z.string()).optional(), scoreSummary: z.string().optional(), proposalRange: z.string().optional() });
@@ -19,7 +19,8 @@ export async function GET() {
 
 export async function POST(request: NextRequest) {
   try {
-    await requireCenturionAction('manage_audits');
+    const actor = await requireCenturionAction('manage_audits');
+    const savedBy = await resolveActorName().catch(() => actor.userId);
     const input = createSchema.parse(await request.json());
     const [audit] = await db.insert(audits).values({
       prospectId: input.prospectId,
@@ -28,7 +29,7 @@ export async function POST(request: NextRequest) {
       scoreSummary: input.scoreSummary ?? null,
       proposalRange: input.proposalRange ?? null,
     }).returning();
-    return NextResponse.json({ success: true, audit });
+    return NextResponse.json({ success: true, audit, savedBy });
   } catch (error: unknown) {
     const response = centurionAuthorizationResponse(error); if (response) return response;
     if (error instanceof z.ZodError) return NextResponse.json({ success: false, errors: error.errors }, { status: 400 });

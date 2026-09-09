@@ -55,6 +55,22 @@ export async function requireCenturionAction(
   return { userId, role };
 }
 
+/**
+ * Display name for the signed-in user in saved records and narratives:
+ * Clerk username, then primary email, then the raw user id.
+ */
+export async function resolveActorName(): Promise<string> {
+  const { userId } = await auth();
+  if (!userId) return 'unknown';
+  const clerkUser = await currentUser();
+  return (
+    clerkUser?.username ??
+    clerkUser?.primaryEmailAddress?.emailAddress ??
+    clerkUser?.emailAddresses?.[0]?.emailAddress ??
+    userId
+  );
+}
+
 export async function requireCenturionPageAction(
   action: CenturionAction,
 ): Promise<CenturionActor> {

@@ -4,7 +4,7 @@ import { getVercelOidcToken } from '@vercel/oidc';
 import { Client } from 'eve/client';
 import { db } from '@/db';
 import { audits, prospects } from '@/db/schema';
-import { centurionAuthorizationResponse, requireCenturionAction } from '@/lib/auth/centurion';
+import { centurionAuthorizationResponse, requireCenturionAction, resolveActorName } from '@/lib/auth/centurion';
 import { checkHeroWaste, checkMobileCallCta, checkOwnedContent } from '@/lib/audit-tools/checks';
 import { buildAgentAuditDraft } from '@/lib/audit-tools/agentAudit';
 
@@ -118,6 +118,7 @@ async function runLiveAuditAgent(
 export async function POST(_request: Request, context: { params: Promise<{ id: string }> }) {
   try {
     const actor = await requireCenturionAction('manage_audits');
+    const savedByPromise = resolveActorName().catch(() => actor.userId);
     const { id } = await context.params;
     const [prospect] = await db.select().from(prospects).where(eq(prospects.id, id));
     if (!prospect) {
@@ -153,7 +154,7 @@ export async function POST(_request: Request, context: { params: Promise<{ id: s
           proposalRange: null,
         })
         .returning();
-      return NextResponse.json({ success: true, audit, source: 'live-agent' });
+      return NextResponse.json({ success: true, audit, source: 'live-agent', savedBy: await savedByPromise });
     }
 
     const [callCta, hero, owned] = await Promise.all([
@@ -180,6 +181,7 @@ export async function POST(_request: Request, context: { params: Promise<{ id: s
       success: true,
       audit,
       source: 'static-checks',
+      savedBy: await savedByPromise,
       checks: { callCta: callCta.verdict, hero: hero.verdict, owned: owned.verdict },
     });
   } catch (error: unknown) {

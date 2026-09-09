@@ -21,10 +21,10 @@ export function BookQuoteRotator({ quotes }: { quotes: StewartQuote[] }) {
 
   return (
     <>
-      <span key={index} className="block text-base font-medium leading-relaxed text-slate-100 sm:text-lg">
+      <span key={index} className="block text-center text-base font-medium leading-relaxed text-slate-100 sm:text-lg">
         &ldquo;{current.quote}&rdquo;
       </span>
-      <span className="mt-1.5 block text-xs font-semibold uppercase tracking-wider text-slate-400">
+      <span className="mt-1.5 block text-left text-xs font-semibold uppercase tracking-wider text-slate-400">
         — Mike Stewart · Read the free playbook that powers our audits
       </span>
     </>
