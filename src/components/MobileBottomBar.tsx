@@ -35,36 +35,36 @@ export function MobileBottomBar() {
       {/* Sticky Bottom Thumb Zone Action Bar (Mobile Only) */}
       <div className="fixed bottom-0 left-0 right-0 z-40 md:hidden bg-slate-950/90 backdrop-blur-xl border-t border-slate-800/80 px-4 py-2.5 safe-area-bottom shadow-2xl">
         <div className="flex items-center justify-between gap-2 max-w-md mx-auto">
-          {/* 1-Tap Quick Call */}
-          <a
-            href="tel:+13103799822"
-            onClick={() => Haptics.confirm()}
-            className="flex-1 inline-flex items-center justify-center space-x-1.5 min-h-[48px] rounded-xl bg-emerald-950/40 border border-emerald-500/40 text-emerald-300 text-xs font-semibold active:scale-95 transition-all"
-            aria-label="Call Joe Terry directly"
+          {/* Primary CTA Bottom Sheet Trigger */}
+          <button
+            onClick={handleOpenSheet}
+            className="flex-[1.4] inline-flex items-center justify-center space-x-2 min-h-[48px] rounded-xl bg-blue-600 px-3 text-sm font-semibold text-white shadow-lg shadow-blue-600/30 active:scale-95 transition-all"
           >
-            <Phone className="h-4 w-4 text-emerald-400" />
-            <span>Call (310) 379-9822</span>
-          </a>
+            <Sparkles className="h-4 w-4 shrink-0" />
+            <span className="whitespace-nowrap">Build Project</span>
+          </button>
 
           {/* 1-Tap Quick Email */}
           <a
             href="mailto:joe@derivativegenius.com?subject=AI%20Web%20Dev%20Inquiry"
             onClick={() => Haptics.confirm()}
-            className="flex-1 inline-flex items-center justify-center space-x-1.5 min-h-[48px] rounded-xl bg-slate-900 border border-slate-800 text-slate-200 text-xs font-medium active:scale-95 transition-all"
+            className="flex-1 inline-flex items-center justify-center space-x-1.5 min-h-[48px] rounded-xl bg-slate-900 border border-slate-800 text-slate-200 text-xs font-medium active:scale-95 transition-all px-2"
             aria-label="Email Agency"
           >
-            <Mail className="h-4 w-4 text-blue-400" />
+            <Mail className="h-4 w-4 text-blue-400 shrink-0" />
             <span>Email</span>
           </a>
 
-          {/* Primary CTA Bottom Sheet Trigger */}
-          <button
-            onClick={handleOpenSheet}
-            className="flex-[2] inline-flex items-center justify-center space-x-2 min-h-[48px] rounded-xl bg-blue-600 px-4 text-sm font-semibold text-white shadow-lg shadow-blue-600/30 active:scale-95 transition-all"
+          {/* 1-Tap Quick Call */}
+          <a
+            href="tel:+13103799822"
+            onClick={() => Haptics.confirm()}
+            className="flex-[1.4] inline-flex items-center justify-center space-x-1.5 min-h-[48px] rounded-xl bg-emerald-950/40 border border-emerald-500/40 text-emerald-300 text-xs font-semibold active:scale-95 transition-all px-2"
+            aria-label="Call Joe Terry directly"
           >
-            <Sparkles className="h-4 w-4" />
-            <span>Build Project</span>
-          </button>
+            <Phone className="h-4 w-4 text-emerald-400 shrink-0" />
+            <span className="truncate">Call (310) 379-9822</span>
+          </a>
         </div>
       </div>
 
