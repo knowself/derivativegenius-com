@@ -1,3 +1,5 @@
+export {};
+
 if (typeof global.Request === 'undefined') {
   (global as any).Request = class Request {
     url: string;
