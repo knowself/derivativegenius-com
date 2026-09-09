@@ -259,3 +259,15 @@ export const auditLogs = pgTable('audit_logs', {
   ipAddress: text('ip_address'),
   createdAt: timestamp('created_at', { withTimezone: true }).defaultNow().notNull(),
 });
+
+// -----------------------------------------------------------------------------
+// Newsletter Subscribers
+// -----------------------------------------------------------------------------
+export const newsletterSubscribers = pgTable('newsletter_subscribers', {
+  id: uuid('id').primaryKey().defaultRandom(),
+  email: text('email').notNull().unique(),
+  source: text('source').default('website_newsletter').notNull(),
+  status: text('status').default('subscribed').notNull(), // 'subscribed' | 'unsubscribed'
+  createdAt: timestamp('created_at', { withTimezone: true }).defaultNow().notNull(),
+});
+

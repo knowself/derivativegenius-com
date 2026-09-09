@@ -24,11 +24,27 @@ export function Newsletter() {
     }
 
     setLoading(true);
-    await new Promise((res) => setTimeout(res, 600));
-    setSubscribed(true);
-    setLoading(false);
-    toast.success("You're on the list on this device. Full email delivery is being wired up.");
+    try {
+      const res = await fetch("/api/newsletter", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email }),
+      });
+      const data = await res.json();
+
+      if (!res.ok || !data.success) {
+        throw new Error(data.error || "Subscription failed. Please try again.");
+      }
+
+      setSubscribed(true);
+      toast.success("You're subscribed! Thanks for joining.");
+    } catch (err: any) {
+      toast.error(err.message || "Failed to subscribe. Please try again.");
+    } finally {
+      setLoading(false);
+    }
   };
+
 
   return (
     <div className="rounded-2xl border border-blue-500/30 bg-gradient-to-r from-slate-900/90 via-blue-950/80 to-slate-900/90 p-8 sm:p-10 shadow-2xl backdrop-blur-xl">
