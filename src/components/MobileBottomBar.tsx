@@ -33,23 +33,24 @@ export function MobileBottomBar() {
   return (
     <>
       {/* Sticky Bottom Thumb Zone Action Bar (Mobile Only) */}
-      <div className="fixed bottom-0 left-0 right-0 z-40 md:hidden bg-slate-950/90 backdrop-blur-xl border-t border-slate-800/80 px-4 py-2.5 safe-area-bottom shadow-2xl">
+      <div className="fixed bottom-0 left-0 right-0 z-40 md:hidden bg-slate-950/90 backdrop-blur-xl border-t border-slate-800/80 px-3 py-2 safe-area-bottom shadow-2xl">
         <div className="flex items-center justify-between gap-2 max-w-md mx-auto">
           {/* Primary CTA Bottom Sheet Trigger */}
           <button
             onClick={handleOpenSheet}
-            className="flex-[1.4] inline-flex items-center justify-center space-x-2 min-h-[48px] rounded-xl bg-blue-600 px-3 text-sm font-semibold text-white shadow-lg shadow-blue-600/30 active:scale-95 transition-all"
+            className="flex-[1.25] min-w-0 inline-flex items-center justify-center space-x-1.5 min-h-[48px] rounded-xl bg-blue-600 px-2.5 text-xs sm:text-sm font-semibold text-white shadow-lg shadow-blue-600/30 active:scale-95 transition-all"
           >
             <Sparkles className="h-4 w-4 shrink-0" />
-            <span className="whitespace-nowrap">Build Project</span>
+            <span className="truncate">Build Project</span>
           </button>
 
           {/* 1-Tap Quick Email */}
           <a
             href="mailto:joe@derivativegenius.com?subject=AI%20Web%20Dev%20Inquiry"
             onClick={() => Haptics.confirm()}
-            className="flex-1 inline-flex items-center justify-center space-x-1.5 min-h-[48px] rounded-xl bg-slate-900 border border-slate-800 text-slate-200 text-xs font-medium active:scale-95 transition-all px-2"
+            className="flex-1 min-w-0 inline-flex items-center justify-center space-x-1.5 min-h-[48px] rounded-xl bg-slate-900 border border-slate-800 text-slate-200 text-xs font-medium active:scale-95 transition-all px-2"
             aria-label="Email Agency"
+            title="Email joe@derivativegenius.com"
           >
             <Mail className="h-4 w-4 text-blue-400 shrink-0" />
             <span>Email</span>
@@ -59,11 +60,13 @@ export function MobileBottomBar() {
           <a
             href="tel:+13103799822"
             onClick={() => Haptics.confirm()}
-            className="flex-[1.4] inline-flex items-center justify-center space-x-1.5 min-h-[48px] rounded-xl bg-emerald-950/40 border border-emerald-500/40 text-emerald-300 text-xs font-semibold active:scale-95 transition-all px-2"
-            aria-label="Call Joe Terry directly"
+            className="flex-1 min-w-0 inline-flex items-center justify-center space-x-1.5 min-h-[48px] rounded-xl bg-emerald-950/40 border border-emerald-500/40 text-emerald-300 text-xs font-semibold active:scale-95 transition-all px-2"
+            aria-label="Call Joe Terry directly: (310) 379-9822"
+            title="Call (310) 379-9822"
           >
             <Phone className="h-4 w-4 text-emerald-400 shrink-0" />
-            <span className="truncate">Call (310) 379-9822</span>
+            <span className="sm:hidden">Call</span>
+            <span className="hidden sm:inline truncate">Call (310) 379-9822</span>
           </a>
         </div>
       </div>

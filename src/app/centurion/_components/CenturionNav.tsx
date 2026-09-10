@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { LayoutDashboard, Target, Users, PhoneCall, FileUp, Lock, Terminal, ClipboardCheck, Handshake, BarChart3, CheckSquare, KeyRound } from 'lucide-react';
+import { LayoutDashboard, Target, Users, PhoneCall, FileUp, Lock, Terminal, ClipboardCheck, Handshake, BarChart3, CheckSquare, KeyRound, Mail } from 'lucide-react';
 
 interface NavItem {
   href: string;
@@ -22,6 +22,7 @@ const NAV_ITEMS: NavItem[] = [
   { href: '/centurion/audit-tools', label: 'Audit Tools', icon: Terminal },
   { href: '/centurion/pipeline', label: 'Pipeline', icon: Handshake },
   { href: '/centurion/reports', label: 'Reports', icon: BarChart3 },
+  { href: '/centurion/newsletter', label: 'Newsletter', icon: Mail },
   { href: '/centurion/import', label: 'Import CSV', icon: FileUp },
   { href: '/centurion/team', label: 'Team', icon: KeyRound, adminOnly: true },
   { href: '/centurion/compliance', label: 'Compliance', icon: Lock, adminOnly: true },
