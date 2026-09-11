@@ -2,8 +2,15 @@
 
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { Users, Search, Filter, Phone, ExternalLink, ShieldAlert, Star, RefreshCw } from 'lucide-react';
+import { useRouter } from 'next/navigation';
+import { Users, Search, Filter, Phone, ExternalLink, Star, RefreshCw, Plus } from 'lucide-react';
 import { toast } from 'sonner';
+
+interface Campaign {
+  id: string;
+  name: string;
+  status: string;
+}
 
 interface Prospect {
   id: string;
@@ -22,10 +29,23 @@ interface Prospect {
 }
 
 export default function ProspectsPage({ base = '/centurion', showImportCta = true }: { base?: string; showImportCta?: boolean }) {
+  const router = useRouter();
   const [prospects, setProspects] = useState<Prospect[]>([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState('');
   const [qualificationFilter, setQualificationFilter] = useState('');
+  const [campaigns, setCampaigns] = useState<Campaign[]>([]);
+  const [showCreate, setShowCreate] = useState(false);
+  const [creating, setCreating] = useState(false);
+  const [form, setForm] = useState({
+    name: '',
+    websiteUrl: '',
+    campaignId: '',
+    industry: '',
+    city: '',
+    state: '',
+    phone: '',
+  });
 
   const fetchProspects = async () => {
     setLoading(true);
@@ -54,12 +74,64 @@ export default function ProspectsPage({ base = '/centurion', showImportCta = tru
       if (!cancelled && data.success) setProspects(data.prospects);
     }).catch(() => { if (!cancelled) toast.error('Failed to load prospects'); })
       .finally(() => { if (!cancelled) setLoading(false); });
+    fetch('/api/centurion/campaigns').then((response) => response.json()).then((data) => {
+      if (!cancelled && data.success) {
+        setCampaigns(data.campaigns);
+        setForm((f) => ({
+          ...f,
+          campaignId: f.campaignId || data.campaigns.find((c: Campaign) => c.status === 'active')?.id || '',
+        }));
+      }
+    }).catch(() => {});
     return () => { cancelled = true; };
   }, [qualificationFilter]);
 
   const handleSearchSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     fetchProspects();
+  };
+
+  const set = (key: keyof typeof form) => (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) =>
+    setForm((f) => ({ ...f, [key]: e.target.value }));
+
+  const handleCreate = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!form.name.trim() || !form.websiteUrl.trim()) {
+      toast.error('Name and website are required');
+      return;
+    }
+    setCreating(true);
+    try {
+      const res = await fetch('/api/centurion/prospects', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: form.name.trim(),
+          websiteUrl: form.websiteUrl.trim(),
+          campaignId: form.campaignId || undefined,
+          industry: form.industry || undefined,
+          city: form.city || undefined,
+          state: form.state || undefined,
+          phone: form.phone || undefined,
+        }),
+      });
+      const data = await res.json();
+      if (res.status === 409 && data.existingProspectId) {
+        toast.error('Prospect already exists — opening it');
+        router.push(`${base}/prospects/${data.existingProspectId}`);
+        return;
+      }
+      if (!res.ok || !data.success) throw new Error(data.error || 'Unable to create prospect');
+      toast.success('Prospect created');
+      setShowCreate(false);
+      setForm({ name: '', websiteUrl: '', campaignId: form.campaignId, industry: '', city: '', state: '', phone: '' });
+      fetchProspects();
+      router.push(`${base}/prospects/${data.prospect.id}`);
+    } catch (err) {
+      toast.error(err instanceof Error ? err.message : 'Unable to create prospect');
+    } finally {
+      setCreating(false);
+    }
   };
 
   return (
@@ -75,12 +147,20 @@ export default function ProspectsPage({ base = '/centurion', showImportCta = tru
           </p>
         </div>
         {showImportCta && (
-        <Link
-          href="/centurion/import"
-          className="inline-flex items-center gap-2 px-4 py-2 bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg text-sm font-medium transition"
-        >
-          + Import New Prospects
-        </Link>
+        <div className="flex items-center gap-2">
+          <button
+            onClick={() => setShowCreate(true)}
+            className="inline-flex items-center gap-2 px-4 py-2 bg-slate-800 hover:bg-slate-700 text-white rounded-lg text-sm font-medium transition"
+          >
+            <Plus className="w-4 h-4" /> New Prospect
+          </button>
+          <Link
+            href="/centurion/import"
+            className="inline-flex items-center gap-2 px-4 py-2 bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg text-sm font-medium transition"
+          >
+            + Import New Prospects
+          </Link>
+        </div>
         )}
       </div>
 
@@ -223,6 +303,69 @@ export default function ProspectsPage({ base = '/centurion', showImportCta = tru
               })}
             </tbody>
           </table>
+        </div>
+      )}
+
+      {showCreate && (
+        <div className="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm flex items-center justify-center p-4">
+          <div className="bg-slate-900 border border-slate-800 rounded-xl max-w-md w-full p-6 space-y-4">
+            <h2 className="text-lg font-bold text-white">New Prospect</h2>
+            <p className="text-xs text-slate-400">Just name + website — enough to run an audit.</p>
+            <form onSubmit={handleCreate} className="space-y-3 text-sm">
+              <div>
+                <label className="block text-xs font-medium text-slate-300 mb-1">Business name *</label>
+                <input value={form.name} onChange={set('name')} placeholder="Derivative Genius" required
+                  className="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-emerald-500" />
+              </div>
+              <div>
+                <label className="block text-xs font-medium text-slate-300 mb-1">Website URL *</label>
+                <input value={form.websiteUrl} onChange={set('websiteUrl')} placeholder="https://derivativegenius.com" required
+                  className="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-emerald-500" />
+              </div>
+              <div>
+                <label className="block text-xs font-medium text-slate-300 mb-1">Campaign</label>
+                <select value={form.campaignId} onChange={set('campaignId')}
+                  className="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-emerald-500">
+                  <option value="">No campaign</option>
+                  {campaigns.map((c) => <option key={c.id} value={c.id}>{c.name}</option>)}
+                </select>
+              </div>
+              <div className="grid grid-cols-2 gap-2">
+                <div>
+                  <label className="block text-xs font-medium text-slate-300 mb-1">Industry</label>
+                  <input value={form.industry} onChange={set('industry')} placeholder="Web Development"
+                    className="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-emerald-500" />
+                </div>
+                <div>
+                  <label className="block text-xs font-medium text-slate-300 mb-1">Phone</label>
+                  <input value={form.phone} onChange={set('phone')} placeholder="(512) 555-0100"
+                    className="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-emerald-500" />
+                </div>
+              </div>
+              <div className="grid grid-cols-2 gap-2">
+                <div>
+                  <label className="block text-xs font-medium text-slate-300 mb-1">City</label>
+                  <input value={form.city} onChange={set('city')} placeholder="Austin"
+                    className="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-emerald-500" />
+                </div>
+                <div>
+                  <label className="block text-xs font-medium text-slate-300 mb-1">State</label>
+                  <input value={form.state} onChange={set('state')} placeholder="TX"
+                    className="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-emerald-500" />
+                </div>
+              </div>
+              <div className="flex justify-end gap-2 pt-2">
+                <button type="button" onClick={() => setShowCreate(false)}
+                  className="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-lg text-xs font-medium">
+                  Cancel
+                </button>
+                <button type="submit" disabled={creating}
+                  className="px-4 py-2 bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg text-xs font-medium disabled:opacity-50">
+                  {creating ? 'Creating…' : 'Create & Open'}
+                </button>
+              </div>
+            </form>
+          </div>
         </div>
       )}
     </div>
