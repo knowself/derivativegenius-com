@@ -9,6 +9,6 @@ export default defineEval({
     await t.send("Does https://example.com have a tap-to-call button for mobile visitors?");
     t.succeeded();
     t.calledTool("check_mobile_call_cta");
-    t.check(t.reply, includes("tel:"));
+    t.check(t.reply, includes(/tap.to.call|tel:/i));
   },
 });

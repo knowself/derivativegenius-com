@@ -13,7 +13,10 @@ import type { LanguageModel } from "ai";
 //   CEREBRAS_API_KEY    https://cloud.cerebras.ai      (~1M tokens/day)
 //   CEREBRAS_MODEL_ID   override, default "gpt-oss-120b"
 //   OPENROUTER_API_KEY  https://openrouter.ai          (aggregator :free slots)
-//   OPENROUTER_MODEL_ID override, default "nvidia/nemotron-3-nano-omni-30b-a3b-reasoning:free"
+//   OPENROUTER_MODEL_ID override, default "nvidia/nemotron-3-ultra-550b-a55b:free"
+//   (2026-09-11: Ultra replaces Nano Omni — verified live: tool-calling correct,
+//   $0. Most-used :free endpoint, but the roster rotates; the Groq-first order
+//   and this override keep a delisting from breaking the chain.)
 //   OPENCODE_API_KEY    https://opencode.ai/zen        (Zen gateway, billing required)
 //   EVE_MODEL_ID        Zen model override, default "muse-spark-1.3-contributor-free"
 //
@@ -69,10 +72,10 @@ function buildCandidates(): Candidate[] {
       },
     });
     candidates.push({
-      label: `openrouter/${process.env.OPENROUTER_MODEL_ID ?? "nvidia/nemotron-3-nano-omni-30b-a3b-reasoning:free"}`,
+      label: `openrouter/${process.env.OPENROUTER_MODEL_ID ?? "nvidia/nemotron-3-ultra-550b-a55b:free"}`,
       model: openrouter.chat(
         process.env.OPENROUTER_MODEL_ID ??
-          "nvidia/nemotron-3-nano-omni-30b-a3b-reasoning:free",
+          "nvidia/nemotron-3-ultra-550b-a55b:free",
       ) as unknown as LanguageModel,
     });
   }

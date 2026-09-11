@@ -14,7 +14,7 @@ An [eve](https://eve.dev) agent serving Joe Terry through Optio Centuriae. It an
 |---|---|---|
 | 1 | `GROQ_API_KEY` | `qwen/qwen3.8-27b` (`GROQ_MODEL_ID`) |
 | 2 | `CEREBRAS_API_KEY` | `gpt-oss-120b` (`CEREBRAS_MODEL_ID`) |
-| 3 | `OPENROUTER_API_KEY` | `nvidia/nemotron-3-nano-omni-30b-a3b-reasoning:free` (`OPENROUTER_MODEL_ID`) |
+| 3 | `OPENROUTER_API_KEY` | `nvidia/nemotron-3-ultra-550b-a55b:free` (`OPENROUTER_MODEL_ID`, verified live 2026-09-11) |
 | 4 | `OPENCODE_API_KEY` | `muse-spark-1.3-contributor-free` (`EVE_MODEL_ID`, Responses-API only, OpenCode-session-bound) |
 
 Free-tier limits are the ceiling (Groq TPM, Cerebras daily quota, OpenRouter `:free` congestion). Defaults are volatile — if a provider retires a model id, update the one default string here **and** in `agents/optio-centuriae/agent/lib/model.ts` (the two files are intentionally identical; `diff` them after edits).
