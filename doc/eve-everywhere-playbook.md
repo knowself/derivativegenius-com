@@ -3,7 +3,7 @@
 **Status:** Active · **Issued:** 2026-09-11 by Joe Terry, the Centurion
 **Companion reference:** `doc/eve-agent-tech-stack-user-guide.md` (framework detail — read that for concepts, this file for operations)
 **Scope:** every repo under `/home/knowself/dev` — today `dg-web/` + `mobiletireman/`; future city/client repos inherit the pattern
-**Stack law:** Node.js 24 + Next.js + TypeScript. No Python / Django / FastAPI / Flask / Celery / Vue / Firebase. Eve agents are the only authorized agent runtime (ICP canisters only per The-Mission §10.1 closed list).
+**Stack law:** Node.js 24 + Next.js + TypeScript. No Python / Django / FastAPI / Flask / Celery / Vue / Firebase. No ICP canisters / ICP Ninja / Motoko/Rust-on-ICP / caffeine.ai (banned 2026-09-13, EX-2026-09-08-01 dead). Eve agents are the only authorized agent runtime.
 
 > Principle: **Eve makes the mission attainable with less effort.** Each repo's mission names its bottleneck; each bottleneck gets at most one Eve agent; each agent drafts, never sends; Joe decides.
 
@@ -137,6 +137,6 @@ Deterministic only (`includes`/`equals`/`matches`/`satisfies` are gates; no judg
 
 ## 10. Forbidden (all repos, no exceptions without a new dated decision)
 
-Cold sequences/blasts, auto-enrichment, AI-voice prospecting/calling, timers/workers that send, publishing prospect audits publicly, raw PII/suppression values in repos/logs/evals/prompts, provider keys in client bundles or browser IDEs, Python runtimes, 5th ICP canister beyond the §10.1 closed list, new automation before DT-18 names a measured bottleneck (+ qualified conversations + 1 proposal).
+Cold sequences/blasts, auto-enrichment, AI-voice prospecting/calling, timers/workers that send, publishing prospect audits publicly, raw PII/suppression values in repos/logs/evals/prompts, provider keys in client bundles or browser IDEs, Python runtimes, ICP canisters / Ninja / caffeine.ai work of any kind, new automation before DT-18 names a measured bottleneck (+ qualified conversations + 1 proposal).
 
 *Changelog: 2026-09-11 created as the operating companion to the tech-stack user guide. Update when a repo joins the estate, an agent ships, or doctrine changes — with a dated note.*

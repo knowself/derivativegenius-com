@@ -111,7 +111,7 @@ Walmart day: no overdue older than Tuesday, 1–2 drafts banked for next DG day,
 
 ## 6. Source map (drawn from all docs)
 
-- `doc/The-Mission.md` — North Star $150M math, chamber→city sequence, audit template, touch sequence, offer ladder, founder cadence, guardrails, 14-day plan, Eve-first + ICP EX-2026-09-08-01.
+- `doc/The-Mission.md` — North Star $150M math, chamber→city sequence, audit template, touch sequence, offer ladder, founder cadence, guardrails, 14-day plan, Eve-only (ICP EX-2026-09-08-01 dead 2026-09-13).
 - `doc/the-first-priority.md` — DT-18 25-company pilot, success = 25 dispositions + continue/revise/stop, daily 2-hr cadence, scripts, observation formula, midpoint/final reviews, automation gate.
 - `doc/current-development-targets.md` — DT-19 readiness (last blocker = your signed-in test), DT-20 permission queue, DT-21 VSL demo, DT-01 offer, DT-04/DT-07 credibility/GEO, first-dollar definition.
 - `doc/Website-Prospecting-System-Plan.md` — private `/centurion` architecture, scoring (60 qualified / 75 priority), queue order (commitments first), pipeline stages, compliance center.
@@ -119,6 +119,6 @@ Walmart day: no overdue older than Tuesday, 1–2 drafts banked for next DG day,
 - `doc/Single-probem-VSL.md` — 5-part page (headline, video+jingle, proof, copy+FAQ schema, sticky call), Kennedy `Watch my video` ads, $0 skip arbitrage, Day 0→21 delivery.
 - `doc/lessons-of-localinternetpresence.md` + transcript + `src/app/book/page.tsx` — 5 pillars, traffic/conversion axiom, VSL pedigree, earworm/Jingle, audio-to-text GEO factory.
 - `doc/agent-dev.md` + `doc/free-llm-inference.md` — agents for clients + ourselves on Eve ($0 inference chain), Joe approves everything, `/centurion` is system of record.
-- `doc/responsive-dev.md` + `doc/portfolio-content.md` + `doc/migration-audit.md` — 48px thumb-zone + bottom-bar call CTA standard; portfolio as proof models; Node+Next.js only (+ ICP sidecars), no Python/Firebase reintroduced.
+- `doc/responsive-dev.md` + `doc/portfolio-content.md` + `doc/migration-audit.md` — 48px thumb-zone + bottom-bar call CTA standard; portfolio as proof models; Node+Next.js only (ICP/caffeine.ai also banned 2026-09-13), no Python/Firebase reintroduced.
 
 *Centurion's law: audits earn, follow-up compounds — always on permission. Makes the call.*

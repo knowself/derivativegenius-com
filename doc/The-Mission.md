@@ -10,8 +10,8 @@
 **Version:** 3.2 — Eve-first deployment, ICP agents later
 **Date:** September 8, 2026
 **North Star:** $150,000,000 ARR from book-grounded local-presence systems
-**Stack exception:** EX-2026-09-08-01 ACTIVE (see §10.1) — ICP canisters authorized on revenue path alongside Next.js + Neon
-**Deployment posture (decided 2026-09-08):** Eve-first. All agents ship on Eve (Vercel) until promotion criteria in §9.6 are met. ICP agent hosting is reserved for named candidates only.
+**Stack exception:** EX-2026-09-08-01 SUPERSEDED — dead per founder decision 2026-09-13. Internet Computer (ICP) canisters, ICP Ninja, Motoko/Rust-on-ICP, and caffeine.ai are banned everywhere; Next.js + Neon only (see §10).
+**Deployment posture (decided 2026-09-08, amended 2026-09-13):** Eve-only. All agents ship on Eve (Vercel). No ICP agent hosting — EX-2026-09-08-01 is dead.
 
 ---
 
@@ -250,9 +250,8 @@ Success in 14 days = 60+ members imported, 25+ audits drafted, 10+ conversations
 - [Pass-the-Audit Workbook](./pass-the-audit-workbook.md)
 - [Repository Overview](../README.md)
 - [Eve docs](https://eve.dev/docs) + `agents/<name>/AGENTS.md` (bounded authoring loop)
-- [ICP Ninja](https://icp.ninja/) + [Ninja + AI guide](https://medium.com/dfinity/enhancing-icp-dapp-development-using-icp-ninja-ai-11d5dad408ef)
 
-*Prior charter v1.3 doctrine (§1–§16: reality before scale, audits earn / followup compounds, anti-agency rule, owned-web-first) is preserved in git history and reaffirmed in §7 above. v2.0 added the chamber→city execution engine. v3.x adds the build engine: our own Eve agent fleet first (§9), ICP canisters + ICP-hosted agents as authorized revenue-path sidecars (§10).*
+*Prior charter v1.3 doctrine (§1–§16: reality before scale, audits earn / followup compounds, anti-agency rule, owned-web-first) is preserved in git history and reaffirmed in §7 above. v2.0 added the chamber→city execution engine. v3.x adds the build engine: our own Eve agent fleet (§9). §10 records the SUPERSEDED ICP exception (dead 2026-09-13 — history only, do not build).*
 
 ---
 
@@ -286,7 +285,7 @@ No cold-sequence, cold-text, cold-call, AI-voice-call, or bulk-blast agents. Eve
 
 ### 9.3 Agent management infrastructure (what we must build)
 
-Repo policy is **Next.js + Neon as system of record, plus EX-2026-09-08-01 (§10.1): Motoko/Rust ICP canisters authorized on the revenue path.** Python/Django/FastAPI/Flask/Celery/Vue/Firebase ban from `doc/migration-audit.md` and `AGENTS.md` remains in full force — this exception adds ICP only, reintroduces nothing removed.
+Repo policy is **Next.js + Neon as system of record. EX-2026-09-08-01 is SUPERSEDED (dead 2026-09-13): no Motoko/Rust ICP canisters on any path.** Python/Django/FastAPI/Flask/Celery/Vue/Firebase ban from `doc/migration-audit.md` and `AGENTS.md` remains in full force — and ICP/caffeine.ai are now banned alongside them.
 
 ```
 agents/
@@ -336,112 +335,66 @@ Every agent change must pass, in order, before `eve deploy`:
 5. Deploy: `eve link` (once) → `eve deploy --non-interactive --yes`. Verify prod: unsigned `/centurion` redirects, private APIs `401`, no paid/trial provider calls in Slice 1 paths.
 6. Rollback: every deploy tags git SHA; `drizzle/manual/` migrations are additive-only; model/tool change = version bump + eval snapshot so history never silently rewrites.
 
-### 9.6 Deployment posture — Eve-first, ICP agents later (decided 2026-09-08)
+### 9.6 Deployment posture — Eve-only (amended 2026-09-13; ICP promotion gate REMOVED)
 
-**Initial concentration: Eve.** All §9.2 agents ship as Eve apps to Vercel (`eve deploy`). This is where velocity lives: `eve dev` TUI, registry integrations, `eve eval`, one-command deploy, Vercel env + observability. No agent is blocked waiting for ICP hosting.
+**All §9.2 agents ship as Eve apps to Vercel (`eve deploy`) and stay there.** This is where velocity lives: `eve dev` TUI, registry integrations, `eve eval`, one-command deploy, Vercel env + observability.
 
-**Later: named candidates graduate to ICP.** Some agents will run as ICP canisters (Ninja-built, `dfx`-exported, CycleOps-funded) when they need what Eve/Vercel cannot credibly sell: tamperproof, verifiable, unstoppable execution on the revenue path.
-
-| Tier | Agents | Host (now) | Rationale |
-|---|---|---|---|
-| Eve-native (stay) | `audit-agent`, `optio-centuriae`, `followup-drafter`, `vsl-assembler`, `city-cloner` | Eve → Vercel | Human-in-loop drafting, queue surfacing, Next.js/Neon-adjacent. Low value in decentralizing; high value in iteration speed. |
-| Eve-first, ICP-candidate | `deai-assist` (onchain LLM), `proof-anchor` verifier, `deliverable-vault` gatekeeper, `pay-rail-pilot` settler, future `content-factory` publisher | Eve now → ICP canister on promotion | Client-verifiable receipts, unstoppable Q&A, encrypted vault gating, and settlement anchoring are the moat stories that justify ICP cost. |
-| Never ICP (policy) | Anything that sends email/text/call or lifts suppressions | N/A — stays behind Next.js approval gates | §9.4 + §10.1 boundary 2: no canister sends or publishes prospect audits. |
-
-**Promotion gate (Eve → ICP, per agent, dated amendment to §10.1 closed list required):**
-1. Eve version profitable in production (used on ≥25 real chamber audits with eval parity).
-2. Documented need: verifiability, tamperproofing, or unstoppability the client pays for — not novelty.
-3. Ninja prototype green (live build + canister logs + AI optimize pass), `dfx build` reproduces, `canister_ids.json` versioned, CycleOps funded, cost/cycle per call measured and priced into the $300/$500 retainer.
-4. Same §9.4 gates re-proven on ICP: hashed-only PII, suppression re-check upstream in Next.js, human approval before any downstream send, server-side keys only.
-5. Rollback proven: prior wasm retained; Neon rebuilds state; revert to Eve version in one deploy if SLA misses twice.
-
-Until promoted, ICP work in §10–§11 means the four data canisters (`proof-anchor`, `deai-assist` assist index, `deliverable-vault`, `pay-rail-pilot` anchors) called server-side from Eve/Next.js — not agents living on ICP.
+The former Eve → ICP promotion gate is dead with EX-2026-09-08-01. No agent graduates to ICP canisters; no Ninja prototype, `dfx` export, `canister_ids.json`, CycleOps funding, or per-call cycle pricing work is authorized. Verifiable receipts, vault gating, and payment verification get rebuilt on the Next.js/Neon stack instead (Neon remains system of record; human approval before any downstream send).
 
 ---
 
-## 10. ICP Ninja — accelerator + revenue-path canisters (EX-2026-09-08-01 ACTIVE)
+## 10. ICP Ninja — SUPERSEDED (EX-2026-09-08-01 DEAD 2026-09-13, do not build)
 
-**What it is:** [ICP Ninja](https://icp.ninja/) is DFINITY's free browser IDE for Internet Computer canisters — pick a template (Motoko/Rust backend + React frontend), edit in browser, one-click deploy to mainnet (ephemeral ~20–30 min, or Publish permanently with CycleOps top-ups), share via link, export to GitHub / download zip, with an **AI learning assistant trained on ICP docs** that explains, fixes, optimizes code (e.g. query-vs-update), plus live build logs, canister logs, and new templates (LLM chatbot / DeAI, EVM explorer, Encrypted Notes with VetKeys, BTC wallet, photo gallery).
+> Founder decision 2026-09-13: all Internet Computer (ICP) canisters, ICP Ninja, Motoko/Rust-on-ICP, and caffeine.ai are banned everywhere, permanently. The EX-2026-09-08-01 authorization below is kept as history only. Rebuild that functionality on the Next.js/Neon stack instead.
 
-### 10.1 Formal stack exception EX-2026-09-08-01 — the word is given
+### 10.1 Formal stack exception EX-2026-09-08-01 — SUPERSEDED
 
-**Status:** ACTIVE. **Decided:** September 8, 2026. **Decider:** Joe Terry, Founder / human Centurion. **Supersedes:** the "no canister in production without separate decision" gate in v3.0 §10.
+**Status:** DEAD (superseded 2026-09-13 by founder decision; no new technical evidence cited — absolute until a new separately documented founder decision reverses it again). **Decided:** September 8, 2026. **Decider:** Joe Terry, Founder / human Centurion.
 
-**Authorization:** Derivative Genius may design, deploy, and earn revenue through ICP canisters built with ICP Ninja technology (Ninja IDE + Ninja AI + `dfx`-exported repos) alongside the Next.js + Drizzle + Neon stack. The `AGENTS.md` "Node.js + Next.js only" rule is hereby amended to "Next.js + Neon as system of record, ICP canisters as authorized revenue-path sidecars per this section." The `doc/migration-audit.md` ban on Python/Django/Vue/Firebase is unchanged and remains absolute.
+**Authorization (REVOKED):** No Derivative Genius system may design, deploy, or earn revenue through ICP canisters. The `AGENTS.md` "Node.js + Next.js only" rule stands unamended. The `doc/migration-audit.md` ban on Python/Django/Vue/Firebase is unchanged and remains absolute — ICP/caffeine.ai are now banned alongside them.
 
-**Why:** the chamber→city plan needs tamperproof, verifiable, unstoppable delivery artifacts and decentralized AI that Next.js alone cannot credibly sell as a moat at $150M scale. Ninja + its AI lets one disciplined builder prototype, bullet-proof (live build, canister logs, AI fix/optimize), and ship those canisters in days instead of weeks.
+**Why it was authorized (historical note, no longer operative):** the chamber→city plan once sought tamperproof, verifiable delivery artifacts and decentralized AI as a moat. That rationale is retired with the exception.
 
-**Authorized revenue-path canisters (v1 — closed list, anything else needs EX amendment):**
+**Former closed list (BANNED — kept as history so reviewers know what NOT to rebuild on ICP; rebuild equivalents on Next.js/Neon):**
 
-| Canister | Ninja template lineage | Revenue job | Reads/writes |
-|---|---|---|---|
-| `proof-anchor` | Encrypted Notes (VetKeys) | Tamperproof hash + timestamp for every delivered audit/VSL/jingle; client-verifiable "this audit existed on this date" | Writes: SHA-256 hashes, canister timestamps, client-safe metadata only. Never raw PII/phone/email/suppression values |
-| `deai-assist` | LLM Chatbot (Ollama / onchain LLM) | Decentralized audit-draft assist + owner Q&A mock that Eve agents call during §9.2 drafting | Writes: anonymized prompts + draft outputs. No PII; all calls logged to Neon activities |
-| `deliverable-vault` | FileVault / Photo Gallery | Client-facing vault for VSL assets, lyric cards, transcript PDFs; share links for audit walkthroughs | Writes: client-approved deliverables only, VetKeys-encrypted where private |
-| `pay-rail-pilot` | Bitcoin Wallet / EVM Explorer (Chain Fusion) | Optional pilot: onchain invoice receipt anchors + transparent payment verification for $1,500 VSLs | Writes: invoice IDs + tx hashes only. Neon remains revenue ledger; no client funds custody without separate legal review |
+| Former canister | What it was for | Rebuild on |
+|---|---|---|
+| `proof-anchor` | Tamperproof hash + timestamp for delivered audits/VSLs/jingles | Next.js server action + Neon record (SHA-256 hashes, timestamps, client-safe metadata; never raw PII) |
+| `deai-assist` | Audit-draft assist + owner Q&A mock | Eve agent drafting path on Vercel (anonymized prompts + outputs logged to Neon activities) |
+| `deliverable-vault` | Client-facing vault for VSL assets, lyric cards, transcript PDFs | Private `/centurion` routes + Clerk-gated share links (client-approved deliverables only) |
+| `pay-rail-pilot` | Onchain invoice receipt anchors | Approved hosted payment link/invoice; Neon remains revenue ledger |
 
-**Architecture (bullet-proof by construction):**
+**Architecture (Next.js-only):**
 
 ```text
 Browser / chamber member
   -> Next.js 16 (Clerk auth, /centurion UI, public proof pages)
     -> Route Handlers + server actions (Zod, role checks, suppression re-check, human approval)
       -> Drizzle + Neon (SYSTEM OF RECORD: prospects, contacts encrypted+hashed, audits, activities, opportunities, suppressions, revenue)
-      -> ICP canisters via allowlisted server-side calls only (proof-anchor, deai-assist, deliverable-vault, pay-rail-pilot)
-      -> Eve agents on Vercel now (audit-agent, optio-centuriae, fleet) call Next.js APIs, never canisters directly from browser; ICP-hosted agents only on §9.6 promotion
+      -> Eve agents on Vercel (audit-agent, optio-centuriae, fleet) call Next.js APIs; no canister calls anywhere
 ```
 
-**Non-negotiable boundaries (violation = automatic rollback to Next.js-only):**
-1. Neon stays system of record for PII, consent/permission basis, suppressions, pipeline, and revenue. ICP stores hashes + client-safe artifacts only.
-2. No canister sends email/text/call or publishes a prospect audit publicly. §9.4 permission + suppression + human-approval gates apply to anything downstream of a canister output.
-3. No provider keys, raw phones/emails, or suppression raw values in Ninja IDE, Ninja AI chat, canister logs, or committed `canister_ids.json` secrets. Toy data in Ninja; real data only via server-side mainnet calls.
-4. Every canister: exported `dfx` repo (Ninja Download/Export committed to PR), pinned Motoko/Rust + React versions, `canister_ids.json` versioned, CycleOps auto-top-up configured before any permanent Publish, canister logs monitored.
-5. Python/Django/FastAPI/Flask/Celery/Vue/Firebase remain banned. This exception covers Motoko/Rust-on-ICP only.
+**Non-negotiable boundaries:**
+1. Neon stays system of record for PII, consent/permission basis, suppressions, pipeline, and revenue.
+2. No external send without permission basis + send-time suppression re-check + human approval (§9.4).
+3. No provider keys, raw phones/emails, or suppression raw values in repos, logs, evals, or client bundles.
+4. Python/Django/FastAPI/Flask/Celery/Vue/Firebase remain banned, alongside ICP/caffeine.ai.
 
-**Bullet-proofing with Ninja + its AI (required per canister):**
-- Fork template → Ask AI (explain → fix → optimize; enforce query-vs-update, cost discipline) → live-build green → canister-log clean → ephemeral deploy click-test → share link in PR → GitHub export/zip → `dfx build` locally reproduces → `eve eval` fixtures updated with Ninja failure cases → §9.5 gates (`tsc`, `eve eval`, `lint/test/build`, disposable-data walkthrough) → Publish (coupon then CycleOps) with git SHA tag.
-- Rollback: `dfx deploy --upgrade` to prior wasm; Neon rebuilds any canister state from hashes. If cost/latency/compliance misses SLA two sprints running, the affected canister reverts to Next.js-only implementation with dated note here.
-- Observability: canister logs + CycleOps balance alerts wired into `/centurion/reports` alongside convos/hr, MRR, churn.
-
-**How we use Ninja now that the exception is ACTIVE:** Ninja is both accelerator and revenue-path shipyard. Toy prototypes still start with fake data, but the four §10.1 canisters ship to mainnet and earn: hashes anchored at audit delivery, drafts assisted by `deai-assist`, deliverables served from `deliverable-vault`, receipts anchored by `pay-rail-pilot`. Next.js remains the gate (auth, suppression, approval); ICP is the verifiable backend those gates call server-side.
-
-| Track | Use | Why it makes us faster + safer |
-|---|---|---|
-| A. Prototype Eve tools 10× faster | Rebuild each `agent/tools/*.ts` idea first as a Ninja template fork (React frontend mimics our queue card; toy backend mimics scoring/dedup). Iterate in browser, no local `dfx`/cycles setup. | Live build output + canister logs catch shape errors before they touch our repo. Share link = stakeholder review in minutes. |
-| B. AI pair-programmer | Use Ninja AI to explain/fix/optimize the prototype ("Ask AI — fix this actor", "use query calls", "condense functions"). Then **port the pattern to TypeScript** in `agents/<name>/` **and** keep the Motoko/Rust canister for §10.1 workloads. | AI trained on ICP docs catches best-practice violations (query vs update, cost) that map 1:1 to our server-action cost discipline. Human reviews every AI diff. |
-| C. Revenue-path shipyard | Ephemeral deploy per PR for click-through; permanent Publish (coupon → CycleOps) for `proof-anchor`, `deai-assist`, `deliverable-vault`, `pay-rail-pilot`. | 20-min canisters force stateless, reproducible demos — no hidden state. Permanent publishes get versioned + logged like any prod deploy. |
-| D. DeAI moat | `deai-assist` (LLM-chatbot lineage) on the revenue path per §10.1 — tamperproof, verifiable draft assist, not a side experiment. | Decentralized-AI becomes a selling point (verifiable, unstoppable) inside every $300/$500 retainer. |
-
-**Concrete workflow (per agent + per canister):**
-
-```
-1. Fork template in icp.ninja (LLM Chatbot → deai-assist; Encrypted Notes → proof-anchor; FileVault → deliverable-vault; BTC/EVM → pay-rail-pilot)
-2. Prompt Ninja AI: explain → fix → optimize; keep live-build green, check canister logs
-3. Share link in PR for review; click-test ephemeral deploy
-4. Export: Download zip or one-click GitHub export from Ninja; commit dfx repo + pinned versions to PR
-5. Port UI/tool pattern to agents/<name>/agent/tools/*.ts in TypeScript + zod AND keep canister for §10.1 writes (hashes/artifacts only, never raw PII)
-6. Add eve eval fixtures from Ninja test cases (including its failure cases: PII-reject, suppression-block, SSRF-reject)
-7. Pass §9.5 gates → eve deploy to Vercel + Ninja Publish to mainnet (CycleOps armed), both tagged to same git SHA
-```
-
-**Guardrails for Ninja use (under EX-2026-09-08-01):**
-- No provider keys, prospect PII, or suppression raw values ever pasted into Ninja or its AI chat. Toy data in IDE; real data only via server-side mainnet calls carrying hashes + approved deliverables.
-- Nothing Publishes permanently until: `dfx build` reproduces locally, `tsc` + `eve eval` + `lint/test/build` green, disposable-data walkthrough logged, CycleOps top-up set, `canister_ids.json` versioned.
-- Any 5th canister beyond the §10.1 closed list needs a dated EX amendment here before it touches revenue.
+**Eve acceleration (replaces the former Ninja workflow):** prototype each `agent/tools/*.ts` idea as a typed tool draft, add `eve eval` fixtures including failure cases (PII-reject, suppression-block, SSRF-reject), then pass §9.5 gates (`tsc`, `eve eval`, `lint/test/build`, disposable-data walkthrough) before `eve deploy`, tagged to the same git SHA.
 
 ---
 
-## 11. Build roadmap — Eve fleet + Ninja canisters, mapped to revenue phases
+## 11. Build roadmap — Eve fleet on Next.js/Neon, mapped to revenue phases
 
 | Phase | Build | Revenue unblock | Exit criteria |
 |---|---|---|---|
-| 0. Harden + `proof-anchor` (now, ~1–2 wks) | Pin `audit-agent` model window, tighten `safe_fetch` SSRF tests, 10 eval fixtures. Ship `proof-anchor` first: Ninja Encrypted-Notes fork → Publish → Next.js server action anchors audit hashes at delivery. | 5 audits/day → 25/day draft capacity + verifiable audit receipts as closer | `eve eval` + `dfx build` + `lint/test/build` green; mainnet hash verifiable; CycleOps armed |
-| 1. Optio + queue + `deai-assist` (~1–2 wks, = DT-20) | Permission basis + approver + suppression-check result; send-time re-check; overdue surfacing + read-only auto-draft backed by `deai-assist` (LLM-chatbot fork). | Followup sophistication without cold automation; no commitment slips | Permissionless/suppressed sends rejected server-side; approver recorded; canister logs clean |
-| 2. VSL assembler + `deliverable-vault` (~1 wk, = DT-21) | Private `/centurion/demos` route + vault-backed share links (FileVault fork), DEMO watermark, browser speech preview, lyric-card slot. | Live vault-backed demo on audit walkthroughs → closes $1,500 sprints | Demo renders 5 parts from disposable prospect; vault link gated by Clerk role; unsigned `401` |
-| 3. Factory agents (~2–4 wks) | `content-factory`, `gbp-rescue`, `jingle-writer` drafts + publish checklists; cost/episode + cycles-burn + SLA dashboards in `/centurion/reports` | 1 operator handles 50–80 retainers; supports Phase B city ownership | Publish SLA + cost + cycles tracked; human publishes everything |
-| 4. City-cloner + `pay-rail-pilot` (~2 wks) | Campaign scaffolder + per-city canister namespace; Chain-Fusion receipt anchors for VSL invoices (Neon remains ledger). | 90-day per-city playbook (§5) runs without eng help; onchain receipts as trust signal | New city live in <1 day, first 25 audits + first anchored receipt in week 1 |
+| 0. Harden audit path (now, ~1–2 wks) | Pin `audit-agent` model window, tighten `safe_fetch` SSRF tests, 10 eval fixtures. Ship Next.js server action that records audit hashes at delivery. | 5 audits/day → 25/day draft capacity + verifiable audit receipts as closer | `eve eval` + `lint/test/build` green; hash record verifiable in Neon |
+| 1. Optio + queue (DT-20, ~1–2 wks) | Permission basis + approver + suppression-check result; send-time re-check; overdue surfacing + read-only auto-draft from Eve agents. | Followup sophistication without cold automation; no commitment slips | Permissionless/suppressed sends rejected server-side; approver recorded |
+| 2. VSL assembler (DT-21, ~1 wk) | Private `/centurion/demos` route + Clerk-gated share links, DEMO watermark, browser speech preview, lyric-card slot. | Live demo on audit walkthroughs → closes $1,500 sprints | Demo renders 5 parts from disposable prospect; link gated by Clerk role; unsigned `401` |
+| 3. Factory agents (~2–4 wks) | `content-factory`, `gbp-rescue`, `jingle-writer` drafts + publish checklists; cost/episode + SLA dashboards in `/centurion/reports` | 1 operator handles 50–80 retainers; supports Phase B city ownership | Publish SLA + cost tracked; human publishes everything |
+| 4. City-cloner + payment flow (~2 wks) | Campaign scaffolder; approved hosted payment link/invoice for VSL deposits (Neon remains ledger). | 90-day per-city playbook (§5) runs without eng help | New city live in <1 day, first 25 audits + first recorded receipt in week 1 |
 
-Each phase ends with a dated continue/revise/stop note here + in `doc/current-development-targets.md`. Phases 0–4 ship agents on Eve; ICP agent hosting waits for §9.6 promotion. Deferred automation (scaled Places, mass enrichment, any auto-send) stays blocked until DT-18 shows qualified conversations + 1 proposal.
+Each phase ends with a dated continue/revise/stop note here + in `doc/current-development-targets.md`. Phases 0–4 ship agents on Eve (Vercel). Deferred automation (scaled Places, mass enrichment, any auto-send) stays blocked until DT-18 shows qualified conversations + 1 proposal.
 
 ## 12. Operator cheat sheet
 
@@ -460,9 +413,4 @@ npm run lint && npm test && npm run build
 # Ship
 eve link --non-interactive --project <name> # once per agent
 eve deploy --non-interactive --yes
-
-# Ninja acceleration + revenue canisters (toy data in IDE; hashes/artifacts only on mainnet)
-# icp.ninja → fork template → Ask AI (explain/fix/optimize) → ephemeral Deploy →
-# Share link in PR → Export (GitHub/zip, commit dfx repo) → Publish (CycleOps armed, same git SHA as eve deploy)
-# dfx build must reproduce locally; canister logs + cycles wired into /centurion/reports
 ```
