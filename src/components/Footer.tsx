@@ -13,10 +13,10 @@ export function Footer() {
           <div className="space-y-4 col-span-1 sm:col-span-2 md:col-span-1">
             <Link href="/" className="inline-block">
               <Image
-                src="/images/DG-AAA.png"
+                src="/images/logo.png"
                 alt="Derivative Genius Logo"
                 width={270}
-                height={184}
+                height={146}
                 className="h-14 sm:h-16 w-auto object-contain rounded-md"
               />
             </Link>

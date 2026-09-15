@@ -16,7 +16,7 @@
             <div class="flex">
               <div class="flex-shrink-0 flex items-center">
                 <router-link to="/" class="flex items-center">
-                  <img class="h-[125px] w-auto" src="/images/DG-AAA.png" alt="Derivative Genius">
+                  <img class="h-[125px] w-auto" src="/images/logo.png" alt="Derivative Genius">
                 </router-link>
               </div>
               <div class="flex ml-6 space-x-8 items-center">

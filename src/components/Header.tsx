@@ -30,10 +30,10 @@ export function Header() {
         <Link href="/" className="flex items-center group py-1">
           <div className="relative h-14 sm:h-16 md:h-20 w-auto flex items-center">
             <Image
-              src="/images/DG-AAA.png"
+              src="/images/logo.png"
               alt="Derivative Genius Logo"
               width={300}
-              height={205}
+              height={162}
               priority
               className="h-14 sm:h-16 md:h-20 w-auto object-contain transition-transform duration-200 group-hover:scale-105"
             />

@@ -38,7 +38,7 @@ async function generateExecutiveOverview() {
   doc.pipe(fs.createWriteStream(output));
 
   // Add company logo
-  doc.image(path.join(__dirname, '../public/images/DG-AAA.png'), 50, 50, { width: 150 });
+  doc.image(path.join(__dirname, '../public/images/logo.png'), 50, 50, { width: 150 });
   
   // Title
   doc.moveDown(2);
@@ -83,7 +83,7 @@ async function generateServiceCatalog() {
   doc.pipe(fs.createWriteStream(output));
 
   // Add company logo
-  doc.image(path.join(__dirname, '../public/images/DG-AAA.png'), 50, 50, { width: 150 });
+  doc.image(path.join(__dirname, '../public/images/logo.png'), 50, 50, { width: 150 });
   
   // Title
   doc.moveDown(2);
@@ -152,7 +152,7 @@ async function generateImplementationGuide() {
   doc.pipe(fs.createWriteStream(output));
 
   // Add company logo
-  doc.image(path.join(__dirname, '../public/images/DG-AAA.png'), 50, 50, { width: 150 });
+  doc.image(path.join(__dirname, '../public/images/logo.png'), 50, 50, { width: 150 });
   
   // Title
   doc.moveDown(2);
