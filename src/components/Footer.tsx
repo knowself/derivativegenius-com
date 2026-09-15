@@ -29,6 +29,11 @@ export function Footer() {
             <h4 className="font-semibold text-slate-200">Services & Demos</h4>
             <ul className="mt-4 space-y-2 text-sm">
               <li>
+                <Link href="/" className="hover:text-blue-400 transition-colors">
+                  Home
+                </Link>
+              </li>
+              <li>
                 <Link href="/services" className="hover:text-blue-400 transition-colors">
                   AI-Native Web Apps
                 </Link>
@@ -39,8 +44,18 @@ export function Footer() {
                 </Link>
               </li>
               <li>
+                <Link href="/portfolio" className="hover:text-blue-400 transition-colors">
+                  Portfolio
+                </Link>
+              </li>
+              <li>
                 <Link href="/articles" className="hover:text-blue-400 transition-colors">
                   Articles & Insights
+                </Link>
+              </li>
+              <li>
+                <Link href="/book" className="hover:text-blue-400 transition-colors">
+                  Free Book — Local Internet Presence
                 </Link>
               </li>
               <li>
@@ -63,6 +78,16 @@ export function Footer() {
                 <Link href="/contact" className="hover:text-blue-400 transition-colors">
                   Project Scoping Intake
                 </Link>
+              </li>
+              <li>
+                <a href="tel:+13103799822" className="hover:text-blue-400 transition-colors">
+                  Call: (310) 379-9822
+                </a>
+              </li>
+              <li>
+                <a href="mailto:joe@derivativegenius.com?subject=AI%20Web%20Dev%20Inquiry" className="hover:text-blue-400 transition-colors">
+                  joe@derivativegenius.com
+                </a>
               </li>
               <li>
                 <Link

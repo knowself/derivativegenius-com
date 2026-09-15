@@ -12,7 +12,7 @@
 
 **Document owner:** Repository maintainer
 
-**Last updated:** September 7, 2026
+**Last updated:** September 14, 2026
 
 ## Purpose
 
@@ -150,7 +150,7 @@ DT-10 and DT-11 remain lower-priority website expansion work unless pilot eviden
 
 | ID    | Priority | Target                                                                            | Status      | Depends on                           | Last updated |
 | ----- | -------- | --------------------------------------------------------------------------------- | ----------- | ------------------------------------ | ------------ |
-| DT-19 | P0       | Complete Centurion Pilot Readiness                                                | In review   | Authenticated readiness smoke test    | 2026-08-19   |
+| DT-19 | P0       | Complete Centurion Pilot Readiness                                                | In review   | Authenticated readiness smoke test    | 2026-09-14   |
 | DT-20 | P0       | Add Permission-Tracked Followup Queue (audit-led, no cold automation)             | Not started | DT-19 readiness verification         | 2026-09-07   |
 | DT-21 | P1       | Build VSL Demo Assembler (Slice 1: no keys, no new deps)                          | Not started | DT-20 permission basis defined       | 2026-09-07   |
 | DT-18 | P0       | Run 25-Company Founder-Led Manual Outreach Pilot                                  | In progress | DT-19 readiness verification         | 2026-09-03   |
@@ -197,7 +197,7 @@ DT-10 and DT-11 remain lower-priority website expansion work unless pilot eviden
 
 **Done when:** An authorized operator can run a 25-prospect test campaign from import through proposal, retrieve every commitment and disposition, enforce an opt-out everywhere immediately, view accurate pilot metrics, and complete the process without a parallel spreadsheet.
 
-**Verification:** Live `npm run db:push` passed; all six new workflow tables were verified through PostgreSQL `information_schema`; repository-wide `npm run lint` passes with zero errors and four existing warnings; `npx tsc --noEmit` passed; all 23 Jest tests passed; `npm run build` compiled all 31 routes; unauthenticated smoke checks redirect `/centurion` and return `401` for private APIs. Complete the authenticated readiness test in `doc/the-first-priority.md` before changing DT-19 to `Complete` or unblocking DT-18.
+**Verification:** Live `npm run db:push` passed; all six new workflow tables were verified through PostgreSQL `information_schema`; repository-wide `npm run lint` passes with zero errors and four existing warnings; `npx tsc --noEmit` passed; all 23 Jest tests passed; `npm run build` compiled all 31 routes; unauthenticated smoke checks redirect `/centurion` and return `401` for private APIs. 2026-09-14 re-verification: lint 0 errors (3 pre-existing warnings), tsc clean, 43/43 Jest tests pass (9 suites), build compiles all routes incl. 14 `/centurion` routes, 11/11 workflow tables present in live Neon, disposable end-to-end run 13/13 (campaign → priority prospect → call outcome → follow-up → queue → keyed suppression → audit → opportunity → proposal → work session, all test rows deleted), live-server denial confirmed (`/centurion` → 307 to Clerk sign-in; private APIs → 401). Complete the authenticated readiness test in `doc/the-first-priority.md` before changing DT-19 to `Complete` or unblocking DT-18.
 
 ### DT-18. Run the 25-Company Founder-Led Manual Outreach Pilot
 

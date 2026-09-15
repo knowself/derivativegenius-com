@@ -24,6 +24,8 @@ export default function CampaignsPage() {
   const [loading, setLoading] = useState(true);
   const [creating, setCreating] = useState(false);
   const [showModal, setShowModal] = useState(false);
+  const [statusFilter, setStatusFilter] = useState<'all' | 'active' | 'paused' | 'completed' | 'retired'>('all');
+  const [updatingId, setUpdatingId] = useState<string | null>(null);
 
   // Form State
   const [name, setName] = useState('');
@@ -49,6 +51,33 @@ export default function CampaignsPage() {
       setLoading(false);
     }
   };
+
+  const handleStatusChange = async (id: string, status: 'active' | 'paused' | 'completed' | 'retired') => {
+    if (status === 'retired' && !window.confirm('Retire this campaign? Its prospects leave the daily queue, but all history stays in reports as evidence.')) {
+      return;
+    }
+    setUpdatingId(id);
+    try {
+      const res = await fetch('/api/centurion/campaigns', {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id, status }),
+      });
+      const data = await res.json();
+      if (data.success) {
+        toast.success(`Campaign ${status}`);
+        fetchCampaigns();
+      } else {
+        toast.error(data.error || 'Failed to update campaign');
+      }
+    } catch {
+      toast.error('Network error updating campaign');
+    } finally {
+      setUpdatingId(null);
+    }
+  };
+
+  const visibleCampaigns = statusFilter === 'all' ? campaigns : campaigns.filter((c) => c.status === statusFilter);
 
   useEffect(() => {
     let cancelled = false;
@@ -120,12 +149,29 @@ export default function CampaignsPage() {
         </button>
       </div>
 
+      {/* Status filter */}
+      <div className="flex flex-wrap items-center gap-2">
+        {(['all', 'active', 'paused', 'completed', 'retired'] as const).map((s) => (
+          <button
+            key={s}
+            onClick={() => setStatusFilter(s)}
+            className={`px-3 py-1.5 rounded-lg text-xs font-medium capitalize transition ${
+              statusFilter === s
+                ? 'bg-emerald-600 text-white'
+                : 'bg-slate-900 border border-slate-800 text-slate-400 hover:text-slate-200'
+            }`}
+          >
+            {s}{s !== 'all' && ` (${campaigns.filter((c) => c.status === s).length})`}
+          </button>
+        ))}
+      </div>
+
       {/* Campaigns Grid */}
       {loading ? (
         <div className="flex items-center justify-center py-12 text-slate-500">
           <RefreshCw className="w-5 h-5 animate-spin mr-2" /> Loading campaigns...
         </div>
-      ) : campaigns.length === 0 ? (
+      ) : visibleCampaigns.length === 0 ? (
         <div className="bg-slate-900 border border-slate-800 rounded-xl p-12 text-center text-slate-400">
           <Target className="w-12 h-12 text-slate-600 mx-auto mb-3" />
           <h3 className="text-lg font-semibold text-white">No Campaigns Defined Yet</h3>
@@ -141,8 +187,15 @@ export default function CampaignsPage() {
         </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {campaigns.map(camp => {
+          {visibleCampaigns.map(camp => {
             const cities = camp.targetCities ? JSON.parse(camp.targetCities) : [];
+            const updating = updatingId === camp.id;
+            const statusActions: Array<{ label: string; target: 'active' | 'paused' | 'completed' | 'retired' }> =
+              camp.status === 'active'
+                ? [{ label: 'Pause', target: 'paused' }, { label: 'Complete', target: 'completed' }, { label: 'Retire', target: 'retired' }]
+                : camp.status === 'retired' || camp.status === 'completed' || camp.status === 'paused'
+                  ? [{ label: 'Reactivate', target: 'active' }, ...(camp.status === 'paused' ? [{ label: 'Retire', target: 'retired' } as const] : [])]
+                  : [{ label: 'Reactivate', target: 'active' }];
             return (
               <div key={camp.id} className="bg-slate-900 border border-slate-800 rounded-xl p-5 space-y-3">
                 <div className="flex items-start justify-between">
@@ -172,6 +225,25 @@ export default function CampaignsPage() {
                     <CheckCircle2 className="w-3.5 h-3.5 text-slate-500" />
                     <span>Min Google Reviews: {camp.minimumReviewCount}</span>
                   </div>
+                </div>
+
+                <div className="flex flex-wrap gap-2 pt-3 border-t border-slate-800">
+                  {statusActions.map((action) => (
+                    <button
+                      key={action.target}
+                      disabled={updating}
+                      onClick={() => handleStatusChange(camp.id, action.target)}
+                      className={`px-3 py-1.5 rounded-lg text-xs font-medium transition disabled:opacity-50 ${
+                        action.target === 'retired'
+                          ? 'bg-rose-500/10 text-rose-400 border border-rose-500/20 hover:bg-rose-500/20'
+                          : action.target === 'active'
+                            ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 hover:bg-emerald-500/20'
+                            : 'bg-slate-800 text-slate-300 border border-slate-700 hover:bg-slate-700'
+                      }`}
+                    >
+                      {updating ? 'Saving…' : action.label}
+                    </button>
+                  ))}
                 </div>
               </div>
             );

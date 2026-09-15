@@ -1,9 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@/db';
-import { prospects } from '@/db/schema';
+import { campaigns, prospects } from '@/db/schema';
 import { calculateProspectScore } from '@/lib/prospecting/scoring';
 import { findDuplicateProspect } from '@/lib/prospecting/dedup';
-import { desc, eq, and, ne, sql } from 'drizzle-orm';
+import { desc, eq, and, ne, or, isNull, notInArray, sql } from 'drizzle-orm';
 import { z } from 'zod';
 import { centurionAuthorizationResponse, requireCenturionAction } from '@/lib/auth/centurion';
 import { buildConfirmedScoringInput, sortQueueItems } from '@/lib/prospecting/workflow';
@@ -47,7 +47,16 @@ export async function GET(req: NextRequest) {
     if (campaignId) conditions.push(eq(prospects.campaignId, campaignId));
     if (status) conditions.push(eq(prospects.status, status));
     if (qualification) conditions.push(eq(prospects.qualificationStatus, qualification));
-    if (isQueue) conditions.push(ne(prospects.qualificationStatus, 'excluded'));
+    if (isQueue) {
+      conditions.push(ne(prospects.qualificationStatus, 'excluded'));
+      // Only active campaigns feed the daily queue. Paused, completed, and
+      // retired campaigns are evidence-only; unassigned prospects stay eligible.
+      const inactiveCampaignIds = db
+        .select({ id: campaigns.id })
+        .from(campaigns)
+        .where(ne(campaigns.status, 'active'));
+      conditions.push(or(isNull(prospects.campaignId), notInArray(prospects.campaignId, inactiveCampaignIds)));
+    }
     if (search) {
       conditions.push(sql`LOWER(${prospects.name}) LIKE ${'%' + search.toLowerCase() + '%'}`);
     }

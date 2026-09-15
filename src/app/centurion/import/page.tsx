@@ -54,6 +54,8 @@ export default function ImportPage() {
     return () => { cancelled = true; };
   }, []);
 
+  const sortedCampaigns = [...campaigns].sort((a, b) => Number(b.status === 'active') - Number(a.status === 'active'));
+
   const handleImport = async (event: React.FormEvent) => {
     event.preventDefault();
     const records = recordsFromCsv(csvText);
@@ -77,7 +79,7 @@ export default function ImportPage() {
     <form onSubmit={handleImport} className="bg-slate-900 border border-slate-800 rounded-xl p-6 space-y-4">
       <div><label className="block text-xs font-semibold text-slate-300 mb-2">Pilot campaign</label>
         <select value={campaignId} onChange={(event) => setCampaignId(event.target.value)} className="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-sm">
-          <option value="">Select a campaign</option>{campaigns.map((campaign) => <option key={campaign.id} value={campaign.id}>{campaign.name}</option>)}
+          <option value="">Select a campaign</option>{sortedCampaigns.map((campaign) => <option key={campaign.id} value={campaign.id} disabled={campaign.status === 'retired'}>{campaign.name}{campaign.status === 'active' ? '' : ` (${campaign.status})`}</option>)}
         </select>{campaigns.length === 0 && <p className="text-xs text-amber-300 mt-2">No campaigns yet. <Link href="/centurion/campaigns" className="underline">Create the 25-company pilot campaign.</Link></p>}
       </div>
       <div><label className="block text-xs font-semibold text-slate-300 mb-2">CSV with source evidence and commercial consequence</label>

@@ -4,8 +4,9 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
 
-export default function WorkSessionForm({ campaigns }: { campaigns: { id: string; name: string }[] }) {
-  const router = useRouter(); const [campaignId, setCampaignId] = useState(campaigns[0]?.id ?? ''); const [workType, setWorkType] = useState('outreach'); const [durationMinutes, setDurationMinutes] = useState('60'); const [notes, setNotes] = useState(''); const [saving, setSaving] = useState(false);
+export default function WorkSessionForm({ campaigns }: { campaigns: { id: string; name: string; status: string }[] }) {
+  const sorted = [...campaigns].sort((a, b) => Number(b.status === 'active') - Number(a.status === 'active'));
+  const router = useRouter(); const [campaignId, setCampaignId] = useState(sorted.find((c) => c.status === 'active')?.id ?? sorted[0]?.id ?? ''); const [workType, setWorkType] = useState('outreach'); const [durationMinutes, setDurationMinutes] = useState('60'); const [notes, setNotes] = useState(''); const [saving, setSaving] = useState(false);
   return <form onSubmit={async (event) => {
     event.preventDefault(); setSaving(true);
     try {
@@ -15,7 +16,7 @@ export default function WorkSessionForm({ campaigns }: { campaigns: { id: string
     } catch (error) { toast.error(error instanceof Error ? error.message : 'Unable to record work session'); }
     finally { setSaving(false); }
   }} className="grid md:grid-cols-[1fr_10rem_7rem_1fr_auto] gap-2">
-    <select value={campaignId} onChange={(event) => setCampaignId(event.target.value)} className="field"><option value="">Campaign</option>{campaigns.map((campaign) => <option key={campaign.id} value={campaign.id}>{campaign.name}</option>)}</select>
+    <select value={campaignId} onChange={(event) => setCampaignId(event.target.value)} className="field"><option value="">Campaign</option>{sorted.map((campaign) => <option key={campaign.id} value={campaign.id} disabled={campaign.status === 'retired'}>{campaign.name}{campaign.status === 'active' ? '' : ` (${campaign.status})`}</option>)}</select>
     <select value={workType} onChange={(event) => setWorkType(event.target.value)} className="field"><option>research</option><option>outreach</option><option>follow_up</option><option>audit</option><option>proposal</option></select>
     <input type="number" value={durationMinutes} onChange={(event) => setDurationMinutes(event.target.value)} className="field" min="1" />
     <input value={notes} onChange={(event) => setNotes(event.target.value)} placeholder="What was completed?" className="field" />

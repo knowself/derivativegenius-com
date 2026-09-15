@@ -23,3 +23,22 @@ Make `/centurion` the complete, secure system of record required to begin the DT
 - [ ] Role boundaries and administrative exports are enforced server-side.
 - [ ] Pilot metrics are calculated from real records.
 - [ ] No parallel spreadsheet is required.
+
+## Verification evidence — 2026-09-14 (machine-verified, disposable data)
+
+- `npm run lint`: 0 errors, 3 pre-existing `<img>` warnings.
+- `npx tsc --noEmit`: clean.
+- `npm test`: 43/43 pass across 9 suites.
+- `npm run build`: all routes compile, including 14 `/centurion` routes.
+- Live Neon `information_schema`: 11/11 workflow tables present
+  (`campaigns`, `prospects`, `contacts`, `audits`, `suppressions`,
+  `activities`, `opportunities`, `proposals`, `tasks`, `work_sessions`, `audit_logs`).
+- Disposable end-to-end run (13/13 checks, every test row deleted after —
+  zero leftover): campaign → scored prospect (score 75, priority) → contact →
+  call outcome → dated follow-up → due-first queue ordering → HMAC keyed
+  suppression (64-hex, no raw digits, deterministic) → approved audit →
+  opportunity → sent proposal → work session; every record retrieved back.
+- Unauthenticated denial on a live dev server: `/centurion` → 307 to Clerk
+  sign-in; `/api/centurion/campaigns` and `/api/centurion/export` → 401.
+- Remaining: Joe's signed-in UI walkthrough per `doc/the-first-priority.md`
+  §4 readiness test. DT-19 stays In review until that passes.
