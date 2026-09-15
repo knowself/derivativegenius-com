@@ -1,4 +1,4 @@
-# Centurion User Manual — the operating instrument for the mission
+# Derivative Genius User Manual — The operating instrument for the mission
 
 **App:** `/centurion` (private operator console, Derivative Genius)
 **Mission:** make local businesses **found, remembered, called** — via respectful, audit-led conversations, compounded city by city to $150M ARR.
