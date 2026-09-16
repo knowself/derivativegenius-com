@@ -3,7 +3,6 @@ import Link from "next/link";
 import { Cpu, ArrowRight, CheckCircle2, MessageSquareText, Search, Workflow, UserCheck, Phone, BookOpen, Video, Mic, Music, Tv } from "lucide-react";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
 import { Newsletter } from "@/components/Newsletter";
-import { BookQuoteRotator } from "@/components/BookQuoteRotator";
 import { EatYourOwnCooking } from "@/components/EatYourOwnCooking";
 import { DemosShowcase } from "@/components/DemosShowcase";
 import { getStewartQuotes } from "@/lib/stewart-quotes";
@@ -207,7 +206,13 @@ export default function HomePage() {
               <span className="mb-1.5 inline-flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.18em] text-emerald-400">
                 New · Free Book — Local Internet Presence
               </span>
-              <BookQuoteRotator quotes={stewartQuotes} />
+              {/* Static single quote — no auto-rotate per playbook. Full browser lives on /book. */}
+              <span className="block text-center text-base font-medium leading-relaxed text-slate-100 sm:text-lg">
+                &ldquo;{stewartQuotes[0].quote}&rdquo;
+              </span>
+              <span className="mt-1.5 block text-left text-xs font-semibold uppercase tracking-wider text-slate-400">
+                — Mike Stewart · Read the free playbook that powers our audits
+              </span>
             </span>
             <ArrowRight className="h-5 w-5 shrink-0 text-emerald-400 transition-transform group-hover:translate-x-1" />
           </Link>

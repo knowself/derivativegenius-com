@@ -5,17 +5,18 @@ import type { StewartQuote } from '@/lib/stewart-quotes';
 
 const ROTATE_MS = 15_000;
 
-export function BookQuoteRotator({ quotes }: { quotes: StewartQuote[] }) {
+export function BookQuoteRotator({ quotes, rotate = false }: { quotes: StewartQuote[]; rotate?: boolean }) {
   const [index, setIndex] = useState(0);
 
   useEffect(() => {
+    if (!rotate) return;
     if (quotes.length < 2) return;
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
     const timer = setInterval(() => {
       setIndex((current) => (current + 1) % quotes.length);
     }, ROTATE_MS);
     return () => clearInterval(timer);
-  }, [quotes.length]);
+  }, [quotes.length, rotate]);
 
   const current = quotes[index] ?? quotes[0];
 

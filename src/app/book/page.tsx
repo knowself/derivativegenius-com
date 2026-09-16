@@ -1,6 +1,8 @@
 import React from "react";
 import Link from "next/link";
 import { BookOpen, ArrowRight, ArrowLeft, CheckCircle2, AlertTriangle, Quote, Phone } from "lucide-react";
+import { BookQuoteRotator } from "@/components/BookQuoteRotator";
+import { getStewartQuotes } from "@/lib/stewart-quotes";
 
 export const metadata = {
   title: "Local Internet Presence — Free Book for Local Owners | Derivative Genius",
@@ -81,6 +83,7 @@ function ProofBox({ children }: { children: React.ReactNode }) {
 }
 
 export default function BookPage() {
+  const stewartQuotes = getStewartQuotes();
   return (
     <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 space-y-12">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(bookJsonLd) }} />
@@ -127,6 +130,11 @@ export default function BookPage() {
             <span>Request a Free Website Audit</span>
           </Link>
         </div>
+      </div>
+
+      {/* Full quote browser lives here — homepage shows one static quote only (no auto-rotate per playbook) */}
+      <div className="mx-auto max-w-4xl rounded-2xl border border-slate-800 bg-slate-900/80 p-6 text-left backdrop-blur-xl">
+        <BookQuoteRotator quotes={stewartQuotes} rotate />
       </div>
 
       <div className="grid grid-cols-1 gap-8 lg:grid-cols-[280px_1fr]">
