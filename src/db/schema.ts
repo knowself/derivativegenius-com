@@ -268,6 +268,57 @@ export const newsletterSubscribers = pgTable('newsletter_subscribers', {
   email: text('email').notNull().unique(),
   source: text('source').default('website_newsletter').notNull(),
   status: text('status').default('subscribed').notNull(), // 'subscribed' | 'unsubscribed'
+  unsubscribeToken: text('unsubscribe_token'),
+  confirmedAt: timestamp('confirmed_at', { withTimezone: true }),
   createdAt: timestamp('created_at', { withTimezone: true }).defaultNow().notNull(),
 });
+
+// -----------------------------------------------------------------------------
+// Content Posts (Blog, Podcast, Newsletter)
+// -----------------------------------------------------------------------------
+export const contentPosts = pgTable('content_posts', {
+  id: uuid('id').primaryKey().defaultRandom(),
+  slug: text('slug').notNull().unique(),
+  title: text('title').notNull(),
+  subtitle: text('subtitle'),
+  postType: text('post_type').notNull().default('article'), // 'article', 'podcast', 'newsletter', 'hybrid'
+  contentMarkdown: text('content_markdown').notNull(),
+  contentHtml: text('content_html'),
+  excerpt: text('excerpt'),
+  coverImageUrl: text('cover_image_url'),
+  audioUrl: text('audio_url'), // Vercel Blob MP3 URL
+  audioDurationSeconds: integer('audio_duration_seconds'),
+  audioSizeBytes: integer('audio_size_bytes'),
+  episodeNumber: integer('episode_number'),
+  seasonNumber: integer('season_number'),
+  authorName: text('author_name').notNull().default('Joe Terry'),
+  tags: text('tags'), // JSON string array, e.g. ["Local SEO", "AI Agents"]
+  isPublished: boolean('is_published').notNull().default(false),
+  publishedAt: timestamp('published_at', { withTimezone: true }),
+  newsletterSentAt: timestamp('newsletter_sent_at', { withTimezone: true }),
+  seoTitle: text('seo_title'),
+  seoDescription: text('seo_description'),
+  createdAt: timestamp('created_at', { withTimezone: true }).defaultNow().notNull(),
+  updatedAt: timestamp('updated_at', { withTimezone: true }).defaultNow().notNull(),
+}, (table) => [
+  index('content_posts_slug_idx').on(table.slug),
+  index('content_posts_published_idx').on(table.isPublished, table.publishedAt),
+  index('content_posts_type_idx').on(table.postType),
+]);
+
+// -----------------------------------------------------------------------------
+// Newsletter Broadcasts
+// -----------------------------------------------------------------------------
+export const newsletterBroadcasts = pgTable('newsletter_broadcasts', {
+  id: uuid('id').primaryKey().defaultRandom(),
+  postId: uuid('post_id').references(() => contentPosts.id),
+  subject: text('subject').notNull(),
+  recipientCount: integer('recipient_count').notNull().default(0),
+  status: text('status').notNull().default('sent'), // 'draft', 'sent', 'failed'
+  postmarkMessageIds: text('postmark_message_ids'), // JSON array string
+  sentAt: timestamp('sent_at', { withTimezone: true }).defaultNow().notNull(),
+  createdAt: timestamp('created_at', { withTimezone: true }).defaultNow().notNull(),
+}, (table) => [
+  index('newsletter_broadcasts_post_idx').on(table.postId),
+]);
 

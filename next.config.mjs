@@ -23,7 +23,13 @@ const nextConfig = {
 };
 
 // Allow next/image to load YouTube thumbnails used by `LazyYouTube`
-nextConfig.images = nextConfig.images || {};
-nextConfig.images.domains = Array.from(new Set([...(nextConfig.images.domains || []), "i.ytimg.com"]));
+nextConfig.images = {
+  remotePatterns: [
+    {
+      protocol: 'https',
+      hostname: 'i.ytimg.com',
+    },
+  ],
+};
 
 export default nextConfig;

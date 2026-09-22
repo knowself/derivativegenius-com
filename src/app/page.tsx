@@ -163,20 +163,31 @@ export default function HomePage() {
       {/* Hero Section */}
       <section className="relative mx-auto max-w-7xl px-4 text-center sm:px-6 lg:px-8">
         <h1 className="mt-6 text-balance font-extrabold leading-[1.08] tracking-tight text-white text-3xl sm:text-6xl lg:text-7xl">
-          The Right Website and Local Search <br className="hidden sm:block" />
+          Website + Blog + Podcasts <br className="hidden sm:block" />
           <span className="bg-gradient-to-r from-blue-400 via-indigo-400 to-emerald-400 bg-clip-text text-transparent">
             Makes Your Phone Ring
           </span>
         </h1>
 
         <p className="mx-auto mt-6 max-w-3xl text-lg text-slate-300 sm:text-xl leading-relaxed">
-          We replace bloated agency websites with blazing-fast, single-problem landing pages and automated local presence engines engineered to turn search traffic into booked service calls.
+          The easiest, fastest, and most affordable way to get your local business to the top of the Google search rankings, guaranteed!
         </p>
 
-        <h2 className="mt-6 text-xl font-semibold text-white">Need more calls for your service business?</h2>
-        <p className="mx-auto mt-2 max-w-2xl text-sm text-slate-300">
-          Call directly or request a zero-obligation 5-minute website and ad audit to see where you are leaking high-intent local customers.
-        </p>
+        <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
+          {["Website", "Blog", "Podcast"].map((item) => (
+            <span
+              key={item}
+              className="inline-flex items-center rounded-full border border-slate-700 bg-slate-800/80 px-4 py-1.5 text-sm font-semibold text-slate-200 backdrop-blur-sm"
+            >
+              <CheckCircle2 className="mr-1.5 h-4 w-4 text-emerald-400" />
+              {item}
+            </span>
+          ))}
+        </div>
+
+        <h2 className="mx-auto mt-6 max-w-2xl text-lg font-semibold text-white sm:text-xl">
+          &ldquo;Small businesses do not need new ideas, They need old ideas done right.&rdquo; &ndash; Joe Terry
+        </h2>
 
         <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
           <a
