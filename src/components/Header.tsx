@@ -8,6 +8,7 @@ import { LogIn, Menu, Phone, UserPlus, X } from "lucide-react";
 import { SignInButton, SignUpButton, Show, UserButton } from "@clerk/nextjs";
 import { CenturionIcon } from "@/components/CenturionIcon";
 import { ThemeToggle } from "@/components/ThemeToggle";
+import { Logo } from "@/components/Logo";
 
 export function Header() {
   const [isOpen, setIsOpen] = useState(false);
@@ -29,11 +30,7 @@ export function Header() {
         {/* 150% Bigger Logo */}
         <Link href="/" className="flex items-center group py-1">
           <div className="relative h-14 sm:h-16 md:h-20 w-auto flex items-center">
-            <Image
-              src="/images/logo.png"
-              alt="Derivative Genius Logo"
-              width={300}
-              height={162}
+            <Logo
               priority
               className="h-14 sm:h-16 md:h-20 w-auto object-contain transition-transform duration-200 group-hover:scale-105"
             />

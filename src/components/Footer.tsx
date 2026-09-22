@@ -1,8 +1,8 @@
 import React from "react";
 import Link from "next/link";
-import Image from "next/image";
 import { Terminal, Shield, Cpu } from "lucide-react";
 import { CenturionIcon } from "@/components/CenturionIcon";
+import { Logo } from "@/components/Logo";
 
 export function Footer() {
   return (
@@ -10,13 +10,11 @@ export function Footer() {
       <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 md:grid-cols-4">
           <div className="space-y-4 col-span-1 sm:col-span-2 md:col-span-1">
-            <Link href="/" className="inline-block">
-              <Image
-                src="/images/logo.png"
-                alt="Derivative Genius Logo"
+            <Link href="/" className="inline-block group">
+              <Logo
                 width={270}
                 height={146}
-                className="h-14 sm:h-16 w-auto object-contain rounded-md"
+                className="h-14 sm:h-16 w-auto object-contain rounded-md transition-transform duration-200 group-hover:scale-105"
               />
             </Link>
             <p className="text-sm text-slate-600 dark:text-slate-400 leading-relaxed">

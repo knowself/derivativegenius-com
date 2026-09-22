@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useMemo } from 'react';
-import { Quote, Search, ExternalLink, Copy, Check, Sparkles, BookMarked } from 'lucide-react';
+import { Quote, Search, Copy, Check, BookMarked, Filter } from 'lucide-react';
 import type { StewartQuote } from '@/lib/stewart-quotes';
 
 const TOPIC_METADATA: Record<string, { label: string; chapterRef: string; chapterId: string }> = {
@@ -60,77 +60,89 @@ export function BookQuotesIndex({ quotes }: { quotes: StewartQuote[] }) {
   };
 
   return (
-    <section id="quotes-index" className="scroll-mt-20 space-y-6 pt-4">
+    <section id="quotes-index" className="scroll-mt-24 space-y-6 pt-2">
       {/* Index Header */}
-      <div className="border-b-2 border-[#1a1a1a] pb-4">
+      <div className="border-b border-stone-200 dark:border-slate-800 pb-5 transition-colors duration-200">
         <div className="flex flex-wrap items-center justify-between gap-2">
-          <p className="font-mono text-xs uppercase tracking-[0.2em] text-[#0f766e]">
+          <p className="font-mono text-xs font-bold uppercase tracking-[0.2em] text-emerald-700 dark:text-emerald-400">
             Appendix C · Subject Index
           </p>
-          <span className="font-mono text-xs text-[#5b5b5b]">
+          <span className="font-mono text-xs text-amber-700 dark:text-amber-400/90 font-medium">
             {filteredQuotes.length} of {quotes.length} Axioms
           </span>
         </div>
-        <h2 className="mt-1 font-serif text-3xl font-bold tracking-tight text-[#1a1a1a] sm:text-4xl">
+        <h2 className="mt-1 font-serif text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight text-stone-900 dark:text-stone-100">
           The Stewart Index: Direct-Response Axioms
         </h2>
-        <p className="mt-2 font-serif text-sm italic text-[#5b5b5b] leading-relaxed">
+        <p className="mt-2 font-serif text-sm sm:text-base italic text-stone-600 dark:text-slate-400 leading-relaxed max-w-3xl">
           Alphabetical &amp; topical index of core principles from Mike Stewart&apos;s 35 years in broadcast audio, direct marketing, and local internet strategy.
         </p>
       </div>
 
-      {/* Search and Filters */}
-      <div className="space-y-3 rounded-xl border border-[#e7e0d0] bg-[#fbf9f4] p-4 sm:p-5">
+      {/* Search and Responsive Topic Filter Bar */}
+      <div className="space-y-3 rounded-xl sm:rounded-2xl border border-stone-200/90 bg-stone-100/60 p-4 sm:p-5 shadow-2xs dark:border-slate-800/90 dark:bg-slate-950/70 dark:shadow-inner transition-colors duration-200">
         <div className="relative">
-          <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-[#5b5b5b]" />
+          <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-stone-400 dark:text-slate-400 pointer-events-none" />
           <input
             type="text"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Search quotes by keyword (e.g. jingle, bounce, traffic, AI, VSL)..."
-            className="w-full rounded-lg border border-[#e7e0d0] bg-white pl-10 pr-4 py-2.5 text-sm text-[#1a1a1a] placeholder-[#5b5b5b]/70 focus:border-[#0f766e] focus:outline-none focus:ring-1 focus:ring-[#0f766e] transition"
+            className="w-full rounded-xl border border-stone-200 bg-white pl-10 pr-16 py-3 text-sm text-stone-900 placeholder:text-stone-400 focus:border-emerald-600 focus:outline-none focus:ring-2 focus:ring-emerald-600/20 dark:border-slate-800 dark:bg-slate-900/90 dark:text-stone-100 dark:placeholder:text-slate-500 dark:focus:border-emerald-500 dark:focus:ring-emerald-500/20 transition shadow-xs"
           />
           {search && (
             <button
               onClick={() => setSearch('')}
-              className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-[#5b5b5b] hover:text-[#1a1a1a]"
+              className="absolute right-3 top-1/2 -translate-y-1/2 rounded-md bg-stone-200 px-2 py-1 text-xs text-stone-700 hover:bg-stone-300 dark:bg-slate-800 dark:text-slate-300 dark:hover:text-white"
             >
               Clear
             </button>
           )}
         </div>
 
-        {/* Topic Pills */}
-        <div className="flex flex-wrap items-center gap-1.5 pt-1">
-          <button
-            onClick={() => setSelectedTopic('all')}
-            className={`rounded-full px-3 py-1 text-xs font-sans transition ${
-              selectedTopic === 'all'
-                ? 'bg-[#1a1a1a] text-white font-medium'
-                : 'border border-[#e7e0d0] bg-white text-[#5b5b5b] hover:border-[#1a1a1a] hover:text-[#1a1a1a]'
-            }`}
-          >
-            All Topics ({quotes.length})
-          </button>
-          {uniqueTopics.map((topic) => {
-            const meta = TOPIC_METADATA[topic];
-            const label = meta ? meta.label : topic;
-            const count = topicCounts[topic];
-            const isSelected = selectedTopic === topic;
-            return (
-              <button
-                key={topic}
-                onClick={() => setSelectedTopic(topic)}
-                className={`rounded-full px-2.5 py-1 text-xs font-sans transition ${
-                  isSelected
-                    ? 'bg-[#0f766e] text-white font-medium shadow-xs'
-                    : 'border border-[#e7e0d0] bg-white text-[#5b5b5b] hover:border-[#0f766e] hover:text-[#0f766e]'
-                }`}
-              >
-                {label} ({count})
-              </button>
-            );
-          })}
+        {/* Swipeable / Scrollable Topic Carousel for Mobile + Wrapped on Desktop */}
+        <div className="space-y-1.5">
+          <div className="flex items-center justify-between text-xs text-stone-500 dark:text-slate-400 px-0.5">
+            <span className="flex items-center gap-1 font-mono uppercase tracking-wider text-[11px] text-stone-600 dark:text-slate-400">
+              <Filter className="h-3 w-3 text-emerald-600 dark:text-emerald-400" />
+              <span>Filter by Topic:</span>
+            </span>
+            <span className="text-[11px] font-mono text-stone-400 dark:text-slate-500 sm:hidden">
+              Swipe left →
+            </span>
+          </div>
+
+          <div className="flex items-center gap-1.5 overflow-x-auto pb-1.5 pt-0.5 scrollbar-thin scrollbar-thumb-stone-300 dark:scrollbar-thumb-slate-800 scrollbar-track-transparent sm:flex-wrap">
+            <button
+              onClick={() => setSelectedTopic('all')}
+              className={`shrink-0 rounded-full px-3.5 py-1.5 text-xs font-sans font-medium transition active:scale-95 ${
+                selectedTopic === 'all'
+                  ? 'bg-stone-900 text-white font-bold shadow-xs dark:bg-emerald-500 dark:text-slate-950 dark:shadow-emerald-500/30'
+                  : 'border border-stone-200 bg-white text-stone-700 hover:border-stone-300 hover:text-stone-900 dark:border-slate-800 dark:bg-slate-900/80 dark:text-slate-300 dark:hover:border-slate-700 dark:hover:text-white'
+              }`}
+            >
+              All Topics ({quotes.length})
+            </button>
+            {uniqueTopics.map((topic) => {
+              const meta = TOPIC_METADATA[topic];
+              const label = meta ? meta.label : topic;
+              const count = topicCounts[topic];
+              const isSelected = selectedTopic === topic;
+              return (
+                <button
+                  key={topic}
+                  onClick={() => setSelectedTopic(topic)}
+                  className={`shrink-0 rounded-full px-3 py-1.5 text-xs font-sans transition active:scale-95 ${
+                    isSelected
+                      ? 'bg-emerald-600 text-white font-bold shadow-xs dark:bg-emerald-500 dark:text-slate-950 dark:shadow-emerald-500/30'
+                      : 'border border-stone-200 bg-white text-stone-600 hover:border-emerald-500/40 hover:text-emerald-700 dark:border-slate-800/90 dark:bg-slate-900/70 dark:text-slate-300 dark:hover:border-emerald-500/40 dark:hover:text-stone-100'
+                  }`}
+                >
+                  {label} ({count})
+                </button>
+              );
+            })}
+          </div>
         </div>
       </div>
 
@@ -147,43 +159,43 @@ export function BookQuotesIndex({ quotes }: { quotes: StewartQuote[] }) {
           return (
             <div
               key={idx}
-              className="group relative flex flex-col justify-between rounded-xl border border-[#e7e0d0] bg-white p-5 shadow-xs transition hover:border-[#0f766e]/40 hover:shadow-sm"
+              className="group relative flex flex-col justify-between rounded-xl sm:rounded-2xl border border-stone-200/90 bg-white p-5 sm:p-6 shadow-2xs transition-all hover:border-emerald-500/40 hover:shadow-md dark:border-slate-800/80 dark:bg-slate-900/80 dark:hover:bg-slate-900 dark:hover:shadow-lg"
             >
-              {/* Quote text */}
+              {/* Quote content */}
               <div>
                 <div className="flex items-start justify-between gap-3">
-                  <span className="inline-block rounded-md bg-[#f5f1e4] px-2.5 py-0.5 font-mono text-[11px] font-semibold text-[#0f766e] uppercase tracking-wider">
+                  <span className="inline-block rounded-md border border-amber-300/60 bg-amber-50 px-2.5 py-1 font-mono text-[11px] font-semibold text-amber-800 uppercase tracking-wider dark:border-amber-500/30 dark:bg-amber-500/10 dark:text-amber-300">
                     {meta.label}
                   </span>
                   <button
                     onClick={() => copyQuote(item.quote, idx)}
-                    className="text-[#5b5b5b] hover:text-[#0f766e] transition p-1"
+                    className="rounded-lg p-1.5 text-stone-400 hover:bg-stone-100 hover:text-emerald-700 dark:text-slate-400 dark:hover:bg-slate-800 dark:hover:text-emerald-400 active:scale-95 transition"
                     title="Copy quote"
                     aria-label="Copy quote to clipboard"
                   >
                     {isCopied ? (
-                      <Check className="h-3.5 w-3.5 text-emerald-600" />
+                      <Check className="h-4 w-4 text-emerald-600 dark:text-emerald-400" />
                     ) : (
-                      <Copy className="h-3.5 w-3.5" />
+                      <Copy className="h-4 w-4" />
                     )}
                   </button>
                 </div>
 
-                <blockquote className="mt-3 font-serif text-[15px] sm:text-base leading-relaxed text-[#1a1a1a]">
+                <blockquote className="mt-3 font-serif text-base sm:text-[17px] leading-relaxed text-stone-800 dark:text-stone-200">
                   &ldquo;{item.quote}&rdquo;
                 </blockquote>
               </div>
 
               {/* Attribution & Chapter Citation */}
-              <div className="mt-4 pt-3 border-t border-[#e7e0d0]/60 flex flex-wrap items-center justify-between text-xs text-[#5b5b5b] gap-2">
-                <span className="font-serif italic font-medium text-[#1a1a1a]">
+              <div className="mt-5 pt-3 border-t border-stone-200/80 dark:border-slate-800/70 flex flex-wrap items-center justify-between text-xs text-stone-500 dark:text-slate-400 gap-2">
+                <span className="font-serif italic font-medium text-stone-700 dark:text-stone-300">
                   — Mike Stewart
                 </span>
                 <a
                   href={`#${meta.chapterId}`}
-                  className="inline-flex items-center gap-1 font-sans text-xs font-semibold text-[#0f766e] hover:underline underline-offset-2"
+                  className="inline-flex items-center gap-1.5 font-sans text-xs font-semibold text-emerald-700 hover:text-emerald-800 dark:text-emerald-400 dark:hover:text-emerald-300 hover:underline underline-offset-4 transition"
                 >
-                  <BookMarked className="h-3 w-3" />
+                  <BookMarked className="h-3.5 w-3.5" />
                   <span>{meta.chapterRef}</span>
                 </a>
               </div>
@@ -193,8 +205,8 @@ export function BookQuotesIndex({ quotes }: { quotes: StewartQuote[] }) {
       </div>
 
       {filteredQuotes.length === 0 && (
-        <div className="rounded-xl border border-dashed border-[#e7e0d0] p-8 text-center">
-          <p className="font-serif text-[#5b5b5b]">
+        <div className="rounded-xl border border-dashed border-stone-200 bg-stone-50 p-8 text-center dark:border-slate-800 dark:bg-slate-900/40">
+          <p className="font-serif text-stone-500 dark:text-slate-400">
             No axioms matched your search &ldquo;{search}&rdquo;.
           </p>
           <button
@@ -202,7 +214,7 @@ export function BookQuotesIndex({ quotes }: { quotes: StewartQuote[] }) {
               setSearch('');
               setSelectedTopic('all');
             }}
-            className="mt-3 text-xs font-semibold text-[#0f766e] underline underline-offset-4"
+            className="mt-3 text-xs font-semibold text-emerald-700 hover:text-emerald-800 dark:text-emerald-400 dark:hover:text-emerald-300 underline underline-offset-4"
           >
             Reset search and filters
           </button>
