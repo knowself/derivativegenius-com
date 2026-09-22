@@ -3,6 +3,7 @@ import "@/styles/globals.css";
 import type { Metadata } from "next";
 import { Suspense } from "react";
 import { Inter } from "next/font/google";
+import { Analytics } from "@vercel/analytics/next";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { DynamicBackground } from "@/components/DynamicBackground";
@@ -30,7 +31,10 @@ export default function RootLayout({
           <DynamicBackground />
           <div className="relative z-10 flex min-h-screen flex-col justify-between pb-16 md:pb-0">
           <Header />
-          <main className="flex-1">{children}</main>
+          <main className="flex-1">
+            {children}
+            <Analytics />
+          </main>
           <Footer />
           <Suspense fallback={null}>
             <MobileBottomBar />
