@@ -32,23 +32,23 @@ export default async function BlogIndexPage() {
     <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 space-y-16">
       {/* Header */}
       <div className="text-center max-w-3xl mx-auto space-y-4">
-        <div className="inline-flex items-center space-x-2 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-4 py-1.5 text-xs font-bold uppercase tracking-wider text-emerald-400">
+        <div className="inline-flex items-center space-x-2 rounded-full border border-emerald-300 dark:border-emerald-500/30 bg-emerald-100 dark:bg-emerald-500/10 px-4 py-1.5 text-xs font-bold uppercase tracking-wider text-emerald-700 dark:text-emerald-400">
           <span>Insights · Podcasts · Playbooks</span>
         </div>
-        <h1 className="text-4xl font-extrabold tracking-tight text-white sm:text-5xl lg:text-6xl">
+        <h1 className="text-4xl font-extrabold tracking-tight text-slate-900 dark:text-white sm:text-5xl lg:text-6xl">
           Old Ideas Done Right.
         </h1>
-        <p className="text-lg text-slate-300 sm:text-xl leading-relaxed">
+        <p className="text-lg text-slate-600 dark:text-slate-300 sm:text-xl leading-relaxed">
           The tactical strategies, audio briefings, and field notes we use to get local service businesses to the top of Google and turn searches into booked calls.
         </p>
       </div>
 
       {/* Post Grid */}
       {posts.length === 0 ? (
-        <div className="rounded-2xl border border-slate-800 bg-slate-900/60 p-12 text-center backdrop-blur-md">
-          <BookOpen className="mx-auto h-12 w-12 text-slate-500" />
-          <h3 className="mt-4 text-xl font-bold text-white">First Editions Dropping Soon</h3>
-          <p className="mt-2 text-sm text-slate-400 max-w-md mx-auto">
+        <div className="rounded-2xl border border-slate-200 bg-white dark:border-slate-800 dark:bg-slate-900/60 p-12 text-center shadow-sm backdrop-blur-md">
+          <BookOpen className="mx-auto h-12 w-12 text-slate-400 dark:text-slate-500" />
+          <h3 className="mt-4 text-xl font-bold text-slate-900 dark:text-white">First Editions Dropping Soon</h3>
+          <p className="mt-2 text-sm text-slate-600 dark:text-slate-400 max-w-md mx-auto">
             We are recording our inaugural podcast episodes and publishing local search playbooks. Subscribe below to receive them in your inbox the moment they go live.
           </p>
         </div>
@@ -62,7 +62,7 @@ export default async function BlogIndexPage() {
             return (
               <article
                 key={post.id}
-                className="group flex flex-col justify-between rounded-2xl border border-slate-800 bg-slate-900/80 p-6 shadow-xl backdrop-blur-md transition-all hover:border-emerald-500/40 hover:bg-slate-900 hover:shadow-emerald-950/20"
+                className="group flex flex-col justify-between rounded-2xl border border-slate-200 bg-white dark:border-slate-800 dark:bg-slate-900/80 p-6 shadow-sm dark:shadow-xl backdrop-blur-md transition-all hover:border-emerald-400 dark:hover:border-emerald-500/40 dark:hover:bg-slate-900"
               >
                 <div className="space-y-4">
                   {/* Category / Type Badge */}
@@ -70,8 +70,8 @@ export default async function BlogIndexPage() {
                     <span
                       className={`inline-flex items-center space-x-1.5 rounded-full px-3 py-1 text-xs font-bold tracking-wide ${
                         isPodcast
-                          ? "border border-emerald-500/30 bg-emerald-500/10 text-emerald-400"
-                          : "border border-blue-500/30 bg-blue-500/10 text-blue-400"
+                          ? "border border-emerald-300 bg-emerald-100 text-emerald-700 dark:border-emerald-500/30 dark:bg-emerald-500/10 dark:text-emerald-400"
+                          : "border border-blue-200 bg-blue-100 text-blue-700 dark:border-blue-500/30 dark:bg-blue-500/10 dark:text-blue-400"
                       }`}
                     >
                       {isPodcast ? (
@@ -87,7 +87,7 @@ export default async function BlogIndexPage() {
                       )}
                     </span>
 
-                    <span className="flex items-center space-x-1 text-xs text-slate-400">
+                    <span className="flex items-center space-x-1 text-xs text-slate-500 dark:text-slate-400">
                       <Clock className="h-3.5 w-3.5" />
                       <span>{readingTime} min read</span>
                     </span>
@@ -95,17 +95,17 @@ export default async function BlogIndexPage() {
 
                   {/* Title & Excerpt */}
                   <div className="space-y-2">
-                    <h2 className="text-xl font-bold text-white transition-colors group-hover:text-emerald-400 line-clamp-2">
+                    <h2 className="text-xl font-bold text-slate-900 dark:text-white transition-colors group-hover:text-emerald-600 dark:group-hover:text-emerald-400 line-clamp-2">
                       <Link href={`/blog/${post.slug}`}>{post.title}</Link>
                     </h2>
-                    {post.excerpt && <p className="text-sm text-slate-300 line-clamp-3 leading-relaxed">{post.excerpt}</p>}
+                    {post.excerpt && <p className="text-sm text-slate-600 dark:text-slate-300 line-clamp-3 leading-relaxed">{post.excerpt}</p>}
                   </div>
 
                   {/* Tags */}
                   {tags.length > 0 && (
                     <div className="flex flex-wrap gap-1.5 pt-2">
                       {tags.slice(0, 3).map((tag: string) => (
-                        <span key={tag} className="rounded-md bg-slate-800/80 px-2 py-0.5 text-[11px] font-medium text-slate-300">
+                        <span key={tag} className="rounded-md bg-slate-100 dark:bg-slate-800/80 px-2 py-0.5 text-[11px] font-medium text-slate-700 dark:text-slate-300">
                           #{tag}
                         </span>
                       ))}
@@ -114,7 +114,7 @@ export default async function BlogIndexPage() {
                 </div>
 
                 {/* Footer Meta */}
-                <div className="mt-6 flex items-center justify-between border-t border-slate-800/80 pt-4 text-xs text-slate-400">
+                <div className="mt-6 flex items-center justify-between border-t border-slate-100 dark:border-slate-800/80 pt-4 text-xs text-slate-500 dark:text-slate-400">
                   <div className="flex items-center space-x-1.5">
                     <Calendar className="h-3.5 w-3.5" />
                     <span>
@@ -130,7 +130,7 @@ export default async function BlogIndexPage() {
 
                   <Link
                     href={`/blog/${post.slug}`}
-                    className="inline-flex items-center space-x-1 font-semibold text-emerald-400 transition-transform group-hover:translate-x-1"
+                    className="inline-flex items-center space-x-1 font-semibold text-emerald-600 dark:text-emerald-400 transition-transform group-hover:translate-x-1"
                   >
                     <span>{isPodcast ? "Listen" : "Read"}</span>
                     <ArrowRight className="h-3.5 w-3.5" />

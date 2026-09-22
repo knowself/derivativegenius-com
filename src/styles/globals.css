@@ -4,6 +4,40 @@
 
 @layer base {
   :root {
+    --background: 0 0% 100%;
+    --foreground: 222.2 84% 4.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 84% 4.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 84% 4.9%;
+    --primary: 217.2 91.2% 59.8%;
+    --primary-foreground: 210 40% 98%;
+    --secondary: 210 40% 96.1%;
+    --secondary-foreground: 222.2 47.4% 11.2%;
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+    --accent: 210 40% 96.1%;
+    --accent-foreground: 222.2 47.4% 11.2%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 221.2 83.2% 53.3%;
+    --radius: 0.75rem;
+
+    /* Mobile-First Fluid Typography Scale (responsive-dev.md) */
+    --font-size-sm: clamp(0.875rem, 0.8rem + 0.375vw, 1rem);        /* 14px -> 16px */
+    --font-size-base: clamp(1rem, 0.92rem + 0.4vw, 1.125rem);       /* 16px -> 18px */
+    --font-size-lg: clamp(1.25rem, 1.1rem + 0.75vw, 1.5rem);        /* 20px -> 24px */
+    --font-size-xl: clamp(1.75rem, 1.4rem + 1.75vw, 2.5rem);        /* 28px -> 40px */
+    --font-size-display: clamp(2.25rem, 1.5rem + 3.75vw, 4.5rem);    /* 36px -> 72px */
+
+    /* Fluid Spacing Scale */
+    --space-gutter: clamp(1rem, 4vw, 3rem);
+    --space-card-padding: clamp(1rem, 3vw, 2rem);
+  }
+
+  .dark {
     --background: 224 71% 4%;
     --foreground: 210 40% 98%;
     --card: 224 71% 7%;
@@ -23,18 +57,6 @@
     --border: 217.2 32.6% 17.5%;
     --input: 217.2 32.6% 17.5%;
     --ring: 224.3 76.3% 48%;
-    --radius: 0.75rem;
-
-    /* Mobile-First Fluid Typography Scale (responsive-dev.md) */
-    --font-size-sm: clamp(0.875rem, 0.8rem + 0.375vw, 1rem);        /* 14px -> 16px */
-    --font-size-base: clamp(1rem, 0.92rem + 0.4vw, 1.125rem);       /* 16px -> 18px */
-    --font-size-lg: clamp(1.25rem, 1.1rem + 0.75vw, 1.5rem);        /* 20px -> 24px */
-    --font-size-xl: clamp(1.75rem, 1.4rem + 1.75vw, 2.5rem);        /* 28px -> 40px */
-    --font-size-display: clamp(2.25rem, 1.5rem + 3.75vw, 4.5rem);    /* 36px -> 72px */
-
-    /* Fluid Spacing Scale */
-    --space-gutter: clamp(1rem, 4vw, 3rem);
-    --space-card-padding: clamp(1rem, 3vw, 2rem);
   }
 }
 

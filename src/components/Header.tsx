@@ -7,7 +7,7 @@ import { usePathname } from "next/navigation";
 import { LogIn, Menu, Phone, UserPlus, X } from "lucide-react";
 import { SignInButton, SignUpButton, Show, UserButton } from "@clerk/nextjs";
 import { CenturionIcon } from "@/components/CenturionIcon";
-
+import { ThemeToggle } from "@/components/ThemeToggle";
 
 export function Header() {
   const [isOpen, setIsOpen] = useState(false);
@@ -24,7 +24,7 @@ export function Header() {
   ];
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-slate-800/80 bg-slate-950/85 backdrop-blur-xl transition-all">
+    <header className="sticky top-0 z-50 w-full border-b border-slate-200/80 bg-white/85 dark:border-slate-800/80 dark:bg-slate-950/85 backdrop-blur-xl transition-all">
       <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 sm:px-6 lg:px-8">
         {/* 150% Bigger Logo */}
         <Link href="/" className="flex items-center group py-1">
@@ -41,15 +41,15 @@ export function Header() {
         </Link>
 
         {/* Desktop Nav */}
-        <nav className="hidden items-center space-x-5 lg:space-x-6 md:flex">
+        <nav className="hidden items-center space-x-4 lg:space-x-5 md:flex">
           {navLinks.map((link) => {
             const isActive = pathname === link.href;
             return (
               <Link
                 key={link.href}
                 href={link.href}
-                className={`text-sm sm:text-base font-medium transition-colors hover:text-blue-400 ${
-                  isActive ? "text-blue-400 font-semibold" : "text-slate-300"
+                className={`text-sm sm:text-base font-medium transition-colors hover:text-blue-600 dark:hover:text-blue-400 ${
+                  isActive ? "text-blue-600 dark:text-blue-400 font-semibold" : "text-slate-600 dark:text-slate-300"
                 }`}
               >
                 {link.label}
@@ -61,11 +61,14 @@ export function Header() {
           <a
             href="tel:+13103799822"
             title="Call Joe Terry directly"
-            className="inline-flex items-center space-x-1.5 rounded-xl bg-emerald-500/10 border border-emerald-500/30 px-3.5 py-2 text-sm font-semibold text-emerald-400 hover:bg-emerald-500/20 hover:border-emerald-500/50 transition-all shadow-sm"
+            className="inline-flex items-center space-x-1.5 rounded-xl bg-emerald-500/10 border border-emerald-500/30 px-3.5 py-2 text-sm font-semibold text-emerald-600 dark:text-emerald-400 hover:bg-emerald-500/20 hover:border-emerald-500/50 transition-all shadow-sm"
           >
             <Phone className="h-4 w-4" />
             <span>(310) 379-9822</span>
           </a>
+
+          {/* Sun/Moon Theme Toggle */}
+          <ThemeToggle />
 
           <Show when="signed-out">
             <SignInButton mode="modal">
@@ -73,7 +76,7 @@ export function Header() {
                 type="button"
                 title="Sign in"
                 aria-label="Sign in"
-                className="inline-flex min-h-[44px] min-w-[44px] items-center justify-center rounded-xl border border-transparent text-slate-300 transition-all hover:border-slate-700 hover:bg-slate-900 hover:text-blue-400"
+                className="inline-flex min-h-[40px] min-w-[40px] items-center justify-center rounded-xl border border-transparent text-slate-600 dark:text-slate-300 transition-all hover:border-slate-300 dark:hover:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-900 hover:text-blue-600 dark:hover:text-blue-400"
               >
                 <LogIn className="h-5 w-5" aria-hidden="true" />
               </button>
@@ -83,7 +86,7 @@ export function Header() {
                 type="button"
                 title="Sign up"
                 aria-label="Sign up"
-                className="inline-flex min-h-[44px] min-w-[44px] items-center justify-center rounded-xl border border-slate-700 bg-slate-900/90 text-slate-200 transition-all hover:border-slate-600 hover:bg-slate-800 hover:text-blue-400"
+                className="inline-flex min-h-[40px] min-w-[40px] items-center justify-center rounded-xl border border-slate-300 dark:border-slate-700 bg-slate-100 dark:bg-slate-900/90 text-slate-700 dark:text-slate-200 transition-all hover:border-slate-400 dark:hover:border-slate-600 hover:bg-slate-200 dark:hover:bg-slate-800 hover:text-blue-600 dark:hover:text-blue-400"
               >
                 <UserPlus className="h-5 w-5" aria-hidden="true" />
               </button>
@@ -98,32 +101,35 @@ export function Header() {
             href="/centurion"
             title="Centurion Operator Console"
             aria-label="Centurion Operator Console"
-            className="p-2 rounded-xl text-slate-400 hover:text-emerald-400 hover:bg-slate-900 transition-all border border-transparent hover:border-emerald-500/20 shrink-0"
+            className="p-2 rounded-xl text-slate-500 dark:text-slate-400 hover:text-emerald-600 dark:hover:text-emerald-400 hover:bg-slate-100 dark:hover:bg-slate-900 transition-all border border-transparent hover:border-emerald-500/20 shrink-0"
           >
             <CenturionIcon className="h-6 w-6" />
           </Link>
         </nav>
 
-        {/* Mobile Hamburger Button */}
-        <button
-          onClick={() => setIsOpen(!isOpen)}
-          className="min-h-[48px] min-w-[48px] inline-flex items-center justify-center rounded-xl p-2.5 text-slate-400 hover:bg-slate-800 hover:text-slate-100 active:scale-95 transition-all md:hidden"
-          aria-label="Toggle menu"
-        >
-          {isOpen ? <X className="h-7 w-7" /> : <Menu className="h-7 w-7" />}
-        </button>
+        {/* Mobile Header Actions (Theme Toggle + Hamburger) */}
+        <div className="flex items-center space-x-2 md:hidden">
+          <ThemeToggle />
+          <button
+            onClick={() => setIsOpen(!isOpen)}
+            className="min-h-[48px] min-w-[48px] inline-flex items-center justify-center rounded-xl p-2.5 text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-slate-100 active:scale-95 transition-all"
+            aria-label="Toggle menu"
+          >
+            {isOpen ? <X className="h-7 w-7" /> : <Menu className="h-7 w-7" />}
+          </button>
+        </div>
       </div>
 
       {/* Mobile Nav Dropdown */}
       {isOpen && (
-        <div className="border-b border-slate-800 bg-slate-950/95 px-4 pb-6 pt-3 md:hidden backdrop-blur-2xl">
+        <div className="border-b border-slate-200 dark:border-slate-800 bg-white/95 dark:bg-slate-950/95 px-4 pb-6 pt-3 md:hidden backdrop-blur-2xl">
           <nav className="flex flex-col space-y-2">
             {navLinks.map((link) => (
               <Link
                 key={link.href}
                 href={link.href}
                 onClick={() => setIsOpen(false)}
-                className="flex items-center min-h-[48px] text-lg font-medium text-slate-200 hover:text-blue-400 active:bg-slate-900/60 px-3 rounded-xl transition-all"
+                className="flex items-center min-h-[48px] text-lg font-medium text-slate-700 dark:text-slate-200 hover:text-blue-600 dark:hover:text-blue-400 active:bg-slate-100 dark:active:bg-slate-900/60 px-3 rounded-xl transition-all"
               >
                 {link.label}
               </Link>
@@ -132,7 +138,7 @@ export function Header() {
             <a
               href="tel:+13103799822"
               onClick={() => setIsOpen(false)}
-              className="flex items-center space-x-2 min-h-[48px] px-3 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 font-semibold"
+              className="flex items-center space-x-2 min-h-[48px] px-3 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-600 dark:text-emerald-400 font-semibold"
             >
               <Phone className="h-5 w-5" />
               <span>Call: (310) 379-9822</span>
@@ -143,11 +149,11 @@ export function Header() {
               onClick={() => setIsOpen(false)}
               title="Centurion Operator Console"
               aria-label="Centurion Operator Console"
-              className="flex items-center min-h-[48px] px-3 text-emerald-400 hover:text-emerald-300 transition-all"
+              className="flex items-center min-h-[48px] px-3 text-emerald-600 dark:text-emerald-400 hover:text-emerald-500 dark:hover:text-emerald-300 transition-all"
             >
               <CenturionIcon className="h-7 w-7" />
+              <span className="ml-2 font-medium">Centurion Operator Console</span>
             </Link>
-
 
             <Show when="signed-out">
               <div className="flex items-center space-x-3 pt-2">
@@ -157,7 +163,7 @@ export function Header() {
                     onClick={() => setIsOpen(false)}
                     title="Sign in"
                     aria-label="Sign in"
-                    className="inline-flex min-h-[48px] min-w-[48px] items-center justify-center rounded-xl border border-slate-700 bg-slate-900 text-slate-200 transition-colors hover:border-slate-600 hover:text-blue-400"
+                    className="inline-flex min-h-[48px] min-w-[48px] items-center justify-center rounded-xl border border-slate-300 dark:border-slate-700 bg-slate-100 dark:bg-slate-900 text-slate-700 dark:text-slate-200 transition-colors hover:border-slate-400 dark:hover:border-slate-600 hover:text-blue-600 dark:hover:text-blue-400"
                   >
                     <LogIn className="h-6 w-6" aria-hidden="true" />
                   </button>
@@ -178,7 +184,7 @@ export function Header() {
             <Show when="signed-in">
               <div className="flex items-center space-x-3 py-3 px-3">
                 <UserButton />
-                <span className="text-base font-medium text-slate-200">Account</span>
+                <span className="text-base font-medium text-slate-700 dark:text-slate-200">Account</span>
               </div>
             </Show>
           </nav>

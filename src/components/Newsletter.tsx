@@ -45,36 +45,35 @@ export function Newsletter() {
     }
   };
 
-
   return (
-    <div className="rounded-2xl border border-blue-500/30 bg-gradient-to-r from-slate-900/90 via-blue-950/80 to-slate-900/90 p-8 sm:p-10 shadow-2xl backdrop-blur-xl">
+    <div className="rounded-2xl border border-blue-200 dark:border-blue-500/30 bg-gradient-to-r from-blue-50/90 via-indigo-50/80 to-blue-50/90 dark:from-slate-900/90 dark:via-blue-950/80 dark:to-slate-900/90 p-8 sm:p-10 shadow-lg backdrop-blur-xl">
       <div className="flex flex-col md:flex-row items-center justify-between gap-6">
         <div className="space-y-2 max-w-xl text-center sm:text-left">
-          <div className="flex items-center justify-center sm:justify-start space-x-2 text-blue-400">
+          <div className="flex items-center justify-center sm:justify-start space-x-2 text-blue-600 dark:text-blue-400">
             <Mail className="h-5 w-5" />
             <span className="text-xs font-semibold uppercase tracking-wider">
               Derivative Insights Newsletter
             </span>
           </div>
-          <h3 className="text-2xl font-bold text-white">Join Our Occasional Newsletter</h3>
-          <p className="text-sm text-slate-300">
+          <h3 className="text-2xl font-bold text-slate-900 dark:text-white">Join Our Occasional Newsletter</h3>
+          <p className="text-sm text-slate-600 dark:text-slate-300">
             Occasional notes on websites that ring phones: before/after teardowns, booking-flow fixes, and local search wins.
           </p>
-          <div className="flex items-center justify-center sm:justify-start space-x-1.5 text-xs text-slate-400">
-            <ShieldCheck className="h-4 w-4 text-emerald-400" />
+          <div className="flex items-center justify-center sm:justify-start space-x-1.5 text-xs text-slate-500 dark:text-slate-400">
+            <ShieldCheck className="h-4 w-4 text-emerald-600 dark:text-emerald-400" />
             <span>Occasional emails. Unsubscribe anytime.</span>
           </div>
         </div>
 
         <div className="w-full md:w-auto min-w-[300px]" suppressHydrationWarning>
           {subscribed ? (
-            <div className="flex items-center space-x-2 rounded-xl bg-emerald-500/10 border border-emerald-500/30 p-4 text-emerald-400 text-sm font-semibold">
+            <div className="flex items-center space-x-2 rounded-xl bg-emerald-500/10 border border-emerald-500/30 p-4 text-emerald-600 dark:text-emerald-400 text-sm font-semibold">
               <CheckCircle2 className="h-5 w-5 shrink-0" />
               <span>You are subscribed! Thank you.</span>
             </div>
           ) : !mounted ? (
             <div className="flex flex-col sm:flex-row gap-2">
-              <div className="h-10 w-full rounded-lg bg-slate-950/80 border border-slate-700 animate-pulse" />
+              <div className="h-10 w-full rounded-lg bg-slate-200 dark:bg-slate-950/80 border border-slate-300 dark:border-slate-700 animate-pulse" />
               <div className="h-10 w-28 rounded-lg bg-blue-600/80 animate-pulse shrink-0" />
             </div>
           ) : (
@@ -90,13 +89,13 @@ export function Newsletter() {
                 data-1p-ignore="true"
                 data-bwignore="true"
                 suppressHydrationWarning
-                className="bg-slate-950/80 border-slate-700 text-white placeholder:text-slate-500"
+                className="bg-white dark:bg-slate-950/80 border-slate-300 dark:border-slate-700 text-slate-900 dark:text-white placeholder:text-slate-500"
               />
               <button
                 type="submit"
                 disabled={loading}
                 suppressHydrationWarning
-                className="inline-flex items-center justify-center space-x-2 rounded-lg bg-blue-600 px-5 py-2.5 text-sm font-semibold text-white hover:bg-blue-500 transition-all shrink-0"
+                className="inline-flex items-center justify-center space-x-2 rounded-lg bg-blue-600 px-5 py-2.5 text-sm font-semibold text-white hover:bg-blue-500 transition-all shrink-0 active:scale-95"
               >
                 <span>Subscribe</span>
               </button>

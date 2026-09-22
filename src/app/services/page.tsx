@@ -58,25 +58,25 @@ export default function ServicesPage() {
   return (
     <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 space-y-16">
       <div className="mx-auto max-w-4xl space-y-6 text-center">
-        <div className="mx-auto inline-flex items-center rounded-full border border-blue-500/30 bg-blue-500/10 px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.2em] text-blue-400">
+        <div className="mx-auto inline-flex items-center rounded-full border border-blue-200 bg-blue-100 dark:border-blue-500/30 dark:bg-blue-500/10 px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.2em] text-blue-700 dark:text-blue-400">
           Web Systems That Save Time
         </div>
-        <h1 className="text-4xl font-extrabold tracking-tight text-white sm:text-5xl">
+        <h1 className="text-4xl font-extrabold tracking-tight text-slate-900 dark:text-white sm:text-5xl">
           Build the systems that save time and win more business.
         </h1>
-        <p className="text-lg text-slate-300">
+        <p className="text-lg text-slate-600 dark:text-slate-300">
           Most businesses do not need more ideas. They need clearer systems, smoother operations, and a website that turns interest into action.
         </p>
         <div className="flex flex-col items-center justify-center gap-3 sm:flex-row">
           <Link
             href="/services/websites"
-            className="inline-flex items-center justify-center gap-2 rounded-xl bg-emerald-600 px-5 py-3 text-sm font-semibold text-white shadow-lg hover:bg-emerald-500 transition"
+            className="inline-flex items-center justify-center gap-2 rounded-xl bg-emerald-600 px-5 py-3 text-sm font-semibold text-white shadow-lg hover:bg-emerald-500 transition active:scale-95"
           >
             <Globe className="w-4 h-4" /> View Fixed-Scope Website Packages ($2k–$5k)
           </Link>
           <Link
             href="/contact"
-            className="inline-flex items-center justify-center rounded-xl bg-blue-600 px-5 py-3 text-sm font-semibold text-white shadow-lg hover:bg-blue-500 transition"
+            className="inline-flex items-center justify-center rounded-xl bg-blue-600 px-5 py-3 text-sm font-semibold text-white shadow-lg hover:bg-blue-500 transition active:scale-95"
           >
             Start Your Project
           </Link>
@@ -84,19 +84,19 @@ export default function ServicesPage() {
       </div>
 
       {/* Featured Website Engagements Callout Banner */}
-      <div className="rounded-2xl border border-emerald-500/30 bg-gradient-to-r from-emerald-950/40 via-slate-900 to-slate-950 p-6 sm:p-8 flex flex-col md:flex-row items-center justify-between gap-6 shadow-xl">
+      <div className="rounded-2xl border border-emerald-300 dark:border-emerald-500/30 bg-gradient-to-r from-emerald-50/90 via-slate-50 to-white dark:from-emerald-950/40 dark:via-slate-900 dark:to-slate-950 p-6 sm:p-8 flex flex-col md:flex-row items-center justify-between gap-6 shadow-lg">
         <div className="space-y-2 max-w-2xl">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 text-emerald-400 text-xs font-bold uppercase tracking-wider border border-emerald-500/20">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-100 text-emerald-700 dark:bg-emerald-500/10 dark:text-emerald-400 text-xs font-bold uppercase tracking-wider border border-emerald-300 dark:border-emerald-500/20">
             <Globe className="w-3.5 h-3.5" /> Featured Service
           </div>
-          <h2 className="text-2xl font-bold text-white">Fixed-Scope Website Packages ($2,000 – $5,000)</h2>
-          <p className="text-sm text-slate-300">
+          <h2 className="text-2xl font-bold text-slate-900 dark:text-white">Fixed-Scope Website Packages ($2,000 – $5,000)</h2>
+          <p className="text-sm text-slate-600 dark:text-slate-300">
             Engineered specifically for established businesses (HVAC, Roofing, Plumbing, Legal, Medical) where 1 or 2 new clients justify the entire investment. Delivered in 2–3 weeks.
           </p>
         </div>
         <Link
           href="/services/websites"
-          className="inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-semibold text-sm transition shadow-lg shrink-0"
+          className="inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-semibold text-sm transition shadow-lg shrink-0 active:scale-95"
         >
           Explore Website Packages <ArrowRight className="w-4 h-4" />
         </Link>
@@ -108,37 +108,37 @@ export default function ServicesPage() {
           return (
             <Card key={idx} className="flex flex-col justify-between">
               <CardHeader>
-                <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-blue-600/20 text-blue-400 border border-blue-500/30">
+                <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-blue-100 text-blue-600 dark:bg-blue-600/20 dark:text-blue-400 border border-blue-200 dark:border-blue-500/30">
                   <IconComp className="h-6 w-6" />
                 </div>
                 <CardTitle className="mt-4 text-2xl">{pkg.title}</CardTitle>
               </CardHeader>
               <CardContent className="space-y-5">
-                <div className="space-y-3 text-sm text-slate-300">
+                <div className="space-y-3 text-sm text-slate-600 dark:text-slate-300">
                   <div>
-                    <div className="mb-1 text-[10px] font-semibold uppercase tracking-[0.2em] text-slate-400">Problem</div>
+                    <div className="mb-1 text-[10px] font-semibold uppercase tracking-[0.2em] text-slate-500 dark:text-slate-400">Problem</div>
                     <p>{pkg.problem}</p>
                   </div>
                   <div>
-                    <div className="mb-1 text-[10px] font-semibold uppercase tracking-[0.2em] text-slate-400">Solution</div>
+                    <div className="mb-1 text-[10px] font-semibold uppercase tracking-[0.2em] text-slate-500 dark:text-slate-400">Solution</div>
                     <p>{pkg.solution}</p>
                   </div>
                   <div>
-                    <div className="mb-1 text-[10px] font-semibold uppercase tracking-[0.2em] text-slate-400">Outcome</div>
+                    <div className="mb-1 text-[10px] font-semibold uppercase tracking-[0.2em] text-slate-500 dark:text-slate-400">Outcome</div>
                     <p>{pkg.outcome}</p>
                   </div>
                 </div>
-                <ul className="space-y-2 text-sm text-slate-300">
+                <ul className="space-y-2 text-sm text-slate-700 dark:text-slate-300">
                   {pkg.features.map((feat, fIdx) => (
                     <li key={fIdx} className="flex items-start space-x-2">
-                      <CheckCircle className="h-4 w-4 text-emerald-400 shrink-0 mt-0.5" />
+                      <CheckCircle className="h-4 w-4 text-emerald-600 dark:text-emerald-400 shrink-0 mt-0.5" />
                       <span>{feat}</span>
                     </li>
                   ))}
                 </ul>
                 <Link
                   href="/contact"
-                  className="inline-flex w-full items-center justify-center space-x-2 rounded-xl bg-blue-600 py-3 text-sm font-semibold text-white shadow-md hover:bg-blue-500"
+                  className="inline-flex w-full items-center justify-center space-x-2 rounded-xl bg-blue-600 py-3 text-sm font-semibold text-white shadow-md hover:bg-blue-500 transition active:scale-95"
                 >
                   <span>Request a Proposal</span>
                   <ArrowRight className="h-4 w-4" />
@@ -149,15 +149,15 @@ export default function ServicesPage() {
         })}
       </div>
 
-      <div className="rounded-2xl border border-blue-500/20 bg-gradient-to-r from-blue-950/60 to-slate-950/80 p-8 text-center">
-        <h2 className="text-3xl font-bold text-white">Need a better system, not more busywork?</h2>
-        <p className="mt-3 text-slate-300">
+      <div className="rounded-2xl border border-blue-200 dark:border-blue-500/20 bg-gradient-to-r from-blue-50/90 to-indigo-50/90 dark:from-blue-950/60 dark:to-slate-950/80 p-8 text-center shadow-md">
+        <h2 className="text-3xl font-bold text-slate-900 dark:text-white">Need a better system, not more busywork?</h2>
+        <p className="mt-3 text-slate-600 dark:text-slate-300 max-w-2xl mx-auto">
           We help teams replace friction with automation, clarity, and digital experiences that actually drive results.
         </p>
         <div className="mt-6 flex justify-center">
           <Link
             href="/contact"
-            className="inline-flex items-center justify-center rounded-xl bg-white px-5 py-3 text-sm font-semibold text-slate-900 hover:bg-slate-100"
+            className="inline-flex items-center justify-center rounded-xl bg-blue-600 text-white hover:bg-blue-500 dark:bg-white dark:text-slate-900 dark:hover:bg-slate-100 px-6 py-3 text-sm font-semibold transition shadow-sm active:scale-95"
           >
             Book a Discovery Call
           </Link>

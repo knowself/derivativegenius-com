@@ -55,37 +55,37 @@ export default function ContactPage() {
   return (
     <div className="mx-auto max-w-4xl px-4 py-16 sm:px-6 lg:px-8 space-y-12">
       <div className="text-center space-y-4">
-        <div className="mx-auto inline-flex items-center space-x-2 rounded-full border border-blue-500/30 bg-blue-500/10 px-4 py-1.5 text-xs font-semibold text-blue-400">
+        <div className="mx-auto inline-flex items-center space-x-2 rounded-full border border-blue-200 bg-blue-100 dark:border-blue-500/30 dark:bg-blue-500/10 px-4 py-1.5 text-xs font-semibold text-blue-700 dark:text-blue-400">
           <Sparkles className="h-3.5 w-3.5" />
-          <span>Project Scoping & Intake</span>
+          <span>Project Scoping &amp; Intake</span>
         </div>
-        <h1 className="text-4xl font-extrabold tracking-tight text-white sm:text-5xl">
+        <h1 className="text-4xl font-extrabold tracking-tight text-slate-900 dark:text-white sm:text-5xl">
           Scope Your Web Project
         </h1>
-        <p className="text-slate-300 max-w-xl mx-auto">
+        <p className="text-slate-600 dark:text-slate-300 max-w-xl mx-auto">
           Tell us what you want to improve, automate, or build. We will turn it into a practical plan and a scoped proposal that fits your business goals.
         </p>
       </div>
 
       <div className="grid gap-4 md:grid-cols-3">
-        <div className="rounded-2xl border border-slate-800 bg-slate-900/70 p-5">
-          <div className="text-xs font-semibold uppercase tracking-[0.18em] text-blue-400">01</div>
-          <h2 className="mt-3 text-lg font-semibold text-white">Discovery</h2>
-          <p className="mt-2 text-sm text-slate-300">We learn how leads, customers, and daily operations actually work in your business.</p>
+        <div className="rounded-2xl border border-slate-200 bg-white dark:border-slate-800 dark:bg-slate-900/70 p-5 shadow-xs">
+          <div className="text-xs font-semibold uppercase tracking-[0.18em] text-blue-600 dark:text-blue-400">01</div>
+          <h2 className="mt-3 text-lg font-semibold text-slate-900 dark:text-white">Discovery</h2>
+          <p className="mt-2 text-sm text-slate-600 dark:text-slate-300">We learn how leads, customers, and daily operations actually work in your business.</p>
         </div>
-        <div className="rounded-2xl border border-slate-800 bg-slate-900/70 p-5">
-          <div className="text-xs font-semibold uppercase tracking-[0.18em] text-blue-400">02</div>
-          <h2 className="mt-3 text-lg font-semibold text-white">Design</h2>
-          <p className="mt-2 text-sm text-slate-300">We map the user journey and the systems needed to convert attention into action.</p>
+        <div className="rounded-2xl border border-slate-200 bg-white dark:border-slate-800 dark:bg-slate-900/70 p-5 shadow-xs">
+          <div className="text-xs font-semibold uppercase tracking-[0.18em] text-blue-600 dark:text-blue-400">02</div>
+          <h2 className="mt-3 text-lg font-semibold text-slate-900 dark:text-white">Design</h2>
+          <p className="mt-2 text-sm text-slate-600 dark:text-slate-300">We map the user journey and the systems needed to convert attention into action.</p>
         </div>
-        <div className="rounded-2xl border border-slate-800 bg-slate-900/70 p-5">
-          <div className="text-xs font-semibold uppercase tracking-[0.18em] text-blue-400">03</div>
-          <h2 className="mt-3 text-lg font-semibold text-white">Build</h2>
-          <p className="mt-2 text-sm text-slate-300">We produce a modern web app or automation tool backed by clear technical documentation and scope.</p>
+        <div className="rounded-2xl border border-slate-200 bg-white dark:border-slate-800 dark:bg-slate-900/70 p-5 shadow-xs">
+          <div className="text-xs font-semibold uppercase tracking-[0.18em] text-blue-600 dark:text-blue-400">03</div>
+          <h2 className="mt-3 text-lg font-semibold text-slate-900 dark:text-white">Build</h2>
+          <p className="mt-2 text-sm text-slate-600 dark:text-slate-300">We produce a modern web app or automation tool backed by clear technical documentation and scope.</p>
         </div>
       </div>
 
-      <Card className="border-slate-800 bg-slate-900/90 shadow-2xl backdrop-blur-xl">
+      <Card className="shadow-xl">
         <CardHeader>
           <CardTitle className="text-2xl">Project Inquiry Form</CardTitle>
           <CardDescription>
@@ -94,15 +94,15 @@ export default function ContactPage() {
         </CardHeader>
         <CardContent>
           {submitted ? (
-            <div className="rounded-xl border border-emerald-500/30 bg-emerald-500/10 p-8 text-center space-y-4">
-              <CheckCircle2 className="mx-auto h-12 w-12 text-emerald-400" />
-              <h3 className="text-xl font-bold text-white">Inquiry Submitted Successfully</h3>
-              <p className="text-slate-300 text-sm">
-                Thank you for reaching out to Derivative Genius. Our web engineering lead will review your project scope and contact you at <span className="font-semibold text-blue-400">{formData.email}</span>.
+            <div className="rounded-xl border border-emerald-300 dark:border-emerald-500/30 bg-emerald-50 dark:bg-emerald-500/10 p-8 text-center space-y-4">
+              <CheckCircle2 className="mx-auto h-12 w-12 text-emerald-600 dark:text-emerald-400" />
+              <h3 className="text-xl font-bold text-slate-900 dark:text-white">Inquiry Submitted Successfully</h3>
+              <p className="text-slate-600 dark:text-slate-300 text-sm">
+                Thank you for reaching out to Derivative Genius. Our web engineering lead will review your project scope and contact you at <span className="font-semibold text-blue-600 dark:text-blue-400">{formData.email}</span>.
               </p>
               <button
                 onClick={() => setSubmitted(false)}
-                className="mt-4 text-xs font-semibold text-blue-400 hover:underline"
+                className="mt-4 text-xs font-semibold text-blue-600 dark:text-blue-400 hover:underline"
               >
                 Submit another inquiry
               </button>
@@ -111,7 +111,7 @@ export default function ContactPage() {
             <form onSubmit={handleSubmit} className="space-y-6">
               <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
                 <div className="space-y-2">
-                  <Label htmlFor="name">Full Name *</Label>
+                  <Label htmlFor="name" className="text-slate-700 dark:text-slate-200">Full Name *</Label>
                   <Input
                     id="name"
                     name="name"
@@ -119,11 +119,12 @@ export default function ContactPage() {
                     placeholder="Jane Doe"
                     value={formData.name}
                     onChange={handleChange}
+                    className="bg-white dark:bg-slate-950/70 border-slate-300 dark:border-slate-700 text-slate-900 dark:text-slate-100 placeholder:text-slate-400 dark:placeholder:text-slate-500"
                   />
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="email">Work Email *</Label>
+                  <Label htmlFor="email" className="text-slate-700 dark:text-slate-200">Work Email *</Label>
                   <Input
                     id="email"
                     name="email"
@@ -132,47 +133,49 @@ export default function ContactPage() {
                     placeholder="jane@company.com"
                     value={formData.email}
                     onChange={handleChange}
+                    className="bg-white dark:bg-slate-950/70 border-slate-300 dark:border-slate-700 text-slate-900 dark:text-slate-100 placeholder:text-slate-400 dark:placeholder:text-slate-500"
                   />
                 </div>
               </div>
 
               <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
                 <div className="space-y-2">
-                  <Label htmlFor="company">Company / Organization</Label>
+                  <Label htmlFor="company" className="text-slate-700 dark:text-slate-200">Company / Organization</Label>
                   <Input
                     id="company"
                     name="company"
                     placeholder="Acme Corp"
                     value={formData.company}
                     onChange={handleChange}
+                    className="bg-white dark:bg-slate-950/70 border-slate-300 dark:border-slate-700 text-slate-900 dark:text-slate-100 placeholder:text-slate-400 dark:placeholder:text-slate-500"
                   />
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="service">Target Service *</Label>
+                  <Label htmlFor="service" className="text-slate-700 dark:text-slate-200">Target Service *</Label>
                   <select
                     id="service"
                     name="service"
                     value={formData.service}
                     onChange={handleChange}
-                    className="flex h-11 w-full rounded-md border border-slate-700 bg-slate-950/70 px-3 py-2 text-sm text-slate-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
+                    className="flex h-11 w-full rounded-md border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-950/70 px-3 py-2 text-sm text-slate-900 dark:text-slate-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
                   >
                     <option value="Website That Rings the Phone">Website That Rings the Phone ($2k–$5k)</option>
                     <option value="Customer Login Area">Customer Login Area</option>
-                    <option value="Q&A Assistant & Integrations">Q&A Assistant & Integrations</option>
+                    <option value="Q&A Assistant & Integrations">Q&A Assistant &amp; Integrations</option>
                     <option value="Website Redesign">Website Redesign</option>
                   </select>
                 </div>
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="budget">Target Budget Range</Label>
+                <Label htmlFor="budget" className="text-slate-700 dark:text-slate-200">Target Budget Range</Label>
                 <select
                   id="budget"
                   name="budget"
                   value={formData.budget}
                   onChange={handleChange}
-                  className="flex h-11 w-full rounded-md border border-slate-700 bg-slate-950/70 px-3 py-2 text-sm text-slate-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
+                  className="flex h-11 w-full rounded-md border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-950/70 px-3 py-2 text-sm text-slate-900 dark:text-slate-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
                 >
                   <option value="&lt; $2,000">&lt; $2,000 (Scoping &amp; Advisory)</option>
                   <option value="$2,000 - $3,000">$2,000 - $3,000 (Standard Web App)</option>
@@ -182,7 +185,7 @@ export default function ContactPage() {
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="message">Project Description & Requirements *</Label>
+                <Label htmlFor="message" className="text-slate-700 dark:text-slate-200">Project Description &amp; Requirements *</Label>
                 <textarea
                   id="message"
                   name="message"
@@ -191,14 +194,14 @@ export default function ContactPage() {
                   placeholder="Describe your web application goals, target audience, and key features required..."
                   value={formData.message}
                   onChange={handleChange}
-                  className="flex w-full rounded-md border border-slate-700 bg-slate-950/70 p-3 text-sm text-slate-100 placeholder:text-slate-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
+                  className="flex w-full rounded-md border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-950/70 p-3 text-sm text-slate-900 dark:text-slate-100 placeholder:text-slate-400 dark:placeholder:text-slate-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
                 />
               </div>
 
               <button
                 type="submit"
                 disabled={loading}
-                className="inline-flex w-full items-center justify-center space-x-2 rounded-xl bg-blue-600 py-3.5 text-sm font-semibold text-white shadow-lg transition-all hover:bg-blue-500 disabled:opacity-50"
+                className="inline-flex w-full items-center justify-center space-x-2 rounded-xl bg-blue-600 py-3.5 text-sm font-semibold text-white shadow-lg transition-all hover:bg-blue-500 disabled:opacity-50 active:scale-95"
               >
                 {loading ? (
                   <span>Submitting Scope...</span>

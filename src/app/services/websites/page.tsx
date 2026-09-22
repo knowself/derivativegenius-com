@@ -60,19 +60,19 @@ export default function WebsiteServicesPage() {
     <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 space-y-16">
       {/* Hero */}
       <div className="mx-auto max-w-4xl text-center space-y-6">
-        <div className="mx-auto inline-flex items-center gap-2 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.2em] text-emerald-400">
+        <div className="mx-auto inline-flex items-center gap-2 rounded-full border border-emerald-300 dark:border-emerald-500/30 bg-emerald-100 dark:bg-emerald-500/10 px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.2em] text-emerald-700 dark:text-emerald-400">
           <Globe className="w-3.5 h-3.5" /> High-Impact Website Engagements
         </div>
-        <h1 className="text-4xl font-extrabold tracking-tight text-white sm:text-5xl">
+        <h1 className="text-4xl font-extrabold tracking-tight text-slate-900 dark:text-white sm:text-5xl">
           Fixed-Scope Website Packages That Justify Investment in 1–2 New Clients.
         </h1>
-        <p className="text-lg text-slate-300">
+        <p className="text-lg text-slate-600 dark:text-slate-300">
           We engineer high-speed, modern Next.js 16 websites designed specifically to convert public traffic into qualified commercial conversations.
         </p>
         <div className="flex justify-center gap-4">
           <Link
             href="/contact"
-            className="inline-flex items-center gap-2 rounded-xl bg-blue-600 px-6 py-3 text-sm font-semibold text-white shadow-lg hover:bg-blue-500 transition"
+            className="inline-flex items-center gap-2 rounded-xl bg-blue-600 px-6 py-3 text-sm font-semibold text-white shadow-lg hover:bg-blue-500 transition active:scale-95"
           >
             Request a Free Website Audit <ArrowRight className="w-4 h-4" />
           </Link>
@@ -82,32 +82,32 @@ export default function WebsiteServicesPage() {
       {/* Package Grid */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
         {packages.map((pkg, idx) => (
-          <Card key={idx} className={`relative flex flex-col justify-between ${pkg.badge ? 'border-blue-500/50 bg-slate-900/90 shadow-2xl' : ''}`}>
+          <Card key={idx} className={`relative flex flex-col justify-between ${pkg.badge ? 'border-blue-400 dark:border-blue-500/50 shadow-xl' : ''}`}>
             {pkg.badge && (
               <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 rounded-full bg-blue-600 px-3 py-1 text-xs font-bold uppercase tracking-wider text-white shadow">
                 {pkg.badge}
               </div>
             )}
             <CardHeader className="pt-6">
-              <CardTitle className="text-2xl text-white">{pkg.name}</CardTitle>
+              <CardTitle className="text-2xl">{pkg.name}</CardTitle>
               <div className="mt-2 flex items-baseline gap-2">
-                <span className="text-4xl font-extrabold text-white">{pkg.price}</span>
-                <span className="text-xs text-slate-400">fixed price</span>
+                <span className="text-4xl font-extrabold text-slate-900 dark:text-white">{pkg.price}</span>
+                <span className="text-xs text-slate-500 dark:text-slate-400">fixed price</span>
               </div>
-              <div className="flex items-center gap-1.5 text-xs text-blue-400 mt-2">
+              <div className="flex items-center gap-1.5 text-xs text-blue-600 dark:text-blue-400 mt-2 font-medium">
                 <Clock className="w-3.5 h-3.5" /> Timeline: {pkg.timeline}
               </div>
-              <CardDescription className="mt-3 text-xs text-slate-300 leading-relaxed">
+              <CardDescription className="mt-3 text-xs leading-relaxed">
                 {pkg.target}
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-6 pt-0">
-              <div className="border-t border-slate-800 pt-4">
-                <div className="text-xs font-semibold uppercase tracking-wider text-slate-400 mb-2">What is included</div>
-                <ul className="space-y-2 text-xs text-slate-300">
+              <div className="border-t border-slate-200 dark:border-slate-800 pt-4">
+                <div className="text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-2">What is included</div>
+                <ul className="space-y-2 text-xs text-slate-700 dark:text-slate-300">
                   {pkg.features.map((feat, fIdx) => (
                     <li key={fIdx} className="flex items-start gap-2">
-                      <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
+                      <CheckCircle2 className="w-4 h-4 text-emerald-600 dark:text-emerald-400 shrink-0 mt-0.5" />
                       <span>{feat}</span>
                     </li>
                   ))}
@@ -115,12 +115,12 @@ export default function WebsiteServicesPage() {
               </div>
 
               {pkg.notIncluded && (
-                <div className="border-t border-slate-800 pt-3">
-                  <div className="text-[10px] font-semibold uppercase tracking-wider text-slate-500 mb-1.5">Exclusions</div>
-                  <ul className="space-y-1 text-xs text-slate-500">
+                <div className="border-t border-slate-200 dark:border-slate-800 pt-3">
+                  <div className="text-[10px] font-semibold uppercase tracking-wider text-slate-400 dark:text-slate-500 mb-1.5">Exclusions</div>
+                  <ul className="space-y-1 text-xs text-slate-400 dark:text-slate-500">
                     {pkg.notIncluded.map((exc, eIdx) => (
                       <li key={eIdx} className="flex items-center gap-1.5">
-                        <XCircle className="w-3.5 h-3.5 text-slate-600 shrink-0" />
+                        <XCircle className="w-3.5 h-3.5 text-slate-400 shrink-0" />
                         <span>{exc}</span>
                       </li>
                     ))}
@@ -130,9 +130,9 @@ export default function WebsiteServicesPage() {
 
               <Link
                 href="/contact"
-                className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-blue-600 py-3 text-xs font-semibold text-white shadow hover:bg-blue-500 transition"
+                className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-blue-600 py-3 text-xs font-semibold text-white shadow hover:bg-blue-500 transition active:scale-95"
               >
-                Select Package & Get Scoped <ArrowRight className="w-3.5 h-3.5" />
+                Select Package &amp; Get Scoped <ArrowRight className="w-3.5 h-3.5" />
               </Link>
             </CardContent>
           </Card>
@@ -140,23 +140,23 @@ export default function WebsiteServicesPage() {
       </div>
 
       {/* Process & Maintenance Options */}
-      <div className="bg-slate-900/80 border border-slate-800 rounded-2xl p-8 space-y-6">
-        <h2 className="text-2xl font-bold text-white text-center">Standard Development Process & Maintenance</h2>
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 text-xs text-slate-300">
-          <div className="p-4 bg-slate-950/60 rounded-xl border border-slate-800 space-y-1">
-            <div className="font-bold text-blue-400 text-sm">Step 1: Discovery & Audit</div>
+      <div className="bg-white/80 dark:bg-slate-900/80 border border-slate-200 dark:border-slate-800 rounded-2xl p-8 space-y-6 shadow-sm">
+        <h2 className="text-2xl font-bold text-slate-900 dark:text-white text-center">Standard Development Process &amp; Maintenance</h2>
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 text-xs text-slate-600 dark:text-slate-300">
+          <div className="p-4 bg-slate-50 dark:bg-slate-950/60 rounded-xl border border-slate-200 dark:border-slate-800 space-y-1">
+            <div className="font-bold text-blue-600 dark:text-blue-400 text-sm">Step 1: Discovery &amp; Audit</div>
             <p>Inspect existing site, define conversion target, approve package scope.</p>
           </div>
-          <div className="p-4 bg-slate-950/60 rounded-xl border border-slate-800 space-y-1">
-            <div className="font-bold text-blue-400 text-sm">Step 2: Design & Copy</div>
+          <div className="p-4 bg-slate-50 dark:bg-slate-950/60 rounded-xl border border-slate-200 dark:border-slate-800 space-y-1">
+            <div className="font-bold text-blue-600 dark:text-blue-400 text-sm">Step 2: Design &amp; Copy</div>
             <p>Plain-English messaging, mobile ergonomics, and modern UI tokens.</p>
           </div>
-          <div className="p-4 bg-slate-950/60 rounded-xl border border-slate-800 space-y-1">
-            <div className="font-bold text-blue-400 text-sm">Step 3: Engineering</div>
+          <div className="p-4 bg-slate-50 dark:bg-slate-950/60 rounded-xl border border-slate-200 dark:border-slate-800 space-y-1">
+            <div className="font-bold text-blue-600 dark:text-blue-400 text-sm">Step 3: Engineering</div>
             <p>Next.js 16 App Router, Zod validation, Drizzle ORM persistence.</p>
           </div>
-          <div className="p-4 bg-slate-950/60 rounded-xl border border-slate-800 space-y-1">
-            <div className="font-bold text-blue-400 text-sm">Step 4: Launch & Hand-off</div>
+          <div className="p-4 bg-slate-50 dark:bg-slate-950/60 rounded-xl border border-slate-200 dark:border-slate-800 space-y-1">
+            <div className="font-bold text-blue-600 dark:text-blue-400 text-sm">Step 4: Launch &amp; Hand-off</div>
             <p>Production deployment, DNS verification, and optional monthly maintenance ($150/mo).</p>
           </div>
         </div>

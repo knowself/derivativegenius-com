@@ -348,7 +348,7 @@ that other digital I don't see other digital  digital agencies should be referra
 going to I got involved. We have in Nashville, we  have a networking group called Connect Nashville.  
 Uh 20,000 members in the Facebook page,  one Google review. H what I wanted to see,  
 could I train others to sell to small  businesses like I do, and my partner in  
-the Pest Control podcast had a nephew in Tampa.  His name is Ted Yates. And about a year ago,  
+the Pest Control podcast had a nephew in Tampa.  His name is Ted Yeatts. And about a year ago,  
 I spent two Zoom calls with him and showed him  what I did. And now he has it ain't a side hustle.  
 He's got a full-time business from networking in  his network. In fact, his networking group is one  
 of our podcast customers. Oh, cool. So, because  I'm scalable now with AI, the the jingle can be  

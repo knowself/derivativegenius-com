@@ -284,9 +284,9 @@ Local businesses frequently waste money hiring social media managers to post gen
 - **Strategy:** Implemented the full VSL landing page framework, 15-second SERP jingle, and skippable YouTube ads with 50% Connected TV viewership.
 - **Results:** Grew gross revenue by **23% (+$172,500)** in 7 months; added 7 new employees in 2025; surpassed 1,000,000 online video views.
 
-### Case Study 6: The Agency Affiliate Model (Ted Yates – Tampa, FL)
+### Case Study 6: The Agency Affiliate Model (Ted Yeatts – Tampa, FL)
 - **Challenge:** Testing whether this playbook can be transferred to an operator without audio engineering or coding skills.
-- **Strategy:** Mike conducted two 1-hour Zoom training sessions with his partner's nephew, Ted Yates.
+- **Strategy:** Mike conducted two 1-hour Zoom training sessions with his partner's nephew, Ted Yeatts.
 - **Results:** Ted launched a full-time local marketing agency in Tampa exclusively through local BNI/networking groups, signing recurring retainer clients and hosting podcasts for local organizations.
 
 ---

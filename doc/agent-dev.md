@@ -77,7 +77,7 @@ Book-to-agent mapping (canonical):
 | Ch.4 — YouTube loophole | Targeting guard (15–20 mi radius/zips, no micro-filtering), skip-economics explainer |
 | Ch.5 — Page that rings | VSL 5-part validator, risk-reversal headline generator, "Watch my video" CTR rule |
 | Ch.6 — Two traps | Anti-agency linter (sliders, hamburger-hidden call, social-only content) |
-| Ch.7 — Proof | Case-study skill (Abilene, Party Boat, Honey, Mount Lawley, Haynes, Ted Yates) with honest baselines |
+| Ch.7 — Proof | Case-study skill (Abilene, Party Boat, Honey, Mount Lawley, Haynes, Ted Yeatts) with honest baselines |
 | Ch.8 + Appendix A — Audit | Read-only 5-minute self-audit engine (homepage mistake, sticky call, hero waste, GBP void, walled garden) |
 | Ch.9 — Extraction | 50-problems worksheet → diagnostic question → 3-min recording checklist → transcript template |
 | Ch.10 — AI factory | Monthly SMS YES flow, weekly publish cadence, sample-month planner |
@@ -275,7 +275,7 @@ export default defineTool({
 ### 6.8 `outreach-assist-agent` — opener + objection drafter (DRAFT, auto-send DEFERRED/forbidden)
 
 - **Job:** Turn one audit observation into a short, plain-language call opener + follow-up note for Joe's manual call. This is a writing assistant, not a sequencer.
-- **Book mapping:** Pillar 5 diagnostic demonstration + Ted Yates 1-on-1 proof.
+- **Book mapping:** Pillar 5 diagnostic demonstration + Ted Yeatts 1-on-1 proof.
 - **Tools:** `draft_opener` (observation → economic relief in ≤30s of talk), `draft_followup_note`, `log_call_prep_to_centurion` (approval-gated write). No email/SMS/call tools. No bulk actions.
 - **Skills:** `diagnostic-demo` (show the flaw, not the deck), `plain-language-openers`, `loss-reason-taxonomy` (DT-18 metrics).
 - **Guard:** must cite the specific audit evidence id; refuses "write 100 cold emails" with Mission + automation-gate citation.

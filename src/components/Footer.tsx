@@ -4,10 +4,9 @@ import Image from "next/image";
 import { Terminal, Shield, Cpu } from "lucide-react";
 import { CenturionIcon } from "@/components/CenturionIcon";
 
-
 export function Footer() {
   return (
-    <footer className="relative z-10 border-t border-slate-800/80 bg-slate-950/90 text-slate-400">
+    <footer className="relative z-10 border-t border-slate-200/80 bg-slate-100/90 text-slate-600 dark:border-slate-800/80 dark:bg-slate-950/90 dark:text-slate-400 transition-colors">
       <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 md:grid-cols-4">
           <div className="space-y-4 col-span-1 sm:col-span-2 md:col-span-1">
@@ -20,46 +19,46 @@ export function Footer() {
                 className="h-14 sm:h-16 w-auto object-contain rounded-md"
               />
             </Link>
-            <p className="text-sm text-slate-400 leading-relaxed">
+            <p className="text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
               Websites and web apps for service businesses — built to turn search traffic into phone calls. Fixed scope, fixed price.
             </p>
           </div>
 
           <div>
-            <h4 className="font-semibold text-slate-200">Services & Demos</h4>
+            <h4 className="font-semibold text-slate-900 dark:text-slate-200">Services & Demos</h4>
             <ul className="mt-4 space-y-2 text-sm">
               <li>
-                <Link href="/" className="hover:text-blue-400 transition-colors">
+                <Link href="/" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
                   Home
                 </Link>
               </li>
               <li>
-                <Link href="/services" className="hover:text-blue-400 transition-colors">
+                <Link href="/services" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
                   AI-Native Web Apps
                 </Link>
               </li>
               <li>
-                <Link href="/solutions" className="hover:text-blue-400 transition-colors">
+                <Link href="/solutions" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
                   Industry Solutions
                 </Link>
               </li>
               <li>
-                <Link href="/portfolio" className="hover:text-blue-400 transition-colors">
+                <Link href="/portfolio" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
                   Portfolio
                 </Link>
               </li>
               <li>
-                <Link href="/blog" className="hover:text-emerald-400 transition-colors">
+                <Link href="/blog" className="hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors">
                   Blog &amp; Podcasts
                 </Link>
               </li>
               <li>
-                <Link href="/book" className="hover:text-blue-400 transition-colors">
+                <Link href="/book" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
                   Free Book — Local Internet Presence
                 </Link>
               </li>
               <li>
-                <Link href="/services/websites" className="hover:text-blue-400 transition-colors">
+                <Link href="/services/websites" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
                   Fixed-Scope Website Packages
                 </Link>
               </li>
@@ -67,25 +66,25 @@ export function Footer() {
           </div>
 
           <div>
-            <h4 className="font-semibold text-slate-200">Resources</h4>
+            <h4 className="font-semibold text-slate-900 dark:text-slate-200">Resources</h4>
             <ul className="mt-4 space-y-2 text-sm">
               <li>
-                <Link href="/about" className="hover:text-blue-400 transition-colors">
+                <Link href="/about" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
                   About Derivative Genius
                 </Link>
               </li>
               <li>
-                <Link href="/contact" className="hover:text-blue-400 transition-colors">
+                <Link href="/contact" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
                   Project Scoping Intake
                 </Link>
               </li>
               <li>
-                <a href="tel:+13103799822" className="hover:text-blue-400 transition-colors">
+                <a href="tel:+13103799822" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
                   Call: (310) 379-9822
                 </a>
               </li>
               <li>
-                <a href="mailto:joe@derivativegenius.com?subject=AI%20Web%20Dev%20Inquiry" className="hover:text-blue-400 transition-colors">
+                <a href="mailto:joe@derivativegenius.com?subject=AI%20Web%20Dev%20Inquiry" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
                   joe@derivativegenius.com
                 </a>
               </li>
@@ -94,7 +93,7 @@ export function Footer() {
                   href="/centurion"
                   title="Centurion Operator Console"
                   aria-label="Centurion Operator Console"
-                  className="inline-flex p-1.5 rounded-lg text-emerald-400 hover:text-emerald-300 hover:bg-slate-900 transition-colors"
+                  className="inline-flex p-1.5 rounded-lg text-emerald-600 dark:text-emerald-400 hover:text-emerald-500 dark:hover:text-emerald-300 hover:bg-slate-200 dark:hover:bg-slate-900 transition-colors"
                 >
                   <CenturionIcon className="h-5 w-5" />
                 </Link>
@@ -103,25 +102,25 @@ export function Footer() {
           </div>
 
           <div>
-            <h4 className="font-semibold text-slate-200">Engineering Standard</h4>
-            <div className="mt-4 flex flex-col space-y-2 text-xs text-slate-400">
+            <h4 className="font-semibold text-slate-900 dark:text-slate-200">Engineering Standard</h4>
+            <div className="mt-4 flex flex-col space-y-2 text-xs text-slate-500 dark:text-slate-400">
               <div className="flex items-center space-x-2">
-                <Terminal className="h-4 w-4 text-blue-400 shrink-0" />
+                <Terminal className="h-4 w-4 text-blue-500 dark:text-blue-400 shrink-0" />
                 <span>Next.js 16 App Router & TypeScript</span>
               </div>
               <div className="flex items-center space-x-2">
-                <Shield className="h-4 w-4 text-emerald-400 shrink-0" />
+                <Shield className="h-4 w-4 text-emerald-500 dark:text-emerald-400 shrink-0" />
                 <span>Zod Server-Side Schema Validation</span>
               </div>
               <div className="flex items-center space-x-2">
-                <Cpu className="h-4 w-4 text-indigo-400 shrink-0" />
+                <Cpu className="h-4 w-4 text-blue-500 dark:text-blue-400 shrink-0" />
                 <span>Agentic Developer Workflows</span>
               </div>
             </div>
           </div>
         </div>
 
-        <div className="mt-12 border-t border-slate-800/60 pt-6 text-center text-xs text-slate-500">
+        <div className="mt-12 border-t border-slate-200 dark:border-slate-800/60 pt-6 text-center text-xs text-slate-500">
           © {new Date().getFullYear()} Derivative Genius. All rights reserved.
         </div>
       </div>

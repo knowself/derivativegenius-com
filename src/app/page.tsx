@@ -162,14 +162,14 @@ export default function HomePage() {
     <div className="space-y-24 pb-20 pt-12">
       {/* Hero Section */}
       <section className="relative mx-auto max-w-7xl px-4 text-center sm:px-6 lg:px-8">
-        <h1 className="mt-6 text-balance font-extrabold leading-[1.08] tracking-tight text-white text-3xl sm:text-6xl lg:text-7xl">
+        <h1 className="mt-6 text-balance font-extrabold leading-[1.08] tracking-tight text-slate-900 dark:text-white text-3xl sm:text-6xl lg:text-7xl">
           Website + Blog + Podcasts <br className="hidden sm:block" />
-          <span className="bg-gradient-to-r from-blue-400 via-indigo-400 to-emerald-400 bg-clip-text text-transparent">
+          <span className="bg-gradient-to-r from-blue-600 via-indigo-600 to-emerald-600 dark:from-blue-400 dark:via-indigo-400 dark:to-emerald-400 bg-clip-text text-transparent">
             Makes Your Phone Ring
           </span>
         </h1>
 
-        <p className="mx-auto mt-6 max-w-3xl text-lg text-slate-300 sm:text-xl leading-relaxed">
+        <p className="mx-auto mt-6 max-w-3xl text-lg text-slate-600 dark:text-slate-300 sm:text-xl leading-relaxed">
           The easiest, fastest, and most affordable way to get your local business to the top of the Google search rankings, guaranteed!
         </p>
 
@@ -177,55 +177,57 @@ export default function HomePage() {
           {["Website", "Blog", "Podcast"].map((item) => (
             <span
               key={item}
-              className="inline-flex items-center rounded-full border border-slate-700 bg-slate-800/80 px-4 py-1.5 text-sm font-semibold text-slate-200 backdrop-blur-sm"
+              className="inline-flex items-center rounded-full border border-slate-200 bg-white/90 px-4 py-1.5 text-sm font-semibold text-slate-800 shadow-xs backdrop-blur-sm dark:border-slate-700 dark:bg-slate-800/80 dark:text-slate-200"
             >
-              <CheckCircle2 className="mr-1.5 h-4 w-4 text-emerald-400" />
+              <CheckCircle2 className="mr-1.5 h-4 w-4 text-emerald-600 dark:text-emerald-400" />
               {item}
             </span>
           ))}
         </div>
 
-        <h2 className="mx-auto mt-6 max-w-2xl text-lg font-semibold text-white sm:text-xl">
+        <h2 className="mx-auto mt-6 max-w-2xl text-lg font-semibold text-slate-800 dark:text-white sm:text-xl">
           &ldquo;Small businesses do not need new ideas, They need old ideas done right.&rdquo; &ndash; Joe Terry
         </h2>
 
         <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
           <a
             href="tel:+13103799822"
-            className="inline-flex items-center space-x-2.5 rounded-xl bg-emerald-600 px-7 py-3.5 font-semibold text-white shadow-lg shadow-emerald-600/30 transition-all hover:bg-emerald-500 hover:shadow-emerald-500/50 text-base"
+            className="inline-flex items-center space-x-2.5 rounded-xl bg-emerald-600 px-7 py-3.5 font-semibold text-white shadow-lg shadow-emerald-600/30 transition-all hover:bg-emerald-500 hover:shadow-emerald-500/50 text-base active:scale-95"
           >
             <Phone className="h-5 w-5" />
             <span>Call Joe Terry: (310) 379-9822</span>
           </a>
           <Link
             href="/contact"
-            className="inline-flex items-center space-x-2 rounded-xl border border-slate-700 bg-slate-900/80 px-7 py-3.5 font-semibold text-slate-200 backdrop-blur-md transition-all hover:border-slate-600 hover:bg-slate-800 text-base"
+            className="inline-flex items-center space-x-2 rounded-xl border border-slate-300 bg-white/90 px-7 py-3.5 font-semibold text-slate-900 shadow-sm backdrop-blur-md transition-all hover:bg-slate-100 dark:border-slate-700 dark:bg-slate-900/80 dark:text-slate-200 dark:hover:border-slate-600 dark:hover:bg-slate-800 text-base active:scale-95"
           >
             <span>Request a Free Website Audit</span>
             <ArrowRight className="h-4 w-4" />
           </Link>
         </div>
-        <div className="mx-auto mt-6 w-full">
+
+        {/* Book Banner */}
+        <div className="mx-auto mt-8 w-full max-w-4xl">
           <Link
             href="/book"
-            className="group flex w-full flex-col gap-4 rounded-2xl border border-emerald-500/40 bg-emerald-500/10 px-6 py-5 text-left shadow-lg shadow-emerald-950/30 backdrop-blur-md transition-all hover:border-emerald-400/60 hover:bg-emerald-500/20 sm:flex-row sm:items-center sm:gap-5 sm:px-8"
+            className="group flex w-full flex-col gap-4 rounded-2xl border border-emerald-300 bg-emerald-50/90 dark:border-emerald-500/40 dark:bg-emerald-500/10 px-6 py-5 text-left shadow-lg shadow-emerald-950/10 dark:shadow-emerald-950/30 backdrop-blur-md transition-all hover:border-emerald-400 dark:hover:border-emerald-400/60 hover:bg-emerald-100/70 dark:hover:bg-emerald-500/20 sm:flex-row sm:items-center sm:gap-5 sm:px-8"
           >
-            <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-emerald-500/30 bg-emerald-600/20">
-              <BookOpen className="h-6 w-6 text-emerald-400" />
+            <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-emerald-300 bg-emerald-100 dark:border-emerald-500/30 dark:bg-emerald-600/20">
+              <BookOpen className="h-6 w-6 text-emerald-700 dark:text-emerald-400" />
             </span>
             <span className="min-w-0 flex-1">
-              <span className="mb-1.5 inline-flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.18em] text-emerald-400">
+              <span className="mb-1.5 inline-flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.18em] text-emerald-700 dark:text-emerald-400">
                 New · Free Book — Local Internet Presence
               </span>
               {/* Static single quote — no auto-rotate per playbook. Full browser lives on /book. */}
-              <span className="block text-center text-base font-medium leading-relaxed text-slate-100 sm:text-lg">
+              <span className="block text-center text-base font-medium leading-relaxed text-slate-900 dark:text-slate-100 sm:text-lg">
                 &ldquo;{stewartQuotes[0].quote}&rdquo;
               </span>
-              <span className="mt-1.5 block text-left text-xs font-semibold uppercase tracking-wider text-slate-400">
+              <span className="mt-1.5 block text-left text-xs font-semibold uppercase tracking-wider text-slate-600 dark:text-slate-400">
                 — Mike Stewart · Read the free playbook that powers our audits
               </span>
             </span>
-            <ArrowRight className="h-5 w-5 shrink-0 text-emerald-400 transition-transform group-hover:translate-x-1" />
+            <ArrowRight className="h-5 w-5 shrink-0 text-emerald-700 dark:text-emerald-400 transition-transform group-hover:translate-x-1" />
           </Link>
         </div>
       </section>
@@ -237,12 +239,12 @@ export default function HomePage() {
 
       {/* In Plain English Section */}
       <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="rounded-2xl border border-blue-500/30 bg-slate-900/80 p-8 sm:p-12 backdrop-blur-xl space-y-10">
+        <div className="rounded-2xl border border-blue-200 bg-blue-50/40 dark:border-blue-500/30 dark:bg-slate-900/80 p-8 sm:p-12 backdrop-blur-xl space-y-10 shadow-sm">
           <div className="text-center max-w-3xl mx-auto space-y-3">
-            <h2 className="text-3xl font-extrabold text-white sm:text-4xl">
+            <h2 className="text-3xl font-extrabold text-slate-900 dark:text-white sm:text-4xl">
               💡 In Plain English: What We Build
             </h2>
-            <p className="text-slate-300">
+            <p className="text-slate-600 dark:text-slate-300">
               You don’t need to manage vectors, servers, or API keys. We handle the heavy lifting behind the scenes so your business gets simple, powerful outcomes.
             </p>
           </div>
@@ -253,34 +255,34 @@ export default function HomePage() {
               return (
                 <div
                   key={idx}
-                  className="rounded-xl border border-slate-800 bg-slate-950/70 p-6 space-y-3 transition-all hover:border-slate-700"
+                  className="rounded-xl border border-slate-200 bg-white dark:border-slate-800 dark:bg-slate-950/70 p-6 space-y-3 shadow-xs transition-all hover:border-slate-300 dark:hover:border-slate-700"
                 >
                   <div className="flex items-center justify-between">
-                    <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-blue-600/20 text-blue-400 border border-blue-500/30">
+                    <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-blue-100 text-blue-600 dark:bg-blue-600/20 dark:text-blue-400 border border-blue-200 dark:border-blue-500/30">
                       <IconComp className="h-5 w-5" />
                     </div>
-                    <span className="font-mono text-xs font-bold text-blue-400">{item.num}</span>
+                    <span className="font-mono text-xs font-bold text-blue-600 dark:text-blue-400">{item.num}</span>
                   </div>
-                  <h3 className="text-xl font-bold text-white">{item.title}</h3>
-                  <div className="text-xs font-semibold text-emerald-400 uppercase tracking-wider">
+                  <h3 className="text-xl font-bold text-slate-900 dark:text-white">{item.title}</h3>
+                  <div className="text-xs font-semibold text-emerald-600 dark:text-emerald-400 uppercase tracking-wider">
                     {item.analogy}
                   </div>
-                  <p className="text-sm text-slate-300 leading-relaxed">{item.text}</p>
+                  <p className="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">{item.text}</p>
                 </div>
               );
             })}
           </div>
 
           {/* Client Outcomes Banner */}
-          <div className="border-t border-slate-800 pt-8 mt-8">
-            <h3 className="text-xl font-bold text-white mb-4 text-center sm:text-left">
+          <div className="border-t border-slate-200 dark:border-slate-800 pt-8 mt-8">
+            <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-4 text-center sm:text-left">
               🔑 Why This Matters to Your Business
             </h3>
             <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
               {clientBenefits.map((ben, bIdx) => (
-                <div key={bIdx} className="flex items-start space-x-3 rounded-lg border border-slate-800 bg-slate-950/50 p-4">
-                  <CheckCircle2 className="h-5 w-5 text-emerald-400 shrink-0 mt-0.5" />
-                  <span className="text-sm text-slate-200">{ben}</span>
+                <div key={bIdx} className="flex items-start space-x-3 rounded-lg border border-slate-200 bg-white dark:border-slate-800 dark:bg-slate-950/50 p-4 shadow-xs">
+                  <CheckCircle2 className="h-5 w-5 text-emerald-600 dark:text-emerald-400 shrink-0 mt-0.5" />
+                  <span className="text-sm text-slate-700 dark:text-slate-200">{ben}</span>
                 </div>
               ))}
             </div>
@@ -290,15 +292,15 @@ export default function HomePage() {
 
       {/* Primary Offer: Local Presence / GEO / Direct-Response */}
       <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="rounded-2xl border border-emerald-500/30 bg-slate-900/80 p-8 sm:p-12 backdrop-blur-xl space-y-10">
+        <div className="rounded-2xl border border-emerald-200 bg-emerald-50/40 dark:border-emerald-500/30 dark:bg-slate-900/80 p-8 sm:p-12 backdrop-blur-xl space-y-10 shadow-sm">
           <div className="text-center max-w-3xl mx-auto space-y-3">
-            <div className="inline-flex items-center rounded-full border border-emerald-500/30 bg-emerald-500/10 px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.2em] text-emerald-400">
+            <div className="inline-flex items-center rounded-full border border-emerald-300 bg-emerald-100/80 dark:border-emerald-500/30 dark:bg-emerald-500/10 px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.2em] text-emerald-700 dark:text-emerald-400">
               Local Presence / GEO / Direct-Response — Our Primary Offer
             </div>
-            <h2 className="text-3xl font-extrabold text-white sm:text-4xl">
+            <h2 className="text-3xl font-extrabold text-slate-900 dark:text-white sm:text-4xl">
               The page that makes your phone ring.
             </h2>
-            <p className="text-slate-300">
+            <p className="text-slate-600 dark:text-slate-300">
               Most local businesses don&apos;t need a bigger website. They need a single-problem page that turns search traffic into booked calls — plus a weekly presence engine that keeps Google and AI assistants citing you. That&apos;s what we build first.
             </p>
           </div>
@@ -307,33 +309,33 @@ export default function HomePage() {
             {primaryOffers.map((offer, idx) => {
               const IconComp = offer.icon;
               return (
-                <Card key={idx} className="relative overflow-hidden flex flex-col justify-between border-emerald-500/20">
+                <Card key={idx} className="relative overflow-hidden flex flex-col justify-between border-emerald-300/60 dark:border-emerald-500/20 shadow-xs">
                   <CardHeader>
                     <div className="flex items-center justify-between">
-                      <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-emerald-600/20 text-emerald-400 border border-emerald-500/30">
+                      <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-emerald-100 text-emerald-700 border border-emerald-300 dark:bg-emerald-600/20 dark:text-emerald-400 dark:border-emerald-500/30">
                         <IconComp className="h-6 w-6" />
                       </div>
-                      <span className="rounded-full bg-emerald-500/10 border border-emerald-500/20 px-3 py-1 text-xs font-medium text-emerald-400">
+                      <span className="rounded-full bg-emerald-100 border border-emerald-300 dark:bg-emerald-500/10 dark:border-emerald-500/20 px-3 py-1 text-xs font-medium text-emerald-700 dark:text-emerald-400">
                         {offer.badge}
                       </span>
                     </div>
                     <CardTitle className="mt-4 text-2xl">{offer.title}</CardTitle>
-                    <CardDescription className="mt-2 text-sm text-slate-300 leading-relaxed space-y-2">
+                    <CardDescription className="mt-2 text-sm text-slate-600 dark:text-slate-300 leading-relaxed space-y-2">
                       <span className="block">
-                        <span className="font-semibold text-slate-200">Problem: </span>
+                        <span className="font-semibold text-slate-900 dark:text-slate-200">Problem: </span>
                         {offer.problem}
                       </span>
                       <span className="block">
-                        <span className="font-semibold text-slate-200">What you get: </span>
+                        <span className="font-semibold text-slate-900 dark:text-slate-200">What you get: </span>
                         {offer.solution}
                       </span>
-                      <span className="block text-slate-400">{offer.bestFor}</span>
+                      <span className="block text-slate-500 dark:text-slate-400">{offer.bestFor}</span>
                     </CardDescription>
                   </CardHeader>
                   <CardContent className="pt-4">
                     <Link
                       href="/contact"
-                      className="inline-flex items-center space-x-1.5 text-sm font-semibold text-emerald-400 hover:text-emerald-300"
+                      className="inline-flex items-center space-x-1.5 text-sm font-semibold text-emerald-600 dark:text-emerald-400 hover:text-emerald-500 dark:hover:text-emerald-300"
                     >
                       <span>Get Scope Estimate</span>
                       <ArrowRight className="h-3.5 w-3.5" />
@@ -349,8 +351,8 @@ export default function HomePage() {
       {/* Transparent Pricing: primary-first */}
       <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="text-center max-w-3xl mx-auto">
-          <h2 className="font-bold text-3xl text-white sm:text-4xl">Pricing, up front.</h2>
-          <p className="mt-3 text-slate-400">
+          <h2 className="font-bold text-3xl text-slate-900 dark:text-white sm:text-4xl">Pricing, up front.</h2>
+          <p className="mt-3 text-slate-600 dark:text-slate-400">
             Primary offers first. Custom app builds second, on readiness.
           </p>
         </div>
@@ -359,22 +361,22 @@ export default function HomePage() {
           {pricingTiers.map((tier, idx) => (
             <Card
               key={idx}
-              className={`relative overflow-hidden flex flex-col justify-between ${tier.secondary ? "opacity-90" : "border-emerald-500/20"}`}
+              className={`relative overflow-hidden flex flex-col justify-between ${tier.secondary ? "opacity-90" : "border-emerald-300/60 dark:border-emerald-500/20"}`}
             >
               <CardHeader>
-                <div className="text-xs font-semibold uppercase tracking-wider text-emerald-400">
+                <div className="text-xs font-semibold uppercase tracking-wider text-emerald-600 dark:text-emerald-400">
                   {tier.price}
                 </div>
                 <CardTitle className="mt-2 text-xl">{tier.name}</CardTitle>
-                <CardDescription className="mt-2 text-sm text-slate-300 leading-relaxed">
+                <CardDescription className="mt-2 text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
                   {tier.detail}
-                  <span className="mt-2 block text-xs text-slate-400">{tier.note}</span>
+                  <span className="mt-2 block text-xs text-slate-500 dark:text-slate-400">{tier.note}</span>
                 </CardDescription>
               </CardHeader>
               <CardContent className="pt-4">
                 <Link
                   href="/contact"
-                  className="inline-flex items-center space-x-1.5 text-sm font-semibold text-emerald-400 hover:text-emerald-300"
+                  className="inline-flex items-center space-x-1.5 text-sm font-semibold text-emerald-600 dark:text-emerald-400 hover:text-emerald-500 dark:hover:text-emerald-300"
                 >
                   <span>Request a Proposal</span>
                   <ArrowRight className="h-3.5 w-3.5" />
@@ -385,14 +387,14 @@ export default function HomePage() {
           <Card className="relative overflow-hidden flex flex-col justify-center border-dashed">
             <CardHeader>
               <CardTitle className="text-xl">Need proof before you commit?</CardTitle>
-              <CardDescription className="mt-2 text-sm text-slate-300 leading-relaxed">
+              <CardDescription className="mt-2 text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
                 Request a zero-obligation 5-minute website and ad audit. We map one specific leak — no invented metrics, no pressure.
               </CardDescription>
             </CardHeader>
             <CardContent className="pt-4">
               <Link
                 href="/contact"
-                className="inline-flex items-center space-x-1.5 text-sm font-semibold text-blue-400 hover:text-blue-300"
+                className="inline-flex items-center space-x-1.5 text-sm font-semibold text-blue-600 dark:text-blue-400 hover:text-blue-500 dark:hover:text-blue-300"
               >
                 <span>Request Free Audit</span>
                 <ArrowRight className="h-3.5 w-3.5" />
@@ -412,14 +414,14 @@ export default function HomePage() {
 
       {/* Brand narrative: shoulders of giants */}
       <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="rounded-2xl border border-slate-800 bg-slate-900/60 p-8 sm:p-10 text-center sm:text-left space-y-4">
-          <h2 className="text-2xl font-bold text-white">We stand on the shoulders of giants.</h2>
-          <p className="text-slate-300 leading-relaxed max-w-3xl">
+        <div className="rounded-2xl border border-slate-200 bg-white/80 dark:border-slate-800 dark:bg-slate-900/60 p-8 sm:p-10 text-center sm:text-left space-y-4 shadow-sm">
+          <h2 className="text-2xl font-bold text-slate-900 dark:text-white">We stand on the shoulders of giants.</h2>
+          <p className="text-slate-600 dark:text-slate-300 leading-relaxed max-w-3xl">
             Plain-English systems first, technical machinery second. That is why every offer above pairs a simple outcome — more calls, fewer missed jobs — with the build that produces it.
           </p>
           <Link
             href="/about"
-            className="inline-flex items-center space-x-1.5 text-sm font-semibold text-blue-400 hover:text-blue-300"
+            className="inline-flex items-center space-x-1.5 text-sm font-semibold text-blue-600 dark:text-blue-400 hover:text-blue-500 dark:hover:text-blue-300"
           >
             <span>Read the agency story</span>
             <ArrowRight className="h-3.5 w-3.5" />
@@ -430,10 +432,10 @@ export default function HomePage() {
       {/* Services Grid */}
       <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="text-center max-w-3xl mx-auto">
-          <h2 className="font-bold text-3xl text-white sm:text-4xl">
+          <h2 className="font-bold text-3xl text-slate-900 dark:text-white sm:text-4xl">
             Secondary: Custom AI Web Apps — Sold on Readiness
           </h2>
-          <p className="mt-3 text-slate-400">
+          <p className="mt-3 text-slate-600 dark:text-slate-400">
             We do this work, but only after your call-generating presence is in place. Tailored web applications engineered for speed, engagement, and conversion.
           </p>
         </div>
@@ -445,23 +447,23 @@ export default function HomePage() {
               <Card key={idx} className="relative overflow-hidden flex flex-col justify-between">
                 <CardHeader>
                   <div className="flex items-center justify-between">
-                    <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-blue-600/20 text-blue-400 border border-blue-500/30">
+                    <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-blue-100 text-blue-600 dark:bg-blue-600/20 dark:text-blue-400 border border-blue-200 dark:border-blue-500/30">
                       <IconComponent className="h-6 w-6" />
                     </div>
-                    <span className="rounded-full bg-slate-800 px-3 py-1 text-xs font-medium text-slate-300">
+                    <span className="rounded-full bg-slate-100 dark:bg-slate-800 px-3 py-1 text-xs font-medium text-slate-700 dark:text-slate-300">
                       {srv.badge}
                     </span>
                   </div>
                   <CardTitle className="mt-4 text-2xl">{srv.title}</CardTitle>
-                  <div className="text-xs font-semibold text-blue-400 mt-1">{srv.subtitle}</div>
-                  <CardDescription className="mt-2 text-sm text-slate-300 leading-relaxed">
+                  <div className="text-xs font-semibold text-blue-600 dark:text-blue-400 mt-1">{srv.subtitle}</div>
+                  <CardDescription className="mt-2 text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
                     {srv.description}
                   </CardDescription>
                 </CardHeader>
                 <CardContent className="pt-4">
                   <Link
                     href="/contact"
-                    className="inline-flex items-center space-x-1.5 text-sm font-semibold text-blue-400 hover:text-blue-300"
+                    className="inline-flex items-center space-x-1.5 text-sm font-semibold text-blue-600 dark:text-blue-400 hover:text-blue-500 dark:hover:text-blue-300"
                   >
                     <span>Get Scope Estimate</span>
                     <ArrowRight className="h-3.5 w-3.5" />
