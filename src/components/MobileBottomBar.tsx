@@ -41,17 +41,7 @@ export function MobileBottomBar() {
         <div className="flex items-center justify-between gap-2 max-w-md mx-auto">
           {isHome ? (
             <>
-              {/* Home playbook: Call primary, Free Audit secondary */}
-              <a
-                href="tel:+13103799822"
-                onClick={() => Haptics.confirm()}
-                className="flex-[1.25] min-w-0 inline-flex items-center justify-center space-x-1.5 min-h-[48px] rounded-xl bg-emerald-600 px-2.5 text-xs sm:text-sm font-semibold text-white shadow-lg shadow-emerald-600/30 active:scale-95 transition-all"
-                aria-label="Call Joe Terry directly: (310) 379-9822"
-                title="Call (310) 379-9822"
-              >
-                <Phone className="h-4 w-4 shrink-0" />
-                <span className="truncate">Call Now</span>
-              </a>
+              {/* Home playbook: Free Audit, Email, Call on the right */}
               <Link
                 href="/contact"
                 onClick={() => Haptics.confirm()}
@@ -71,6 +61,16 @@ export function MobileBottomBar() {
               >
                 <Mail className="h-4 w-4 text-blue-400 shrink-0" />
                 <span>Email</span>
+              </a>
+              <a
+                href="tel:+13103799822"
+                onClick={() => Haptics.confirm()}
+                className="flex-[1.25] min-w-0 inline-flex items-center justify-center space-x-1.5 min-h-[48px] rounded-xl bg-emerald-600 px-2.5 text-xs sm:text-sm font-semibold text-white shadow-lg shadow-emerald-600/30 active:scale-95 transition-all"
+                aria-label="Call Joe Terry directly: (310) 379-9822"
+                title="Call (310) 379-9822"
+              >
+                <Phone className="h-4 w-4 shrink-0" />
+                <span className="truncate">Call Now</span>
               </a>
             </>
           ) : (
