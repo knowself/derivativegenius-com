@@ -35,7 +35,7 @@ const AUDIT_POINTS = [
   {
     icon: Search,
     title: "Google visibility check",
-    body: "Where your practice ranks when someone nearby searches "dentist near me" — and which practices outrank you.",
+    body: "Where your practice ranks when someone nearby searches \"dentist near me\" — and which practices outrank you.",
   },
   {
     icon: Bot,
