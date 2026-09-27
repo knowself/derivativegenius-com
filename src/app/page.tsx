@@ -83,6 +83,15 @@ export default function HomePage() {
 
   const primaryOffers = [
     {
+      title: "Local Authority & GEO Retainer",
+      problem: "You're trapped on rented social land with nothing indexable for Google or AI assistants to cite.",
+      solution:
+        "Weekly owner-voice audio published on your domain as a rich transcript article, syndicated to Apple / Spotify / Amazon / YouTube for backlinks. Includes ongoing Google Business Profile maintenance.",
+      bestFor: "Best for: shops that want to be cited by ChatGPT, Gemini, and Perplexity.",
+      icon: Mic,
+      badge: "Primary",
+    },
+    {
       title: "Single-Problem Video Landing Pages (VSL)",
       problem: "Paid clicks and homepage visitors bounce because one page tries to sell everything.",
       solution:
@@ -91,8 +100,6 @@ export default function HomePage() {
       icon: Video,
       badge: "Primary",
     },
-    {
-      title: "Local Authority & GEO Retainer",
       problem: "You're trapped on rented social land with nothing indexable for Google or AI assistants to cite.",
       solution:
         "Weekly owner-voice audio published on your domain as a rich transcript article, syndicated to Apple / Spotify / Amazon / YouTube for backlinks. Includes ongoing Google Business Profile maintenance.",
@@ -122,13 +129,6 @@ export default function HomePage() {
 
   const pricingTiers = [
     {
-      name: "Video Landing Page Package",
-      price: "$1,500 fixed setup",
-      note: "DT-18 pilot range: $1,500–$2,500 based on scope.",
-      detail: "One-problem VSL landing page with video slot, proof strip, FAQ draft, and sticky call button.",
-      secondary: false,
-    },
-    {
       name: "Core Local Presence & GEO Retainer",
       price: "$300/mo",
       note: "Recurring. Cancel anytime terms set at scoping.",
@@ -143,10 +143,10 @@ export default function HomePage() {
       secondary: false,
     },
     {
-      name: "Fixed-Scope Website (Secondary)",
-      price: "$2,000–$5,000",
-      note: "Sold secondarily.",
-      detail: "Standalone site rebuild when a landing page isn't enough.",
+      name: "Video Landing Page Package",
+      price: "$1,500 fixed setup",
+      note: "Range $1,500–$2,500 based on scope. Offered when it's what you need — the retainer leads.",
+      detail: "One-problem VSL landing page with video slot, proof strip, FAQ draft, and sticky call button.",
       secondary: true,
     },
     {
