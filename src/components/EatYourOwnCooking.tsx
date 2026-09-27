@@ -8,8 +8,8 @@ import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/com
  *
  * Honest placeholders only: no invented video/audio files, no invented metrics.
  * Founder video slot shows what the video covers until Joe records the 60–90s take.
- * Jingle slot plays Joe's real lyric-card demo (public/audio/dg-earworm-jingle.mp3);
- * the full sung mix ships with the Growth Retainer.
+ * Jingle slot plays Joe's real sung earworm take (public/audio/dg-earworm-jingle.mp3);
+ * the full studio mix ships with the Growth Retainer.
  * Copy is visitor-facing — no internal production notes on the live page.
  */
 export function EatYourOwnCooking() {
@@ -74,7 +74,7 @@ export function EatYourOwnCooking() {
             </div>
             <CardTitle className="mt-4 text-xl">15-second SERP-term jingle — hear ours</CardTitle>
             <CardDescription className="mt-2 text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
-              Our own playbook, running on us. Lyric-card demo in Joe&apos;s voice — press play, no autoplay. The full sung mix ships with the Growth Retainer.
+              Our own playbook, running on us. Sung by Joe himself — press play, no autoplay. The full studio mix ships with the Growth Retainer.
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
