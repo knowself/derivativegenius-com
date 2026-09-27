@@ -7,7 +7,8 @@ import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/com
  * DT-10 "Eat Your Own Cooking" block (DT-04 credibility pass 2026-09-26).
  *
  * Honest placeholders only: no invented video/audio files, no invented metrics.
- * Founder video slot shows what the video covers until Joe records the 60–90s take.
+ * Founder video slot plays the HVAC cut (public/videos/founder-video-joe-terry.mp4);
+ * the card links to /free-audit so other industries can pick their page.
  * Jingle slot plays Joe's real sung earworm take (public/audio/dg-earworm-jingle.mp3);
  * the full studio mix ships with the Growth Retainer.
  * Copy is visitor-facing — no internal production notes on the live page.
@@ -33,21 +34,15 @@ export function EatYourOwnCooking() {
             <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-emerald-600/20 text-emerald-600 dark:text-emerald-400 border border-emerald-500/30">
               <Video className="h-6 w-6" />
             </div>
-            <CardTitle className="mt-4 text-xl">60–90 second founder video — coming from Joe</CardTitle>
+            <CardTitle className="mt-4 text-xl">60-second founder video — the HVAC cut</CardTitle>
             <CardDescription className="mt-2 text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
-              Joe Terry, speaking directly to local owners: the Homepage Mistake, the missed-call cost, and what one VSL page fixes first.
+              Joe Terry, speaking directly to HVAC owners: the Homepage Mistake, the missed-call cost, and what the free audit finds. More industries on the way.
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
-            <div className="rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-100/80 dark:bg-slate-950/70 p-4 text-sm text-slate-700 dark:text-slate-300 space-y-2">
-              <div className="text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">What the video covers</div>
-              <ul className="list-disc pl-5 space-y-1">
-                <li>0–10s: name, town, who this is for</li>
-                <li>10–45s: one homepage mistake, one missed-call example</li>
-                <li>45–75s: what the VSL page + sticky call button change</li>
-                <li>75–90s: call or audit CTA</li>
-              </ul>
-            </div>
+            <video controls preload="none" poster="/videos/founder-poster.jpg" src="/videos/founder-video-joe-terry.mp4" className="w-full rounded-xl border border-slate-200 dark:border-slate-800">
+              Your browser can&apos;t play video — <a href="/videos/founder-video-joe-terry.mp4" className="underline">download it</a>.
+            </video>
             <div className="flex flex-wrap gap-3">
               <a
                 href="tel:+13103799822"
@@ -57,10 +52,10 @@ export function EatYourOwnCooking() {
                 <span>Call (310) 379-9822</span>
               </a>
               <Link
-                href="/contact"
+                href="/free-audit"
                 className="inline-flex items-center space-x-1.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 px-5 py-3 text-sm font-semibold text-slate-800 dark:text-slate-200 hover:border-slate-400 dark:hover:border-slate-600 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
               >
-                <span>Request Free Audit</span>
+                <span>Not HVAC? Pick your industry</span>
                 <ArrowRight className="h-4 w-4" />
               </Link>
             </div>
