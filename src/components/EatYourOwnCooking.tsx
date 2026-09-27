@@ -8,7 +8,8 @@ import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/com
  *
  * Honest placeholders only: no invented video/audio files, no invented metrics.
  * Founder video slot shows what the video covers until Joe records the 60–90s take.
- * Jingle slot shows how the 15 seconds are built until the 15s Suno mix ships.
+ * Jingle slot plays Joe's real lyric-card demo (public/audio/dg-earworm-jingle.mp3);
+ * the full sung mix ships with the Growth Retainer.
  * Copy is visitor-facing — no internal production notes on the live page.
  */
 export function EatYourOwnCooking() {
@@ -71,12 +72,21 @@ export function EatYourOwnCooking() {
             <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-emerald-600/20 text-emerald-600 dark:text-emerald-400 border border-emerald-500/30">
               <Music className="h-6 w-6" />
             </div>
-            <CardTitle className="mt-4 text-xl">15-second SERP-term jingle — lyric card</CardTitle>
+            <CardTitle className="mt-4 text-xl">15-second SERP-term jingle — hear ours</CardTitle>
             <CardDescription className="mt-2 text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
-              Full mix ships with the Growth Retainer. Ask for a sample on a live call — no autoplay, no fake player here.
+              Our own playbook, running on us. Lyric-card demo in Joe&apos;s voice — press play, no autoplay. The full sung mix ships with the Growth Retainer.
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
+            <audio controls preload="none" src="/audio/dg-earworm-jingle.mp3" className="w-full">
+              Your browser can&apos;t play audio — <a href="/audio/dg-earworm-jingle.mp3" className="underline">download the jingle</a>.
+            </audio>
+            <div className="rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-100/80 dark:bg-slate-950/70 p-4 text-sm text-slate-700 dark:text-slate-300 space-y-2">
+              <div className="text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">The lyric card</div>
+              <p className="italic leading-relaxed">
+                &ldquo;Phone&apos;s not ringing? Nobody knows your name? Google buries businesses like yours — Derivative Genius makes you famous! Get found! Get called! Get growing!&rdquo;
+              </p>
+            </div>
             <div className="rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-100/80 dark:bg-slate-950/70 p-4 text-sm text-slate-700 dark:text-slate-300 space-y-2">
               <div className="text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">How the 15 seconds work</div>
               <ul className="space-y-1">
@@ -89,7 +99,7 @@ export function EatYourOwnCooking() {
               href="/contact"
               className="inline-flex items-center space-x-1.5 text-sm font-semibold text-emerald-600 dark:text-emerald-400 hover:text-emerald-500 dark:hover:text-emerald-300 transition-colors"
             >
-              <span>Ask for a jingle sample on a call</span>
+              <span>Want one built around your search term?</span>
               <ArrowRight className="h-3.5 w-3.5" />
             </Link>
           </CardContent>
