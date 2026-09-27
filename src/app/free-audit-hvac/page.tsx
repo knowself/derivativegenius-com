@@ -5,11 +5,12 @@ import {
   Bot,
   MapPin,
   ArrowRight,
-  CheckCircle2,
   Phone,
   PlayCircle,
+  ClipboardList,
   Wrench,
 } from "lucide-react";
+import { AuditForm } from "@/components/AuditForm";
 
 export const metadata = {
   title: "Free HVAC Website Audit for Heating & Cooling Shops | Derivative Genius",
@@ -55,9 +56,9 @@ const STEPS = [
     body: "51 seconds. Joe explains exactly why great HVAC shops stay invisible — and what fixes it.",
   },
   {
-    icon: Phone,
-    title: "Claim your audit",
-    body: "One email. No forms, no phone tag, no pressure. Just your shop name and website.",
+    icon: ClipboardList,
+    title: "Fill in the form",
+    body: "Shop name and website. Thirty seconds, no phone tag, no pressure.",
   },
   {
     icon: Wrench,
@@ -65,9 +66,6 @@ const STEPS = [
     body: "You'll see exactly where you're invisible online — and the first thing Joe would fix.",
   },
 ];
-
-const mailto =
-  "mailto:joe@derivativegenius.com?subject=Free%205-minute%20HVAC%20website%20audit&body=Hi%20Joe%2C%0A%0AI%27d%20like%20my%20free%205-minute%20HVAC%20website%20audit.%0A%0AShop%20name%3A%20%0AWebsite%3A%20%0A%0AThanks!";
 
 export default function FreeAuditHvacPage() {
   return (
@@ -78,7 +76,7 @@ export default function FreeAuditHvacPage() {
           Derivative <span className="text-amber-400">Genius</span>
         </Link>
         <a
-          href={mailto}
+          href="#claim"
           className="rounded-full bg-amber-400 px-5 py-2 text-sm font-bold text-neutral-950 transition hover:bg-amber-300"
         >
           Claim free audit
@@ -117,7 +115,7 @@ export default function FreeAuditHvacPage() {
         </div>
 
         <a
-          href={mailto}
+          href="#claim"
           className="mt-8 inline-flex items-center gap-2 rounded-full bg-amber-400 px-8 py-4 text-lg font-bold text-neutral-950 transition hover:bg-amber-300"
         >
           Claim my free 5-minute audit <ArrowRight className="h-5 w-5" />
@@ -170,20 +168,27 @@ export default function FreeAuditHvacPage() {
           ))}
         </div>
 
-        <div className="mt-12 rounded-2xl border border-amber-400/30 bg-amber-400/5 p-8 text-center">
-          <h3 className="text-2xl font-extrabold">
+        {/* claim form */}
+        <div id="claim" className="mx-auto mt-12 max-w-2xl scroll-mt-24">
+          <h3 className="text-center text-2xl font-extrabold">
             Ready to be the obvious call?
           </h3>
-          <p className="mx-auto mt-3 max-w-xl text-neutral-400">
-            One email gets you a real human review of your HVAC shop&apos;s
-            online visibility — free, with zero obligation.
+          <p className="mx-auto mt-3 max-w-xl text-center text-neutral-400">
+            A real human review of your HVAC shop&apos;s online visibility —
+            free, with zero obligation.
           </p>
-          <a
-            href={mailto}
-            className="mt-6 inline-flex items-center gap-2 rounded-full bg-amber-400 px-8 py-4 text-lg font-bold text-neutral-950 transition hover:bg-amber-300"
-          >
-            <CheckCircle2 className="h-5 w-5" /> Claim my free audit
-          </a>
+          <div className="mt-6">
+            <AuditForm industry="hvac" />
+          </div>
+          <p className="mt-6 text-center text-sm text-neutral-500">
+            Rather talk?{" "}
+            <a
+              href="tel:+13103799822"
+              className="inline-flex items-center gap-1 font-semibold text-amber-300 hover:text-amber-200"
+            >
+              <Phone className="h-4 w-4" /> (310) 379-9822
+            </a>
+          </p>
         </div>
       </section>
 
@@ -192,9 +197,14 @@ export default function FreeAuditHvacPage() {
           <p>
             © {new Date().getFullYear()} Derivative Genius · Lake County, CA
           </p>
-          <Link href="/" className="hover:text-neutral-300">
-            Back to homepage
-          </Link>
+          <div className="flex items-center gap-5">
+            <Link href="/free-audit" className="hover:text-neutral-300">
+              Other industries
+            </Link>
+            <Link href="/" className="hover:text-neutral-300">
+              Back to homepage
+            </Link>
+          </div>
         </div>
       </footer>
     </main>
