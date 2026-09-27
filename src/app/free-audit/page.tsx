@@ -26,9 +26,9 @@ const INDUSTRIES = [
   {
     icon: Stethoscope,
     name: "Dentists",
-    slug: "#",
-    available: false,
-    blurb: "Coming soon.",
+    slug: "/free-audit-dentists",
+    available: true,
+    blurb: "Dental practices: be the name patients find when the tooth aches.",
   },
 ];
 
