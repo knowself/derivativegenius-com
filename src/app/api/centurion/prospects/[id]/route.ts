@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { desc, eq } from 'drizzle-orm';
 import { z } from 'zod';
 import { db } from '@/db';
-import { activities, audits, contacts, opportunities, proposals, prospects, tasks } from '@/db/schema';
+import { activities, audits, contacts, opportunities, projectHandoffs, proposals, prospects, suppressions, tasks } from '@/db/schema';
 import { centurionAuthorizationResponse, requireCenturionAction } from '@/lib/auth/centurion';
 import { calculateProspectScore } from '@/lib/prospecting/scoring';
 import { buildConfirmedScoringInput } from '@/lib/prospecting/workflow';
@@ -77,5 +77,29 @@ export async function PATCH(request: NextRequest, context: { params: Promise<{ i
     if (response) return response;
     if (error instanceof z.ZodError) return NextResponse.json({ success: false, errors: error.errors }, { status: 400 });
     return NextResponse.json({ success: false, error: 'Unable to qualify prospect' }, { status: 500 });
+  }
+}
+
+export async function DELETE(_request: NextRequest, context: { params: Promise<{ id: string }> }) {
+  try {
+    await requireCenturionAction('delete_prospects');
+    const { id } = await context.params;
+    const [prospect] = await db.select({ id: prospects.id }).from(prospects).where(eq(prospects.id, id));
+    if (!prospect) return NextResponse.json({ success: false, error: 'Prospect not found' }, { status: 404 });
+
+    // Preserve the do-not-contact list: detach (never delete) suppressions.
+    await db.update(suppressions).set({ prospectId: null }).where(eq(suppressions.prospectId, id));
+    // projectHandoffs restrict deletion; remove them before their opportunities cascade.
+    const opportunityRows = await db.select({ id: opportunities.id }).from(opportunities).where(eq(opportunities.prospectId, id));
+    for (const opportunity of opportunityRows) {
+      await db.delete(projectHandoffs).where(eq(projectHandoffs.opportunityId, opportunity.id));
+    }
+    // Cascades remove prospectSources, contacts, audits, activities, tasks, opportunities, and proposals.
+    await db.delete(prospects).where(eq(prospects.id, id));
+    return NextResponse.json({ success: true });
+  } catch (error: unknown) {
+    const response = centurionAuthorizationResponse(error);
+    if (response) return response;
+    return NextResponse.json({ success: false, error: 'Unable to delete prospect' }, { status: 500 });
   }
 }

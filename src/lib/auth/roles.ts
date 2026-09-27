@@ -23,7 +23,8 @@ export type CenturionAction =
   | 'manage_pipeline'
   | 'manage_compliance'
   | 'manage_team'
-  | 'export';
+  | 'export'
+  | 'delete_prospects';
 
 export interface UserSession {
   userId: string;
@@ -59,6 +60,7 @@ const actionRoles: Record<CenturionAction, readonly UserRole[]> = {
   manage_compliance: ['centurion_admin'],
   manage_team: ['centurion_admin'],
   export: ['centurion_admin'],
+  delete_prospects: ['centurion_admin'],
 };
 
 export function canPerformCenturionAction(
