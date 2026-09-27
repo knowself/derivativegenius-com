@@ -77,6 +77,31 @@ export default function CampaignsPage() {
     }
   };
 
+  const handleDelete = async (id: string, name: string) => {
+    if (!window.confirm(`Permanently delete the campaign "${name}"? This cannot be undone. Campaigns with prospects cannot be deleted.`)) {
+      return;
+    }
+    setUpdatingId(id);
+    try {
+      const res = await fetch('/api/centurion/campaigns', {
+        method: 'DELETE',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id }),
+      });
+      const data = await res.json();
+      if (data.success) {
+        toast.success('Campaign deleted');
+        fetchCampaigns();
+      } else {
+        toast.error(data.error || 'Failed to delete campaign');
+      }
+    } catch {
+      toast.error('Network error deleting campaign');
+    } finally {
+      setUpdatingId(null);
+    }
+  };
+
   const visibleCampaigns = statusFilter === 'all' ? campaigns : campaigns.filter((c) => c.status === statusFilter);
 
   useEffect(() => {
@@ -244,6 +269,13 @@ export default function CampaignsPage() {
                       {updating ? 'Saving…' : action.label}
                     </button>
                   ))}
+                  <button
+                    disabled={updating}
+                    onClick={() => handleDelete(camp.id, camp.name)}
+                    className="px-3 py-1.5 rounded-lg text-xs font-medium transition disabled:opacity-50 bg-rose-500/10 text-rose-400 border border-rose-500/20 hover:bg-rose-500/20"
+                  >
+                    {updating ? 'Saving…' : 'Delete'}
+                  </button>
                 </div>
               </div>
             );
