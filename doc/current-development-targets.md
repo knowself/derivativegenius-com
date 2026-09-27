@@ -160,7 +160,7 @@ DT-10 and DT-11 remain lower-priority website expansion work unless pilot eviden
 
 | ID    | Priority | Target                                                                            | Status      | Depends on                           | Last updated |
 | ----- | -------- | --------------------------------------------------------------------------------- | ----------- | ------------------------------------ | ------------ |
-| DT-19 | P0       | Complete Centurion Pilot Readiness                                                | In review   | Authenticated readiness smoke test    | 2026-09-14   |
+| DT-19 | P0       | Complete Centurion Pilot Readiness                                                | Complete    | Authenticated readiness smoke test    | 2026-09-26   |
 | DT-20 | P0       | Add Permission-Tracked Followup Queue (audit-led, no cold automation)             | Not started | DT-19 readiness verification         | 2026-09-07   |
 | DT-21 | P1       | Build VSL Demo Assembler (Slice 1: no keys, no new deps)                          | Not started | DT-20 permission basis defined       | 2026-09-07   |
 | DT-18 | P0       | Run 25-Company Founder-Led Manual Outreach Pilot                                  | In progress | DT-19 readiness verification         | 2026-09-03   |
@@ -188,7 +188,7 @@ DT-10 and DT-11 remain lower-priority website expansion work unless pilot eviden
 
 **Priority:** P0
 
-**Status:** In review
+**Status:** Complete
 
 **Outcome:** Make `/centurion` the complete, secure system of record required for the ten-business-day manual pilot. This target fixes operator workflow gaps; it does not add scaled discovery or autonomous outreach.
 
@@ -203,7 +203,7 @@ DT-10 and DT-11 remain lower-priority website expansion work unless pilot eviden
 - [x] Add minimal audit approval, opportunity, proposal, and project-handoff records.
 - [x] Calculate pilot metrics from real activities, work sessions, opportunities, and proposals.
 - [x] Add unit and authorization-policy regression tests.
-- [ ] Complete the signed-in Joe Terry readiness test from campaign creation through proposal retrieval.
+- [x] Complete the signed-in Joe Terry readiness test from campaign creation through proposal retrieval. (Confirmed by Joe, 2026-09-26.)
 
 **Done when:** An authorized operator can run a 25-prospect test campaign from import through proposal, retrieve every commitment and disposition, enforce an opt-out everywhere immediately, view accurate pilot metrics, and complete the process without a parallel spreadsheet.
 
@@ -581,6 +581,11 @@ This checklist covers the full site conversion rebuild. Each page should be chec
 
 ## Decision log
 
+### 2026-09-26: DT-19 marked Complete on operator readiness confirmation
+
+Joe confirmed the signed-in DT-19 readiness checklist in /centurion. DT-19 moves to Complete and the DT-18 pilot gate is cleared. Next: DT-18 execution, then DT-01 and DT-07 per the agreed focus list.
+
+
 ### 2026-09-26: Five-item focus list agreed (homepage credibility scrub first)
 
 Joe and Optio agreed the next five items: (1) scrub internal draft copy from the live homepage under DT-04 — shot-list notes, TBD placeholders, and internal permission language replaced with honest visitor-facing copy, no invented assets or metrics; (2) DT-19 to Complete; (3) DT-18 pilot execution; (4) DT-01 offerings & claims register; (5) DT-07 measurement baselines. Recorded as "Agreed focus list" in this doc. Optio implements on branches and opens PRs; Joe reviews, tests, and merges.
@@ -633,6 +638,8 @@ Standardized database architecture on Drizzle ORM + `@neondatabase/serverless` P
 ## Verification log
 
 Add evidence here whenever a target status changes to `In review` or `Complete`.
+
+- 2026-09-26: DT-19 → Complete. Joe confirmed the signed-in readiness checklist (campaign → import → queue → outcome → suppression → audit → opportunity → proposal) under the operator account. DT-18 gate cleared.
 
 | Date       | Scope                  | Evidence                  | Result                                                                                                                                                     |
 | ---------- | ---------------------- | ------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- |
