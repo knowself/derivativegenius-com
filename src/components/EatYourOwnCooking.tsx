@@ -9,7 +9,7 @@ import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/com
  * Honest placeholders only: no invented video/audio files, no invented metrics.
  * Founder video slot plays the HVAC cut (public/videos/founder-video-joe-terry.mp4);
  * the card links to /free-audit so other industries can pick their page.
- * Jingle slot plays Joe's real sung earworm take (public/audio/dg-earworm-jingle.mp3);
+ * Jingle slot plays Joe's real sung earworm take (public/audio/dg-earworm-jingle-v2.mp3);
  * the full studio mix ships with the Growth Retainer.
  * Copy is visitor-facing — no internal production notes on the live page.
  */
@@ -73,8 +73,8 @@ export function EatYourOwnCooking() {
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
-            <audio controls preload="none" src="/audio/dg-earworm-jingle.mp3" className="w-full">
-              Your browser can&apos;t play audio — <a href="/audio/dg-earworm-jingle.mp3" className="underline">download the jingle</a>.
+            <audio controls preload="none" src="/audio/dg-earworm-jingle-v2.mp3" className="w-full">
+              Your browser can&apos;t play audio — <a href="/audio/dg-earworm-jingle-v2.mp3" className="underline">download the jingle</a>.
             </audio>
             <div className="rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-100/80 dark:bg-slate-950/70 p-4 text-sm text-slate-700 dark:text-slate-300 space-y-2">
               <div className="text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">The lyric card</div>
