@@ -16,7 +16,7 @@ export function EatYourOwnCooking() {
     <div className="rounded-2xl border border-emerald-500/30 bg-slate-50/90 dark:bg-slate-900/80 p-8 sm:p-12 backdrop-blur-xl space-y-10 shadow-sm">
       <div className="text-center max-w-3xl mx-auto space-y-3">
         <div className="inline-flex items-center rounded-full border border-emerald-500/30 bg-emerald-500/10 px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.2em] text-emerald-600 dark:text-emerald-400">
-          Eat Your Own Cooking
+          Eat Your Own Dog food
         </div>
         <h2 className="text-3xl font-extrabold text-slate-900 dark:text-white sm:text-4xl">
           We run our own playbook on this page.
