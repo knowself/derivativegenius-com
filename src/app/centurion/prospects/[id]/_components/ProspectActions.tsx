@@ -20,11 +20,30 @@ const flags = [
   ['hasRecentGrowthTrigger', 'Recent growth trigger'],
 ] as const;
 
-export default function ProspectActions({ prospect, opportunityId }: { prospect: ProspectEvidence; opportunityId?: string }) {
+export default function ProspectActions({ prospect, opportunityId, canDelete = false, base = '/centurion' }: { prospect: ProspectEvidence; opportunityId?: string; canDelete?: boolean; base?: string }) {
   const router = useRouter();
   const [saving, setSaving] = useState('');
   const [evidence, setEvidence] = useState(prospect);
   const [contact, setContact] = useState({ fullName: '', roleTitle: '', email: '', phone: '', isVerified: true });
+  const [confirmingDelete, setConfirmingDelete] = useState(false);
+  const [deleting, setDeleting] = useState(false);
+
+  async function handleDelete() {
+    if (!confirmingDelete) { setConfirmingDelete(true); return; }
+    setDeleting(true);
+    try {
+      const response = await fetch(`/api/centurion/prospects/${prospect.id}`, { method: 'DELETE' });
+      const data = await response.json();
+      if (!response.ok || !data.success) throw new Error(data.error || 'Unable to delete prospect');
+      toast.success('Prospect deleted');
+      router.push(`${base}/prospects`);
+    } catch (error) {
+      toast.error(error instanceof Error ? error.message : 'Unable to delete prospect');
+      setDeleting(false);
+      setConfirmingDelete(false);
+    }
+  }
+
   const [deal, setDeal] = useState({ stage: 'qualified', estimatedValue: '3500', probabilityPercent: '20', packageName: 'Conversion website sprint', nextAction: 'Schedule discovery', nextActionAt: '' });
 
   const send = async (key: string, url: string, body: object, method = 'POST') => {
@@ -67,6 +86,12 @@ export default function ProspectActions({ prospect, opportunityId }: { prospect:
       <input data-lpignore="true" value={deal.nextAction} onChange={(event) => setDeal({ ...deal, nextAction: event.target.value })} placeholder="Next action" className="field w-full" /><input data-lpignore="true" type="datetime-local" value={deal.nextActionAt} onChange={(event) => setDeal({ ...deal, nextActionAt: event.target.value })} className="field w-full" />
       <button disabled={saving === 'opportunity'} onClick={() => void send('opportunity', '/api/centurion/pipeline', { id: opportunityId, prospectId: prospect.id, ...deal, estimatedValue: Number(deal.estimatedValue), probabilityPercent: Number(deal.probabilityPercent), nextActionAt: deal.nextActionAt ? new Date(deal.nextActionAt).toISOString() : undefined })} className="primary">Save opportunity</button>
     </section>
-    <style jsx>{`.field{background:#020617;border:1px solid #334155;border-radius:.5rem;padding:.6rem .75rem;color:#f8fafc;font-size:.8rem}.primary{background:#059669;border-radius:.5rem;padding:.65rem 1rem;color:white;font-size:.75rem;font-weight:700}.primary:disabled{opacity:.5}`}</style>
+    {canDelete && <section className="bg-slate-900 border border-red-900/60 rounded-xl p-5 space-y-3 lg:col-span-2">
+      <div><h2 className="font-semibold text-red-400">Danger zone</h2><p className="text-xs text-slate-400">Permanently deletes this prospect and its contacts, audits, activities, tasks, opportunities, and proposals. Do-not-contact suppressions are preserved.</p></div>
+      {!confirmingDelete
+        ? <button onClick={() => void handleDelete()} className="rounded-lg px-4 py-2.5 text-xs font-bold text-red-300 border border-red-800 hover:bg-red-950">Delete prospect</button>
+        : <div className="flex flex-wrap items-center gap-3"><p className="text-xs text-red-300">This cannot be undone. Delete {prospect.name}?</p><button disabled={deleting} onClick={() => void handleDelete()} className="rounded-lg px-4 py-2.5 text-xs font-bold bg-red-700 text-white disabled:opacity-50">{deleting ? 'Deleting…' : 'Yes, delete'}</button><button onClick={() => setConfirmingDelete(false)} className="rounded-lg px-4 py-2.5 text-xs font-bold text-slate-300 border border-slate-700">Cancel</button></div>}
+    </section>}
+        <style jsx>{`.field{background:#020617;border:1px solid #334155;border-radius:.5rem;padding:.6rem .75rem;color:#f8fafc;font-size:.8rem}.primary{background:#059669;border-radius:.5rem;padding:.65rem 1rem;color:white;font-size:.75rem;font-weight:700}.primary:disabled{opacity:.5}`}</style>
   </div>;
 }
