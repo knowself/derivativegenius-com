@@ -1,49 +1,11 @@
 import React from "react";
 import Link from "next/link";
-import { Cpu, ArrowRight, CheckCircle2, MessageSquareText, Search, Workflow, UserCheck, Phone, BookOpen, Video, Mic, Music, Tv } from "lucide-react";
+import { ArrowRight, CheckCircle2, MessageSquareText, Search, Workflow, UserCheck, Phone, Video, Mic, Music, Tv } from "lucide-react";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
 import { Newsletter } from "@/components/Newsletter";
 import { EatYourOwnCooking } from "@/components/EatYourOwnCooking";
-import { DemosShowcase } from "@/components/DemosShowcase";
-import { getStewartQuotes } from "@/lib/stewart-quotes";
 
 export default function HomePage() {
-  const stewartQuotes = getStewartQuotes();
-  const services = [
-    {
-      title: "AI-Native Custom Web Apps",
-      subtitle: "Smart Digital Employee",
-      description:
-        "Instead of a static brochure site, your application acts like an intelligent digital employee that interacts with visitors in real time.",
-      icon: Cpu,
-      badge: "Core Offer",
-    },
-    {
-      title: "Embedded Smart Thinking",
-      subtitle: "24/7 Digital Assistant",
-      description:
-        "A 24/7 assistant inside your app that understands inquiries, summarizes documents, and writes instant responses.",
-      icon: MessageSquareText,
-      badge: "Intelligent",
-    },
-    {
-      title: "Smart Semantic Search",
-      subtitle: "Search by Meaning",
-      description:
-        "Like asking a human librarian—your site understands what users mean even if they misspell or use different words.",
-      icon: Search,
-      badge: "Concept Match",
-    },
-    {
-      title: "Autonomous Workflows",
-      subtitle: "Digital Dominoes",
-      description:
-        "Automated next steps: when a lead submits a form, your app instantly emails quotes, creates records, and alerts your team.",
-      icon: Workflow,
-      badge: "Automation",
-    },
-  ];
-
   const plainEnglishAnalogy = [
     {
       num: "01",
@@ -191,7 +153,7 @@ export default function HomePage() {
             <span>Call Joe Terry: (310) 379-9822</span>
           </a>
           <Link
-            href="/contact"
+            href="/free-audit"
             className="inline-flex items-center space-x-2 rounded-xl border border-slate-300 bg-white/90 px-7 py-3.5 font-semibold text-slate-900 shadow-sm backdrop-blur-md transition-all hover:bg-slate-100 dark:border-slate-700 dark:bg-slate-900/80 dark:text-slate-200 dark:hover:border-slate-600 dark:hover:bg-slate-800 text-base active:scale-95"
           >
             <span>Request a Free Website Audit</span>
@@ -199,30 +161,14 @@ export default function HomePage() {
           </Link>
         </div>
 
-        {/* Book Banner */}
-        <div className="mx-auto mt-8 w-full max-w-4xl">
-          <Link
-            href="/book"
-            className="group flex w-full flex-col gap-4 rounded-2xl border border-emerald-300 bg-emerald-50/90 dark:border-emerald-500/40 dark:bg-emerald-500/10 px-6 py-5 text-left shadow-lg shadow-emerald-950/10 dark:shadow-emerald-950/30 backdrop-blur-md transition-all hover:border-emerald-400 dark:hover:border-emerald-400/60 hover:bg-emerald-100/70 dark:hover:bg-emerald-500/20 sm:flex-row sm:items-center sm:gap-5 sm:px-8"
-          >
-            <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-emerald-300 bg-emerald-100 dark:border-emerald-500/30 dark:bg-emerald-600/20">
-              <BookOpen className="h-6 w-6 text-emerald-700 dark:text-emerald-400" />
-            </span>
-            <span className="min-w-0 flex-1">
-              <span className="mb-1.5 inline-flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.18em] text-emerald-700 dark:text-emerald-400">
-                New · Free Book — Local Internet Presence
-              </span>
-              {/* Static single quote — no auto-rotate per playbook. Full browser lives on /book. */}
-              <span className="block text-center text-base font-medium leading-relaxed text-slate-900 dark:text-slate-100 sm:text-lg">
-                &ldquo;{stewartQuotes[0].quote}&rdquo;
-              </span>
-              <span className="mt-1.5 block text-left text-xs font-semibold uppercase tracking-wider text-slate-600 dark:text-slate-400">
-                — Mike Stewart · Read the free playbook that powers our audits
-              </span>
-            </span>
-            <ArrowRight className="h-5 w-5 shrink-0 text-emerald-700 dark:text-emerald-400 transition-transform group-hover:translate-x-1" />
-          </Link>
-        </div>
+        {/* Book link */}
+        <p className="mx-auto mt-8 max-w-4xl text-center text-sm text-slate-600 dark:text-slate-400">
+          Free book:{" "}
+          <Link href="/book" className="font-semibold text-emerald-600 dark:text-emerald-400 hover:underline">
+            Local Internet Presence
+          </Link>{" "}
+          — the playbook that powers our audits.
+        </p>
       </section>
 
       {/* Eat Your Own Cooking: video + jingle + direct CTA */}
@@ -386,7 +332,7 @@ export default function HomePage() {
             </CardHeader>
             <CardContent className="pt-4">
               <Link
-                href="/contact"
+                href="/free-audit"
                 className="inline-flex items-center space-x-1.5 text-sm font-semibold text-blue-600 dark:text-blue-400 hover:text-blue-500 dark:hover:text-blue-300"
               >
                 <span>Request Free Audit</span>
@@ -397,13 +343,6 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Proof: live demo + scoped work (permission-safe, no invented claims) */}
-      <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <DemosShowcase />
-        <p className="mx-auto mt-6 max-w-3xl text-center text-xs text-slate-500">
-          Client stories are on the way — every quote we publish is permission-verified, never invented.
-        </p>
-      </section>
 
       {/* Brand narrative: shoulders of giants */}
       <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -422,49 +361,20 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Services Grid */}
+      {/* Secondary offer: slim link */}
       <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="text-center max-w-3xl mx-auto">
-          <h2 className="font-bold text-3xl text-slate-900 dark:text-white sm:text-4xl">
-            Secondary: Custom AI Web Apps — Sold on Readiness
-          </h2>
-          <p className="mt-3 text-slate-600 dark:text-slate-400">
-            We do this work, but only after your call-generating presence is in place. Tailored web applications engineered for speed, engagement, and conversion.
+        <div className="rounded-2xl border border-slate-200 bg-white/80 dark:border-slate-800 dark:bg-slate-900/60 p-6 text-center shadow-sm sm:p-8">
+          <p className="text-slate-600 dark:text-slate-300">
+            Need a custom web app?{" "}
+            <Link href="/services" className="font-semibold text-blue-600 dark:text-blue-400 hover:underline">
+              See our services
+            </Link>{" "}
+            — we build those after your call-generating presence is in place. Curious what we&apos;ve shipped?{" "}
+            <Link href="/demos" className="font-semibold text-blue-600 dark:text-blue-400 hover:underline">
+              Browse the demo lab
+            </Link>
+            .
           </p>
-        </div>
-
-        <div className="mt-12 grid grid-cols-1 gap-8 md:grid-cols-2">
-          {services.map((srv, idx) => {
-            const IconComponent = srv.icon;
-            return (
-              <Card key={idx} className="relative overflow-hidden flex flex-col justify-between">
-                <CardHeader>
-                  <div className="flex items-center justify-between">
-                    <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-blue-100 text-blue-600 dark:bg-blue-600/20 dark:text-blue-400 border border-blue-200 dark:border-blue-500/30">
-                      <IconComponent className="h-6 w-6" />
-                    </div>
-                    <span className="rounded-full bg-slate-100 dark:bg-slate-800 px-3 py-1 text-xs font-medium text-slate-700 dark:text-slate-300">
-                      {srv.badge}
-                    </span>
-                  </div>
-                  <CardTitle className="mt-4 text-2xl">{srv.title}</CardTitle>
-                  <div className="text-xs font-semibold text-blue-600 dark:text-blue-400 mt-1">{srv.subtitle}</div>
-                  <CardDescription className="mt-2 text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
-                    {srv.description}
-                  </CardDescription>
-                </CardHeader>
-                <CardContent className="pt-4">
-                  <Link
-                    href="/contact"
-                    className="inline-flex items-center space-x-1.5 text-sm font-semibold text-blue-600 dark:text-blue-400 hover:text-blue-500 dark:hover:text-blue-300"
-                  >
-                    <span>Get Scope Estimate</span>
-                    <ArrowRight className="h-3.5 w-3.5" />
-                  </Link>
-                </CardContent>
-              </Card>
-            );
-          })}
         </div>
       </section>
 
