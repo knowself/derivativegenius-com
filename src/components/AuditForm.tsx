@@ -3,11 +3,12 @@
 import { useState, type FormEvent, type ChangeEvent } from "react";
 import { CheckCircle2, Loader2 } from "lucide-react";
 
-type Industry = "hvac" | "pest-control";
+type Industry = "hvac" | "pest-control" | "dentists";
 
 const LABELS: Record<Industry, string> = {
   hvac: "Heating & Cooling",
   "pest-control": "Pest Control",
+  dentists: "Dentists",
 };
 
 const inputCls =
