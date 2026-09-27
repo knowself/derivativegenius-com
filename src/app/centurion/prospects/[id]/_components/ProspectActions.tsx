@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
 
 interface ProspectEvidence {
-  id: string; industry: string | null; websiteUrl: string | null; phone: string | null; address: string | null;
+  id: string; name: string; industry: string | null; websiteUrl: string | null; phone: string | null; address: string | null;
   city: string | null; state: string | null; zip: string | null; googleRating: string | null; reviewCount: number | null;
   hasHighCustomerValue: boolean; hasWeakOrOutdatedWebsite: boolean; hasDecisionMakerRoute: boolean;
   hasMultipleEmployeesOrLocations: boolean; hasActiveAdsOrSocial: boolean; hasWeakBookingWorkflow: boolean;
