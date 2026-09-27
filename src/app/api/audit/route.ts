@@ -8,17 +8,19 @@ const AuditSchema = z.object({
   website: z.string().trim().max(200).optional().nullable(),
   phone: z.string().trim().max(30).optional().nullable(),
   email: z.string().trim().email("Invalid email address").max(150),
-  industry: z.enum(["hvac", "pest-control"]),
+  industry: z.enum(["hvac", "pest-control", "dentists"]),
 });
 
 const LABELS: Record<string, string> = {
   hvac: "Heating & Cooling",
   "pest-control": "Pest Control",
+  dentists: "Dentists",
 };
 
 const SOURCES: Record<string, string> = {
   hvac: "/free-audit-hvac",
   "pest-control": "/free-audit-pest-control",
+  dentists: "/free-audit-dentists",
 };
 
 function normalizeWebsite(raw?: string | null): string | undefined {
