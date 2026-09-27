@@ -408,7 +408,7 @@ export default function HomePage() {
       <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <DemosShowcase />
         <p className="mx-auto mt-6 max-w-3xl text-center text-xs text-slate-500">
-          Testimonials and verified reviews: [TBD — blocked on case-study citation permission. No quotes published until approved.]
+          Client stories are on the way — every quote we publish is permission-verified, never invented.
         </p>
       </section>
 

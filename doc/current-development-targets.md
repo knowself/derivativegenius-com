@@ -12,7 +12,7 @@
 
 **Document owner:** Repository maintainer
 
-**Last updated:** September 14, 2026
+**Last updated:** September 26, 2026
 
 ## Purpose
 
@@ -128,6 +128,16 @@ The release is complete when:
 - New background jobs or provider integrations intended primarily to increase outreach volume.
 
 Deferred prospecting automation may be promoted only after the manual pilot records qualified conversations and at least one proposal. Any promotion requires a dated decision identifying the proven bottleneck the automation will remove.
+
+## Agreed focus list — five priorities (2026-09-26)
+
+Joe and Optio agreed these five items lead the work. They map to existing targets; the sequencing rules in "How to manage targets" still apply.
+
+1. **Scrub internal draft copy from the live homepage** → DT-04. Shot-list production notes, TBD placeholders, and internal permission notes are visible to visitors; the homepage is the credibility layer for the outreach pilot. No invented replacements — honest, visitor-facing copy only.
+2. **DT-19 — Complete Centurion Pilot Readiness.** Move from `In review` to `Complete` via Joe's signed-in readiness checklist.
+3. **DT-18 — Run the 25-Company Founder-Led Manual Outreach Pilot.** The current release objective; first dollar is the goal.
+4. **DT-01 — Define & Approve Offerings & Claims Register.** Finalize so every call and proposal leans on approved claims.
+5. **DT-07 — Establish SEO, GEO, Analytics, Privacy, and Operational Baselines.** Measurement must run before "top of Google" can be proven.
 
 ## Next targets to production release
 
@@ -570,6 +580,11 @@ This checklist covers the full site conversion rebuild. Each page should be chec
 **Verification:** Passed Jest test suite (2/2 tests pass), ESLint run (0 errors), and Next.js production build (7 static/dynamic pages compiled in 2.8s).
 
 ## Decision log
+
+### 2026-09-26: Five-item focus list agreed (homepage credibility scrub first)
+
+Joe and Optio agreed the next five items: (1) scrub internal draft copy from the live homepage under DT-04 — shot-list notes, TBD placeholders, and internal permission language replaced with honest visitor-facing copy, no invented assets or metrics; (2) DT-19 to Complete; (3) DT-18 pilot execution; (4) DT-01 offerings & claims register; (5) DT-07 measurement baselines. Recorded as "Agreed focus list" in this doc. Optio implements on branches and opens PRs; Joe reviews, tests, and merges.
+
 
 ### 2026-09-07: DT-21 VSL Demo Assembler Slice 1 (no paid tools, free trials later)
 

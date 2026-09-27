@@ -4,11 +4,12 @@ import { Video, Music, Phone, ArrowRight } from "lucide-react";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
 
 /**
- * DT-10 "Eat Your Own Cooking" block.
+ * DT-10 "Eat Your Own Cooking" block (DT-04 credibility pass 2026-09-26).
  *
  * Honest placeholders only: no invented video/audio files, no invented metrics.
- * Founder video slot shows a shot-list until Joe records the 60–90s take.
- * Jingle slot shows a lyric + timing card until the 15s Suno mix ships.
+ * Founder video slot shows what the video covers until Joe records the 60–90s take.
+ * Jingle slot shows how the 15 seconds are built until the 15s Suno mix ships.
+ * Copy is visitor-facing — no internal production notes on the live page.
  */
 export function EatYourOwnCooking() {
   return (
@@ -38,7 +39,7 @@ export function EatYourOwnCooking() {
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-100/80 dark:bg-slate-950/70 p-4 text-sm text-slate-700 dark:text-slate-300 space-y-2">
-              <div className="text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">Shot list (no asset yet — do not ship a stock stand-in)</div>
+              <div className="text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">What the video covers</div>
               <ul className="list-disc pl-5 space-y-1">
                 <li>0–10s: name, town, who this is for</li>
                 <li>10–45s: one homepage mistake, one missed-call example</li>
@@ -77,11 +78,11 @@ export function EatYourOwnCooking() {
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-100/80 dark:bg-slate-950/70 p-4 text-sm text-slate-700 dark:text-slate-300 space-y-2">
-              <div className="text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">Timing (Mike Stewart 15s frame)</div>
+              <div className="text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">How the 15 seconds work</div>
               <ul className="space-y-1">
-                <li><span className="font-semibold text-slate-900 dark:text-slate-200">0–5s anchor:</span> [SERP term + town — TBD per client]</li>
-                <li><span className="font-semibold text-slate-900 dark:text-slate-200">5–12s benefit:</span> [one problem solved — TBD per client]</li>
-                <li><span className="font-semibold text-slate-900 dark:text-slate-200">12–15s nudge:</span> [call now — phone anchor]</li>
+                <li><span className="font-semibold text-slate-900 dark:text-slate-200">0–5s anchor:</span> your top search term + your town</li>
+                <li><span className="font-semibold text-slate-900 dark:text-slate-200">5–12s benefit:</span> the one problem you solve</li>
+                <li><span className="font-semibold text-slate-900 dark:text-slate-200">12–15s nudge:</span> call now — your phone number</li>
               </ul>
             </div>
             <Link
