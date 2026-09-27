@@ -5,7 +5,7 @@ import { auth, currentUser } from '@clerk/nextjs/server';
 import { ArrowLeft, Check, ExternalLink, Phone, X } from 'lucide-react';
 import { db } from '@/db';
 import { activities, audits, contacts, opportunities, prospects, tasks } from '@/db/schema';
-import { requireCenturionPageAction } from '@/lib/auth/centurion';
+import { requireCenturionAction, requireCenturionPageAction } from '@/lib/auth/centurion';
 import { calculateProspectScore } from '@/lib/prospecting/scoring';
 import { buildConfirmedScoringInput } from '@/lib/prospecting/workflow';
 import ProspectActions from './_components/ProspectActions';
@@ -16,6 +16,13 @@ export const revalidate = 0;
 
 export default async function ProspectDetailPage({ params, base = '/centurion' }: { params: Promise<{ id: string }>; base?: string }) {
   await requireCenturionPageAction('read');
+  let canDeleteProspect = false;
+  try {
+    await requireCenturionAction('delete_prospects');
+    canDeleteProspect = true;
+  } catch {
+    canDeleteProspect = false;
+  }
   const { id } = await params;
   const [prospect] = await db.select().from(prospects).where(eq(prospects.id, id));
   if (!prospect) notFound();
@@ -65,7 +72,7 @@ export default async function ProspectDetailPage({ params, base = '/centurion' }
     </header>
     <ProspectAuditActions prospectId={prospect.id} prospectName={prospect.name} prospectWebsite={prospect.websiteUrl} initialAudit={initialAudit} initialSource={initialSource} initialSavedBy={extractSavedBy(latestAudit?.scoreSummary)} viewer={viewer} />
     <section className="bg-slate-900 border border-slate-800 rounded-xl p-5"><h2 className="font-semibold text-white mb-3">Transparent scoring evidence</h2><div className="grid md:grid-cols-2 gap-2">{scoring.breakdown.map((rule) => <div key={rule.ruleId} className={`p-2 rounded flex justify-between text-xs ${rule.matched ? 'bg-emerald-950/40 text-emerald-300' : 'bg-slate-950 text-slate-500'}`}><span className="flex gap-2">{rule.matched ? <Check className="w-4 h-4" /> : <X className="w-4 h-4" />}{rule.name}</span><strong>{rule.matched ? `+${rule.points}` : '0'}</strong></div>)}</div></section>
-    <ProspectActions prospect={prospect} opportunityId={opportunityRows[0]?.id} />
+    <ProspectActions prospect={prospect} opportunityId={opportunityRows[0]?.id} canDelete={canDeleteProspect} base={base} />
     <div className="grid lg:grid-cols-2 gap-5">
       <RecordList title="Contacts" rows={contactRows.map((row) => `${row.fullName} · ${row.roleTitle || 'Role unknown'} · ${row.phone || row.email || 'No channel'}`)} />
       <RecordList title="Audit drafts" rows={auditRows.map((row) => `${row.status} · ${row.targetOutcome || 'No outcome'} · ${row.proposalRange || 'No range'}`)} />
