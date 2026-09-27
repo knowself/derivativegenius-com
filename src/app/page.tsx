@@ -100,13 +100,6 @@ export default function HomePage() {
       icon: Video,
       badge: "Primary",
     },
-      problem: "You're trapped on rented social land with nothing indexable for Google or AI assistants to cite.",
-      solution:
-        "Weekly owner-voice audio published on your domain as a rich transcript article, syndicated to Apple / Spotify / Amazon / YouTube for backlinks. Includes ongoing Google Business Profile maintenance.",
-      bestFor: "Best for: shops that want to be cited by ChatGPT, Gemini, and Perplexity.",
-      icon: Mic,
-      badge: "Primary",
-    },
     {
       title: "SERP-Term Jingle",
       problem: "People forget names, they remember tunes.",
