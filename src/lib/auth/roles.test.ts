@@ -53,4 +53,10 @@ describe('dashboard routing (three audiences)', () => {
     expect(canPerformCenturionAction('customer', 'manage_team')).toBe(false);
     expect(canPerformCenturionAction('viewer', 'manage_team')).toBe(false);
   });
+  it('restricts prospect deletion to root', () => {
+    expect(canPerformCenturionAction('centurion_admin', 'delete_prospects')).toBe(true);
+    expect(canPerformCenturionAction('prospector', 'delete_prospects')).toBe(false);
+    expect(canPerformCenturionAction('viewer', 'delete_prospects')).toBe(false);
+    expect(canPerformCenturionAction('customer', 'delete_prospects')).toBe(false);
+  });
 });
