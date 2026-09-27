@@ -222,9 +222,9 @@ DT-10 and DT-11 remain lower-priority website expansion work unless pilot eviden
 - [x] Select initial vertical and geographic market:
   - **Vertical:** HVAC (Heating, Ventilation & Air Conditioning) — high-ticket emergency replacements, AC repair, heat pumps, and ductwork.
   - **Geographic Market:** Lake County, California (Clearlake, Lakeport, Kelseyville, Middletown, Lower Lake, Nice, Lucerne).
-- [ ] Define the dual pilot offer structure:
-  - **Option A (Fixed Sprint):** Dedicated High-Converting HVAC Video Landing Page build ($1,500–$2,500) designed to convert paid/organic search traffic into booked emergency and replacement calls.
-  - **Option B (Recurring Growth Retainer):** $300–$500/month "Done-For-You" Local Authority & GEO Retainer (weekly AI owner-voice podcast, open-web blog transcripts, GBP maintenance, and included Suno SERP term jingle).
+- [x] Define the dual pilot offer structure (decided 2026-09-26 — lead with the retainer):
+  - **Lead offer (Recurring Growth Retainer):** $300–$500/month "Done-For-You" Local Authority & GEO Retainer (weekly AI owner-voice podcast, open-web blog transcripts, GBP maintenance, and included Suno SERP term jingle).
+  - **Fallback (Fixed Sprint):** Dedicated High-Converting HVAC Video Landing Page build ($1,500–$2,500), offered only when the prospect's situation calls for it.
 - [ ] Hand-qualify 25 operating HVAC companies in/serving Lake County with verified source provenance and no disqualifier.
 - [ ] Audit each prospect using the Mike Stewart High-Leverage Audit checklist:
   - **The Homepage Mistake:** Does the business run paid search/PPC ads that send visitors to a cluttered homepage instead of a dedicated, single-problem landing page?
@@ -580,6 +580,11 @@ This checklist covers the full site conversion rebuild. Each page should be chec
 **Verification:** Passed Jest test suite (2/2 tests pass), ESLint run (0 errors), and Next.js production build (7 static/dynamic pages compiled in 2.8s).
 
 ## Decision log
+
+### 2026-09-26: Pilot offer priority — lead with the retainer
+
+Joe decided the DT-18 pilot leads with the $300–$500/month Local Authority & GEO Retainer. The $1,500–$2,500 fixed website sprint is de-emphasized and offered only when the prospect's situation calls for it.
+
 
 ### 2026-09-26: DT-19 marked Complete on operator readiness confirmation
 
