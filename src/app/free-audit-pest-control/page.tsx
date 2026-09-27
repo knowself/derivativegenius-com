@@ -6,27 +6,27 @@ import {
   MapPin,
   ArrowRight,
   Phone,
-  PlayCircle,
   ClipboardList,
   Wrench,
+  MailCheck,
 } from "lucide-react";
 import { AuditForm } from "@/components/AuditForm";
 
 export const metadata = {
-  title: "Free HVAC Website Audit for Heating & Cooling Shops | Derivative Genius",
+  title: "Free Pest Control Website Audit | Derivative Genius",
   description:
-    "HVAC owners: find out exactly where your shop is invisible online. Watch Joe's 51-second video, then claim your free five-minute HVAC website audit.",
+    "Pest control owners: find out exactly where your company is invisible online. Claim your free five-minute pest control website audit.",
   keywords: [
-    "HVAC website audit",
-    "HVAC marketing",
-    "heating and cooling SEO",
-    "HVAC lead generation",
+    "pest control website audit",
+    "pest control marketing",
+    "pest control SEO",
+    "pest control lead generation",
     "free website audit",
   ],
   openGraph: {
-    title: "Free HVAC Website Audit | Derivative Genius",
+    title: "Free Pest Control Website Audit | Derivative Genius",
     description:
-      "When someone's AC dies at 9 PM, does Google say your name? Get a free five-minute audit for your HVAC shop.",
+      "When the ants invade at 9 PM, does Google say your name? Get a free five-minute audit for your pest control company.",
     type: "website",
   },
 };
@@ -35,30 +35,30 @@ const AUDIT_POINTS = [
   {
     icon: Search,
     title: "Google visibility check",
-    body: "Where your HVAC shop ranks when someone nearby searches for heating and cooling help — and which competitors outrank you.",
+    body: "Where your company ranks when someone nearby searches for pest control — and which competitors outrank you.",
   },
   {
     icon: Bot,
     title: "AI-assistant citability",
-    body: "Whether ChatGPT and other AI assistants name your shop when a homeowner asks who to call at 9 PM.",
+    body: "Whether ChatGPT and other AI assistants name your company when a homeowner asks who to call about the ants in the kitchen.",
   },
   {
     icon: MapPin,
     title: "Google Business Profile review",
-    body: "The quick wins hiding in your profile: categories, photos, reviews, and the fields most HVAC shops leave empty.",
+    body: "The quick wins hiding in your profile: categories, photos, reviews, and the fields most pest control companies leave empty.",
   },
 ];
 
 const STEPS = [
   {
-    icon: PlayCircle,
-    title: "Watch the video",
-    body: "51 seconds. Joe explains exactly why great HVAC shops stay invisible — and what fixes it.",
-  },
-  {
     icon: ClipboardList,
     title: "Fill in the form",
-    body: "Shop name and website. Thirty seconds, no phone tag, no pressure.",
+    body: "Company name and website. Thirty seconds, no phone tag, no pressure.",
+  },
+  {
+    icon: MailCheck,
+    title: "Get your audit",
+    body: "Joe personally reviews your online visibility and sends your free five-minute audit.",
   },
   {
     icon: Wrench,
@@ -67,7 +67,7 @@ const STEPS = [
   },
 ];
 
-export default function FreeAuditHvacPage() {
+export default function FreeAuditPestControlPage() {
   return (
     <main className="min-h-screen bg-neutral-950 text-neutral-100">
       {/* top bar */}
@@ -86,33 +86,17 @@ export default function FreeAuditHvacPage() {
       {/* hero */}
       <section className="mx-auto max-w-5xl px-6 pb-16 pt-8 text-center">
         <p className="mb-4 inline-block rounded-full border border-amber-400/40 bg-amber-400/10 px-4 py-1 text-xs font-semibold uppercase tracking-widest text-amber-300">
-          For heating &amp; cooling shop owners
+          For pest control company owners
         </p>
         <h1 className="mx-auto max-w-3xl text-4xl font-extrabold leading-tight tracking-tight sm:text-5xl">
-          When someone&apos;s AC dies at 9 PM, does Google say{" "}
+          When the ants invade at 9 PM, does Google say{" "}
           <span className="text-amber-400">your name</span>?
         </h1>
         <p className="mx-auto mt-5 max-w-2xl text-lg text-neutral-400">
-          Most great HVAC shops are invisible online. Watch this 51-second
-          video, then get a free five-minute audit showing exactly where
-          you&apos;re invisible — and what to fix first.
+          Most great pest control companies are invisible online. Get a free
+          five-minute audit showing exactly where you&apos;re invisible — and
+          what to fix first.
         </p>
-
-        <div className="mx-auto mt-10 max-w-3xl overflow-hidden rounded-2xl border border-neutral-800 shadow-2xl shadow-black/60">
-          <video
-            className="aspect-video w-full bg-black"
-            controls
-            playsInline
-            preload="metadata"
-            poster="/videos/founder-poster.jpg"
-          >
-            <source
-              src="/videos/founder-video-joe-terry.mp4"
-              type="video/mp4"
-            />
-            Your browser doesn&apos;t support embedded video.
-          </video>
-        </div>
 
         <a
           href="#claim"
@@ -129,7 +113,7 @@ export default function FreeAuditHvacPage() {
       <section className="border-t border-neutral-900 bg-neutral-900/40">
         <div className="mx-auto max-w-5xl px-6 py-16">
           <h2 className="text-center text-3xl font-extrabold tracking-tight">
-            What the HVAC audit covers
+            What the pest control audit covers
           </h2>
           <div className="mt-10 grid gap-6 sm:grid-cols-3">
             {AUDIT_POINTS.map((p) => (
@@ -174,11 +158,11 @@ export default function FreeAuditHvacPage() {
             Ready to be the obvious call?
           </h3>
           <p className="mx-auto mt-3 max-w-xl text-center text-neutral-400">
-            A real human review of your HVAC shop&apos;s online visibility —
-            free, with zero obligation.
+            A real human review of your pest control company&apos;s online
+            visibility — free, with zero obligation.
           </p>
           <div className="mt-6">
-            <AuditForm industry="hvac" />
+            <AuditForm industry="pest-control" />
           </div>
           <p className="mt-6 text-center text-sm text-neutral-500">
             Rather talk?{" "}
@@ -188,6 +172,13 @@ export default function FreeAuditHvacPage() {
             >
               <Phone className="h-4 w-4" /> (310) 379-9822
             </a>
+          </p>
+          <p className="mt-4 text-center text-sm text-neutral-500">
+            Curious what the video version looks like?{" "}
+            <Link href="/free-audit-hvac" className="font-semibold text-amber-300 hover:text-amber-200">
+              Watch the HVAC cut
+            </Link>
+            .
           </p>
         </div>
       </section>

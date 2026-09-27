@@ -19,9 +19,9 @@ const INDUSTRIES = [
   {
     icon: Bug,
     name: "Pest Control",
-    slug: "#",
-    available: false,
-    blurb: "Coming soon.",
+    slug: "/free-audit-pest-control",
+    available: true,
+    blurb: "Pest control operators: be the name Google says when the ants invade.",
   },
   {
     icon: Stethoscope,
