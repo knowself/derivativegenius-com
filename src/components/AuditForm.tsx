@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, type FormEvent, type ChangeEvent } from "react";
 import { CheckCircle2, Loader2 } from "lucide-react";
 
 type Industry = "hvac" | "pest-control";
@@ -19,11 +19,11 @@ export function AuditForm({ industry }: { industry: Industry }) {
   const [error, setError] = useState("");
 
   function set(field: keyof typeof form) {
-    return (e: React.ChangeEvent<HTMLInputElement>) =>
+    return (e: ChangeEvent<HTMLInputElement>) =>
       setForm((f) => ({ ...f, [field]: e.target.value }));
   }
 
-  async function submit(e: React.FormEvent) {
+  async function submit(e: FormEvent) {
     e.preventDefault();
     setStatus("sending");
     setError("");
