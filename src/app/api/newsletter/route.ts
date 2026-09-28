@@ -3,6 +3,7 @@ import { db, schema } from '@/db';
 
 const SubscribeSchema = z.object({
   email: z.string().trim().email('Please enter a valid email address.').max(150, 'Email is too long.'),
+  source: z.string().trim().max(80).optional(),
 });
 
 export async function POST(req: Request) {
@@ -17,7 +18,7 @@ export async function POST(req: Request) {
           .insert(schema.newsletterSubscribers)
           .values({
             email: normalizedEmail,
-            source: 'website_newsletter',
+            source: parsed.source || 'website_newsletter',
             status: 'subscribed',
           })
           .onConflictDoUpdate({
