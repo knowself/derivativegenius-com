@@ -1,5 +1,6 @@
 import React from "react";
 import Link from "next/link";
+import Image from "next/image";
 import {
   Download,
   FileText,
@@ -87,6 +88,18 @@ export default function CompanionKitPage() {
         </p>
       </section>
 
+      {/* Hero image */}
+      <section className="mx-auto max-w-5xl px-6 pb-16">
+        <Image
+          src="/companion-kit/practical-playbook.jpg"
+          alt="The AI Income Second Act over 50 — a practical 280+ page playbook for solo SMB consulting, shown with open chapter spreads"
+          width={970}
+          height={600}
+          priority
+          className="w-full rounded-2xl border border-neutral-800"
+        />
+      </section>
+
       {/* Download cards */}
       <section className="mx-auto max-w-5xl px-6 pb-16">
         <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
@@ -135,6 +148,37 @@ export default function CompanionKitPage() {
         </div>
       </section>
 
+      {/* What the kit helps you do */}
+      <section className="mx-auto max-w-5xl px-6 pb-16">
+        <div className="grid gap-5 md:grid-cols-2">
+          <Image
+            src="/companion-kit/client-ready-operating-system.jpg"
+            alt="Build your client-ready operating system: extract profitable strengths, define B2B service offers, structure retainer pricing, organize delivery workflows"
+            width={970}
+            height={600}
+            className="w-full rounded-2xl border border-neutral-800"
+          />
+          <Image
+            src="/companion-kit/before-after-direction.jpg"
+            alt="Replace career uncertainty with marketable direction — from chasing undervalued roles to leading with a credible niche"
+            width={970}
+            height={600}
+            className="w-full rounded-2xl border border-neutral-800"
+          />
+        </div>
+      </section>
+
+      {/* Career wisdom banner */}
+      <section className="mx-auto max-w-5xl px-6 pb-16">
+        <Image
+          src="/companion-kit/career-wisdom-consulting-income.jpg"
+          alt="Turn career wisdom into consulting income — monetize your experience, deliver high-impact AI solutions, build a profitable consulting business"
+          width={970}
+          height={600}
+          className="w-full rounded-2xl border border-neutral-800"
+        />
+      </section>
+
       {/* Email capture */}
       <section className="mx-auto max-w-5xl px-6 pb-16">
         <CompanionKitSignup />
@@ -142,11 +186,18 @@ export default function CompanionKitPage() {
 
       {/* Book promo block */}
       <section className="border-t border-neutral-900">
-        <div className="mx-auto max-w-3xl px-6 py-14 text-center">
-          <BookOpen className="mx-auto h-10 w-10 text-amber-400" />
-          <h2 className="mt-4 text-2xl font-extrabold tracking-tight sm:text-3xl">
-            Your experience is enough. The book shows you how to sell it.
-          </h2>
+        <div className="mx-auto max-w-5xl px-6 py-14">
+          <Image
+            src="/companion-kit/behind-the-book.jpg"
+            alt="Behind the book — Joseph S. Terry Jr.: your experience still has serious value"
+            width={970}
+            height={600}
+            className="w-full rounded-2xl border border-neutral-800"
+          />
+          <div className="mx-auto mt-10 max-w-3xl text-center">
+            <h2 className="text-2xl font-extrabold tracking-tight sm:text-3xl">
+              Your experience is enough. The book shows you how to sell it.
+            </h2>
           <p className="mx-auto mt-4 max-w-xl text-neutral-400">
             <em>The AI Income Second Act over 50</em> is a plain-English
             roadmap for turning decades of professional judgment into a
@@ -166,6 +217,7 @@ export default function CompanionKitPage() {
             By Joseph S. Terry Jr. · Second edition in progress — kit readers
             hear about it first.
           </p>
+          </div>
         </div>
       </section>
 
