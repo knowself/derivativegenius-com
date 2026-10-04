@@ -2,13 +2,14 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { LayoutDashboard, PhoneCall, Users, ClipboardCheck } from 'lucide-react';
+import { LayoutDashboard, PhoneCall, Users, ClipboardCheck, Mic } from 'lucide-react';
 
 const ITEMS = [
   { href: '/operator', label: 'Home', icon: LayoutDashboard, exact: true },
   { href: '/operator/queue', label: 'Queue', icon: PhoneCall },
   { href: '/operator/prospects', label: 'Prospects', icon: Users },
   { href: '/operator/audits', label: 'Audits', icon: ClipboardCheck },
+  { href: '/operator/episodes', label: 'Episodes', icon: Mic },
 ];
 
 export default function OperatorNav({ mobile = false }: { mobile?: boolean }) {

@@ -66,13 +66,13 @@ export async function GET() {
      xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd" 
      xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
-    <title>Derivative Genius — Local Search &amp; AI Briefings</title>
+    <title>The Derivative Genius Podcast</title>
     <link>${appUrl}/podcasts</link>
     <language>en-us</language>
     <copyright>© ${new Date().getFullYear()} Derivative Genius</copyright>
-    <description>Tactical audio playbooks, teardowns, and interviews showing how local service businesses turn search traffic into booked service calls.</description>
+    <description>Conversations and breakdowns on building income with AI — from the over-50 second-act playbook to local contractor teardowns.</description>
     <itunes:author>Joe Terry</itunes:author>
-    <itunes:summary>Tactical audio playbooks and teardowns showing how local service businesses dominate Google search and turn visits into booked service calls.</itunes:summary>
+    <itunes:summary>Conversations and breakdowns on building income with AI — from the over-50 second-act playbook to local contractor teardowns.</itunes:summary>
     <itunes:owner>
       <itunes:name>Joe Terry</itunes:name>
       <itunes:email>joe@derivativegenius.com</itunes:email>

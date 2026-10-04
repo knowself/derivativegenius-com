@@ -15,6 +15,7 @@ const UpdatePostSchema = z.object({
   audioUrl: z.string().nullable().optional(),
   audioDurationSeconds: z.number().int().nullable().optional(),
   audioSizeBytes: z.number().int().nullable().optional(),
+  videoUrl: z.string().nullable().optional(),
   episodeNumber: z.number().int().nullable().optional(),
   seasonNumber: z.number().int().nullable().optional(),
   authorName: z.string().optional(),

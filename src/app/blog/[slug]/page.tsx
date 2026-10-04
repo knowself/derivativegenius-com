@@ -6,6 +6,7 @@ import { eq } from "drizzle-orm";
 import { db, schema } from "@/db";
 import { renderMarkdownToHtml, estimateReadingTime } from "@/lib/markdown";
 import { PodcastPlayer } from "@/components/content/PodcastPlayer";
+import LazyYouTube from "@/components/LazyYouTube";
 import { Newsletter } from "@/components/Newsletter";
 import { ArrowLeft, Calendar, Clock, User, Share2 } from "lucide-react";
 
@@ -158,6 +159,17 @@ export default async function BlogPostPage({ params }: Props) {
           </div>
         </div>
       </header>
+
+      {/* Episode Video (if a video URL exists) */}
+      {post.videoUrl && (
+        <section className="pt-2">
+          <LazyYouTube
+            url={post.videoUrl}
+            title={post.title}
+            caption="Watch the video version of this episode"
+          />
+        </section>
+      )}
 
       {/* Podcast Audio Player (if audio exists) */}
       {post.audioUrl && (
