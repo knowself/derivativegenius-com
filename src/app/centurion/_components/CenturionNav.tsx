@@ -27,7 +27,7 @@ const NAV_ITEMS: NavItem[] = [
   { href: '/centurion/import', label: 'Import CSV', icon: FileUp },
   { href: '/centurion/team', label: 'Team', icon: KeyRound, adminOnly: true },
   { href: '/centurion/compliance', label: 'Compliance', icon: Lock, adminOnly: true },
-];  { href: '/operator', label: 'Operator', icon: Wrench },
+  { href: '/operator', label: 'Operator', icon: Wrench },
 ];
 
 function isActive(pathname: string, href: string, exact?: boolean): boolean {
