@@ -36,6 +36,7 @@ export async function GET() {
   }
 
   const itemsXml = episodes
+    .filter((ep) => ep.audioUrl && ep.audioUrl.trim().length > 0)
     .map((ep) => {
       const pubDate = ep.publishedAt
         ? new Date(ep.publishedAt).toUTCString()
