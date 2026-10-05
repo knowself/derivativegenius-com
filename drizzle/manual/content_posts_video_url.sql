@@ -4,3 +4,6 @@
 
 ALTER TABLE content_posts
   ADD COLUMN IF NOT EXISTS video_url text;
+
+ALTER TABLE content_posts
+  ADD COLUMN IF NOT EXISTS transcript_markdown text;

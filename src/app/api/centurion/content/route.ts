@@ -16,6 +16,7 @@ const CreatePostSchema = z.object({
   audioDurationSeconds: z.number().int().optional(),
   audioSizeBytes: z.number().int().optional(),
   videoUrl: z.string().optional(),
+  transcriptMarkdown: z.string().optional(),
   episodeNumber: z.number().int().optional(),
   seasonNumber: z.number().int().optional(),
   authorName: z.string().default("Joe Terry"),

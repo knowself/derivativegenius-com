@@ -26,6 +26,7 @@ export default function NewEpisodePage() {
   const [videoUrl, setVideoUrl] = useState("");
   const [excerpt, setExcerpt] = useState("");
   const [contentMarkdown, setContentMarkdown] = useState("");
+  const [transcriptMarkdown, setTranscriptMarkdown] = useState("");
   const [coverImageUrl, setCoverImageUrl] = useState("");
   const [tags, setTags] = useState("");
   const [isPublished, setIsPublished] = useState(false);
@@ -90,6 +91,7 @@ export default function NewEpisodePage() {
           videoUrl: videoUrl.trim() || undefined,
           excerpt: excerpt.trim() || undefined,
           contentMarkdown,
+          transcriptMarkdown: transcriptMarkdown.trim() || undefined,
           coverImageUrl: coverImageUrl.trim() || undefined,
           tags: tags.trim()
             ? JSON.stringify(tags.split(",").map((t) => t.trim()).filter(Boolean))
@@ -261,6 +263,17 @@ export default function NewEpisodePage() {
             value={contentMarkdown}
             onChange={(e) => setContentMarkdown(e.target.value)}
             placeholder="## Chapters&#10;&#10;0:00 Welcome…"
+          />
+        </div>
+
+        <div>
+          <label className={labelCls}>Transcript (markdown, optional — boosts SEO)</label>
+          <textarea
+            className={inputCls + " font-mono"}
+            rows={6}
+            value={transcriptMarkdown}
+            onChange={(e) => setTranscriptMarkdown(e.target.value)}
+            placeholder="Paste the full episode transcript here…"
           />
         </div>
 

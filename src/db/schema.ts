@@ -290,6 +290,7 @@ export const contentPosts = pgTable('content_posts', {
   audioDurationSeconds: integer('audio_duration_seconds'),
   audioSizeBytes: integer('audio_size_bytes'),
   videoUrl: text('video_url'), // YouTube watch/embed URL for video episodes
+  transcriptMarkdown: text('transcript_markdown'), // Full episode transcript (markdown)
   episodeNumber: integer('episode_number'),
   seasonNumber: integer('season_number'),
   authorName: text('author_name').notNull().default('Joe Terry'),
