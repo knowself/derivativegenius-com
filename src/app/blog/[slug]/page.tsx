@@ -6,6 +6,8 @@ import { eq } from "drizzle-orm";
 import { db, schema } from "@/db";
 import { renderMarkdownToHtml, estimateReadingTime } from "@/lib/markdown";
 import { PodcastPlayer } from "@/components/content/PodcastPlayer";
+import LazyYouTube from "@/components/LazyYouTube";
+import BookCta from "@/components/content/BookCta";
 import { Newsletter } from "@/components/Newsletter";
 import { ArrowLeft, Calendar, Clock, User, Share2 } from "lucide-react";
 
@@ -65,6 +67,9 @@ export default async function BlogPostPage({ params }: Props) {
   }
 
   const htmlContent = await renderMarkdownToHtml(post.contentMarkdown || "");
+  const transcriptHtml = post.transcriptMarkdown
+    ? await renderMarkdownToHtml(post.transcriptMarkdown)
+    : "";
   const readingTime = estimateReadingTime(post.contentMarkdown || "");
   const tags = post.tags ? JSON.parse(post.tags) : [];
   const publishedDate = post.publishedAt
@@ -159,6 +164,17 @@ export default async function BlogPostPage({ params }: Props) {
         </div>
       </header>
 
+      {/* Episode Video (if a video URL exists) */}
+      {post.videoUrl && (
+        <section className="pt-2">
+          <LazyYouTube
+            url={post.videoUrl}
+            title={post.title}
+            caption="Watch the video version of this episode"
+          />
+        </section>
+      )}
+
       {/* Podcast Audio Player (if audio exists) */}
       {post.audioUrl && (
         <section className="pt-2">
@@ -171,11 +187,32 @@ export default async function BlogPostPage({ params }: Props) {
         </section>
       )}
 
+      {/* Book CTA (podcast episodes) */}
+      {post.postType === "podcast" && (
+        <section className="pt-2">
+          <BookCta />
+        </section>
+      )}
+
       {/* Main Body */}
       <div
         className="prose prose-invert prose-slate max-w-none prose-headings:font-bold prose-headings:text-white prose-h2:text-2xl prose-h2:mt-10 prose-h2:mb-4 prose-h2:border-b prose-h2:border-slate-800 prose-h2:pb-2 prose-h3:text-xl prose-p:text-slate-300 prose-p:leading-relaxed prose-p:text-base sm:prose-p:text-lg prose-a:text-emerald-400 prose-a:no-underline hover:prose-a:underline prose-blockquote:border-l-emerald-500 prose-blockquote:text-slate-200 prose-blockquote:bg-slate-900/60 prose-blockquote:py-1 prose-blockquote:px-4 prose-blockquote:rounded-r-lg prose-code:text-emerald-300 prose-code:bg-slate-800/80 prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded prose-pre:bg-slate-900 prose-pre:border prose-pre:border-slate-800"
         dangerouslySetInnerHTML={{ __html: htmlContent }}
       />
+
+      {/* Full Transcript (collapsible, SEO-indexed) */}
+      {transcriptHtml && (
+        <details className="rounded-2xl border border-slate-800 bg-slate-900/60 overflow-hidden group">
+          <summary className="cursor-pointer px-6 py-4 text-sm font-bold text-white hover:text-emerald-400 transition-colors list-none flex items-center justify-between">
+            <span>Read the full transcript</span>
+            <span className="text-slate-500 group-open:rotate-180 transition-transform">▾</span>
+          </summary>
+          <div
+            className="prose prose-invert prose-slate max-w-none px-6 pb-6 prose-headings:font-bold prose-headings:text-white prose-h2:text-xl prose-p:text-slate-300 prose-p:leading-relaxed prose-p:text-sm sm:prose-p:text-base"
+            dangerouslySetInnerHTML={{ __html: transcriptHtml }}
+          />
+        </details>
+      )}
 
       {/* Tags */}
       {tags.length > 0 && (

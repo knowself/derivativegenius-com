@@ -7,8 +7,8 @@ import { PodcastPlayer } from "@/components/content/PodcastPlayer";
 import { Rss, Radio, Headphones, Calendar, ArrowRight } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "Derivative Genius Podcast | Local Search & AI Briefings",
-  description: "Bite-sized audio briefings, teardowns, and tactical interviews for local service contractors and founders.",
+  title: "The Derivative Genius Podcast | AI Income & Local Business",
+  description: "Conversations and breakdowns on building income with AI — from the over-50 second-act playbook to local contractor teardowns.",
 };
 
 export const revalidate = 60;
@@ -41,10 +41,10 @@ export default async function PodcastsIndexPage() {
           <span>The Derivative Genius Audio Series</span>
         </div>
         <h1 className="text-4xl font-extrabold tracking-tight text-white sm:text-5xl lg:text-6xl">
-          The Local Presence Podcast
+          The Derivative Genius Podcast
         </h1>
         <p className="text-lg text-slate-300 sm:text-xl leading-relaxed">
-          Tactical 10-to-15 minute breakdowns of what makes the phone ring for local service contractors. Zero fluff, real audit teardowns.
+          Conversations and breakdowns on building income with AI — from the over-50 second-act playbook to local contractor teardowns. Zero fluff.
         </p>
 
         {/* RSS Syndication Badge */}

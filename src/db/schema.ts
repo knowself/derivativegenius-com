@@ -289,6 +289,8 @@ export const contentPosts = pgTable('content_posts', {
   audioUrl: text('audio_url'), // Vercel Blob MP3 URL
   audioDurationSeconds: integer('audio_duration_seconds'),
   audioSizeBytes: integer('audio_size_bytes'),
+  videoUrl: text('video_url'), // YouTube watch/embed URL for video episodes
+  transcriptMarkdown: text('transcript_markdown'), // Full episode transcript (markdown)
   episodeNumber: integer('episode_number'),
   seasonNumber: integer('season_number'),
   authorName: text('author_name').notNull().default('Joe Terry'),
@@ -321,4 +323,3 @@ export const newsletterBroadcasts = pgTable('newsletter_broadcasts', {
 }, (table) => [
   index('newsletter_broadcasts_post_idx').on(table.postId),
 ]);
-
