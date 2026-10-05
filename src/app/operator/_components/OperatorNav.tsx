@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { LayoutDashboard, PhoneCall, Users, ClipboardCheck, Mic } from 'lucide-react';
+import { LayoutDashboard, PhoneCall, Users, ClipboardCheck, Mic, Bot } from 'lucide-react';
 
 const ITEMS = [
   { href: '/operator', label: 'Home', icon: LayoutDashboard, exact: true },
@@ -10,6 +10,7 @@ const ITEMS = [
   { href: '/operator/prospects', label: 'Prospects', icon: Users },
   { href: '/operator/audits', label: 'Audits', icon: ClipboardCheck },
   { href: '/operator/episodes', label: 'Episodes', icon: Mic },
+];  { href: '/centurion', label: 'Centurion', icon: Bot },
 ];
 
 export default function OperatorNav({ mobile = false }: { mobile?: boolean }) {
