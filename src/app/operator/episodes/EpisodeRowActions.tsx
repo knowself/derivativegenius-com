@@ -51,6 +51,12 @@ export default function EpisodeRowActions({ id, slug, isPublished }: Props) {
   return (
     <div className="flex items-center justify-end gap-2">
       <a
+        href={`/operator/episodes/${id}/edit`}
+        className="rounded-lg border border-slate-700 px-2.5 py-1 text-xs font-semibold text-slate-300 hover:border-emerald-500/40 hover:text-emerald-400 transition-colors"
+      >
+        Edit
+      </a>
+      <a
         href={`/blog/${slug}`}
         target="_blank"
         rel="noopener noreferrer"
