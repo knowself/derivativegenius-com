@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { LayoutDashboard, Target, Users, PhoneCall, FileUp, Lock, Terminal, ClipboardCheck, Handshake, BarChart3, CheckSquare, KeyRound, Mail, Newspaper } from 'lucide-react';
+import { LayoutDashboard, Target, Users, PhoneCall, FileUp, Lock, Terminal, ClipboardCheck, Handshake, BarChart3, CheckSquare, KeyRound, Mail, Newspaper, Wrench } from 'lucide-react';
 
 interface NavItem {
   href: string;
@@ -27,6 +27,7 @@ const NAV_ITEMS: NavItem[] = [
   { href: '/centurion/import', label: 'Import CSV', icon: FileUp },
   { href: '/centurion/team', label: 'Team', icon: KeyRound, adminOnly: true },
   { href: '/centurion/compliance', label: 'Compliance', icon: Lock, adminOnly: true },
+];  { href: '/operator', label: 'Operator', icon: Wrench },
 ];
 
 function isActive(pathname: string, href: string, exact?: boolean): boolean {
