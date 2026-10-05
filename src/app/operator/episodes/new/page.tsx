@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { ArrowLeft, Upload, Loader2 } from "lucide-react";
+import { upload } from "@vercel/blob/client";
 
 function slugify(text: string): string {
   return text
@@ -54,13 +55,11 @@ export default function NewEpisodePage() {
       setAudioDurationSeconds(duration || null);
       setAudioSizeBytes(file.size);
 
-      const res = await fetch(
-        `/api/upload/audio?filename=${encodeURIComponent(file.name)}`,
-        { method: "POST", body: file, headers: { "Content-Type": file.type || "audio/mpeg" } }
-      );
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.error || "Upload failed");
-      setAudioUrl(data.url);
+      const blob = await upload(`podcasts/${Date.now()}-${file.name}`, file, {
+        access: "public",
+        handleUploadUrl: "/api/upload/audio",
+      });
+      setAudioUrl(blob.url);
     } catch (e: any) {
       setError(e.message || "Audio upload failed");
     } finally {

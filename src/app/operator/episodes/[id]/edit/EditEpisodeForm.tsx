@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Upload, Loader2 } from "lucide-react";
+import { upload } from "@vercel/blob/client";
 
 interface Props {
   initial: any;
@@ -55,13 +56,11 @@ export default function EditEpisodeForm({ initial }: Props) {
       setAudioDurationSeconds(duration || null);
       setAudioSizeBytes(file.size);
 
-      const res = await fetch(
-        `/api/upload/audio?filename=${encodeURIComponent(file.name)}`,
-        { method: "POST", body: file, headers: { "Content-Type": file.type || "audio/mpeg" } }
-      );
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.error || "Upload failed");
-      setAudioUrl(data.url);
+      const blob = await upload(`podcasts/${Date.now()}-${file.name}`, file, {
+        access: "public",
+        handleUploadUrl: "/api/upload/audio",
+      });
+      setAudioUrl(blob.url);
     } catch (e: any) {
       setError(e.message || "Audio upload failed");
     } finally {
