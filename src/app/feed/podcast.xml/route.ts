@@ -81,7 +81,7 @@ export async function GET() {
       <itunes:category text="Marketing"/>
     </itunes:category>
     <itunes:explicit>no</itunes:explicit>
-    <itunes:image href="${appUrl}/logo.png"/>
+    <itunes:image href="https://www.derivativegenius.com/podcast-cover.png"/>
     ${itemsXml}
   </channel>
 </rss>`;
