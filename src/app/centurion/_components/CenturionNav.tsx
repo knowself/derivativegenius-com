@@ -14,6 +14,7 @@ interface NavItem {
 
 const NAV_ITEMS: NavItem[] = [
   { href: '/centurion', label: 'Dashboard', icon: LayoutDashboard, exact: true },
+  { href: '/operator', label: 'Operator', icon: Wrench },
   { href: '/centurion/content', label: 'Content Studio', icon: Newspaper },
   { href: '/centurion/campaigns', label: 'Campaigns', icon: Target },
   { href: '/centurion/prospects', label: 'Prospects', icon: Users },
@@ -27,7 +28,6 @@ const NAV_ITEMS: NavItem[] = [
   { href: '/centurion/import', label: 'Import CSV', icon: FileUp },
   { href: '/centurion/team', label: 'Team', icon: KeyRound, adminOnly: true },
   { href: '/centurion/compliance', label: 'Compliance', icon: Lock, adminOnly: true },
-  { href: '/operator', label: 'Operator', icon: Wrench },
 ];
 
 function isActive(pathname: string, href: string, exact?: boolean): boolean {
@@ -40,7 +40,7 @@ export function CenturionDesktopNav({ isAdmin }: { isAdmin: boolean }) {
   const items = NAV_ITEMS.filter((item) => !item.adminOnly || isAdmin);
 
   return (
-    <nav aria-label="Centurion sections" className="hidden md:flex items-center gap-1">
+    <nav aria-label="Centurion sections" className="hidden md:flex items-center gap-1 overflow-x-auto max-w-full">
       {items.map((item) => {
         const active = isActive(pathname, item.href, item.exact);
         const Icon = item.icon;
@@ -92,7 +92,7 @@ export default function CenturionNav({ isAdmin }: { isAdmin: boolean }) {
 
   return (
     <>
-      <nav aria-label="Centurion sections" className="hidden md:flex items-center gap-1">
+      <nav aria-label="Centurion sections" className="hidden md:flex items-center gap-1 overflow-x-auto max-w-full">
         {items.map((item) => {
           const active = isActive(pathname, item.href, item.exact);
           const Icon = item.icon;
